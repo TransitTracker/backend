@@ -1,0 +1,26 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Trip extends Model
+{
+    protected $fillable = ['agency_id', 'trip_id', 'trip_headsign', 'trip_short_name', 'expiration'];
+
+    /**
+     * Get the agency from this vehicle
+     */
+    public function agency()
+    {
+        return $this->belongsTo('App\Agency');
+    }
+
+    /**
+     * Get all vehicles associated with this trip
+     */
+    public function vehicles()
+    {
+        return $this->hasMany('App\Vehicle');
+    }
+}

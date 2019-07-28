@@ -6,6 +6,7 @@ use App\Vehicle;
 use App\Http\Resources\AlertCollection;
 use App\Http\Resources\VehicleResource;
 use App\Http\Resources\AgencyCollection;
+use App\Http\Resources\VehiclesCollection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/vehicles/{agency}', function (Agency $agency) {
-    return VehicleResource::collection(Vehicle::where([['active', true], ['agency_id', $agency->id]])->get());
+    $vehicles = Vehicle::where([['active', true], ['agency_id', $agency->id]])->get();
+
+    return (new VehiclesCollection($vehicles))
+                ->additional([
+                    'timestamp' => $agency->timestamp
+                ]);
 });
 
 Route::get('/alerts', function () {
@@ -33,7 +39,7 @@ Route::get('/alerts', function () {
 });
 
 Route::get('/agencies', function () {
-    return new AgencyCollection(Agency::select(['id', 'name', 'color', 'vehicles_type', 'slug'])->get());
+    return new AgencyCollection(Agency::select(['id', 'name', 'color', 'text_color', 'vehicles_type', 'slug'])->get());
 });
 
 Route::fallback(function () {

@@ -41,11 +41,11 @@ class RefreshSTMVehicles implements ShouldQueue
      */
     public function handle()
     {
-        // Find agency id
-        $agencyId = Agency::where('slug', 'stm')->firstOrFail()->id;
+        // Find agency
+        $agency = Agency::where('slug', 'stm')->firstOrFail();
 
         // Put all previously active vehicles inactive
-        Vehicle::where([['active', '=', '1'], ['agency_id', '=', $agencyId]])->update(['active' => false]);
+        Vehicle::where([['active', '=', '1'], ['agency_id', '=', $agency->id]])->update(['active' => false]);
 
         // Initialize client and call api
         $client = new Client();
@@ -55,10 +55,14 @@ class RefreshSTMVehicles implements ShouldQueue
         $feed = new FeedMessage();
         $feed->parse($result->getBody()->getContents());
 
+        // Replace timestamp
+        $agency->timestamp = $feed->getHeader()->getTimestamp();
+        $agency->save();
+
         // Go trough
         foreach ($feed->getEntityList() as $entity) {
             // Check if the trip exist
-            $trip = Trip::where([['agency_id', '=', $agencyId], ['trip_id', '=', $entity->vehicle->trip->getTripId()]])
+            $trip = Trip::where([['agency_id', '=', $agency->id], ['trip_id', '=', $entity->vehicle->trip->getTripId()]])
                 ->select('id')
                 ->first();
 
@@ -70,14 +74,15 @@ class RefreshSTMVehicles implements ShouldQueue
 
             // Create or update the vehicle
             Vehicle::updateOrCreate(
-                ['vehicle' => $entity->getId(), 'agency_id' => $agencyId],
+                ['vehicle' => $entity->getId(), 'agency_id' => $agency->id],
                 [
                     'active' => 1,
-                    'agency_id' => $agencyId,
+                    'agency_id' => $agency->id,
                     'lat' => round($entity->vehicle->position->getLatitude(), 5),
                     'lon' => round($entity->vehicle->position->getLongitude(), 5),
                     'route' => $entity->vehicle->trip->getRouteId(),
                     'status' => $entity->vehicle->getCurrentStatus(),
+                    'start' => $entity->vehicle->trip->getStartTime(),
                     'stop_sequence' => $entity->vehicle->getCurrentStopSequence(),
                     'gtfs_trip' => $entity->vehicle->trip->getTripId(),
                     'trip_id' => $trip->id

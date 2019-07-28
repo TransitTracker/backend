@@ -1,28 +1,32 @@
 <template>
-    <div class="map-vehicle-info">
+    <div
+        class="map-vehicle-info"
+        :style="panelIsExpanded ? {
+            'min-height': '148px'
+        } : {
+            'min-height': '74px'
+        }">
         <div class="container md-layout md-gutter" v-if="!noVehicle">
             <div class="md-layout-item agency">
-                <span class="md-xsmall-hide md-small-hide">{{ agency.name }}</span>
-                <span class="md-medium-hide md-large-hide md-xlarge-hide">{{ agency.slug | capitalize }}</span>
+                <span class="hide-small">{{ agency.name }}</span>
+                <span class="hide-big">{{ agency.slug | uppercase }}</span>
             </div>
             <div class="md-layout-item ref">
                 {{ vehicle.ref }}
             </div>
-            <div class="md-layout-item bearing" v-if="vehicle.bearing">
+            <div class="md-layout-item bearing hide-small" v-if="vehicle.bearing">
                 <md-icon :style="{ transform:'rotate('+vehicle.bearing+'deg)'}">navigation</md-icon>
             </div>
-            <div class="md-layout-item speed md-xsmall-hide" v-if="vehicle.speed">
+            <div class="md-layout-item speed hide-small" v-if="vehicle.speed">
                 {{ vehicle.speed }} km/h
             </div>
             <div class="md-layout-item trip">
-                <div class="route" :style="{ backgroundColor: vehicle.trip.color, color: vehicle.trip.text_color }">{{ vehicle.trip.route_short_name === null ? vehicle.route : vehicle.trip.route_short_name  }} <span class="md-xsmall-hide md-small-hide">{{ vehicle.trip.long_name }}</span></div>
-                <div class="second-line">
-                    <span class="number" v-if="agency.vehicles_type === 'train'">#{{ vehicle.trip.trip_short_name }}</span>
-                    <span class="direction md-xsmall-hide md-small-hide">{{ vehicle.trip.headsign }}</span>
-                </div>
+                <div class="route" :style="{ backgroundColor: vehicle.trip.color, color: vehicle.trip.text_color }">{{ vehicle.trip.route_short_name === null ? vehicle.route : vehicle.trip.route_short_name  }} <span class="hide-small">{{ vehicle.trip.long_name }}</span></div>
             </div>
-            <span class="md-layout-item pull-up"><md-icon>keyboard_arrow_up</md-icon></span>
+            <a class="md-layout-item pull-up" v-if="!panelIsExpanded" v-on:click="openOrClosePanel"><md-icon>keyboard_arrow_up</md-icon></a>
+            <a class="md-layout-item pull-up" v-if="panelIsExpanded" v-on:click="openOrClosePanel"><md-icon>keyboard_arrow_down</md-icon></a>
         </div>
+        <vehicle-info-expanded v-if="panelIsExpanded" v-bind:vehicle="vehicle" v-on:retract-panel="panelIsExpanded = false"></vehicle-info-expanded>
         <div class="container md-layout md-gutter select-container" v-if="noVehicle">
             <div class="md-layout-item select">
                 Please select a vehicle to see more information
@@ -32,9 +36,18 @@
 </template>
 
 <script>
+    import VehicleInfoExpanded from './VehicleInfoExpanded.vue'
     const collect = require('collect.js')
 
     export default {
+        components: {
+            VehicleInfoExpanded
+        },
+        data() {
+            return {
+                panelIsExpanded: false
+            }
+        },
         computed: {
             vehicle() {
                 return this.$store.state.vehicles.selection
@@ -51,11 +64,18 @@
                 return agencies.firstWhere('id', this.vehicle.agency_id)
             }
         },
+        methods: {
+            openOrClosePanel() {
+                if (this.panelIsExpanded) {
+                    this.panelIsExpanded = false
+                } else {
+                    this.panelIsExpanded = true
+                }
+            }
+        },
         filters: {
-            capitalize: function (value) {
-                if (!value) return ''
-                value = value.toString()
-                return value.charAt(0).toUpperCase() + value.slice(1)
+            uppercase: function (value) {
+                return value.toUpperCase()
             }
         }
     }
@@ -63,7 +83,7 @@
 
 <style lang="scss" scoped>
     .map-vehicle-info {
-        height: 74px;
+        height: fit-content;
         position: absolute;
         bottom: 0;
         width: 100%;
@@ -71,6 +91,7 @@
         border-radius: 10px 10px 0 0;
         z-index: 2;
         left: 0;
+        transition: all .1s linear;
     }
     .md-layout {
         height: 50px;
@@ -119,5 +140,20 @@
     .speed {
         max-width: 105px;
         text-align: center;
+    }
+    @media screen and (max-width: 959px) {
+        .hide-small {
+            display: none;
+        }
+    }
+
+    @media screen and (min-width: 960px) {
+        .hide-big {
+            display: none;
+        }
+    }
+
+    .a:hover {
+        text-decoration: none;
     }
 </style>

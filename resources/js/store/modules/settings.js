@@ -2,7 +2,7 @@ const state = {
     activeAgencies: ["stm"],
     autoRefresh: false,
     defaultPath: '/',
-    onboardingDone: false,
+    configurationDone: false
 }
 
 const mutations = {
@@ -15,8 +15,8 @@ const mutations = {
     setDefaultPath(state, newSetting) {
         state.defaultPath = newSetting;
     },
-    setOnboardingDone(state, newSetting) {
-        state.onboardingDone = newSetting;
+    setConfigurationDone(state, newSetting) {
+        state.configurationDone = newSetting;
     }
 }
 

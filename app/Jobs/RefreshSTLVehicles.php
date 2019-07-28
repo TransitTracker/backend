@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use stdClass;
 use App\Agency;
 use App\Vehicle;
 use GuzzleHttp\Client;
@@ -33,11 +32,11 @@ class RefreshSTLVehicles implements ShouldQueue
      */
     public function handle()
     {
-        // Find agency id
-        $agencyId = Agency::where('slug', 'stl')->firstOrFail()->id;
+        // Find agency
+        $agency = Agency::where('slug', 'stl')->firstOrFail();
 
         // Put all previously active vehicles inactive
-        Vehicle::where([['active', '=', '1'], ['agency_id', '=', $agencyId]])->update(['active' => false]);
+        Vehicle::where([['active', '=', '1'], ['agency_id', '=', $agency->id]])->update(['active' => false]);
 
         // Initialize client and call api
         $client = new Client();
@@ -46,18 +45,22 @@ class RefreshSTLVehicles implements ShouldQueue
         // Convert xml to PHP object
         $xml = simplexml_load_string($result->getBody());
 
+        // Update timestamp
+        $agency->timestamp = (int) floor($xml->lastTime['time'] / 1000);
+        $agency->save();
+
         // Go trough
         foreach ($xml->vehicle as $vehicle) {
-
+            // Todo: check timestamp
             // Create or update the vehicle
             Vehicle::updateOrCreate(
-                ['vehicle' => $vehicle['id'], 'agency_id' => $agencyId],
+                ['vehicle' => $vehicle['id'], 'agency_id' => $agency->id],
                 [
                     'active' => 1,
-                    'agency_id' => $agencyId,
+                    'agency_id' => $agency->id,
                     'route' => $vehicle['routeTag'],
-                    'lat' => round($vehicle['lat'], 5),
-                    'lon' => round($vehicle['lon'], 5),
+                    'lat' => round((float) $vehicle['lat'], 5),
+                    'lon' => round((float) $vehicle['lon'], 5),
                     'bearing' => $vehicle['heading'],
                     'speed' => $vehicle['speedKmHr']
                 ]

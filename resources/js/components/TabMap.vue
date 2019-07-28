@@ -1,12 +1,12 @@
 <template>
     <div class="tab-map">
         <div id="map"></div>
-        <vehicle-info v-bind:vehicle="selectedVehicle"></vehicle-info>
+        <vehicle-info></vehicle-info>
     </div>
 </template>
 
 <script>
-    import VehicleInfo from './map/VehicleInfo.vue';
+    import VehicleInfo from './map/VehicleInfo.vue'
 
     let mapboxgl = require('mapbox-gl/dist/mapbox-gl')
     import 'mapbox-gl/dist/mapbox-gl.css'
@@ -24,7 +24,7 @@
         },
         data() {
             return {
-                map: null,
+                map: null
             }
         },
         mounted() {
@@ -82,12 +82,14 @@
                     let pathElement = document.createElement('path')
                     pathElement.setAttribute('d', markerIcon)
                     pathElement.setAttribute('fill', isSelected ? color(agency.color).darken(0.3).hsl() : agency.color)
+                    pathElement.setAttribute('stroke', agency.text_color)
+                    pathElement.setAttribute('stroke-width', '0.5')
                     svgElement.appendChild(pathElement)
 
                     // Create icon
                     let iconElement = document.createElement('path')
                     iconElement.setAttribute('d', agency.vehicles_type === 'bus' ? busIcon : trainIcon)
-                    iconElement.setAttribute('fill', '#ffffff')
+                    iconElement.setAttribute('fill', agency.text_color)
                     iconElement.setAttribute('transform', 'translate(7.25 4) scale(0.4 0.4)')
                     svgElement.appendChild(iconElement)
 
@@ -99,6 +101,7 @@
 
                     // Create the marker and return it
                     let marker = new mapboxgl.Marker(enclosingDiv).setLngLat([vehicle.lon, vehicle.lat])
+                    marker.setOffset([0, isSelected ? -25 : -16])
                     marker._data = vehicle;
                     return marker
                 }).toArray()
@@ -149,5 +152,11 @@
 .marker-selected svg {
     height: 60px;
     width: 60px;
+}
+.marker-selected {
+    z-index: 2;
+}
+.marker {
+    cursor: pointer;
 }
 </style>

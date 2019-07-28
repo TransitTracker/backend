@@ -10,7 +10,10 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "@kazupon/vue-i18n-loader": "^0.4.0",
         "bootstrap": "^4.0.0",
+        "browser-sync": "^2.26.7",
+        "browser-sync-webpack-plugin": "^2.0.1",
         "cross-env": "^5.1",
         "jquery": "^3.2",
         "laravel-mix": "^4.0.7",
@@ -27,8 +30,11 @@
         "color": "^3.1.2",
         "mapbox-gl": "^1.0.0",
         "vue": "^2.6.10",
+        "vue-good-table": "^2.17.2",
+        "vue-i18n": "^8.12.0",
         "vue-material": "^1.0.0-beta-11",
         "vue-router": "^3.0.6",
+        "vue-runtime-helpers": "^1.0.1",
         "vuex": "^3.1.1",
         "vuex-persist": "^2.0.1"
     }

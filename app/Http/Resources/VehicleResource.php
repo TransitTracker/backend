@@ -19,6 +19,7 @@ class VehicleResource extends JsonResource
             // TODO: Change vehicle to ref
             'ref' => $this->vehicle,
             'agency_id' => $this->agency_id,
+            'gtfs_trip' => $this->gtfs_trip,
             'route' => $this->route,
             'start' => $this->start,
             'lat' => $this->lat,

@@ -40,15 +40,23 @@ class UpdateAll extends Command
      */
     public function handle()
     {
-        RefreshSTMVehicles::dispatch(env('STM_APIKEY'))->onQueue('vehicles');
+        $stmApiKey = env('STM_APIKEY');
+        $exoApiKey = env('EXO_APIKEY');
+
+        RefreshSTMVehicles::dispatch($stmApiKey)->onQueue('vehicles');
         RefreshSTLVehicles::dispatch()->onQueue('vehicles');
-        RefreshExoVehicles::dispatch(env('EXO_APIKEY'), 'trains')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch(env('EXO_APIKEY'), 'rtl')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch(env('EXO_APIKEY'), 'citla')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch(env('EXO_APIKEY'), 'citvr')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch(env('EXO_APIKEY'), 'citlr')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch(env('EXO_APIKEY'), 'mrclasso')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch(env('EXO_APIKEY'), 'omitsju')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch(env('EXO_APIKEY'), 'citso')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'trains')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'rtl')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citla')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citvr')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citlr')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'mrclasso')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'omitsju')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citso')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'cithsl')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citpi')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citrous')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citsv')->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'mrclm')->onQueue('vehicles');
     }
 }

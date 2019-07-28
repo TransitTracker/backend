@@ -20,11 +20,10 @@ class CreateTransitTrackerTables extends Migration
             $table->unsignedInteger('agency_id')->nullable();
             $table->string('gtfs_trip')->nullable();
             $table->string('route');
-            $table->dateTime('start')->nullable();
+            $table->time('start')->nullable();
             $table->string('vehicle');
             $table->float('lat', 7, 5)->nullable();
             $table->float('lon', 7, 5)->nullable();
-            $table->string('coordinates');
             $table->float('bearing')->nullable();
             $table->float('speed')->nullable();
             $table->unsignedInteger('stop_sequence')->nullable();

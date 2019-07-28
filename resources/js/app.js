@@ -2,7 +2,7 @@
 window.Vue = require('vue');
 
 // Vue Material
-import { MdApp, MdDrawer, MdToolbar, MdList, MdIcon, MdButton, MdTabs, MdContent, MdEmptyState, MdAvatar, MdCheckbox, MdProgress, MdTable, MdRipple, MdCard, MdSwitch, MdRadio } from 'vue-material/dist/components';
+import { MdApp, MdDrawer, MdToolbar, MdList, MdIcon, MdButton, MdTabs, MdContent, MdEmptyState, MdAvatar, MdCheckbox, MdProgress, MdTable, MdRipple, MdCard, MdSwitch, MdRadio, MdSteppers, MdDialog, MdSnackbar } from 'vue-material/dist/components';
 Vue.use(MdApp)
 Vue.use(MdDrawer)
 Vue.use(MdToolbar)
@@ -20,6 +20,10 @@ Vue.use(MdRipple)
 Vue.use(MdCard)
 Vue.use(MdSwitch)
 Vue.use(MdRadio)
+Vue.use(MdSteppers)
+Vue.use(MdDialog)
+Vue.use(MdSnackbar)
+
 
 // App
 import App from './App.vue'
@@ -60,6 +64,10 @@ const router = new Router({
 
 // Vue Store
 import store from './store'
+
+// Vue i18n
+import VueI18n from 'vue-i18n'
+Vue.use(VueI18n)
 
 // Vue comes to life!
 const app = new Vue(

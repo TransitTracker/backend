@@ -16,6 +16,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Spatie\ResponseCache\Facades\ResponseCache;
 
 class RefreshSTMVehicles implements ShouldQueue
 {
@@ -89,6 +90,11 @@ class RefreshSTMVehicles implements ShouldQueue
                 ]
             );
         }
+
+        // Reset cache
+        // In general, the STM is the longest feed to process
+        // Todo: find a better method of finding all agencies have been processed
+        ResponseCache::clear(['vehicles']);
     }
 
     /**

@@ -15,129 +15,137 @@
         :group-options="{
           enabled: true
         }"
-        @on-row-click="onRowClick"
+        @on-row-click="selectVehicle"
         max-height="calc(100vh - 166.31px)">
       <div slot="emptystate">
         Please select agencies!
       </div>
-      <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'after'">
-          <a href="#">
-            <md-icon>pin_drop</md-icon>
-          </a>
-        </span>
-      </template>
     </vue-good-table>
   </div>
 </template>
 
 <script>
-  import 'vue-good-table/dist/vue-good-table.css'
-  import { VueGoodTable } from 'vue-good-table'
-  const collect = require('collect.js')
+import 'vue-good-table/dist/vue-good-table.css'
+import { VueGoodTable } from 'vue-good-table'
+const collect = require('collect.js')
 
-  export default {
-    name: 'TabTable',
-    components: {
-      VueGoodTable
+export default {
+  name: 'TabTable',
+  components: {
+    VueGoodTable
+  },
+  computed: {
+    stateVehicles () {
+      return collect(this.$store.state.vehicles.data)
     },
-    computed: {
-      selectedAgencies() {
-        return this.$store.state.settings.activeAgencies
-      },
-      rawAgencies() {
-        return this.$store.state.agencies.data
-      },
-      rawVehicles() {
-        return this.$store.state.vehicles.data
-      },
-      groupedVehicles() {
-        return collect(this.selectedAgencies).map(agencyId => {
-          // Find agency
-          const agency = collect(this.rawAgencies).firstWhere('slug', agencyId)
+    stateAgencies () {
+      return collect(this.$store.state.agencies.data)
+    },
+    stateActiveAgencies () {
+      return collect(this.$store.state.settings.activeAgencies)
+    },
+    groupedVehicles () {
+      const agencies = this.stateAgencies
 
-          // Create the group
-          let group = {
-            mode: 'span',
-            label: agency.name,
-            html: false,
-            children: []
+      const vehicles = this.stateVehicles.map(item => {
+        const vehicle = {}
+        vehicle.data = item
+        vehicle.action = `<button @click="viewOnMap" type="button" class="v-btn v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default accent--text"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-map-marker theme--light"></i></span></button>`
+        return vehicle
+      })
+
+      return this.stateActiveAgencies.map(function (agencyId) {
+        // Find agency
+        const agency = agencies.firstWhere('slug', agencyId)
+
+        // Create the group
+        const group = {
+          mode: 'span',
+          label: agency.name,
+          html: false,
+          children: []
+        }
+
+        // Find vehicles from this agency
+        group.children = collect(vehicles.all()).where('data.agency_id', agency.id).items
+
+        return group
+      }).toArray()
+    },
+    selectedVehicle: {
+      get () {
+        return this.$store.state.vehicles.selection
+      },
+      set (vehicle) {
+        this.$store.commit('vehicles/setSelection', vehicle)
+      }
+    }
+  },
+  data () {
+    return {
+      tableColumns: [
+        {
+          label: 'Vehicle number',
+          field: 'data.ref',
+          type: 'text',
+          filterOptions: {
+            enabled: true
           }
-
-          // Find vehicles from this agency
-          group.children = collect(this.rawVehicles).where('agency_id', agency.id).items
-
-          return group
-        }).toArray()
-      },
-      selectedVehicle: {
-        get() {
-          return this.$store.state.vehicles.selection
         },
-        set(vehicle) {
-          this.$store.commit('vehicles/setSelection', vehicle)
-        }
-      },
-      dropdownAgencies() {
-        let collection = collect([]);
-        collect(this.rawAgencies).map(agency => {
-          collection.push({
-            value: agency.id,
-            text: agency.name
-          })
-        })
-        return collection.items
-      },
-    },
-    data() {
-      return {
-        tableColumns: [
-          {
-            label: 'Vehicle number',
-            field: 'ref',
-            filterOptions: {
-              enabled: true
-            }
-          },
-          {
-            label: 'Route',
-            field: 'route',
-            filterOptions: {
-              enabled: true
-            }
-          },
-          {
-            label: 'Headsign',
-            field: 'trip.headsign'
-          },
-          {
-            label: 'Trip ID',
-            field: 'gtfs_trip',
-            filterOptions: {
-              enabled: true
-            }
-          },
-          {
-            label: 'Start time',
-            field: 'start'
+        {
+          label: 'Route',
+          field: 'data.route',
+          type: 'text',
+          filterOptions: {
+            enabled: true
           }
-        ]
-      }
-    },
-    methods: {
-      onRowClick(params) {
-        this.selectedVehicle = params.row
-      }
-    },
-    watch: {
-      rawVehicles: {
-        deep: true,
-        handler: function(val, oldVal) {
-          this.$forceUpdate()
+        },
+        {
+          label: 'Headsign',
+          field: 'data.trip.headsign',
+          type: 'text'
+        },
+        {
+          label: 'Trip ID',
+          field: 'data.gtfs_trip',
+          type: 'text',
+          filterOptions: {
+            enabled: true
+          }
+        },
+        {
+          label: 'Start time',
+          field: 'data.start',
+          type: 'date',
+          dateInputFormat: 'HH:mm:ss',
+          dateOutputFormat: 'HH:mm'
+        },
+        {
+          label: 'View on map',
+          field: 'action',
+          html: true
         }
-      },
+      ]
+    }
+  },
+  watch: {
+    rawVehicles: {
+      deep: true,
+      handler () {
+        this.$forceUpdate()
+      }
+    }
+  },
+  methods: {
+    viewOnMap () {
+      // Todo: change view
+      this.selectVehicle()
     },
+    selectVehicle (params) {
+      this.selectedVehicle = params.row.data
+    }
   }
+}
 </script>
 
 <style lang="scss">

@@ -1,136 +1,197 @@
 <template>
     <div id="app">
-        <md-app md-mode="fixed">
-            <md-app-toolbar class="md-large md-dense md-primary">
-                <div class="md-toolbar-row">
-                    <div class="md-toolbar-section-start">
-                        <span class="md-title">Montreal Transit Tracker</span>
-                    </div>
+        <v-app id="mtltt">
+            <v-app-bar
+                app
+                absolute
+                color="primary"
+                dark
+            >
+                <v-toolbar-title>Montréal Transit Tracker</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <template v-slot:extension>
+                    <v-tabs
+                            fixed-tabs
+                            background-color="transparent">
+                        <v-tab to="/">Home</v-tab>
+                        <v-tab to="/map">Map</v-tab>
+                        <v-tab to="/table">Table</v-tab>
+                        <v-tab to="/settings">Settings</v-tab>
+                    </v-tabs>
+                </template>
 
-                    <div class="md-toolbar-section-end">
-                        <md-button class="md-icon-button">
-                            <md-icon>more_vert</md-icon>
-                        </md-button>
-                    </div>
-                </div>
+            </v-app-bar>
 
-                <div class="md-toolbar-row">
-                    <md-tabs class="md-primary" md-sync-route>
-                        <md-tab id="tab-home" md-label="Home" to="/" exact></md-tab>
-                        <md-tab id="tab-map" md-label="Map" to="/map"></md-tab>
-                        <md-tab id="tab-table" md-label="Table" to="/table"></md-tab>
-                        <md-tab id="tab-settings" md-label="Settings" to="/settings"></md-tab>
-                    </md-tabs>
-                </div>
-            </md-app-toolbar>
-
-            <md-app-content>
-                <configuration v-if="!settings.configurationDone" v-on:configurationDone="setConfigurationAsDone"></configuration>
-                <md-progress-bar md-mode="indeterminate" class="md-accent" v-if="!appReady"></md-progress-bar>
+            <v-content>
+                <dialog-configuration
+                    v-if="!settings.configurationDone"
+                    v-on:configurationDone="setConfigurationAsDone"></dialog-configuration>
+                <v-progress-linear value="0" color="accent" v-if="!appReady" indeterminate></v-progress-linear>
                 <router-view v-if="appReady && settings.configurationDone"></router-view>
-                <md-snackbar md-position="center" :md-active.sync="snackbarVisible">
-                    <span>Data from {{ snackbarAgency }} has been loaded and is {{ snackbarSeconds }} old.</span>
-                </md-snackbar>
-            </md-app-content>
-        </md-app>
+                <v-snackbar
+                    v-model="oldAgenciesSnackbarVisible"
+                    :timeout="oldAgenciesSnackbarTimeout">
+                    <b>Warning!</b>
+                    <span>Data from some agencies are outdated and should be used with caution.</span>
+                    <v-btn
+                        color="accent"
+                        text
+                        @click="oldAgenciesSnackbarVisible = false">
+                        Close
+                    </v-btn>
+                </v-snackbar>
+                <v-snackbar
+                    v-model="updateSnackbarVisible"
+                    :timeout="5000">
+                    <b>Warning!</b>
+                    <span>Data from some agencies are outdated and should be used with caution.</span>
+                    <v-btn
+                        color="accent"
+                        text
+                        @click="updateSnackbarVisible = false">
+                        Close
+                    </v-btn>
+                </v-snackbar>
+            </v-content>
+        </v-app>
     </div>
 </template>
 
 <script>
-    import axios from 'axios/index'
-    const collect = require('collect.js/src/index.js')
-    import Configuration from './components/Configuration.vue'
+import { VApp, VAppBar, VToolbarTitle, VSpacer, VTabs, VTab, VContent, VProgressLinear, VSnackbar, VBtn } from 'vuetify/lib'
+import axios from 'axios/index'
+import DialogConfiguration from './components/DialogConfiguration'
+import collect from 'collect.js/src/index.js'
 
-    axios.defaults.baseURL = process.env.MIX_APIENDPOINT;
+axios.defaults.baseURL = process.env.MIX_APIENDPOINT
 
-    export default {
-        name: 'app',
-        components: {
-          Configuration
-        },
-        data: () => ({
-            menuVisible: false,
-            appReady: false,
-            snackbarVisible: false,
-            snackbarAgency: 'STM',
-            snackbarSeconds: 0,
-        }),
-        mounted () {
-            if (this.settings.configurationDone) {
-                this.loadData()
-            }
-
-        },
-        computed: {
-            settings () {
-                return this.$store.state.settings
-            },
-            agencies: {
-                get() {
-                    return this.$store.state.agencies.data
-                },
-                set(newAgencies) {
-                    this.$store.commit('agencies/setData', newAgencies)
-                }
-            }
-        },
-        methods: {
-            showSnackbar(agency, seconds) {
-                this.snackbarAgency = agency.toUpperCase()
-                this.snackbarSeconds = seconds
-                this.snackbarVisible = true
-            },
-            setConfigurationAsDone() {
-                this.$store.commit('settings/setConfigurationDone', true)
-                this.loadData()
-            },
-            loadData() {
-                // Starting app
-                const timestamp = Date.now()
-                console.log('[MTLTT] Loading at ' + timestamp)
-
-                // Redirect user to default path
-                this.$router.push(this.$store.state.settings.defaultPath)
-
-                // Load agencies
-                axios
-                    .get('/agencies')
-                    .then(response => (this.agencies = response.data.data))
-
-                // Load vehicle from each active agencies
-                collect(this.settings.activeAgencies).each((agency) => {
-                    console.log('Loading vehicles from ' + agency)
-                    axios.get('/vehicles/' + agency)
-                        .then(response => (this.loadVehicles(timestamp, response, agency)))
-                        .catch(function (error) {
-                            console.log(error)
-                        })
-                })
-                this.appReady = true
-            },
-            loadVehicles(timestamp, response, agency) {
-                if ((timestamp - response.data.timestamp) > 300) {
-                    this.$store.commit('vehicles/setData', response.data.data)
-                    this.$store.commit('agencies/setCount', agency, response.data.count)
-                    this.showSnackbar(agency, (timestamp - response.data.timestamp))
-                } else {
-                    this.showSnackbar(agency, 'too old!')
-                }
-            }
-        }
+export default {
+  name: 'app',
+  components: {
+    VApp,
+    VAppBar,
+    VToolbarTitle,
+    VSpacer,
+    VTabs,
+    VTab,
+    VContent,
+    VProgressLinear,
+    VSnackbar,
+    VBtn,
+    DialogConfiguration
+  },
+  data: () => ({
+    menuVisible: false,
+    appReady: false,
+    oldAgenciesSnackbarVisible: false,
+    oldAgenciesSnackbarTimeout: 10000,
+    updateSnackbarVisible: false
+  }),
+  mounted () {
+    if (this.settings.configurationDone) {
+      this.loadData()
     }
+    if (this.settings.autoRefresh) {
+      this.listenToAutoRefresh()
+    }
+  },
+  computed: {
+    settings () {
+      return this.$store.state.settings
+    },
+    agencies: {
+      get () {
+        return this.$store.state.agencies.data
+      },
+      set (newAgencies) {
+        this.$store.commit('agencies/setData', newAgencies)
+      }
+    }
+  },
+  methods: {
+    setConfigurationAsDone () {
+      this.$store.commit('settings/setConfigurationDone', true)
+      this.loadData()
+    },
+    loadData () {
+      // Starting app
+      const timestamp = Math.floor(Date.now() / 1000)
+      console.log('Loading at ' + timestamp)
+
+      // Redirect user to default path
+      this.$router.push(this.$store.state.settings.defaultPath)
+
+      // Load agencies
+      axios
+        .get('/agencies')
+        .then(response => (this.agencies = response.data.data))
+
+      // Load vehicle from each active agencies
+      collect(this.settings.activeAgencies).each((agency) => {
+          // Continue loading vehicles
+          console.log('Loading vehicles from ' + agency)
+          axios.get('/vehicles/' + agency)
+            .then(response => (this.loadVehicles(timestamp, response, agency)))
+            .catch((error) => {
+              if (error.response.status === 403) {
+                this.removeAgency(agency)
+              }
+            })
+      })
+      this.appReady = true
+    },
+    loadVehicles (timestamp, response, agency) {
+      const timeDiff = timestamp - response.data.timestamp
+      this.$store.commit('vehicles/setData', response.data.data)
+      this.$store.commit('agencies/setCount', { agency: agency, count: response.data.count, diff: timeDiff })
+      timeDiff > 300 && this.showSnackbar()
+    },
+    showSnackbar () {
+      this.oldAgenciesSnackbarTimeout += 1000
+      this.oldAgenciesSnackbarVisible = true
+    },
+    removeAgency (agency) {
+      let agenciesArray = this.settings.activeAgencies
+      agenciesArray.splice(agenciesArray.indexOf(agency), 1)
+      this.$store.commit('settings/setActiveAgencies', agenciesArray)
+    },
+    listenToAutoRefresh () {
+      Echo.channel('updates')
+        .listen('VehiclesUpdated', (event) => {
+          if (event.success) {
+            // Starting app
+            const timestamp = Math.floor(Date.now() / 1000)
+            console.log('Reloading at ' + timestamp)
+
+            // Empty vehicles
+            this.$store.commit('vehicles/emptyData')
+            this.$store.commit('agencies/emptyCounts')
+
+            // Load vehicle from each active agencies
+            collect(this.settings.activeAgencies).each((agency) => {
+              // Continue loading vehicles
+              console.log('Reloading vehicles from ' + agency)
+              axios.get('/vehicles/' + agency)
+                .then(response => (this.loadVehicles(timestamp, response, agency)))
+                .catch((error) => {
+                  if (error.response.status === 403) {
+                    this.removeAgency(agency)
+                  }
+                })
+            })
+            this.updateSnackbarVisible = true
+          }
+        })
+    }
+  }
+}
 </script>
 
-<style lang="scss" scoped>
-    .md-app {
-        height: 100vh;
+<style lang="scss">
+    .v-application--is-ltr .v-tabs-bar.v-tabs-bar--is-mobile:not(.v-tabs-bar--show-arrows) > .v-slide-group__wrapper > .v-tabs-bar__content > .v-tabs-slider-wrapper + .v-tab {
+        margin-left: 0;
     }
-
-    .md-toolbar .md-tabs {
-        padding-left: 0;
-    }
-
-    .md-app-container .md-app-scroller {
-        margin-top: 112px;
+    .v-snack__content b {
+        padding-right: 10px;
     }
 </style>

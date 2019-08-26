@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTextColorAndTimestampToAgenciesTable extends Migration
+class AddTagsAndActiveToAgenciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddTextColorAndTimestampToAgenciesTable extends Migration
     public function up()
     {
         Schema::table('agencies', function (Blueprint $table) {
-           $table->bigInteger('timestamp')->default(time());
-           $table->string('text_color')->default('#FFFFFF');
+            $table->string('tags')->nullable();
+            $table->boolean('is_active')->default(false);
         });
     }
 
@@ -27,7 +27,7 @@ class AddTextColorAndTimestampToAgenciesTable extends Migration
     public function down()
     {
         Schema::table('agencies', function (Blueprint $table) {
-            $table->dropColumn(['timestamp', 'text_color']);
+            $table->dropColumn(['tags', 'is_active']);
         });
     }
 }

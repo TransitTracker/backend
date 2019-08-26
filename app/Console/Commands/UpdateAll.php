@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Events\VehiclesUpdated;
 use App\Jobs\RefreshSTLVehicles;
 use App\Jobs\RefreshSTMVehicles;
 use App\Jobs\RefreshExoVehicles;
@@ -52,11 +53,9 @@ class UpdateAll extends Command
         RefreshExoVehicles::dispatch($exoApiKey, 'citlr')->onQueue('vehicles');
         RefreshExoVehicles::dispatch($exoApiKey, 'mrclasso')->onQueue('vehicles');
         RefreshExoVehicles::dispatch($exoApiKey, 'omitsju')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'citso')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'cithsl')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'citpi')->onQueue('vehicles');
         RefreshExoVehicles::dispatch($exoApiKey, 'citrous')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'citsv')->onQueue('vehicles');
         RefreshExoVehicles::dispatch($exoApiKey, 'mrclm')->onQueue('vehicles');
+
+        event(new VehiclesUpdated(true));
     }
 }

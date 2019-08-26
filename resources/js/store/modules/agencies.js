@@ -1,20 +1,22 @@
-import collect from 'collect.js'
-
 const state = {
-    data: []
+  data: [],
+  counts: []
 }
 
 const mutations = {
-    setData(state, agencies) {
-        state.data = agencies
-    },
-    setCount(state, agency, count) {
-        // collect(state.data).firstWhere('slug', agency).push(count)
-    }
+  setData (state, agencies) {
+    state.data = agencies
+  },
+  setCount (state, payload) {
+    state.counts = state.counts.concat([payload])
+  },
+  emptyCounts (state) {
+    state.counts = []
+  }
 }
 
 export default {
-    namespaced: true,
-    state,
-    mutations
+  namespaced: true,
+  state,
+  mutations
 }

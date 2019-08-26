@@ -7,7 +7,9 @@
         <link href="favicon.ico" rel="icon">
         <title>Montréal Transit Tracker</title>
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css" rel="stylesheet"/>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body>
         <noscript>

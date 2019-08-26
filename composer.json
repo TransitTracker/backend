@@ -19,6 +19,8 @@
         "laravel/tinker": "^1.0",
         "league/csv": "^9.1",
         "predis/predis": "^1.1",
+        "pusher/pusher-php-server": "~4.0",
+        "spatie/laravel-responsecache": "^5.0",
         "symfony/psr-http-message-bridge": "^1.1"
     },
     "require-dev": {

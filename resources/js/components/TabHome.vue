@@ -4,7 +4,7 @@
             <v-col cols="12">
                 <v-card color="accent">
                     <v-card-title>Welcome to Montréal Transit Tracker</v-card-title>
-                    <v-card-text>Version 2.0.0-beta.3+002</v-card-text>
+                    <v-card-text>Version 2.0.0-beta.3+003</v-card-text>
                 </v-card>
             </v-col>
             <v-col

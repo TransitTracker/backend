@@ -47,7 +47,7 @@ mix.i18n()
 mix.browserSync('127.0.0.1:8000')
 
 if (mix.inProduction()) {
-  mix.extract(['axios', 'vue', 'vuetify'])
+  mix.extract()
   mix.version()
   mix.disableNotifications()
 }

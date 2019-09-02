@@ -59,6 +59,13 @@ export default {
     this.map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left')
 
     this.putMarkersOnMap(this.markers)
+
+    if (this.selectedVehicle.lat) {
+      this.map.flyTo({
+        center: [this.selectedVehicle.lon, this.selectedVehicle.lat],
+        zoom: 13
+      })
+    }
   },
   computed: {
     vehicles () {

@@ -6,25 +6,22 @@ import router from './router'
 import store from './store'
 import VueI18n from 'vue-i18n'
 
-// Laravel Echo
-import Echo from 'laravel-echo'
-window.Pusher = require('pusher-js')
-
 // App
 import App from './App.vue'
 
 // Vue
 import Vue from 'vue'
 
+// Bugsnap
+// Todo: remove when beta ends
+import bugsnap from '@bugsnag/js'
+import bugsnapVue from '@bugsnag/plugin-vue'
+const bugsnapClient = bugsnap('8b0403f91803771a07af0f9d944e2638')
+bugsnapClient.use(bugsnapVue, Vue)
+
 // Plugin setup
 // Todo: use vuetify i18n
 Vue.use(VueI18n)
-window.Echo = new Echo({
-  broadcaster: 'pusher',
-  key: '6e6f7e34817efcde182a',
-  cluster: 'us2',
-  forceTLS: true
-})
 
 // Vue comes to life!
 window.vm = new Vue({

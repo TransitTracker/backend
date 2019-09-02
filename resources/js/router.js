@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-const TabHome = () => import('./components/TabHome.vue')
-const TabMap = () => import('./components/TabMap.vue')
-const TabTable = () => import('./components/TabTable.vue')
-const TabSettings = () => import('./components/TabSettings.vue')
 
 Vue.use(VueRouter)
 
@@ -12,22 +8,22 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'Home',
-      component: TabHome
+      component: () => import(/* webpackChunkName: 'home' */ './components/TabHome.vue')
     },
     {
       path: '/map',
       name: 'Map',
-      component: TabMap
+      component: () => import(/* webpackChunkName: 'map' */ './components/TabMap.vue')
     },
     {
       path: '/table',
       name: 'Table',
-      component: TabTable
+      component: () => import(/* webpackChunkName: 'table' */ './components/TabTable.vue')
     },
     {
       path: '/settings',
       name: 'Settings',
-      component: TabSettings
+      component: () => import(/* webpackChunkName: 'settings' */ './components/TabSettings.vue')
     }
   ]
 })

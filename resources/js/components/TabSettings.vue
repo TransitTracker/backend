@@ -36,7 +36,13 @@
         <v-card>
           <v-card-title>Other settings</v-card-title>
           <v-card-text>
-            <v-switch v-model="autoRefresh" label="Auto refresh every minute"></v-switch>
+            <v-switch v-model="autoRefresh" label="Auto refresh"></v-switch>
+            <v-alert
+              dense
+              border="left"
+              type="warning">
+              Auto refresh is coming soon!
+            </v-alert>
             <v-divider></v-divider>
             <p class="subtitle-1">Default tab on opening</p>
             <v-radio-group v-model="defaultPath">
@@ -99,11 +105,6 @@ export default {
     VRadio,
     VBtn
   },
-  data: () => {
-    return {
-      agenciesAreUpdated: false
-    }
-  },
   mounted () {
   },
   computed: {
@@ -120,7 +121,6 @@ export default {
     },
     activeAgencies: {
       get () {
-        this.agenciesAreUpdated = true
         return this.$store.state.settings.activeAgencies
       },
       set (value) {

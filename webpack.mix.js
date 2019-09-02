@@ -36,6 +36,10 @@ mix.webpackConfig({
   }
 })
 
+mix.babelConfig({
+  plugins: ['@babel/plugin-syntax-dynamic-import'],
+})
+
 mix.i18n()
   .js('resources/js/app.js', 'public/js')
   .sass('resources/sass/app.scss', 'public/css');

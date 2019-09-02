@@ -21,10 +21,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::get('/vehicles/{agency}', function (Agency $agency) {
     if ($agency->is_active) {
         $vehicles = Vehicle::where([['active', true], ['agency_id', $agency->id]])->get();

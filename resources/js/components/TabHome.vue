@@ -4,13 +4,15 @@
             <v-col cols="12">
                 <v-card color="accent">
                     <v-card-title>Welcome to Montréal Transit Tracker</v-card-title>
-                    <v-card-text>Version 2.0.0-beta.3</v-card-text>
+                    <v-card-text>Version 2.0.0-beta.3+002</v-card-text>
                 </v-card>
             </v-col>
             <v-col
                 cols="12">
                 <v-card>
-                    <v-card-title>{{ totalCount }} vehicles are active</v-card-title>
+                    <v-card-title>
+                        {{ totalCount }} vehicles are active
+                    </v-card-title>
                     <v-card-text>
                         <v-row>
                             <v-col
@@ -28,8 +30,9 @@
                                             <v-chip
                                                 v-if="count.secondsAgo > 300"
                                                 label
-                                                small
-                                                color="red">
+                                                x-small
+                                                color="red"
+                                                class="white--text">
                                                 Outdated
                                             </v-chip>
                                         </span>
@@ -85,7 +88,7 @@
 import collect from 'collect.js'
 import { VContainer, VRow, VCol, VCard, VCardTitle, VCardText, VChip } from 'vuetify/lib'
 
-// Add version to store
+// Todo: Add version to store
 export default {
   name: 'TabHome',
   components: {
@@ -110,7 +113,7 @@ export default {
       return collect(this.$store.state.agencies.data)
     },
     stateCounts () {
-     return collect(this.$store.state.agencies.counts)
+      return collect(this.$store.state.agencies.counts)
     },
     counts () {
       const count = this.stateCounts.map(item => {

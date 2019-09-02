@@ -1,18 +1,22 @@
 <template>
     <v-bottom-sheet
-        hideOverlay
-        :value="sheetOpen"
-        :persistent="persistent"
-        @input="$emit('close-sheet')">
+        hide-overlay
+        v-model="sheetModel"
+        :persistent="persistent">
         <v-list>
-            <v-btn
-                icon
-                color="secondary"
-                @click="tooglePersistent"
-                class="float-right">
-                <v-icon v-if="persistent">mdi-pin-off</v-icon>
-                <v-icon v-else>mdi-pin</v-icon>
-            </v-btn>
+            <v-tooltip left>
+                <template v-slot:activator="{ on }">
+                    <v-btn
+                            icon
+                            color="secondary"
+                            v-on="on"
+                            class="float-right">
+                        <v-icon v-if="persistent">mdi-pin-off</v-icon>
+                        <v-icon v-else>mdi-pin</v-icon>
+                    </v-btn>
+                </template>
+                <span>This feature is currently broken</span>
+            </v-tooltip>
             <v-spacer></v-spacer>
             <v-btn
                 outlined
@@ -88,42 +92,58 @@
 </template>
 
 <script>
-  import { VBtn, VIcon, VBottomSheet, VList, VSubheader, VListItem, VListItemIcon, VListItemTitle, VSpacer } from 'vuetify/lib'
+import { VBtn, VIcon, VBottomSheet, VList, VTooltip, VSubheader, VListItem, VListItemIcon, VListItemTitle, VSpacer } from 'vuetify/lib'
 
-  export default {
-    components: {
-      VBottomSheet,
-      VBtn,
-      VIcon,
-      VList,
-      VSubheader,
-      VListItem,
-      VListItemIcon,
-      VListItemTitle,
-      VSpacer
-    },
-    data () {
-      return {
-        persistent: false
+export default {
+  components: {
+    VBottomSheet,
+    VBtn,
+    VIcon,
+    VList,
+    VTooltip,
+    VSubheader,
+    VListItem,
+    VListItemIcon,
+    VListItemTitle,
+    VSpacer
+  },
+  data () {
+    return {
+      persistent: false
+    }
+  },
+  props: {
+    agency: Object,
+    vehicle: Object,
+    sheetOpen: Boolean
+  },
+  computed: {
+    sheetModel: {
+      get () {
+        return this.sheetOpen
+      },
+      set (val) {
+        !this.persistent && this.$emit('close-sheet')
+      }
+    }
+  },
+  methods: {
+    togglePersistent () {
+      if (this.persistent) {
+        this.persistent = false
+      } else {
+        this.persistent = true
       }
     },
-    props: {
-      agency: Object,
-      vehicle: Object,
-      sheetOpen: Boolean,
-    },
-    methods: {
-      tooglePersistent () {
-        if (this.persistent) {
-          this.persistent = false
-        } else {
-          this.persistent = true
-        }
+    clickOutsideSheet () {
+      if (!this.persistent) {
+        this.$emit('close-sheet')
       }
     }
   }
+}
 
-  // Todo: replace v-model sheetOpen with something that emits back
+// Todo: replace v-model sheetOpen with something that emits back
 </script>
 
 <style lang="scss" scoped>

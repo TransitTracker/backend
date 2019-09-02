@@ -1,12 +1,11 @@
 <template>
-  <div class="tab-table">
     <vue-good-table
         :columns="tableColumns"
         :rows="groupedVehicles"
         :fixed-header="true"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'ref', type: 'asc'}
+          initialSortBy: {field: 'data.ref', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -15,19 +14,19 @@
         :group-options="{
           enabled: true
         }"
-        @on-row-click="selectVehicle"
-        max-height="calc(100vh - 166.31px)">
-      <div slot="emptystate">
-        Please select agencies!
-      </div>
+        @on-cell-click="viewOnMap"
+        max-height="calc(100vh - 170px)">
+        <div slot="emptystate">
+            No vehicles!
+        </div>
     </vue-good-table>
-  </div>
+
 </template>
 
 <script>
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table'
-const collect = require('collect.js')
+import collect from 'collect.js'
 
 export default {
   name: 'TabTable',
@@ -36,29 +35,29 @@ export default {
   },
   computed: {
     stateVehicles () {
-      return collect(this.$store.state.vehicles.data)
+      return this.$store.state.vehicles.data
     },
     stateAgencies () {
-      return collect(this.$store.state.agencies.data)
+      return this.$store.state.agencies.data
     },
     stateActiveAgencies () {
-      return collect(this.$store.state.settings.activeAgencies)
+      return this.$store.state.settings.activeAgencies
     },
-    groupedVehicles () {
-      const agencies = this.stateAgencies
-
-      const vehicles = this.stateVehicles.map(item => {
+    vehicles () {
+      const stateVehicles = collect(this.stateVehicles)
+      return stateVehicles.map(item => {
         const vehicle = {}
         vehicle.data = item
-        vehicle.action = `<button @click="viewOnMap" type="button" class="v-btn v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default accent--text"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-map-marker theme--light"></i></span></button>`
+        vehicle.action = '<button @click="viewOnMap" type="button" class="v-btn v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default accent--text"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-map-marker theme--light"></i></span></button>'
         return vehicle
       })
+    },
+    groupedVehicles () {
+      const stateActiveAgencies = collect(this.stateActiveAgencies)
+      return stateActiveAgencies.map(agencySlug => {
+        const stateAgencies = collect(this.stateAgencies)
+        const agency = stateAgencies.firstWhere('slug', agencySlug)
 
-      return this.stateActiveAgencies.map(function (agencyId) {
-        // Find agency
-        const agency = agencies.firstWhere('slug', agencyId)
-
-        // Create the group
         const group = {
           mode: 'span',
           label: agency.name,
@@ -66,8 +65,7 @@ export default {
           children: []
         }
 
-        // Find vehicles from this agency
-        group.children = collect(vehicles.all()).where('data.agency_id', agency.id).items
+        group.children = this.vehicles.where('data.agency_id', agency.id).items
 
         return group
       }).toArray()
@@ -137,50 +135,12 @@ export default {
     }
   },
   methods: {
-    viewOnMap () {
-      // Todo: change view
-      this.selectVehicle()
-    },
-    selectVehicle (params) {
-      this.selectedVehicle = params.row.data
+    viewOnMap (params) {
+      if (params.column.field === 'action') {
+        this.selectedVehicle = params.row.data
+        this.$router.push('/map')
+      }
     }
   }
 }
 </script>
-
-<style lang="scss">
-    .vt-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    .vt-table th {
-        text-align: left;
-        padding: 12px 0;
-    }
-    .vt-table th:first-child {
-        padding-left: 16px;
-    }
-    .vt-table th:last-child {
-        padding-right: 16px;
-    }
-    .vt-table thead {
-        border-bottom: 2px solid darkgrey;
-        height: 48px;
-        font-size: 12px;
-        color: #00000099;
-    }
-    .vt-table tbody {
-        font-size: 14px;
-        color: #000000de;
-    }
-    .vt-table tr {
-        height: 48px;
-        border-bottom: 1px solid gray;
-    }
-    .vt-table tr td:first-child {
-        padding-left: 16px;
-    }
-    .vt-table tr td:last-child {
-        padding-right: 16px;
-    }
-</style>

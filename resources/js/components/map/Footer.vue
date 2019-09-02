@@ -51,43 +51,34 @@
 </template>
 
 <script>
-import collect from 'collect.js'
-import MapBottomSheet from './BottomSheet'
-import { VFooter, VRow, VCol, VBtn, VIcon, VBottomSheet, VList, VSubheader, VListItem, VListItemIcon, VListItemTitle } from 'vuetify/lib'
+import { VFooter, VRow, VCol, VBtn, VIcon } from 'vuetify/lib'
 
 export default {
-    components: {
-      VFooter,
-      VRow,
-      VCol,
-      VBtn,
-      VIcon,
-      VBottomSheet,
-      VList,
-      VSubheader,
-      VListItem,
-      VListItemIcon,
-      VListItemTitle,
-      MapBottomSheet
-    },
-    props: {
-      agency: Object,
-      vehicle: Object
-    },
-    computed: {
-      noVehicle () {
-        if (this.vehicle.id === null) {
-          return true
-        } else {
-          return false
-        }
-      }
-    },
-    filters: {
-      uppercase: (value) => {
-        return value.toUpperCase()
+  components: {
+    VFooter,
+    VRow,
+    VCol,
+    VBtn,
+    VIcon
+  },
+  props: {
+    agency: Object,
+    vehicle: Object
+  },
+  computed: {
+    noVehicle () {
+      if (this.vehicle.id === null) {
+        return true
+      } else {
+        return false
       }
     }
+  },
+  filters: {
+    uppercase: (value) => {
+      return value.toUpperCase()
+    }
+  }
 }
 </script>
 

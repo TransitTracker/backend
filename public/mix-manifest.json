@@ -1,4 +1,11 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/home.js": "/home.js",
+    "/map.js": "/map.js",
+    "/settings.js": "/settings.js",
+    "/table.js": "/table.js",
+    "/vendors~home~map~table.js": "/vendors~home~map~table.js",
+    "/vendors~map.js": "/vendors~map.js",
+    "/vendors~table.js": "/vendors~table.js"
 }

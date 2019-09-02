@@ -26,8 +26,14 @@
                 <dialog-configuration
                     v-if="!settings.configurationDone"
                     v-on:configurationDone="setConfigurationAsDone"></dialog-configuration>
-                <v-progress-linear value="0" color="accent" v-if="!appReady" indeterminate></v-progress-linear>
-                <router-view v-if="appReady && settings.configurationDone"></router-view>
+                <v-progress-linear
+                    :value="0"
+                    color="accent"
+                    v-if="!appReady"
+                    indeterminate></v-progress-linear>
+                <router-view
+                    v-if="appReady && settings.configurationDone"
+                    v-on:refresh-vehicles="refreshData"></router-view>
                 <v-snackbar
                     v-model="oldAgenciesSnackbarVisible"
                     :timeout="oldAgenciesSnackbarTimeout">
@@ -62,6 +68,15 @@ import { VApp, VAppBar, VToolbarTitle, VSpacer, VTabs, VTab, VContent, VProgress
 import axios from 'axios/index'
 import DialogConfiguration from './components/DialogConfiguration'
 import collect from 'collect.js/src/index.js'
+// import Echo from 'laravel-echo'
+// window.Pusher = require('pusher-js')
+//
+// window.Echo = new Echo({
+//   broadcaster: 'pusher',
+//   key: '6e6f7e34817efcde182a',
+//   cluster: 'us2',
+//   forceTLS: true
+// })
 
 axios.defaults.baseURL = process.env.MIX_APIENDPOINT
 
@@ -128,15 +143,15 @@ export default {
 
       // Load vehicle from each active agencies
       collect(this.settings.activeAgencies).each((agency) => {
-          // Continue loading vehicles
-          console.log('Loading vehicles from ' + agency)
-          axios.get('/vehicles/' + agency)
-            .then(response => (this.loadVehicles(timestamp, response, agency)))
-            .catch((error) => {
-              if (error.response.status === 403) {
-                this.removeAgency(agency)
-              }
-            })
+        // Continue loading vehicles
+        console.log('Loading vehicles from ' + agency)
+        axios.get('/vehicles/' + agency)
+          .then(response => (this.loadVehicles(timestamp, response, agency)))
+          .catch((error) => {
+            if (error.response.status === 403) {
+              this.removeAgency(agency)
+            }
+          })
       })
       this.appReady = true
     },
@@ -151,37 +166,59 @@ export default {
       this.oldAgenciesSnackbarVisible = true
     },
     removeAgency (agency) {
-      let agenciesArray = this.settings.activeAgencies
+      const agenciesArray = this.settings.activeAgencies
       agenciesArray.splice(agenciesArray.indexOf(agency), 1)
       this.$store.commit('settings/setActiveAgencies', agenciesArray)
     },
     listenToAutoRefresh () {
-      Echo.channel('updates')
-        .listen('VehiclesUpdated', (event) => {
-          if (event.success) {
-            // Starting app
-            const timestamp = Math.floor(Date.now() / 1000)
-            console.log('Reloading at ' + timestamp)
+      // Echo.channel('updates')
+      //   .listen('VehiclesUpdated', (event) => {
+      //     if (event.success) {
+      //       // Starting app
+      //       const timestamp = Math.floor(Date.now() / 1000)
+      //       console.log('Reloading at ' + timestamp)
+      //
+      //       // Empty vehicles
+      //       this.$store.commit('vehicles/emptyData')
+      //       this.$store.commit('agencies/emptyCounts')
+      //
+      //       // Load vehicle from each active agencies
+      //       collect(this.settings.activeAgencies).each((agency) => {
+      //         // Continue loading vehicles
+      //         console.log('Reloading vehicles from ' + agency)
+      //         axios.get('/vehicles/' + agency)
+      //           .then(response => (this.loadVehicles(timestamp, response, agency)))
+      //           .catch((error) => {
+      //             if (error.response.status === 403) {
+      //               this.removeAgency(agency)
+      //             }
+      //           })
+      //       })
+      //       this.updateSnackbarVisible = true
+      //     }
+      //   })
+    },
+    refreshData () {
+      const timestamp = Math.floor(Date.now() / 1000)
+      console.log('Reloading at ' + timestamp)
 
-            // Empty vehicles
-            this.$store.commit('vehicles/emptyData')
-            this.$store.commit('agencies/emptyCounts')
+      // Empty vehicles
+      this.$store.commit('vehicles/emptyData')
+      this.$store.commit('agencies/emptyCounts')
 
-            // Load vehicle from each active agencies
-            collect(this.settings.activeAgencies).each((agency) => {
-              // Continue loading vehicles
-              console.log('Reloading vehicles from ' + agency)
-              axios.get('/vehicles/' + agency)
-                .then(response => (this.loadVehicles(timestamp, response, agency)))
-                .catch((error) => {
-                  if (error.response.status === 403) {
-                    this.removeAgency(agency)
-                  }
-                })
-            })
-            this.updateSnackbarVisible = true
-          }
-        })
+      // Load vehicle from each active agencies
+      collect(this.settings.activeAgencies).each((agency) => {
+        // Continue loading vehicles
+        console.log('Reloading vehicles from ' + agency)
+        axios.get('/vehicles/' + agency)
+          .then(response => (this.loadVehicles(timestamp, response, agency)))
+          .catch((error) => {
+            if (error.response.status === 403) {
+              this.removeAgency(agency)
+            }
+          })
+      })
+      this.updateSnackbarVisible = true
     }
   }
 }

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+// Todo: add i18n to routes names
 const router = new VueRouter({
   routes: [
     {

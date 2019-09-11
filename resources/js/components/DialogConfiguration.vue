@@ -6,64 +6,54 @@
             <v-stepper-header>
                 <v-stepper-step
                         :complete="stepper > 1"
-                        step="1">Language
+                        step="1">{{ $vuetify.lang.t('$vuetify.configuration.languageStep') }}
                 </v-stepper-step>
                 <v-divider></v-divider>
                 <v-stepper-step
                         :complete="stepper > 2"
-                        step="2">Conditions
+                        step="2">{{ $vuetify.lang.t('$vuetify.configuration.conditionsStep') }}
                 </v-stepper-step>
                 <v-divider></v-divider>
                 <v-stepper-step
                         :complete="stepper > 3"
-                        step="3">Agencies
+                        step="3">{{ $vuetify.lang.t('$vuetify.configuration.agenciesStep') }}
                 </v-stepper-step>
                 <v-divider></v-divider>
                 <v-stepper-step
                         :complete="stepper > 4"
-                        step="4">Settings
+                        step="4">{{ $vuetify.lang.t('$vuetify.configuration.settingsStep') }}
                 </v-stepper-step>
             </v-stepper-header>
 
             <v-stepper-items>
-                <v-stepper-content step="1">
-                    <v-row>
-                        <v-col
-                            cols="12"
-                            md="4">
-                            <img src="/svg/road-and-rail.svg" alt="Road rail and bus">
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            md="8">
-                            <div class="display-1 mb-2">Welcome to Montreal Transit Tracker</div>
-                            <div class="title mb-3">Version 2.0 - This is a beta version, please report any bug on
-                                <a href="https://cptdb.ca/topic/19090-montreal-realtime-transit-viewer/">CPTDB</a> or
-                                <a href="https://github.com/felixinx/montreal-transit-tracker/issues">GitHub</a></div>
-                            <v-btn
-                                    class="float-right"
-                                    color="accent"
-                                    @click="stepper = 2">
-                                Continue
-                            </v-btn>
-                        </v-col>
-                    </v-row>
+                <v-stepper-content
+                        step="1"
+                        style="text-align: center">
+                    <img src="/svg/undraw/map-dark.svg" alt="Map" width="250px">
+                    <div class="display-1 mb-2">{{ $vuetify.lang.t('$vuetify.configuration.languageTitle') }}</div>
+                    <div
+                        class="title mb-4"
+                        v-html="$vuetify.lang.t('$vuetify.configuration.languageBody')"></div>
+                    <v-btn
+                            x-large
+                            color="primary"
+                            @click="setLanguage('en')"
+                            class="ma-4">
+                        Continue in English
+                        <v-icon>mdi-arrow-right</v-icon>
+                    </v-btn>
+                    <v-btn
+                            x-large
+                            color="secondary"
+                            @click="setLanguage('fr')"
+                            class="ma-4">
+                        Continuer en français
+                        <v-icon>mdi-arrow-right</v-icon>
+                    </v-btn>
                 </v-stepper-content>
                 <v-stepper-content step="2">
-                    <p class="title">Please read the following conditions before using the application:</p>
-                    <!-- Todo: fix css typo codes -->
-                    <div>
-                        <p class='md-body-1'>The data on this website is given as is and should not be used as a public transport timetable. The accuracy and reliability of the data is not guaranteed.</p>
-                        <p class='md-body-2'>Montreal Transit Tracker, Société de transport de Montréal, Société de transport de Laval and exo are not responsible for the use of the data presented on this site.</p>
-                        <p class='md-body-1'>The data comes from the following agencies:</p>
-                            <ul>
-                                <li><a href='http://stm.info'>Société de transport de Montréal (STM)</a></li>
-                                <li><a href='https://stl.laval.qc.ca'>Société de transport de Laval (STL)</a></li>
-                                <li><a href='https://exo.quebec'>exo</a> (including exo buses, exo trains and Réseau de transport de Longueuil buses)</li>
-                            </ul>
-                        <p>The above data are all available under the <a href='https://creativecommons.org/licenses/by/4.0/deed.en'>Creative Common 4.0 CC BY</a> license.</p>
-                        <p class='md-body-2'>Google Analytics is used for statistical purposes. During beta versions, when an error occurs, some data will be sent to Bugsnap to help resolve errors and bugs.</p>
-                    </div>
+                    <p class="title">{{ $vuetify.lang.t('$vuetify.configuration.conditionsTitle') }}</p>
+                    <div v-html="$vuetify.lang.t('$vuetify.configuration.conditionsBody')"></div>
 
                     <v-btn
                         text
@@ -76,11 +66,11 @@
                         class="float-right"
                         color="accent"
                         @click="stepper = 3; loadAgencies()">
-                        I agree, continue
+                        {{ $vuetify.lang.t('$vuetify.configuration.conditionsAgree') }}
                     </v-btn>
                 </v-stepper-content>
                 <v-stepper-content step="3">
-                    <p class="title">Choose the agencies you want to see:</p>
+                    <p class="title">{{ $vuetify.lang.t('$vuetify.configuration.agenciesTitle') }}</p>
                     <v-list>
                         <v-list-item
                                 v-for="agency in loadedAgencies"
@@ -109,23 +99,17 @@
                         class="float-right"
                         color="accent"
                         @click="stepper = 4">
-                        Continue
+                        {{ $vuetify.lang.t('$vuetify.configuration.agenciesContinue') }}
                     </v-btn>
                 </v-stepper-content>
                 <v-stepper-content
                     class="pa-3"
                     step="4">
                     <div class="pa-3">
-                        <p class="title">Settings</p>
-                        <v-switch v-model="settingsAutoRefresh" label="Auto refresh every minute"></v-switch>
-                        <v-alert
-                                dense
-                                border="left"
-                                type="warning">
-                            Auto refresh is coming soon!
-                        </v-alert>
+                        <p class="title">{{ $vuetify.lang.t('$vuetify.configuration.settingsTitle') }}</p>
+                        <v-switch v-model="settingsAutoRefresh" :label="$vuetify.lang.t('$vuetify.settings.otherAutoRefresh')"></v-switch>
                         <v-divider></v-divider>
-                        <p class="subtitle-1">Default tab on opening</p>
+                        <p class="subtitle-1">{{ $vuetify.lang.t('$vuetify.settings.otherDefaultTab') }}</p>
                         <v-radio-group v-model="settingsDefaultPath">
                             <v-radio
                                     v-for="route in routes"
@@ -145,7 +129,7 @@
                             class="float-right"
                             color="accent"
                             @click="setConfigurationAsDone">
-                            Done
+                            {{ $vuetify.lang.t('$vuetify.configuration.settingsDone') }}
                         </v-btn>
                     </div>
                 </v-stepper-content>
@@ -164,8 +148,6 @@ import {
   VDivider,
   VStepperItems,
   VStepperContent,
-  VRow,
-  VCol,
   VBtn,
   VList,
   VListItem,
@@ -176,7 +158,6 @@ import {
   VListItemAvatar,
   VIcon,
   VSwitch,
-  VAlert,
   VRadioGroup,
   VRadio
 } from 'vuetify/lib'
@@ -190,8 +171,6 @@ export default {
     VDivider,
     VStepperItems,
     VStepperContent,
-    VRow,
-    VCol,
     VBtn,
     VList,
     VListItem,
@@ -202,7 +181,6 @@ export default {
     VListItemAvatar,
     VIcon,
     VSwitch,
-    VAlert,
     VRadioGroup,
     VRadio
   },
@@ -221,6 +199,11 @@ export default {
     },
     setConfigurationAsDone () {
       this.$emit('configurationDone')
+    },
+    setLanguage (newLang) {
+      this.$store.commit('settings/setLanguage', newLang)
+      this.$vuetify.lang.current = newLang
+      this.stepper = 2
     }
   },
   computed: {

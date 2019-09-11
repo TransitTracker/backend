@@ -17,7 +17,7 @@
         @on-cell-click="viewOnMap"
         max-height="calc(100vh - 170px)">
         <div slot="emptystate">
-            No vehicles!
+            {{ $vuetify.lang.t('$vuetify.table.empty') }}
         </div>
     </vue-good-table>
 
@@ -48,7 +48,7 @@ export default {
       return stateVehicles.map(item => {
         const vehicle = {}
         vehicle.data = item
-        vehicle.action = '<button @click="viewOnMap" type="button" class="v-btn v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default accent--text"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-map-marker theme--light"></i></span></button>'
+        vehicle.action = '<button type="button" class="view-map-button v-btn v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default accent--text"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-map-marker theme--light"></i></span></button>'
         return vehicle
       })
     },
@@ -83,7 +83,7 @@ export default {
     return {
       tableColumns: [
         {
-          label: 'Vehicle number',
+          label: this.$vuetify.lang.t('$vuetify.table.dataRef'),
           field: 'data.ref',
           type: 'text',
           filterOptions: {
@@ -91,7 +91,7 @@ export default {
           }
         },
         {
-          label: 'Route',
+          label: this.$vuetify.lang.t('$vuetify.table.dataRoute'),
           field: 'data.route',
           type: 'text',
           filterOptions: {
@@ -99,12 +99,12 @@ export default {
           }
         },
         {
-          label: 'Headsign',
+          label: this.$vuetify.lang.t('$vuetify.table.dataHeadsign'),
           field: 'data.trip.headsign',
           type: 'text'
         },
         {
-          label: 'Trip ID',
+          label: this.$vuetify.lang.t('$vuetify.table.dataTripId'),
           field: 'data.gtfs_trip',
           type: 'text',
           filterOptions: {
@@ -112,14 +112,14 @@ export default {
           }
         },
         {
-          label: 'Start time',
+          label: this.$vuetify.lang.t('$vuetify.table.dataStartTime'),
           field: 'data.start',
           type: 'date',
           dateInputFormat: 'HH:mm:ss',
           dateOutputFormat: 'HH:mm'
         },
         {
-          label: 'View on map',
+          label: this.$vuetify.lang.t('$vuetify.table.action'),
           field: 'action',
           html: true
         }
@@ -144,3 +144,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+    .v-btn {
+        width: 100%;
+        height: 100%;
+    }
+</style>

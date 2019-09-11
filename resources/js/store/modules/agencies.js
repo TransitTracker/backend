@@ -1,3 +1,5 @@
+import collect from 'collect.js/src/index.js'
+
 const state = {
   data: [],
   counts: []
@@ -10,8 +12,9 @@ const mutations = {
   setCount (state, payload) {
     state.counts = state.counts.concat([payload])
   },
-  emptyCounts (state) {
-    state.counts = []
+  emptyCount (state, agencySlug) {
+    const counts = collect(state.counts)
+    state.counts = counts.reject(count => count.agency === agencySlug).items
   }
 }
 

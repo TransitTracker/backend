@@ -2,7 +2,8 @@ const state = {
   activeAgencies: ['stm'],
   autoRefresh: false,
   defaultPath: '/',
-  configurationDone: false
+  configurationDone: false,
+  language: 'en'
 }
 
 const mutations = {
@@ -17,6 +18,9 @@ const mutations = {
   },
   setConfigurationDone (state, newSetting) {
     state.configurationDone = newSetting
+  },
+  setLanguage (state, newSetting) {
+    state.language = newSetting
   }
 }
 

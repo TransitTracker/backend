@@ -10,6 +10,10 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css" rel="stylesheet"/>
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="icon" sizes="192x192" href="/img/icon-192.png">
+        <link rel="apple-touch-icon" href="/img/icon-192.png">
+        <meta name="theme-color" content="#303633">
         <!-- Google Tag Manager -->
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

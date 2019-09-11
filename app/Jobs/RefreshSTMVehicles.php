@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Stat;
 use stdClass;
 use App\Trip;
 use Exception;
@@ -10,6 +11,7 @@ use App\Vehicle;
 use GuzzleHttp\Client;
 use App\Mail\JobFailed;
 use Illuminate\Bus\Queueable;
+use App\Events\VehiclesUpdated;
 use transit_realtime\FeedMessage;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
@@ -23,16 +25,19 @@ class RefreshSTMVehicles implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $stmApiKey;
+    protected $time;
 
     /**
      * Create a new job instance.
      *
      * @param string $stmApiKey
+     * @param int $time
      * @return void
      */
-    public function __construct(string $stmApiKey)
+    public function __construct(string $stmApiKey, int $time)
     {
         $this->stmApiKey = $stmApiKey;
+        $this->time = $time;
     }
 
     /**
@@ -91,10 +96,19 @@ class RefreshSTMVehicles implements ShouldQueue
             );
         }
 
-        // Reset cache
-        // In general, the STM is the longest feed to process
-        // Todo: find a better method of finding all agencies have been processed
+        // Send a new event to alert browser that vehicles have been refresh
+        event(new VehiclesUpdated($agency));
         ResponseCache::clear(['vehicles']);
+
+        // Add statistics
+        $stat = new Stat();
+        $stat->type = 'vehicleTotal';
+        $stat->data = (object) [
+            'count' => count($feed->getEntityList()),
+            'agency' => $agency->slug,
+            'time' => $this->time
+        ];
+        $stat->save();
     }
 
     /**

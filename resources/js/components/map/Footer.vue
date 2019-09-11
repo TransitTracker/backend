@@ -43,7 +43,7 @@
                 justify="center"
                 v-else>
             <v-col class="select">
-                Please select a vehicle to see more information
+                {{ $vuetify.lang.t('$vuetify.mapFooter.select') }}
             </v-col>
         </v-row>
     </v-footer>

@@ -4,15 +4,13 @@
       <v-col cols="12">
         <v-alert
           type="info"
-          outlined>The change you made will be in effect the next time you open this app.</v-alert>
+          outlined>{{ $vuetify.lang.t('$vuetify.settings.changeEffect') }}</v-alert>
       </v-col>
       <v-col cols="12" md="6">
         <v-card>
-          <v-card-title>Agencies</v-card-title>
+          <v-card-title>{{ $vuetify.lang.t('$vuetify.settings.agenciesTitle') }}</v-card-title>
           <v-card-text>
-            You can select as many agencies as you want.
-            <b>Please remember that the number of agencies you choose will impact the download size and the performance
-            of this application, especially on mobile devices.</b>
+            <span v-html="$vuetify.lang.t('$vuetify.settings.agenciesBody')"></span>
             <br>
             <v-list-item
               v-for="agency in agencies"
@@ -34,17 +32,11 @@
       </v-col>
       <v-col cols="12" md="6" lg="3">
         <v-card>
-          <v-card-title>Other settings</v-card-title>
+          <v-card-title>{{ $vuetify.lang.t('$vuetify.settings.otherTitle') }}</v-card-title>
           <v-card-text>
-            <v-switch v-model="autoRefresh" label="Auto refresh"></v-switch>
-            <v-alert
-              dense
-              border="left"
-              type="warning">
-              Auto refresh is coming soon!
-            </v-alert>
+            <v-switch v-model="autoRefresh" :label="$vuetify.lang.t('$vuetify.settings.otherAutoRefresh')"></v-switch>
             <v-divider></v-divider>
-            <p class="subtitle-1">Default tab on opening</p>
+            <p class="subtitle-1">{{ $vuetify.lang.t('$vuetify.settings.otherDefaultTab') }}</p>
             <v-radio-group v-model="defaultPath">
               <v-radio
                 v-for="route in routes"
@@ -53,6 +45,18 @@
                 :label="route.name">
               </v-radio>
             </v-radio-group>
+            <v-divider></v-divider>
+            <p class="subtitle-1">{{ $vuetify.lang.t('$vuetify.settings.otherLanguage') }}</p>
+            <v-radio-group v-model="language">
+              <v-radio
+                key="en"
+                value="en"
+                label="English"></v-radio>
+              <v-radio
+                key="fr"
+                value="fr"
+                label="Français"></v-radio>
+            </v-radio-group>
           </v-card-text>
         </v-card>
       </v-col>
@@ -60,17 +64,15 @@
         <v-card
           color="secondary"
           dark>
-          <v-card-title>About this application</v-card-title>
+          <v-card-title>{{ $vuetify.lang.t('$vuetify.settings.aboutTitle') }}</v-card-title>
           <v-card-text>
-            This application is made by FelixINX. Data is from the <a href="https://stm.info">Société de transport de Montréal</a>,
-            the <a href="https://stl.laval.qc.ca">Société de transport de Laval</a> trough <a href="https://nextbus.com">Nextbus</a> and
-            <a href="https://exo.quebec">exo</a>.
+            <span v-html="$vuetify.lang.t('$vuetify.settings.aboutBody')"></span>
             <br>
             <v-btn
                 color="accent"
                 class="mt-2"
                 href="https://github.com/felixinx/montreal-transit-tracker">
-              <v-icon left>mdi-github-circle</v-icon> Source code
+              <v-icon left>mdi-github-circle</v-icon> {{ $vuetify.lang.t('$vuetify.settings.aboutSource') }}
             </v-btn>
           </v-card-text>
         </v-card>
@@ -141,6 +143,15 @@ export default {
       },
       set (value) {
         this.$store.commit('settings/setDefaultPath', value)
+      }
+    },
+    language: {
+      get () {
+        return this.$store.state.settings.language
+      },
+      set (value) {
+        this.$store.commit('settings/setLanguage', value)
+        this.$vuetify.lang.current = value
       }
     }
   }

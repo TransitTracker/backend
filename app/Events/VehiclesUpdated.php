@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Agency;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -11,7 +12,7 @@ class VehiclesUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets;
 
-    public $success;
+    public $agency;
 
     /**
      * The name of the queue on which to place the event.
@@ -23,20 +24,33 @@ class VehiclesUpdated implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
-     * @param boolean $success
+     * @param Agency $agency
      */
-    public function __construct($success)
+    public function __construct($agency)
     {
-        $this->success = $success;
+        $this->agency = $agency;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return Channel|array
      */
     public function broadcastOn()
     {
-        return new Channel('vehicles');
+        return new Channel('updates');
+    }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'id' => $this->agency->id,
+            'slug' => $this->agency->slug
+        ];
     }
 }

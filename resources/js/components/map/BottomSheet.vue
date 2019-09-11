@@ -23,7 +23,8 @@
                 color="accent"
                 @click="$emit('close-sheet')"
                 class="float-right">
-                Close <v-icon>mdi-close</v-icon>
+                <span class="d-none d-md-block">{{ $vuetify.lang.t('$vuetify.mapBottomSheet.close') }}</span>
+                <v-icon>mdi-close</v-icon>
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn
@@ -32,60 +33,61 @@
                 :href="'https://cptdb.ca/wiki/index.php?title=Special%3ASearch&fulltext=Search&search=' + agency.name + '+' + vehicle.ref"
                 target="_blank"
                 class="float-right">
-                <v-icon left>mdi-open-in-new</v-icon> Search on CPTDB wiki
+                <span class="d-none d-md-block">{{ $vuetify.lang.t('$vuetify.mapBottomSheet.search') }}</span>
+                <v-icon>mdi-open-in-new</v-icon>
             </v-btn>
-            <v-subheader>More info on {{ vehicle.ref }}</v-subheader>
+            <v-subheader>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.moreInfo') }} {{ vehicle.ref }}</v-subheader>
             <v-list-item v-if="vehicle.trip.headsign">
                 <v-list-item-icon>
                     <v-icon>mdi-sign-direction</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>Headsign:</b> {{ vehicle.trip.headsign }}</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.headsign') }}</b> {{ vehicle.trip.headsign }}</v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.gtfs_trip">
                 <v-list-item-icon>
                     <v-icon>mdi-identifier</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>Trip ID:</b> {{ vehicle.gtfs_trip }}</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.tripId') }}</b> {{ vehicle.gtfs_trip }}</v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.start">
                 <v-list-item-icon>
                     <v-icon>mdi-bus-clock</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>Start time:</b> {{ vehicle.start }}</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.startTime') }}</b> {{ vehicle.start }}</v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.status">
                 <v-list-item-icon>
                     <v-icon>mdi-bus-stop</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>Status:</b> {{ vehicle.status === 1 ? 'STOPPED_AT' : 'IN_TRANSIT_TO' }}</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.status') }}</b> {{ vehicle.status === 1 ? 'STOPPED_AT' : 'IN_TRANSIT_TO' }}</v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.stop_sequence">
                 <v-list-item-icon>
                     <v-icon>mdi-timetable</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>Stop sequence:</b> {{ vehicle.stop_sequence }}</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.stopSequence') }}</b> {{ vehicle.stop_sequence }}</v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.bearing">
                 <v-list-item-icon>
                     <v-icon>mdi-compass</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>
-                    <b>Bearing:</b>
+                    <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.bearing') }}</b>
                     {{ vehicle.bearing }}&deg;
-                    <v-icon :style="{ transfrom: 'rotate(' + vehicle.bearing + 'deg)' }">mdi-navigation</v-icon>
+                    <v-icon :style="{ transform: 'rotate(' + vehicle.bearing + 'deg)' }">mdi-navigation</v-icon>
                 </v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.speed">
                 <v-list-item-icon>
                     <v-icon>mdi-speedometer</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>Speed:</b> {{ vehicle.speed }} km/h</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.speed') }}</b> {{ vehicle.speed }} km/h</v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.trip.trip_short_name">
                 <v-list-item-icon>
                     <v-icon>mdi-ticket-confirmation</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>Departure number:</b> {{ vehicle.trip.trip_short_name }}</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.departureNumber') }}</b> {{ vehicle.trip.trip_short_name }}</v-list-item-title>
             </v-list-item>
         </v-list>
     </v-bottom-sheet>
@@ -142,8 +144,6 @@ export default {
     }
   }
 }
-
-// Todo: replace v-model sheetOpen with something that emits back
 </script>
 
 <style lang="scss" scoped>

@@ -1,3 +1,5 @@
+import collect from 'collect.js/src/index.js'
+
 const state = {
   data: [],
   selection: {
@@ -12,11 +14,9 @@ const mutations = {
   setSelection (state, selectedVehicle) {
     state.selection = selectedVehicle
   },
-  emptyData (state) {
-    state.data = []
-    state.selection = {
-      id: null
-    }
+  emptyData (state, agencyId) {
+    const vehicles = collect(state.data)
+    state.data = vehicles.filter((vehicle, key) => vehicle.agency_id !== agencyId).items
   }
 }
 

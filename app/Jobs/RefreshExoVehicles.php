@@ -2,14 +2,17 @@
 
 namespace App\Jobs;
 
+use Spatie\ResponseCache\Facades\ResponseCache;
 use stdClass;
 use App\Trip;
+use App\Stat;
 use Exception;
 use App\Agency;
 use App\Vehicle;
 use GuzzleHttp\Client;
 use App\Mail\JobFailed;
 use Illuminate\Bus\Queueable;
+use App\Events\VehiclesUpdated;
 use transit_realtime\FeedMessage;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
@@ -23,18 +26,21 @@ class RefreshExoVehicles implements ShouldQueue
 
     protected $exoApiKey;
     protected $exoSectorKey;
+    protected $time;
 
     /**
      * Create a new job instance.
      *
      * @param string $exoApiKey
      * @param string $exoSectorKey
+     * @param int $time
      * @return void
      */
-    public function __construct(string $exoApiKey, string $exoSectorKey)
+    public function __construct(string $exoApiKey, string $exoSectorKey, int $time)
     {
         $this->exoApiKey = $exoApiKey;
         $this->exoSectorKey = $exoSectorKey;
+        $this->time = $time;
     }
 
     /**
@@ -91,6 +97,22 @@ class RefreshExoVehicles implements ShouldQueue
                 ]
             );
         }
+
+        // Send a new event to alert browser that vehicles have been refresh
+        if ($agency->is_active) {
+            event(new VehiclesUpdated($agency));
+            ResponseCache::clear(['vehicles']);
+        }
+
+        // Add statistics
+        $stat = new Stat();
+        $stat->type = 'vehicleTotal';
+        $stat->data = (object) [
+            'count' => count($feed->getEntityList()),
+            'agency' => $agency->slug,
+            'time' => $this->time
+        ];
+        $stat->save();
     }
 
     /**

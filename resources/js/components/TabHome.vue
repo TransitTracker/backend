@@ -3,15 +3,20 @@
         <v-row>
             <v-col cols="12">
                 <v-card color="accent">
-                    <v-card-title>Welcome to Montréal Transit Tracker</v-card-title>
-                    <v-card-text>Version 2.0.0-beta.3+003</v-card-text>
+                    <v-card-title>{{ $vuetify.lang.t('$vuetify.home.welcome') }} {{ $vuetify.lang.t('$vuetify.app.name') }}</v-card-title>
+                    <v-card-text>{{ $vuetify.lang.t('$vuetify.home.version') }} 2.0.0-beta.3+004</v-card-text>
+                    <v-card-actions>
+                        <v-btn
+                            text
+                            href="https://felixinx.github.io/mtl-gtfs-rt/">{{ $vuetify.lang.t('$vuetify.home.exitBeta') }}</v-btn>
+                    </v-card-actions>
                 </v-card>
             </v-col>
             <v-col
                 cols="12">
                 <v-card>
                     <v-card-title>
-                        {{ totalCount }} vehicles are active
+                        {{ totalCount }} {{ $vuetify.lang.t('$vuetify.home.vehicleTotal') }}
                     </v-card-title>
                     <v-card-text>
                         <v-row>
@@ -26,14 +31,20 @@
                                     <div class="text">
                                         <span class="md-body-2">{{ count.name }}</span><br>
                                         <span class="md-body-1">
-                                            {{ count.secondsAgo }} seconds ago
+                                            <span v-if="language === 'fr'">Il y a </span>
+                                            <span v-if="count.secondsAgo < 60">
+                                                {{ count.secondsAgo }} {{ $vuetify.lang.t('$vuetify.home.secondsAgo') }}
+                                            </span>
+                                            <span v-else>
+                                                {{ Math.floor(count.secondsAgo / 60) }} {{ $vuetify.lang.t('$vuetify.home.minutesAgo') }}
+                                            </span>
                                             <v-chip
                                                 v-if="count.secondsAgo > 300"
                                                 label
                                                 x-small
                                                 color="red"
                                                 class="white--text">
-                                                Outdated
+                                                {{ $vuetify.lang.t('$vuetify.home.outdated') }}
                                             </v-chip>
                                         </span>
                                     </div>
@@ -52,16 +63,8 @@
                 <v-card
                     color="primary"
                     dark>
-                    <v-card-title>What's new?</v-card-title>
-                    <v-card-text>
-                        <b>Montreal Transit Tracker version 2 introduces several new features and changes that enhance your experience.</b>
-                        <ul>
-                            <li>New interface</li>
-                            <li>More agencies</li>
-                            <li>Auto refresh</li>
-                            <li>Detailed information on vehicles</li>
-                        </ul>
-                    </v-card-text>
+                    <v-card-title>{{ $vuetify.lang.t('$vuetify.home.whatsNewTitle') }}</v-card-title>
+                    <v-card-text v-html="$vuetify.lang.t('$vuetify.home.whatsNewBody')"></v-card-text>
                 </v-card>
             </v-col>
             <v-col
@@ -70,14 +73,8 @@
                 <v-card
                     color="red"
                     dark>
-                    <v-card-title>Community</v-card-title>
-                    <v-card-text>
-                        Visit the <a href="https://cptdb.ca" class="white--text">Canadian Public Transit Discussion Board</a>
-                        to share your sightings. For more information on agencies and vehicles, visit the
-                        <a href="https://cptdb.ca/wiki/index.php/Main_Page" class="white--text">wiki</a>. To discuss
-                        about this application, visit the
-                        <a href="https://cptdb.ca/topic/19090-montreal-realtime-transit-viewer/" class="white--text">official thread</a>.
-                    </v-card-text>
+                    <v-card-title>{{ $vuetify.lang.t('$vuetify.home.communityTitle') }}</v-card-title>
+                    <v-card-text v-html="$vuetify.lang.t('$vuetify.home.communityBody')"></v-card-text>
                 </v-card>
             </v-col>
         </v-row>
@@ -86,9 +83,8 @@
 
 <script>
 import collect from 'collect.js'
-import { VContainer, VRow, VCol, VCard, VCardTitle, VCardText, VChip } from 'vuetify/lib'
+import { VContainer, VRow, VCol, VCard, VCardTitle, VCardText, VCardActions, VBtn, VChip } from 'vuetify/lib'
 
-// Todo: Add version to store
 export default {
   name: 'TabHome',
   components: {
@@ -98,6 +94,8 @@ export default {
     VCard,
     VCardTitle,
     VCardText,
+    VCardActions,
+    VBtn,
     VChip
   },
   mounted () {
@@ -113,10 +111,11 @@ export default {
       return collect(this.$store.state.agencies.data)
     },
     stateCounts () {
-      return collect(this.$store.state.agencies.counts)
+      return this.$store.state.agencies.counts
     },
     counts () {
-      const count = this.stateCounts.map(item => {
+      const stateCounts = collect(this.stateCounts)
+      const count = stateCounts.map(item => {
         const agency = this.stateAgencies.firstWhere('slug', item.agency)
 
         const count = {}
@@ -134,11 +133,23 @@ export default {
     totalCount () {
       let count = 0
 
-      this.stateCounts.each((item) => {
+      const stateCounts = collect(this.stateCounts)
+      stateCounts.each((item) => {
         count += item.count
       })
 
       return count
+    },
+    language () {
+      return this.$store.state.settings.language
+    }
+  },
+  watch: {
+    stateCounts: {
+      deep: true,
+      handler () {
+        this.$forceUpdate()
+      }
     }
   }
 }

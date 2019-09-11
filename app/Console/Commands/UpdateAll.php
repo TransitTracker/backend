@@ -44,18 +44,22 @@ class UpdateAll extends Command
         $stmApiKey = env('STM_APIKEY');
         $exoApiKey = env('EXO_APIKEY');
 
-        RefreshSTMVehicles::dispatch($stmApiKey)->onQueue('vehicles');
-        RefreshSTLVehicles::dispatch()->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'trains')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'rtl')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'citla')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'citvr')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'citlr')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'mrclasso')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'omitsju')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'citrous')->onQueue('vehicles');
-        RefreshExoVehicles::dispatch($exoApiKey, 'mrclm')->onQueue('vehicles');
+        $time = time();
 
-        event(new VehiclesUpdated(true));
+        RefreshSTMVehicles::dispatch($stmApiKey, $time)->onQueue('vehicles');
+        RefreshSTLVehicles::dispatch($time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'trains', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'rtl', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citla', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citvr', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citlr', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'mrclasso', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'omitsju', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citrous', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'mrclm', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citso', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'cithsl', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citpi', $time)->onQueue('vehicles');
+        RefreshExoVehicles::dispatch($exoApiKey, 'citsv', $time)->onQueue('vehicles');
     }
 }

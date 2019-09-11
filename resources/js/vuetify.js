@@ -5,6 +5,9 @@ import { Ripple } from 'vuetify/lib/directives'
 
 import '@mdi/font/css/materialdesignicons.css'
 
+import en from './lang/en'
+import fr from './lang/fr'
+
 Vue.use(Vuetify, {
   directives: {
     Ripple
@@ -23,5 +26,9 @@ export default new Vuetify({
   },
   icons: {
     iconfont: 'mdi'
+  },
+  lang: {
+    locales: { en, fr },
+    current: 'en'
   }
 })

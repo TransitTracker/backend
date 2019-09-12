@@ -12,7 +12,7 @@ export default {
   home: {
     welcome: 'Bienvenue dans',
     version: 'Version',
-    exitBeta: 'Quitter la version beta',
+    exitBeta: 'Quitter la version bêta',
     vehicleTotal: 'véhicules actifs',
     secondsAgo: 'secondes',
     minutesAgo: 'minutes',
@@ -21,16 +21,17 @@ export default {
     whatsNewBody: '<b>Montréal Transit Tracker version 2 introduit plusieurs nouvelles fonctionnalités et modifications pour améliorer votre expérience.</b>' +
       '<ul>' +
       '<li>Nouvelle interface</li>' +
-      '<li>Beaucoup plus d\'agence (STL, autobus d\'exo et RTL)</li>' +
+      '<li>Beaucoup plus d\'agences (STL, autobus d\'exo et RTL)</li>' +
       '<li>Actualisation automatique</li>' +
-      '<li>Informations détaillés sur les véhicules et leurs voyages</li>' +
+      '<li>Informations détaillées sur les véhicules et leurs voyages</li>' +
       '<li>Traduction en français</li>' +
       '</ul>',
     communityTitle: 'Communauté',
     communityBody: 'Visitez le <a href="https://cptdb.ca" class="white--text">Canadian Public Transit Discussion Board (en anglais)</a> ' +
+      'ou les <a href="http://metrodemontreal.com/forum/index.php" class="white--text">forums metrodemontreal.com</a> ' +
       'pour partagez vos observations. Pour plus d\'informations sur les agences et leurs véhicules, visitez le ' +
-      '<a href="https://cptdb.ca/wiki/index.php/Main_Page" class="white--text">wiki (en anglais)</a>. Pour discutez de cette application, ' +
-      'rendez-vous sur le sujet officiel <a href="https://cptdb.ca/topic/19090-montreal-realtime-transit-viewer/" class="white--text">en anglais, sur CPTDB</a> ' +
+      '<a href="https://cptdb.ca/wiki/index.php/Main_Page" class="white--text">wiki (en anglais)</a>. Pour discuter de cette application, ' +
+      'rendez-vous sur le sujet officiel <a href="https://cptdb.ca/topic/19090-montr%C3%A9al-transit-tracker/" class="white--text">en anglais, sur CPTDB</a> ' +
       'ou <a href="#" class="white--text">en français, sur les forums metrodemontreal.com</a>.'
   },
   mapFooter: {
@@ -68,9 +69,9 @@ export default {
     otherDefaultTab: 'Page par défaut lors du démarrage',
     otherLanguage: 'Langue',
     aboutTitle: 'À propos de cette application',
-    aboutBody: 'Cette application est conçue par FelixINX. Les données proviennent de la <a href="https://stm.info">Société de ' +
-      'transport de Montréal</a>, la <a href="https://stl.laval.qc.ca">Société de transport de Laval</a> via ' +
-      '<a href="https://nextbus.com">Nextbus</a> et <a href="https://exo.quebec">exo</a>.',
+    aboutBody: 'Cette application est conçue par FelixINX. Les données proviennent de la <a class="white--text" href="https://stm.info">Société de ' +
+      'transport de Montréal</a>, la <a class="white--text" href="https://stl.laval.qc.ca">Société de transport de Laval</a> via ' +
+      '<a class="white--text" href="https://nextbus.com">Nextbus</a> et <a class="white--text" href="https://exo.quebec">exo</a>.',
     aboutSource: 'Code source'
   },
   configuration: {
@@ -80,17 +81,17 @@ export default {
     settingsStep: 'Réglages',
     languageTitle: 'Bienvenue dans Montréal Transit Tracker',
     languageBody: 'Version 2.0 - Ceci est une version bêta, veuillez reporter tout bugs sur ' +
-      '<a href="https://cptdb.ca/topic/19090-montreal-realtime-transit-viewer/">CPTDB (en anglais)</a>, ' +
-      '<a href="https://cptdb.ca/topic/19090-montreal-realtime-transit-viewer/">metrodemontreal.com</a> ou ' +
+      '<a href="https://cptdb.ca/topic/19090-montr%C3%A9al-transit-tracker/">CPTDB (en anglais)</a>, ' +
+      '<a href="#">metrodemontreal.com (bientôt)</a> ou ' +
       '<a href="https://github.com/felixinx/montreal-transit-tracker/issues">GitHub</a>',
     conditionsTitle: 'Veuillez lire et accepter les conditions ci-dessous avant de continuer :',
-    conditionsBody: '<p class="body-1">Les données sur ce site sont données tellequel et ne doivent pas être utilisées comme horaire de transport en commun. L\'exactitude et la fiabilité des données ne sont pas garanties.</p>' +
-      '<p class="body-1">Montréal Transit Tracker, Société de transport de Montréal, Société de transport de Laval et exo ne sont pas responsables de l\'utilisation des données présentées sur ce site.</p>' +
+    conditionsBody: '<p class="body-1">Les données sur ce site sont données telles quelles et ne doivent pas être utilisées comme horaire de transport en commun. L\'exactitude et la fiabilité des données ne sont pas garanties.</p>' +
+      '<p class="body-1">Montréal Transit Tracker, la Société de transport de Montréal, la Société de transport de Laval et exo ne sont pas responsables de l\'utilisation des données présentées sur ce site.</p>' +
       '<p class="body-1">Les données proviennent des agences suivantes:</p>' +
       '<ul class="body-1 mb-4">' +
       '<li><a href="http://stm.info">Société de transport de Montréal (STM)</a></li>' +
       '<li><a href="https://stl.laval.qc.ca">Société de transport de Laval (STL)</a></li>' +
-      '<li><a href="https://exo.quebec">exo</a> (inculant les autobus d\'exo, les trains d\'exo et les autobus du Réseau de transport de Longueuil)</li>' +
+      '<li><a href="https://exo.quebec">exo</a> (incluant les autobus d\'exo, les trains d\'exo et les autobus du Réseau de transport de Longueuil)</li>' +
       '</ul>' +
       '<p class="body-2">Les données ci-dessus sont toutes disponibles sous la licence  <a href="https://creativecommons.org/licenses/by/4.0/deed.en">Creative Common 4.0 CC BY</a>.</p>' +
       '<p class="body-2">Google Analytics est utilisé à des fins statistiques. Durant la version bêta, lorsqu\'une erreur se produit, certaines données sont envoyées à Bugsnap pour aider à résoudre les erreurs et les bogues.</p>',

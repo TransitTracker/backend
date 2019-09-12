@@ -29,7 +29,7 @@ export default {
     communityBody: 'Visit the <a href="https://cptdb.ca" class="white--text">Canadian Public Transit Discussion Board</a> ' +
       'to share your sightings. For more information on agencies and vehicles, visit the ' +
       '<a href="https://cptdb.ca/wiki/index.php/Main_Page" class="white--text">wiki</a>. To discuss about this application, ' +
-      'visit the <a href="https://cptdb.ca/topic/19090-montreal-realtime-transit-viewer/" class="white--text">official thread</a>.'
+      'visit the <a href="https://cptdb.ca/topic/19090-montr%C3%A9al-transit-tracker/php" class="white--text">official thread</a>.'
   },
   mapFooter: {
     select: 'Please select a vehicle to see more information'
@@ -66,9 +66,9 @@ export default {
     otherDefaultTab: 'Default tab on launch',
     otherLanguage: 'Language',
     aboutTitle: 'About this application',
-    aboutBody: 'This application is made by FelixINX. Data is from the <a href="https://stm.info">Société de ' +
-      'transport de Montréal</a>, the <a href="https://stl.laval.qc.ca">Société de transport de Laval</a> trough ' +
-      '<a href="https://nextbus.com">Nextbus</a> and <a href="https://exo.quebec">exo</a>.',
+    aboutBody: 'This application is made by FelixINX. Data is from the <a class="white--text" href="https://stm.info">Société de ' +
+      'transport de Montréal</a>, the <a class="white--text" href="https://stl.laval.qc.ca">Société de transport de Laval</a> trough ' +
+      '<a class="white--text" href="https://nextbus.com">Nextbus</a> and <a class="white--text" href="https://exo.quebec">exo</a>.',
     aboutSource: 'Source code'
   },
   configuration: {
@@ -77,8 +77,8 @@ export default {
     agenciesStep: 'Agencies',
     settingsStep: 'Settings',
     languageTitle: 'Welcome to Montréal Transit Tracker',
-    languageBody: 'Version 2.0 - This is a beta version, please report any bug on' +
-      '<a href="https://cptdb.ca/topic/19090-montreal-realtime-transit-viewer/">CPTDB</a> or ' +
+    languageBody: 'Version 2.0 &mdash; This is a beta version, please report any bug on ' +
+      '<a href="https://cptdb.ca/topic/19090-montr%C3%A9al-transit-tracker/">CPTDB</a> or ' +
       '<a href="https://github.com/felixinx/montreal-transit-tracker/issues">GitHub</a>',
     conditionsTitle: 'Please read and accept the terms below before continuing:',
     conditionsBody: '<p class="body-1">The data on this website is given as is and should not be used as a public transport timetable. The accuracy and reliability of the data is not guaranteed.</p>' +

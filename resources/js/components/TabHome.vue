@@ -4,7 +4,7 @@
             <v-col cols="12">
                 <v-card color="accent">
                     <v-card-title>{{ $vuetify.lang.t('$vuetify.home.welcome') }} {{ $vuetify.lang.t('$vuetify.app.name') }}</v-card-title>
-                    <v-card-text>{{ $vuetify.lang.t('$vuetify.home.version') }} 2.0.0-beta.3+004</v-card-text>
+                    <v-card-text>{{ $vuetify.lang.t('$vuetify.home.version') }} 2.0.0-beta.3+005 (public beta)</v-card-text>
                     <v-card-actions>
                         <v-btn
                             text

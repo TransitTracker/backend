@@ -11,7 +11,16 @@ class Agency extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'gtfs_id', 'slug'];
+    protected $fillable = ['name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type', 'realtime_options', 'color', 'text_color', 'vehicles_type'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'tags' => 'array'
+    ];
 
     /**
      * Get all vehicles from this agency
@@ -38,6 +47,14 @@ class Agency extends Model
     }
 
     /**
+     * Get all routes from this agency
+     */
+    public function services()
+    {
+        return $this->hasMany('App\Service');
+    }
+
+    /**
      * Get the route key for the model.
      *
      * @return string
@@ -48,11 +65,73 @@ class Agency extends Model
     }
 
     /**
-     * The attributes that should be cast to native types.
+     * Get the realtime method
      *
-     * @var array
+     * @return string
      */
-    protected $casts = [
-        'tags' => 'object'
-    ];
+    public function getRealtimeMethodAttribute()
+    {
+        if ($this->realtime_options) {
+            return json_decode($this->realtime_options)->method;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get the realtime options header key
+     *
+     * @return string
+     */
+    public function getHeaderNameAttribute()
+    {
+        if ($this->realtime_options) {
+            return key(json_decode($this->realtime_options)->header);
+        } else {
+            return null;
+        }
+
+    }
+
+    /**
+     * Get the realtime options header key
+     *
+     * @return string
+     */
+    public function getHeaderValueAttribute()
+    {
+        if ($this->realtime_options) {
+            return current(json_decode($this->realtime_options)->header);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get the realtime options header key
+     *
+     * @return string
+     */
+    public function getParamNameAttribute()
+    {
+        if ($this->realtime_options) {
+            return key(json_decode($this->realtime_options)->param);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get the realtime options header key
+     *
+     * @return string
+     */
+    public function getParamValueAttribute()
+    {
+        if ($this->realtime_options) {
+            return current(json_decode($this->realtime_options)->param);
+        } else {
+            return null;
+        }
+    }
 }

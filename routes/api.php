@@ -3,12 +3,9 @@
 use App\Alert;
 use App\Agency;
 use App\Vehicle;
-use App\Http\Resources\AlertCollection;
-use App\Http\Resources\VehicleResource;
+use App\Http\Resources\AlertResource;
 use App\Http\Resources\AgencyCollection;
 use App\Http\Resources\VehiclesCollection;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,12 +27,20 @@ Route::get('/vehicles/{agency}', function (Agency $agency) {
                 'timestamp' => $agency->timestamp
             ]);
     } else {
-        return response()->json(['message' => 'Agency is inactive.'], 403);
+        return response()->json(['message' => 'AGENCY_INACTIVE'], 403);
     }
 })->middleware('cacheResponse:300,vehicles');
 
-Route::get('/alerts', function () {
-    return new AlertCollection(Alert::where('expiration', '>', Carbon::today()->toDateTimeString())->get());
+Route::get('/alert', function () {
+    $alert = Alert::where('is_active', 1)->first();
+
+    if ($alert) {
+        return new AlertResource($alert);
+    } else {
+        return response()->json(['message' => 'NO_ACTIVE_ALERT'], 200);
+    }
+    // Todo: fix tag cache
+//})->middleware('cacheResponse:10000,alerts');
 });
 
 Route::get('/agencies', function () {
@@ -43,5 +48,5 @@ Route::get('/agencies', function () {
 })->middleware('cacheResponse:10080,agencies');
 
 Route::fallback(function () {
-    return response()->json(['message' => 'Not found.'], 404);
+    return response()->json(['message' => 'API_ENDPOINT_NOT_FOUND'], 404);
 });

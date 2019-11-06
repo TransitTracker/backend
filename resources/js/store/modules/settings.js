@@ -3,7 +3,8 @@ const state = {
   autoRefresh: false,
   defaultPath: '/',
   configurationDone: false,
-  language: 'en'
+  language: 'en',
+  alertRead: 0
 }
 
 const mutations = {
@@ -21,6 +22,9 @@ const mutations = {
   },
   setLanguage (state, newSetting) {
     state.language = newSetting
+  },
+  setAlertRead (state, newSetting) {
+    state.alertRead = newSetting
   }
 }
 

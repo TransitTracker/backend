@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import agencies from './modules/agencies'
+import alert from './modules/alert'
 import vehicles from './modules/vehicles'
 import settings from './modules/settings'
 import VuexPersistence from 'vuex-persist'
@@ -15,6 +16,7 @@ const vuexlocal = new VuexPersistence({
 export default new Vuex.Store({
   modules: {
     agencies,
+    alert,
     vehicles,
     settings
   },

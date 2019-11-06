@@ -38,6 +38,6 @@ class UpdateSTMVehicles extends Command
      */
     public function handle()
     {
-        RefreshSTMVehicles::dispatch(env('STM_APIKEY'))->onQueue('vehicles');
+        RefreshSTMVehicles::dispatch(env('STM_APIKEY'), time())->onQueue('vehicles');
     }
 }

@@ -17,4 +17,7 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 
-Route::get('/admin', 'AdminController@index')->name('admin');
+Route::get('/admin', 'AdminController@index');
+Route::resource('admin/agencies', 'Admin\AgencyController')->middleware('auth');
+Route::resource('admin/alerts', 'Admin\AlertController')->middleware('auth');
+Route::post('admin/alerts/{alert}/active', 'Admin\AlertController@active')->middleware('auth');

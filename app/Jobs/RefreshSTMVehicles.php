@@ -97,8 +97,8 @@ class RefreshSTMVehicles implements ShouldQueue
         }
 
         // Send a new event to alert browser that vehicles have been refresh
-        event(new VehiclesUpdated($agency));
         ResponseCache::clear(['vehicles']);
+        event(new VehiclesUpdated($agency));
 
         // Add statistics
         $stat = new Stat();

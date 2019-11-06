@@ -38,6 +38,6 @@ class UpdateExoVehicles extends Command
      */
     public function handle()
     {
-        RefreshExoVehicles::dispatch(env('EXO_APIKEY'), $this->argument('sectorkey'))->onQueue('vehicles');
+        RefreshExoVehicles::dispatch(env('EXO_APIKEY'), $this->argument('sectorkey'), time())->onQueue('vehicles');
     }
 }

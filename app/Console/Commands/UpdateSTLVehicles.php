@@ -38,6 +38,6 @@ class UpdateSTLVehicles extends Command
      */
     public function handle()
     {
-        RefreshSTLVehicles::dispatch()->onQueue('vehicles');
+        RefreshSTLVehicles::dispatch(time())->onQueue('vehicles');
     }
 }

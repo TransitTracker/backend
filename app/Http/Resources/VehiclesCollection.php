@@ -17,7 +17,8 @@ class VehiclesCollection extends ResourceCollection
     {
         return [
             'data' => VehicleResource::collection($this->collection),
-            'count' => $this->collection->count()
+            'count' => $this->collection->count(),
+            'message' => 'OK'
         ];
     }
 }

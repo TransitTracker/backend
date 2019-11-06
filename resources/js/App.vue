@@ -22,6 +22,13 @@
 
             </v-app-bar>
 
+            <alert-banner
+                v-on:show-dialog="changeAlertDialogVisibility(true)"></alert-banner>
+            <alert-dialog
+                :dialog-visible="alertDialogVisible"
+                v-on:alert-has-been-read="alertBannerVisible = false"
+                v-on:hide-dialog="changeAlertDialogVisibility(false)"></alert-dialog>
+
             <v-content>
                 <dialog-configuration
                     v-if="!settings.configurationDone"
@@ -52,6 +59,8 @@
 <script>
 import { VApp, VAppBar, VToolbarTitle, VSpacer, VTabs, VTab, VContent, VProgressLinear, VSnackbar, VBtn } from 'vuetify/lib'
 import axios from 'axios/index'
+import AlertBanner from './components/AlertBanner'
+import AlertDialog from './components/AlertDialog'
 import DialogConfiguration from './components/DialogConfiguration'
 import collect from 'collect.js/src/index.js'
 import Echo from 'laravel-echo'
@@ -74,14 +83,17 @@ export default {
     VProgressLinear,
     VSnackbar,
     VBtn,
-    DialogConfiguration
+    DialogConfiguration,
+    AlertBanner,
+    AlertDialog
   },
   data: () => ({
     menuVisible: false,
     appReady: false,
     oldAgenciesSnackbarVisible: false,
     oldAgenciesSnackbarTimeout: 10000,
-    echo: null
+    echo: null,
+    alertDialogVisible: false
   }),
   mounted () {
     // Load data if configuration is done
@@ -151,6 +163,20 @@ export default {
           })
       })
       this.appReady = true
+
+      // Load alert
+      axios
+        .get('/alert')
+        .then(response => {
+          this.$store.commit('alert/setData', response.data.data)
+          if (!response.data.data.can_be_closed) {
+            this.$store.commit('alert/setVisibility', true)
+          } else {
+            if (response.data.data.id !== this.settings.alertRead) {
+              this.$store.commit('alert/setVisibility', true)
+            }
+          }
+        })
     },
     loadVehicles (timestamp, response, agency) {
       // Calculate time difference and set data
@@ -193,6 +219,10 @@ export default {
               })
           }
         })
+    },
+    changeAlertDialogVisibility (newState) {
+      this.alertDialogVisible = false
+      newState ? this.alertDialogVisible = true : this.alertDialogVisible = false
     }
   }
 }

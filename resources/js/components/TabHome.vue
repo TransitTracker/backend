@@ -31,7 +31,7 @@
                                     <div class="text">
                                         <span class="md-body-2">{{ count.name }}</span><br>
                                         <span class="md-body-1">
-                                            <span v-if="language === 'fr'">Il y a </span>
+                                            <span v-if="!isEnglish">Il y a </span>
                                             <span v-if="count.secondsAgo < 60">
                                                 {{ count.secondsAgo }} {{ $vuetify.lang.t('$vuetify.home.secondsAgo') }}
                                             </span>
@@ -77,13 +77,29 @@
                     <v-card-text v-html="$vuetify.lang.t('$vuetify.home.communityBody')"></v-card-text>
                 </v-card>
             </v-col>
+            <v-col
+                cols="12"
+                md="6"
+                v-if="alertShow">
+                <v-card
+                    :color="stateAlert.data.color"
+                    :dark="alertIsDark">
+                    <v-card-title>
+                        <v-icon large left>{{ stateAlert.data.icon }}</v-icon>
+                        <span v-if="isEnglish">{{ stateAlert.data.title_en }}</span>
+                        <span v-else>{{ stateAlert.data.title_fr }}</span>
+                    </v-card-title>
+                    <v-card-text v-if="isEnglish" v-html="stateAlert.data.body_en"></v-card-text>
+                    <v-card-text v-else v-html="stateAlert.data.body_fr"></v-card-text>
+                </v-card>
+            </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script>
 import collect from 'collect.js'
-import { VContainer, VRow, VCol, VCard, VCardTitle, VCardText, VCardActions, VBtn, VChip } from 'vuetify/lib'
+import { VContainer, VRow, VCol, VCard, VCardTitle, VCardText, VCardActions, VBtn, VChip, VIcon } from 'vuetify/lib'
 
 export default {
   name: 'TabHome',
@@ -96,19 +112,15 @@ export default {
     VCardText,
     VCardActions,
     VBtn,
-    VChip
-  },
-  mounted () {
-    this.$root.$on('vehiclesUpdated', () => {
-
-    })
+    VChip,
+    VIcon
   },
   computed: {
-    appVersion () {
-      return this.$store.state.settings.version
-    },
     stateAgencies () {
       return collect(this.$store.state.agencies.data)
+    },
+    stateAlert () {
+      return this.$store.state.alert
     },
     stateCounts () {
       return this.$store.state.agencies.counts
@@ -140,8 +152,14 @@ export default {
 
       return count
     },
-    language () {
-      return this.$store.state.settings.language
+    isEnglish () {
+      return this.$store.state.settings.language === 'EN' ? true : false
+    },
+    alertIsDark () {
+      return this.stateAlert.data.color === 'secondary'
+    },
+    alertShow () {
+      return this.stateAlert.data.id !== null && this.stateAgencies.isVisble
     }
   },
   watch: {

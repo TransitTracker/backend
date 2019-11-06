@@ -2,6 +2,10 @@
 
 namespace App\Console\Commands;
 
+use DrSlump\Protobuf\Compiler\Cli;
+use GuzzleHttp\Pool;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Console\Command;
 use App\Events\VehiclesUpdated;
 use App\Jobs\RefreshSTLVehicles;
@@ -41,9 +45,11 @@ class UpdateAll extends Command
      */
     public function handle()
     {
-        $stmApiKey = env('STM_APIKEY');
+        // Get api keys
+        $stmApiKey = ['apiKey' => env('STM_APIKEY')];
         $exoApiKey = env('EXO_APIKEY');
 
+        // Get time
         $time = time();
 
         RefreshSTMVehicles::dispatch($stmApiKey, $time)->onQueue('vehicles');

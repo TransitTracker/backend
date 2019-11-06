@@ -23,4 +23,12 @@ class Trip extends Model
     {
         return $this->hasMany('App\Vehicle');
     }
+
+    /**
+     * Get the service for this trip
+     */
+    public function service()
+    {
+        return $this->belongsTo('App\Service');
+    }
 }

@@ -16,8 +16,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#00aeef',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'STM',
-            'slug' => 'stm'
+            'slug' => 'stm',
+            'is_active' => true,
+            'static_gtfs_url' => 'http://www.stm.info/sites/default/files/gtfs/gtfs_stm.zip',
+            'realtime_url' => 'https://api.stm.info/pub/od/gtfs-rt/ic/v1/vehiclePositions',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"": null}, "header": {"apikey": ""}, "method": "POST"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -25,8 +29,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#000000',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'train',
-            'gtfs_id' => 'TRAINS',
-            'slug' => 'trains'
+            'slug' => 'trains',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/trains/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -34,8 +42,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#84c444',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'STL',
-            'slug' => 'stl'
+            'slug' => 'stl',
+            'is_active' => true,
+            'static_gtfs_url' => 'http://www.stl.laval.qc.ca/opendata/GTF_STL.zip',
+            'realtime_url' => 'http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=stl&t=0',
+            'realtime_type' => 'nextbus',
+            'realtime_options' => '{"param": {"": null}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -43,8 +55,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#a80532',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'RTL',
-            'slug' => 'rtl'
+            'slug' => 'rtl',
+            'is_active' => true,
+            'static_gtfs_url' => 'http://www.rtl-longueuil.qc.ca/transit/latestfeed/RTL.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=rtl',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -52,8 +68,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#00A586',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'CITLA',
-            'slug' => 'la'
+            'slug' => 'la',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/citla/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=citla',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -61,8 +81,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#1F96A4',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'CITVR',
-            'slug' => 'vr'
+            'slug' => 'vr',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/citvr/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=citvr',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -70,8 +94,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#7C5D81',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'CITLR',
-            'slug' => 'lr'
+            'slug' => 'lr',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/citlr/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=citlr',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -79,8 +107,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#0071BA',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'MRCLASSO',
-            'slug' => 'lasso'
+            'slug' => 'lasso',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/mrclasso/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=mrclasso',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -88,8 +120,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#F7A389',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'OMITSJU',
-            'slug' => 'sju'
+            'slug' => 'sju',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/omitsju/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=omitsju',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -97,8 +133,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#B94065',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'CITSO',
-            'slug' => 'so'
+            'slug' => 'so',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/citso/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=citso',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -106,8 +146,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#DBE9D0',
             'text_color' => '#000000',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'CITHSL',
-            'slug' => 'hsl'
+            'slug' => 'hsl',
+            'is_active' => false,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/cithsl/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=cithsl',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -115,8 +159,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#FCEFC5',
             'text_color' => '#000000',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'CITPI',
-            'slug' => 'pi'
+            'slug' => 'pi',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/citpi/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=citpi',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -124,8 +172,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#CEDFE4',
             'text_color' => '#000000',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'CITROUS',
-            'slug' => 'rous'
+            'slug' => 'rous',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/citrous/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=citrous',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -133,8 +185,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#EFDCCE',
             'text_color' => '#000000',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'CITSV',
-            'slug' => 'sv'
+            'slug' => 'sv',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/citsv/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=citsv',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -142,8 +198,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#9ED1C6',
             'text_color' => '#000000',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'MRCLM',
-            'slug' => 'tm'
+            'slug' => 'tm',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/mrclm/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=mrclm',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
 
         DB::table('agencies')->insert([
@@ -151,8 +211,12 @@ class AgenciesTableSeeder extends Seeder
             'color' => '#F1776A',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'bus',
-            'gtfs_id' => 'CITCRC',
-            'slug' => 'crc'
+            'slug' => 'crc',
+            'is_active' => true,
+            'static_gtfs_url' => 'https://exo.quebec/xdata/citcrc/google_transit.zip',
+            'realtime_url' => 'http://opendata.rtm.quebec:2539/ServiceGTFSR/VehiclePosition.pb?agency=citcrc',
+            'realtime_type' => 'gtfsrt',
+            'realtime_options' => '{"param": {"token": ""}, "header": {"": null}, "method": "GET"}'
         ]);
     }
 }

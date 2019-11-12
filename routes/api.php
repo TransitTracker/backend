@@ -40,8 +40,7 @@ Route::get('/alert', function () {
         return response()->json(['message' => 'NO_ACTIVE_ALERT'], 200);
     }
     // Todo: fix tag cache
-//})->middleware('cacheResponse:10000,alerts');
-});
+})->middleware('cacheResponse:10000,alert');
 
 Route::get('/agencies', function () {
     return new AgencyCollection(Agency::where('is_active', true)->select(['id', 'name', 'color', 'text_color', 'vehicles_type', 'slug', 'is_active'])->get());

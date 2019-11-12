@@ -1,9 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-    @php
-       dd(env('CACHE_DRIVER'))
-    @endphp
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">

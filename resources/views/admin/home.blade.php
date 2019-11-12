@@ -24,7 +24,7 @@
                 </div>
                 <div class="mt-2">
                     <a href="/admin/agencies" class="btn btn-success"><i class="fas fa-warehouse"></i> Manage agencies</a>
-                    <a href="/admin/refresh-now" class="btn btn-info"><i class="fas fa-sync"></i> Refresh all agencies now</a>
+                    <a href="/admin/refresh-agencies" class="btn btn-info"><i class="fas fa-sync"></i> Refresh all agencies now</a>
                 </div>
                 <div class="mt-2">
                     <a href="/admin/alerts" class="btn btn-success"><i class="fas fa-exclamation-triangle"></i> Manage alerts</a>

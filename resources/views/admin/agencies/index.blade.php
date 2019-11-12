@@ -26,7 +26,7 @@
                     <th>Name</th>
                     <th>Vehicles type</th>
                     <th>Realtime type</th>
-                    <th colspan="2"></th>
+                    <th colspan="4"></th>
                 </tr>
             </thead>
             <tbody>
@@ -41,13 +41,41 @@
                     <td>{{ ucfirst(trans($agency->vehicles_type)) }}</td>
                     <td>{{ $agency->realtime_type }}</td>
                     <td class="actions">
-                        <a href="{{ route('agencies.edit', $agency->slug) }}" class="btn btn-dark btn-sm"><i class="fas fa-edit"></i> Edit</a>
+                        <div class="dropdown">
+                            <a href="#" class="btn btn-success btn-sm dropdown-toggle" role="button" id="dropdownGtfsAction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-database"></i> GTFS Actions
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownGtfsAction">
+                                <form action="/admin/agencies/{{ $agency->slug }}/gtfsCleanAndUpdate/" method="post">
+                                    @csrf
+                                    <button class="dropdown-item" type="submit"><i class="fas fa-sync"></i> Clean and update</button>
+                                </form>
+                                <form action="/admin/agencies/{{ $agency->slug }}/gtfsDelete/" method="post">
+                                    @csrf
+                                    <button class="dropdown-item" type="submit"><i class="fas fa-trash"></i> Delete all data</button>
+                                </form>
+                                <form action="/admin/agencies/{{ $agency->slug }}/gtfsClean/" method="post">
+                                    @csrf
+                                    <button class="dropdown-item" type="submit"><i class="fas fa-calendar-times"></i> Clean</button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="actions">
+                        <form action="/admin/agencies/{{ $agency->slug }}/refresh" method="post">
+                            @csrf
+                            <button class="btn btn-primary btn-sm" type="submit"><i class="fas fa-sync"></i></button>
+                        </form>
+                    </td>
+                    <td class="actions">
+                        <a href="{{ route('agencies.edit', $agency->slug) }}" class="btn btn-dark btn-sm"><i class="fas fa-edit"></i></a>
                     </td>
                     <td class="actions">
                         <form action="{{ route('agencies.destroy', $agency->slug) }}" method="post">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash-alt"></i> Delete</button>
+                            <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash-alt"></i></button>
                         </form>
                     </td>
                 </tr>

@@ -32,49 +32,49 @@
 </template>
 
 <script>
-  import {VDialog, VCard, VCardTitle, VCardText, VDivider, VCardActions, VBtn, VIcon, VSpacer} from 'vuetify/lib'
+import { VDialog, VCard, VCardTitle, VCardText, VDivider, VCardActions, VBtn, VIcon, VSpacer } from 'vuetify/lib'
 
-  export default {
-    name: 'AlertDialog',
-    components: {
-      VDialog,
-      VCard,
-      VCardTitle,
-      VCardText,
-      VDivider,
-      VCardActions,
-      VBtn,
-      VIcon,
-      VSpacer
+export default {
+  name: 'AlertDialog',
+  components: {
+    VDialog,
+    VCard,
+    VCardTitle,
+    VCardText,
+    VDivider,
+    VCardActions,
+    VBtn,
+    VIcon,
+    VSpacer
+  },
+  props: ['dialogVisible'],
+  computed: {
+    stateAlert () {
+      return this.$store.state.alert
     },
-    props: ['dialogVisible'],
-    computed: {
-      stateAlert () {
-        return this.$store.state.alert
-      },
-      isEnglish () {
-        return this.$vuetify.lang.current === 'en'
-      },
-      dialogToggle: {
-        get () {
-          return this.dialogVisible
-        },
-        set () {
-          this.$emit('hide-dialog')
-        }
-      },
-      isDark () {
-        return this.stateAlert.data.color === 'secondary'
-      }
+    isEnglish () {
+      return this.$vuetify.lang.current === 'en'
     },
-    methods: {
-      markAlertAsRead () {
-        this.$store.commit('settings/setAlertRead', this.stateAlert.data.id)
-        this.$store.commit('alert/setVisibility', false)
+    dialogToggle: {
+      get () {
+        return this.dialogVisible
+      },
+      set () {
         this.$emit('hide-dialog')
       }
+    },
+    isDark () {
+      return this.stateAlert.data.color === 'secondary'
+    }
+  },
+  methods: {
+    markAlertAsRead () {
+      this.$store.commit('settings/setAlertRead', this.stateAlert.data.id)
+      this.$store.commit('alert/setVisibility', false)
+      this.$emit('hide-dialog')
     }
   }
+}
 </script>
 
 <style scoped>

@@ -16,7 +16,7 @@ const mutations = {
   setData (state, newAlert) {
     state.data = newAlert
   },
-  setVisibility(state, newSetting) {
+  setVisibility (state, newSetting) {
     state.isVisible = newSetting
   }
 }

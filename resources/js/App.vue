@@ -23,8 +23,10 @@
             </v-app-bar>
 
             <alert-banner
+                v-if="alertIsVisible"
                 v-on:show-dialog="changeAlertDialogVisibility(true)"></alert-banner>
             <alert-dialog
+                v-if="alertIsVisible"
                 :dialog-visible="alertDialogVisible"
                 v-on:alert-has-been-read="alertBannerVisible = false"
                 v-on:hide-dialog="changeAlertDialogVisibility(false)"></alert-dialog>
@@ -33,12 +35,9 @@
                 <dialog-configuration
                     v-if="!settings.configurationDone"
                     v-on:configurationDone="setConfigurationAsDone"></dialog-configuration>
-                <v-progress-linear
-                    :value="0"
-                    color="accent"
-                    v-if="!appReady"
-                    indeterminate></v-progress-linear>
-                <router-view v-if="appReady && settings.configurationDone"></router-view>
+                <router-view
+                    :vehicles-pending-request="vehiclesRequestPending"
+                    v-if="settings.configurationDone"></router-view>
                 <v-snackbar
                     v-model="oldAgenciesSnackbarVisible"
                     :timeout="oldAgenciesSnackbarTimeout">
@@ -57,7 +56,7 @@
 </template>
 
 <script>
-import { VApp, VAppBar, VToolbarTitle, VSpacer, VTabs, VTab, VContent, VProgressLinear, VSnackbar, VBtn } from 'vuetify/lib'
+import { VApp, VAppBar, VToolbarTitle, VSpacer, VTabs, VTab, VContent, VSnackbar, VBtn } from 'vuetify/lib'
 import axios from 'axios/index'
 import AlertBanner from './components/AlertBanner'
 import AlertDialog from './components/AlertDialog'
@@ -80,7 +79,6 @@ export default {
     VTabs,
     VTab,
     VContent,
-    VProgressLinear,
     VSnackbar,
     VBtn,
     DialogConfiguration,
@@ -93,9 +91,24 @@ export default {
     oldAgenciesSnackbarVisible: false,
     oldAgenciesSnackbarTimeout: 10000,
     echo: null,
-    alertDialogVisible: false
+    alertDialogVisible: false,
+    vehiclesRequestPending: 0
   }),
   mounted () {
+    // Add axios interceptors
+    axios.interceptors.request.use(config => {
+      this.vehiclesRequestPending++
+      return config
+    }, error => {
+      return Promise.reject(error)
+    })
+    axios.interceptors.response.use(config => {
+      this.vehiclesRequestPending--
+      return config
+    }, error => {
+      return Promise.reject(error)
+    })
+
     // Load data if configuration is done
     if (this.settings.configurationDone) {
       this.loadData()
@@ -110,7 +123,7 @@ export default {
       if (!this.echo) {
         this.echo = new Echo({
           broadcaster: 'pusher',
-          key: '6e6f7e34817efcde182a',
+          key: process.env.MIX_PUSHER_APP_KEY,
           cluster: 'us2',
           forceTLS: true
         })
@@ -129,6 +142,9 @@ export default {
       set (newAgencies) {
         this.$store.commit('agencies/setData', newAgencies)
       }
+    },
+    alertIsVisible () {
+      return this.$store.state.alert.isVisible
     }
   },
   methods: {
@@ -168,12 +184,14 @@ export default {
       axios
         .get('/alert')
         .then(response => {
-          this.$store.commit('alert/setData', response.data.data)
-          if (!response.data.data.can_be_closed) {
-            this.$store.commit('alert/setVisibility', true)
-          } else {
-            if (response.data.data.id !== this.settings.alertRead) {
+          if (response.data.message === 'OK') {
+            this.$store.commit('alert/setData', response.data.data)
+            if (!response.data.data.can_be_closed) {
               this.$store.commit('alert/setVisibility', true)
+            } else {
+              if (response.data.data.id !== this.settings.alertRead) {
+                this.$store.commit('alert/setVisibility', true)
+              }
             }
           }
         })

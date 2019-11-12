@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Agency;
+use App\Jobs\RefreshForNextbus;
 use GuzzleHttp\Client;
 use App\Jobs\RefreshForGTFS;
 use Illuminate\Console\Command;
@@ -15,7 +16,7 @@ class QueueActiveAgencies extends Command
      *
      * @var string
      */
-    protected $signature = 'vehicles:queue';
+    protected $signature = 'agency:refresh-actives';
 
     /**
      * The console command description.
@@ -65,12 +66,11 @@ class QueueActiveAgencies extends Command
 
                 // Add query parameters to options (if one)
                 if ($agency->param_name) {
-                    $paramArray = ['query' => [
+                    $headerQuery = [
                         $agency->param_name => $agency->param_value
-                    ]];
-                    array_push($requestOptions, $paramArray);
+                    ];
+                    $requestOptions['query'] = $headerQuery;
                 }
-
 
                 $response = $client->request($agency->realtime_method, $agency->realtime_url, $requestOptions);
 
@@ -84,9 +84,17 @@ class QueueActiveAgencies extends Command
                 if ($agency->realtime_type === 'gtfsrt') {
                     RefreshForGTFS::dispatch($agency, $fileName, $time)->onQueue('vehicles');
                 }
+
+                if ($agency->realtime_type === 'nextbus') {
+                    RefreshForNextbus::dispatch($agency, $fileName, $time)->onQueue('vehicles');
+                }
             } catch (\Exception $e) {
                 report($e);
             }
         }
+
+        $client = null;
     }
+
+    // Todo: send email if fails
 }

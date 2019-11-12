@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Agency;
 use App\Http\Controllers\Controller;
+use App\Jobs\DownloadGTFS;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Artisan;
 
 class AgencyController extends Controller
 {
@@ -155,5 +158,54 @@ class AgencyController extends Controller
         $agency->delete();
 
         return redirect('/admin/agencies')->with('success', 'Agency deleted!');
+    }
+
+    /**
+     * Refresh the vehicles for the specified agency
+     *
+     * @param Agency $agency
+     * @return Response
+     */
+    public function refresh(Agency $agency)
+    {
+        Artisan::call('agency:refresh', [
+            'agency' => $agency->slug
+        ]);
+
+        return redirect('/admin/agencies')->with('success', 'Vehicles will be refresh soon!');
+    }
+
+    /**
+     * Clean and update the GTFS data for the specified agency
+     *
+     * @param Agency $agency
+     * @return Response
+     */
+    public function gtfsCleanAndUpdate(Agency $agency)
+    {
+        DownloadGTFS::dispatch($agency)->onQueue('gtfs');
+        return redirect('/admin/agencies')->with('success', 'Work is scheduled');
+    }
+
+    /**
+     * Delete the GTFS data for the specified agency
+     *
+     * @param Agency $agency
+     * @return Response
+     */
+    public function gtfsDelete(Agency $agency)
+    {
+        return redirect('/admin/agencies')->with('success', 'Work is scheduled');
+    }
+
+    /**
+     * Clean the GTFS data for the specified agency
+     *
+     * @param Agency $agency
+     * @return Response
+     */
+    public function gtfsClean(Agency $agency)
+    {
+        return redirect('/admin/agencies')->with('success', 'Work is scheduled');
     }
 }

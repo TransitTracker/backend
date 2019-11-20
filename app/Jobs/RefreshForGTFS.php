@@ -67,6 +67,8 @@ class RefreshForGTFS implements ShouldQueue
              * Check if trip is in database
              */
             $trip = Trip::where([['agency_id', '=', $this->agency->id], ['trip_id', '=', $entity->getVehicle()->getTrip()->getTripId()]])
+                ->remember(60 * 60 * 24)
+                ->cacheTags('trip_queries')
                 ->select('id')
                 ->first();
 

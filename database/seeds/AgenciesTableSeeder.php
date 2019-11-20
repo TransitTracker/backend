@@ -14,7 +14,7 @@ class AgenciesTableSeeder extends Seeder
         DB::table('agencies')->insert([
             'name' => 'Société de transport de Montréal',
             'color' => '#00aeef',
-            'text_color' => '#FFFFFF',
+            'text_color' => '#000000',
             'vehicles_type' => 'bus',
             'slug' => 'stm',
             'is_active' => true,
@@ -40,7 +40,7 @@ class AgenciesTableSeeder extends Seeder
         DB::table('agencies')->insert([
             'name' => 'Société de transport de Laval',
             'color' => '#84c444',
-            'text_color' => '#FFFFFF',
+            'text_color' => '#000000',
             'vehicles_type' => 'bus',
             'slug' => 'stl',
             'is_active' => true,
@@ -66,7 +66,7 @@ class AgenciesTableSeeder extends Seeder
         DB::table('agencies')->insert([
             'name' => 'exo Laurentides',
             'color' => '#00A586',
-            'text_color' => '#FFFFFF',
+            'text_color' => '#000000',
             'vehicles_type' => 'bus',
             'slug' => 'la',
             'is_active' => true,
@@ -79,7 +79,7 @@ class AgenciesTableSeeder extends Seeder
         DB::table('agencies')->insert([
             'name' => 'exo Vallée-du-Richelieu',
             'color' => '#1F96A4',
-            'text_color' => '#FFFFFF',
+            'text_color' => '#000000',
             'vehicles_type' => 'bus',
             'slug' => 'vr',
             'is_active' => true,
@@ -118,7 +118,7 @@ class AgenciesTableSeeder extends Seeder
         DB::table('agencies')->insert([
             'name' => 'exo Sainte-Julie',
             'color' => '#F7A389',
-            'text_color' => '#FFFFFF',
+            'text_color' => '#000000',
             'vehicles_type' => 'bus',
             'slug' => 'sju',
             'is_active' => true,

@@ -61,6 +61,8 @@ class AlertController extends Controller
         ]);
         $alert->save();
 
+        ResponseCache::clear(['alerts']);
+
         return redirect('/admin/alerts')->with('success', 'Alert created!');
     }
 
@@ -114,6 +116,8 @@ class AlertController extends Controller
             'color' => $request->get('color'),
             'icon' => $request->get('icon')
         ]);
+
+        ResponseCache::clear(['alerts']);
 
         return redirect('/admin/alerts')->with('success', 'Alert saved!');
     }

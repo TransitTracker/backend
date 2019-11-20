@@ -29,6 +29,5 @@ Route::post('admin/agencies/{agency}/gtfsDelete', 'Admin\AgencyController@gtfsDe
 Route::post('admin/agencies/{agency}/gtfsClean', 'Admin\AgencyController@gtfsClean')->middleware('auth');
 Route::get('admin/refresh-agencies', function () {
     Artisan::call('agency:refresh-actives');
-
     return redirect('/admin');
 })->middleware('auth');

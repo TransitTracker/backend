@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Watson\Rememberable\Rememberable;
 use Illuminate\Database\Eloquent\Model;
 
 class Trip extends Model
 {
+    use Rememberable;
+
     protected $fillable = ['agency_id', 'trip_id', 'trip_headsign', 'trip_short_name', 'route_color', 'route_text_color', 'route_short_name', 'route_long_name', 'service_id'];
 
     /**

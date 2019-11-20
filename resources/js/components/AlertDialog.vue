@@ -20,12 +20,12 @@
                     @click="markAlertAsRead"
                     v-if="stateAlert.data.can_be_closed">
                         <v-icon left>mdi-check</v-icon>
-                        Mark as read
+                        {{ $vuetify.lang.t('$vuetify.alert.markAsRead') }}
                 </v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
                     color="secondary"
-                    @click="$emit('hide-dialog')">Close</v-btn>
+                    @click="$emit('hide-dialog')">{{ $vuetify.lang.t('$vuetify.alert.close') }}</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

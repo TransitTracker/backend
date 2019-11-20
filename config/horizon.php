@@ -125,7 +125,7 @@ return [
     |
     */
 
-    'memory_limit' => 64,
+    'memory_limit' => 256,
 
     /*
     |--------------------------------------------------------------------------
@@ -140,22 +140,30 @@ return [
 
     'environments' => [
         'production' => [
-            'supervisor-1' => [
+            'supervisor-main' => [
                 'connection' => 'redis',
-                'queue' => ['vehicles', 'gtfs', 'notifications'],
+                'queue' => ['vehicles', 'notifications'],
                 'balance' => 'simple',
-                'processes' => 10,
+                'processes' => 5,
                 'tries' => 1,
             ],
+            'supervisor-gtfs' => [
+                'connection' => 'redis',
+                'queue' => ['gtfs'],
+                'processes' => 2,
+                'tries' => 1,
+                'timeout' => 600
+            ]
         ],
 
         'local' => [
-            'supervisor-1' => [
+            'supervisor-main' => [
                 'connection' => 'redis',
                 'queue' => ['vehicles', 'gtfs', 'notifications'],
                 'balance' => 'simple',
-                'processes' => 3,
+                'processes' => 15,
                 'tries' => 1,
+                'timeout' => 600
             ],
         ],
     ],

@@ -12,7 +12,7 @@
             <v-btn
                     text
                     @click="$emit('show-dialog')">
-                Read more
+                {{ $vuetify.lang.t('$vuetify.alert.readMore') }}
             </v-btn>
             <v-btn
                     text

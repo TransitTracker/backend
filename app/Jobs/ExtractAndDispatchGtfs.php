@@ -38,7 +38,7 @@ class ExtractAndDispatchGtfs implements ShouldQueue
     public function handle()
     {
         $zip = new \ZipArchive();
-        $file = $zip->open(getcwd() . '/storage/app/' . $this->zipFile);
+        $file = $zip->open($this->zipFile);
 
         if ($file) {
             // Unzip file

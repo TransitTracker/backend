@@ -100,5 +100,10 @@ export default {
     agenciesContinue: 'Continuer',
     settingsTitle: 'Réglages',
     settingsDone: 'Terminer'
+  },
+  alert: {
+    readMore: 'Lire plus',
+    markAsRead: 'Marquer comme lu',
+    close: 'Fermer'
   }
 }

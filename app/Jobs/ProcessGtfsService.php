@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Agency;
 use App\Service;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -41,8 +42,10 @@ class ProcessGtfsService implements ShouldQueue
 
         // Fill each required attribute
         $newService['service_id'] = $this->service['service_id'];
-        $newService['start_date'] = $this->service['start_date'];
-        $newService['end_date'] = $this->service['end_date'];
+        $startDate = new Carbon($this->service['start_date']);
+        $newService['start_date'] = $startDate;
+        $endDate = new Carbon($this->service['end_date']);
+        $newService['end_date'] = $endDate;
 
         // Create or update the route model
         Service::updateOrCreate(['service_id' => $this->service['service_id'], 'agency_id' => $this->agency->id], $newService);

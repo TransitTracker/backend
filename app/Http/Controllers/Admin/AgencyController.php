@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Agency;
-use App\Http\Controllers\Controller;
 use App\Jobs\DownloadGTFS;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
+use Spatie\ResponseCache\Facades\ResponseCache;
 
 class AgencyController extends Controller
 {
@@ -74,6 +75,8 @@ class AgencyController extends Controller
             'is_active' => false,
         ]);
         $agency->save();
+
+        ResponseCache::clear(['agencies']);
 
         return redirect('/admin/agencies')->with('success', 'Agency saved!');
     }
@@ -143,6 +146,8 @@ class AgencyController extends Controller
             'realtime_options' => json_encode($realtimeOptions),
             'is_active' => $request->get('is_active'),
         ]);
+
+        ResponseCache::clear(['agencies']);
 
         return redirect('/admin/agencies')->with('success', 'Agency saved!');
     }

@@ -31,20 +31,16 @@ class DownloadGTFS implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function handle()
     {
+        // Set path
+        $fileName = getcwd() . '/storage/app/gtfs/' . $this->agency->slug . '-' . time() . '.zip';
+
         // Download GTFS
         $client = new Client();
-        $response = $client->get($this->agency->static_gtfs_url);
-
-        if ($response->getStatusCode() !== 200) {
-            // Todo: send email
-        }
-
-        // Save ZIP to storage
-        $fileName = 'gtfs/' . $this->agency->slug . '-' . time() . '.zip';
-        Storage::put($fileName, $response->getBody());
+        $response = $client->request('GET', $this->agency->static_gtfs_url, ['sink' => $fileName]);
 
         ExtractAndDispatchGtfs::dispatch($this->agency, $fileName)->onQueue('gtfs');
     }

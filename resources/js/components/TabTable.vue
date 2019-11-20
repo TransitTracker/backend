@@ -93,7 +93,7 @@ export default {
         {
           label: this.$vuetify.lang.t('$vuetify.table.dataRoute'),
           field: 'data.route',
-          type: 'text',
+          type: 'number',
           filterOptions: {
             enabled: true
           }

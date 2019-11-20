@@ -4,19 +4,14 @@
         v-model="sheetModel"
         :persistent="persistent">
         <v-list>
-            <v-tooltip left>
-                <template v-slot:activator="{ on }">
-                    <v-btn
-                            icon
-                            color="secondary"
-                            v-on="on"
-                            class="float-right">
-                        <v-icon v-if="persistent">mdi-pin-off</v-icon>
-                        <v-icon v-else>mdi-pin</v-icon>
-                    </v-btn>
-                </template>
-                <span>This feature is currently broken</span>
-            </v-tooltip>
+            <v-btn
+                    icon
+                    color="secondary"
+                    v-on:click="togglePersistent"
+                    class="float-right">
+                <v-icon v-if="persistent">mdi-pin-off</v-icon>
+                <v-icon v-else>mdi-pin</v-icon>
+            </v-btn>
             <v-spacer></v-spacer>
             <v-btn
                 outlined
@@ -94,7 +89,7 @@
 </template>
 
 <script>
-import { VBtn, VIcon, VBottomSheet, VList, VTooltip, VSubheader, VListItem, VListItemIcon, VListItemTitle, VSpacer } from 'vuetify/lib'
+import { VBtn, VIcon, VBottomSheet, VList, VSubheader, VListItem, VListItemIcon, VListItemTitle, VSpacer } from 'vuetify/lib'
 
 export default {
   components: {
@@ -102,7 +97,6 @@ export default {
     VBtn,
     VIcon,
     VList,
-    VTooltip,
     VSubheader,
     VListItem,
     VListItemIcon,
@@ -124,18 +118,14 @@ export default {
       get () {
         return this.sheetOpen
       },
-      set (val) {
+      set () {
         !this.persistent && this.$emit('close-sheet')
       }
     }
   },
   methods: {
     togglePersistent () {
-      if (this.persistent) {
-        this.persistent = false
-      } else {
-        this.persistent = true
-      }
+      this.persistent ? this.persistent = false : this.persistent = true
     },
     clickOutsideSheet () {
       if (!this.persistent) {

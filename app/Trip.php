@@ -2,11 +2,14 @@
 
 namespace App;
 
+use Watson\Rememberable\Rememberable;
 use Illuminate\Database\Eloquent\Model;
 
 class Trip extends Model
 {
-    protected $fillable = ['agency_id', 'trip_id', 'trip_headsign', 'trip_short_name', 'expiration'];
+    use Rememberable;
+
+    protected $fillable = ['agency_id', 'trip_id', 'trip_headsign', 'trip_short_name', 'route_color', 'route_text_color', 'route_short_name', 'route_long_name', 'service_id'];
 
     /**
      * Get the agency from this vehicle
@@ -22,5 +25,13 @@ class Trip extends Model
     public function vehicles()
     {
         return $this->hasMany('App\Vehicle');
+    }
+
+    /**
+     * Get the service for this trip
+     */
+    public function service()
+    {
+        return $this->belongsTo('App\Service');
     }
 }

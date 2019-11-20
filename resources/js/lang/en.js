@@ -96,5 +96,10 @@ export default {
     agenciesContinue: 'Continue',
     settingsTitle: 'Settings',
     settingsDone: 'Done'
+  },
+  alert: {
+    readMore: 'Read more',
+    markAsRead: 'Mark as read',
+    close: 'Close'
   }
 }

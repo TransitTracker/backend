@@ -4,7 +4,6 @@
             :class="stateAlert.data.color"
             :icon="stateAlert.data.icon"
             :dark="isDark"
-            sticky
             single-line>
         <span v-if="isEnglish">{{ stateAlert.data.title_en}}</span>
         <span v-else>{{ stateAlert.data.title_fr}}</span>
@@ -18,6 +17,7 @@
                     text
                     icon
                     v-if="stateAlert.data.can_be_closed"
+                    class="d-none d-md-block"
                     @click="markAlertAsRead">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -37,9 +37,7 @@ export default {
   },
   data () {
     return {
-      iconColor: 'accent',
-      sticky: false,
-      singleLine: true
+      iconColor: 'accent'
     }
   },
   computed: {
@@ -61,3 +59,9 @@ export default {
   }
 }
 </script>
+
+<style>
+    .v-banner__actions {
+        margin-left: 0 !important;
+    }
+</style>

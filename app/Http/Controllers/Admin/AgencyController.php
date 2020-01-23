@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Agency;
+use App\Jobs\CleanGtfsData;
 use App\Jobs\DownloadGTFS;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -54,6 +55,7 @@ class AgencyController extends Controller
         ]);
 
         $realtimeOptions = [
+            'method' => $request->get('realtime_method'),
             'header' => [
                 $request->get('realtime_options_header_name') => $request->get('realtime_options_header_value')
             ],
@@ -188,6 +190,7 @@ class AgencyController extends Controller
      */
     public function gtfsCleanAndUpdate(Agency $agency)
     {
+        CleanGtfsData::dispatch($agency)->onQueue('gtfs');
         DownloadGTFS::dispatch($agency)->onQueue('gtfs');
         return redirect('/admin/agencies')->with('success', 'Work is scheduled');
     }
@@ -211,6 +214,7 @@ class AgencyController extends Controller
      */
     public function gtfsClean(Agency $agency)
     {
+        CleanGtfsData::dispatch($agency)->onQueue('gtfs');
         return redirect('/admin/agencies')->with('success', 'Work is scheduled');
     }
 }

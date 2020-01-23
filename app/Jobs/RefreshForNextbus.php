@@ -62,13 +62,6 @@ class RefreshForNextbus implements ShouldQueue
         // Go trough each vehicle
         foreach ($xml->vehicle as $vehicle) {
             /*
-             * Check if vehicle is recent
-             */
-            if ($vehicle['secsSinceReport'] > 180) {
-                break;
-            }
-
-            /*
              * Prepare a new array to update the vehicle model
              */
             $newVehicle = [];
@@ -104,9 +97,11 @@ class RefreshForNextbus implements ShouldQueue
             }
 
             /*
-             * Create or update the vehicle model
+             * Check if vehicle is recent, then create or update the vehicle model
              */
-            Vehicle::updateOrCreate(['vehicle' => $vehicle['id'], 'agency_id' => $this->agency->id], $newVehicle);
+            if ($vehicle['secsSinceReport'] < 180) {
+                Vehicle::updateOrCreate(['vehicle' => $vehicle['id'], 'agency_id' => $this->agency->id], $newVehicle);
+            }
         }
 
         // Replace timestamp

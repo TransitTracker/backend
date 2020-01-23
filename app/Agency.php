@@ -11,7 +11,7 @@ class Agency extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type', 'realtime_options', 'color', 'text_color', 'vehicles_type'];
+    protected $fillable = ['name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type', 'realtime_options', 'color', 'text_color', 'vehicles_type', 'is_active'];
 
     /**
      * The attributes that should be cast to native types.

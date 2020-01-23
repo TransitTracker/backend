@@ -72,7 +72,7 @@ class QueueAgency extends Command
 
         $response = $client->request($agency->realtime_method, $agency->realtime_url, $requestOptions);
 
-        $fileName = $agency->slug . '-' . $time . '.pb';
+        $fileName = 'downloads/' . $agency->slug . '-' . $time . '.pb';
         Storage::put($fileName, (string) $response->getBody());
 
         if ($agency->realtime_type === 'gtfsrt') {

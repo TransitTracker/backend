@@ -156,7 +156,7 @@ class AgenciesTableSeeder extends Seeder
 
         DB::table('agencies')->insert([
             'name' => 'exo La Presqu\'Île',
-            'color' => '#FCEFC5',
+            'color' => '#F1776A',
             'text_color' => '#000000',
             'vehicles_type' => 'bus',
             'slug' => 'pi',
@@ -208,7 +208,7 @@ class AgenciesTableSeeder extends Seeder
 
         DB::table('agencies')->insert([
             'name' => 'exo Chambly-Richelieu-Carignan',
-            'color' => '#F1776A',
+            'color' => '#FCEFC5',
             'text_color' => '#FFFFFF',
             'vehicles_type' => 'bus',
             'slug' => 'crc',

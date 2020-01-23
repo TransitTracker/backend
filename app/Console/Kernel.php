@@ -24,8 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('agency:refresh-actives')->everyMinute()->unlessBetween('1:00', '4:00');
+        $schedule->command('agency:clean-all')->weeklyOn(1, '1:15');
+        $schedule->command('agency:update-actives')->weeklyOn(2, '1:15');
+
     }
 
     /**

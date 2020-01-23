@@ -1,120 +1,150 @@
 <template>
-    <v-container>
-        <v-row>
-            <v-col cols="12">
-                <v-card color="accent">
-                    <v-card-title>{{ $vuetify.lang.t('$vuetify.home.welcome') }} {{ $vuetify.lang.t('$vuetify.app.name') }}</v-card-title>
-                    <v-card-text>{{ $vuetify.lang.t('$vuetify.home.version') }} 2.0.0-beta.4+002</v-card-text>
-                    <v-card-actions>
-                        <v-btn
-                            text
-                            href="https://felixinx.github.io/mtl-gtfs-rt/">{{ $vuetify.lang.t('$vuetify.home.exitBeta') }}</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-col>
-            <v-col
-                cols="12">
-                <v-card>
-                    <v-card-title>
-                        {{ totalCount }} {{ $vuetify.lang.t('$vuetify.home.vehicleTotal') }}
-                    </v-card-title>
-                    <v-card-text>
-                        <v-row>
-                            <v-col
-                                v-for="vehicle in vehiclesPendingRequest"
-                                :key="vehicle"
-                                cols="12"
-                                md="4">
-                                <v-skeleton-loader
-                                    width="100%"
-                                    type="list-item-avatar-two-line"></v-skeleton-loader>
-                            </v-col>
-                            <v-col
-                                v-for="count in counts"
-                                :key="count.name"
-                                cols="12"
-                                md="4">
-                                <v-sheet
-                                    :color="count.backgroundColor"
-                                    width="100%"
-                                    height="100%"
-                                    class="d-flex pa-1">
-                                    <v-avatar
-                                        color="white"
-                                        size="36"
-                                        class="mr-2 align-self-center">
-                                        {{ count.count }}
-                                    </v-avatar>
-                                    <div
-                                        class="flex-grow-1 align-self-center"
-                                        :style="{ color: count.textColor }">
-                                        <b>{{ count.name }}</b><br>
-                                        <span v-if="!isEnglish">Il y a </span>
-                                        <span v-if="count.secondsAgo < 60">
+    <div id="home">
+        <v-container>
+            <v-row>
+                <v-col cols="12">
+                    <v-card color="accent">
+                        <v-card-title class="app-title">{{ $vuetify.lang.t('$vuetify.home.welcome') }} Transit Tracker
+                        </v-card-title>
+                        <v-card-text>{{ $vuetify.lang.t('$vuetify.home.version') }} 2.0.0-beta.5+001</v-card-text>
+                    </v-card>
+                </v-col>
+                <v-col
+                        cols="12">
+                    <v-card>
+                        <v-card-title>
+                            <span class="flex-grow-1">{{ totalCount }} {{ $vuetify.lang.t('$vuetify.home.vehicleTotal') }}</span>
+                            <!-- Todo: complete download -->
+<!--                            <v-btn-->
+<!--                                    color="secondary"-->
+<!--                                    @click="dialogDownloadOpen = true"-->
+<!--                                    :loading="vehiclesPendingRequest > 0">-->
+<!--                                <v-icon left>mdi-download</v-icon>-->
+<!--                                {{ $vuetify.lang.t('$vuetify.home.download') }}-->
+<!--                            </v-btn>-->
+                        </v-card-title>
+                        <v-card-text>
+                            <v-row>
+                                <v-col
+                                        v-for="vehicle in vehiclesPendingRequest"
+                                        :key="vehicle"
+                                        cols="12"
+                                        md="4">
+                                    <v-skeleton-loader
+                                            width="100%"
+                                            type="list-item-avatar-two-line"></v-skeleton-loader>
+                                </v-col>
+                                <v-col
+                                        v-for="count in counts"
+                                        :key="count.name"
+                                        cols="12"
+                                        md="4">
+                                    <v-sheet
+                                            :color="count.backgroundColor"
+                                            width="100%"
+                                            height="100%"
+                                            class="d-flex pa-1">
+                                        <v-avatar
+                                                color="white"
+                                                size="36"
+                                                class="ml-1 mr-2 align-self-center">
+                                            {{ count.count }}
+                                        </v-avatar>
+                                        <div
+                                                class="flex-grow-1 align-self-center"
+                                                :style="{ color: count.textColor }">
+                                            <b>{{ count.name }}</b><br>
+                                            <span v-if="!isEnglish">Il y a </span>
+                                            <span v-if="count.secondsAgo < 60">
                                             {{ count.secondsAgo }} {{ $vuetify.lang.t('$vuetify.home.secondsAgo') }}
                                         </span>
-                                        <span v-else>
+                                            <span v-else>
                                             {{ Math.floor(count.secondsAgo / 60) }} {{ $vuetify.lang.t('$vuetify.home.minutesAgo') }}
                                         </span>
-                                        <div v-if="count.secondsAgo > 300">
-                                            <v-chip
-                                                    label
-                                                    x-small
-                                                    color="white">
-                                                <v-icon left>mdi-close</v-icon>
-                                                {{ $vuetify.lang.t('$vuetify.home.outdated') }}
-                                            </v-chip>
+                                            <div v-if="count.secondsAgo > 300">
+                                                <v-chip
+                                                        label
+                                                        x-small
+                                                        color="white">
+                                                    <v-icon left>mdi-close</v-icon>
+                                                    {{ $vuetify.lang.t('$vuetify.home.outdated') }}
+                                                </v-chip>
+                                            </div>
                                         </div>
-                                    </div>
-                                </v-sheet>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-            <v-col
-                cols="12"
-                md="6">
-                <v-card
-                    color="primary"
-                    dark>
-                    <v-card-title>{{ $vuetify.lang.t('$vuetify.home.whatsNewTitle') }}</v-card-title>
-                    <v-card-text v-html="$vuetify.lang.t('$vuetify.home.whatsNewBody')"></v-card-text>
-                </v-card>
-            </v-col>
-            <v-col
-                cols="12"
-                md="6">
-                <v-card
-                    color="red"
-                    dark>
-                    <v-card-title>{{ $vuetify.lang.t('$vuetify.home.communityTitle') }}</v-card-title>
-                    <v-card-text v-html="$vuetify.lang.t('$vuetify.home.communityBody')"></v-card-text>
-                </v-card>
-            </v-col>
-            <v-col
-                cols="12"
-                md="6"
-                v-if="alertShow">
-                <v-card
-                    :color="stateAlert.data.color"
-                    :dark="alertIsDark">
-                    <v-card-title>
-                        <v-icon large left>{{ stateAlert.data.icon }}</v-icon>
-                        <span v-if="isEnglish">{{ stateAlert.data.title_en }}</span>
-                        <span v-else>{{ stateAlert.data.title_fr }}</span>
-                    </v-card-title>
-                    <v-card-text v-if="isEnglish" v-html="stateAlert.data.body_en"></v-card-text>
-                    <v-card-text v-else v-html="stateAlert.data.body_fr"></v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
+                                    </v-sheet>
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+                <v-col
+                        cols="12"
+                        md="6">
+                    <v-card
+                            color="primary"
+                            dark>
+                        <v-card-title>{{ $vuetify.lang.t('$vuetify.home.whatsNewTitle') }}</v-card-title>
+                        <v-card-text v-html="$vuetify.lang.t('$vuetify.home.whatsNewBody')"></v-card-text>
+                    </v-card>
+                </v-col>
+                <v-col
+                        cols="12"
+                        md="6">
+                    <v-card
+                            color="red"
+                            dark>
+                        <v-card-title>{{ $vuetify.lang.t('$vuetify.home.communityTitle') }}</v-card-title>
+                        <v-card-text v-html="$vuetify.lang.t('$vuetify.home.communityBody')"></v-card-text>
+                    </v-card>
+                </v-col>
+                <v-col
+                        cols="12"
+                        md="6"
+                        v-if="alertShow">
+                    <v-card
+                            :color="stateAlert.data.color"
+                            :dark="alertIsDark">
+                        <v-card-title>
+                            <v-icon large left>{{ stateAlert.data.icon }}</v-icon>
+                            <span v-if="isEnglish">{{ stateAlert.data.title_en }}</span>
+                            <span v-else>{{ stateAlert.data.title_fr }}</span>
+                        </v-card-title>
+                        <v-card-text v-if="isEnglish" v-html="stateAlert.data.body_en"></v-card-text>
+                        <v-card-text v-else v-html="stateAlert.data.body_fr"></v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+            <!-- Todo: complete refresh button -->
+<!--            <v-btn-->
+<!--                    color="secondary"-->
+<!--                    fab-->
+<!--                    class="fab-refresh"-->
+<!--                    @click="refreshVehicles()">-->
+<!--                <v-icon>mdi-refresh</v-icon>-->
+<!--            </v-btn>-->
+        </v-container>
+
+        <dialog-download v-if="dialogDownloadOpen" v-on:close-dialog="dialogDownloadOpen = false"
+                         :dialog-open="dialogDownloadOpen"></dialog-download>
+    </div>
 </template>
 
 <script>
 import collect from 'collect.js'
-import { VContainer, VRow, VCol, VCard, VCardTitle, VCardText, VCardActions, VBtn, VSkeletonLoader, VSheet, VAvatar, VChip, VIcon } from 'vuetify/lib'
+import DialogDownload from './DialogDownload'
+import {
+  VAvatar,
+  VCard,
+  VCardText,
+  VCardTitle,
+  VChip,
+  VCol,
+  VContainer,
+  VIcon,
+  VRow,
+  VSheet,
+  VSkeletonLoader
+} from 'vuetify/lib'
 
 export default {
   name: 'TabHome',
@@ -125,14 +155,16 @@ export default {
     VCard,
     VCardTitle,
     VCardText,
-    VCardActions,
-    VBtn,
     VSkeletonLoader,
     VSheet,
     VAvatar,
     VChip,
-    VIcon
+    VIcon,
+    DialogDownload
   },
+  data: () => ({
+    dialogDownloadOpen: false
+  }),
   props: ['vehiclesPendingRequest'],
   computed: {
     stateAgencies () {
@@ -143,6 +175,9 @@ export default {
     },
     stateCounts () {
       return this.$store.state.agencies.counts
+    },
+    stateVehicles () {
+      return this.$store.state.vehicles.data
     },
     counts () {
       const stateCounts = collect(this.stateCounts)
@@ -181,6 +216,11 @@ export default {
       return this.stateAlert.data.id !== null && this.stateAgencies.isVisble
     }
   },
+  methods: {
+    refreshVehicles () {
+      // Todo: manual refresh
+    }
+  },
   watch: {
     stateCounts: {
       deep: true,
@@ -195,5 +235,15 @@ export default {
 <style lang="scss" scoped>
     .md-card {
         margin: 16px;
+    }
+
+    .app-title {
+        word-break: break-word;
+    }
+
+    .fab-refresh {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
     }
 </style>

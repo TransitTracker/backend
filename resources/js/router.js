@@ -8,22 +8,22 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'Home',
+      name: 'Home / Accueil',
       component: () => import(/* webpackChunkName: 'home' */ './components/TabHome.vue')
     },
     {
       path: '/map',
-      name: 'Map',
+      name: 'Map / Carte',
       component: () => import(/* webpackChunkName: 'map' */ './components/TabMap.vue')
     },
     {
       path: '/table',
-      name: 'Table',
+      name: 'Table / Liste',
       component: () => import(/* webpackChunkName: 'table' */ './components/TabTable.vue')
     },
     {
       path: '/settings',
-      name: 'Settings',
+      name: 'Settings / Réglages',
       component: () => import(/* webpackChunkName: 'settings' */ './components/TabSettings.vue')
     }
   ]

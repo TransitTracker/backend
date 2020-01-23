@@ -22,16 +22,15 @@
                 <v-icon>mdi-close</v-icon>
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn
-                outlined
-                color="red"
-                :href="'https://cptdb.ca/wiki/index.php?title=Special%3ASearch&fulltext=Search&search=' + agency.name + '+' + vehicle.ref"
-                target="_blank"
-                class="float-right">
-                <span class="d-none d-md-block">{{ $vuetify.lang.t('$vuetify.mapBottomSheet.search') }}</span>
-                <v-icon>mdi-open-in-new</v-icon>
-            </v-btn>
             <v-subheader>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.moreInfo') }} {{ vehicle.ref }}</v-subheader>
+            <v-list-item v-if="vehicle.route">
+                <v-list-item-icon>
+                    <v-icon>mdi-map-marker-path</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.route') }}</b> {{ vehicle.route }}
+                    <span v-if="vehicle.trip.long_name">{{ vehicle.trip.long_name}}</span>
+                </v-list-item-title>
+            </v-list-item>
             <v-list-item v-if="vehicle.trip.headsign">
                 <v-list-item-icon>
                     <v-icon>mdi-sign-direction</v-icon>
@@ -43,6 +42,14 @@
                     <v-icon>mdi-identifier</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.tripId') }}</b> {{ vehicle.gtfs_trip }}</v-list-item-title>
+                <v-list-item-action v-if="agency.slug === 'stm'">
+                    <v-tooltip left>
+                        <template v-slot:activator="{ on }">
+                            <v-btn icon color="secondary" v-on="on" @click="searchTrip"><v-icon>mdi-table-search</v-icon></v-btn>
+                        </template>
+                        <span>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.searchTrip') }}</span>
+                    </v-tooltip>
+                </v-list-item-action>
             </v-list-item>
             <v-list-item v-if="vehicle.start">
                 <v-list-item-icon>
@@ -89,7 +96,7 @@
 </template>
 
 <script>
-import { VBtn, VIcon, VBottomSheet, VList, VSubheader, VListItem, VListItemIcon, VListItemTitle, VSpacer } from 'vuetify/lib'
+import { VBtn, VIcon, VBottomSheet, VList, VSubheader, VListItem, VListItemIcon, VListItemTitle, VListItemAction, VTooltip, VSpacer } from 'vuetify/lib'
 
 export default {
   components: {
@@ -101,6 +108,8 @@ export default {
     VListItem,
     VListItemIcon,
     VListItemTitle,
+    VListItemAction,
+    VTooltip,
     VSpacer
   },
   data () {
@@ -131,6 +140,10 @@ export default {
       if (!this.persistent) {
         this.$emit('close-sheet')
       }
+    },
+    searchTrip () {
+      const tab = window.open('https://www.cs.mcgill.ca/~jread3/cgi-bin/runsearch.cgi?tripid=' + this.vehicle.gtfs_trip, '_blank')
+      tab.focus()
     }
   }
 }

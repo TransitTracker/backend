@@ -66,6 +66,28 @@ export default {
         zoom: 13
       })
     }
+
+    this.map.on('zoom', () => {
+      if (this.map.getZoom() < 12) {
+        const markers = document.getElementsByClassName('marker')
+        for (let i = 0; i < markers.length; i++) {
+          markers[i].style.display = 'none'
+        }
+        const circles = document.getElementsByClassName('circle')
+        for (let i = 0; i < circles.length; i++) {
+          circles[i].style.display = 'block'
+        }
+      } else {
+        const markers = document.getElementsByClassName('marker')
+        for (let i = 0; i < markers.length; i++) {
+          markers[i].style.display = 'block'
+        }
+        const circles = document.getElementsByClassName('circle')
+        for (let i = 0; i < circles.length; i++) {
+          circles[i].style.display = 'none'
+        }
+      }
+    })
   },
   computed: {
     vehicles () {
@@ -93,31 +115,56 @@ export default {
 
         // Enclosing div
         const enclosingDiv = document.createElement('div')
-        enclosingDiv.className = isSelected ? 'marker-selected' : 'marker'
 
-        // SVG element
-        const svgElement = document.createElement('svg')
-        svgElement.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
-        svgElement.setAttribute('viewBox', '0 0 24 24')
+        // Enclosing div (circle)
+        const enclosingCircle = document.createElement('div')
+        enclosingCircle.className = 'circle'
+        enclosingDiv.appendChild(enclosingCircle)
 
-        // Create path
+        // SVG element (circle)
+        const svgCircle = document.createElement('svg')
+        svgCircle.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+        svgCircle.setAttribute('viewBox', '0 0 10 10')
+
+        // Create circle
+        const circleElement = document.createElement('circle')
+        circleElement.setAttribute('cx', '5')
+        circleElement.setAttribute('cy', '5')
+        circleElement.setAttribute('r', '5')
+        circleElement.setAttribute('fill', agency.color)
+        circleElement.setAttribute('stroke', agency.text_color)
+        circleElement.setAttribute('stroke-width', '0.5')
+        svgCircle.appendChild(circleElement)
+
+        // Enclosing div (full marker)
+        const enclosingFull = document.createElement('div')
+        enclosingFull.className = isSelected ? 'marker-selected' : 'marker'
+        enclosingDiv.appendChild(enclosingFull)
+
+        // SVG element (full marker)
+        const svgFull = document.createElement('svg')
+        svgFull.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+        svgFull.setAttribute('viewBox', '0 0 24 24')
+
+        // Create path (full marker)
         const pathElement = document.createElement('path')
         pathElement.setAttribute('d', markerIcon)
         pathElement.setAttribute('fill', isSelected ? color(agency.color).darken(0.3).hsl() : agency.color)
         pathElement.setAttribute('stroke', agency.text_color)
         pathElement.setAttribute('stroke-width', '0.5')
-        svgElement.appendChild(pathElement)
+        svgFull.appendChild(pathElement)
 
-        // Create icon
+        // Create icon (full marker)
         const iconElement = document.createElement('path')
         iconElement.setAttribute('d', agency.vehicles_type === 'bus' ? busIcon : trainIcon)
         iconElement.setAttribute('fill', agency.text_color)
         iconElement.setAttribute('transform', 'translate(7.25 4) scale(0.4 0.4)')
-        svgElement.appendChild(iconElement)
+        svgFull.appendChild(iconElement)
 
         // Put together and add a click event
-        enclosingDiv.innerHTML = svgElement.outerHTML
-        enclosingDiv.addEventListener('click', () => {
+        enclosingCircle.innerHTML = svgCircle.outerHTML
+        enclosingFull.innerHTML = svgFull.outerHTML
+        enclosingFull.addEventListener('click', () => {
           this.map.flyTo({ center: [vehicle.lon, vehicle.lat] })
           this.$store.commit('vehicles/setSelection', vehicle)
         })
@@ -174,6 +221,16 @@ export default {
 .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {
     margin: 0 0 30px 10px;
 }
+.circle {
+    transform: translate(10px, 10px);
+}
+.circle svg {
+    height: 10px;
+    width: 10px;
+}
+.marker {
+    display: none;
+}
 .marker svg {
     height: 40px;
     width: 40px;
@@ -185,7 +242,11 @@ export default {
 .marker-selected {
     z-index: 2;
 }
-.marker {
+.marker svg {
     cursor: pointer;
+}
+.fab-refresh {
+    bottom: 92px;
+    z-index: 2;
 }
 </style>

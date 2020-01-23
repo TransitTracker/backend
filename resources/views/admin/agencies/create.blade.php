@@ -58,9 +58,22 @@
                 <label for="static_gtfs_url">Static GTFS Url*</label>
                 <input type="text" class="form-control" name="static_gtfs_url" required>
             </div>
-            <div class="form-group">
-                <label for="realtime_url">Realtime URL*</label>
-                <input type="text" class="form-control" name="realtime_url" required>
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="realtime_method">Method*</label>
+                        <select name="realtime_method" class="custom-select" id="realtime_method">
+                            <option value="GET" selected>GET</option>
+                            <option value="POST">POST</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <label for="realtime_url">Realtime URL*</label>
+                        <input type="text" class="form-control" name="realtime_url" required>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="realtime_type">Realtime type (connector)*</label>

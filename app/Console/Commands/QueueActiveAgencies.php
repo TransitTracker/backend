@@ -78,7 +78,7 @@ class QueueActiveAgencies extends Command
                     break;
                 }
 
-                $fileName = $agency->slug . '-' . $time . '.pb';
+                $fileName = 'downloads/' . $agency->slug . '-' . $time . '.pb';
                 Storage::put($fileName, (string) $response->getBody());
 
                 if ($agency->realtime_type === 'gtfsrt') {

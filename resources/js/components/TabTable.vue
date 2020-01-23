@@ -1,26 +1,27 @@
 <template>
-    <vue-good-table
-        :columns="tableColumns"
-        :rows="groupedVehicles"
-        :fixed-header="true"
-        :sort-options="{
+    <div id="table">
+        <vue-good-table
+                :columns="tableColumns"
+                :rows="groupedVehicles"
+                :fixed-header="true"
+                :sort-options="{
           enabled: true,
           initialSortBy: {field: 'data.ref', type: 'asc'}
         }"
-        :pagination-options="{
+                :pagination-options="{
           enabled: true,
           perPage: 100
         }"
-        :group-options="{
+                :group-options="{
           enabled: true
         }"
-        @on-cell-click="viewOnMap"
-        max-height="calc(100vh - 170px)">
-        <div slot="emptystate">
-            {{ $vuetify.lang.t('$vuetify.table.empty') }}
-        </div>
-    </vue-good-table>
-
+                @on-cell-click="viewOnMap"
+                max-height="calc(100vh - 170px)">
+            <div slot="emptystate">
+                {{ $vuetify.lang.t('$vuetify.table.empty') }}
+            </div>
+        </vue-good-table>
+    </div>
 </template>
 
 <script>
@@ -144,6 +145,12 @@ export default {
   }
 }
 </script>
+
+<style>
+    .fab-refresh {
+        bottom: 74px;
+    }
+</style>
 
 <style scoped>
     .v-btn {

@@ -4,8 +4,24 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <link href="favicon.ico" rel="icon">
+
         <title>Montréal Transit Tracker</title>
+        <meta name="description" content="A tracker for most transit vehicles in the greater Montreal area, see almost 2000 vehicules in one map, including STM, exo, STL and RTL buses and exo trains.">
+        <meta name="author" content="FelixINX">
+        <link rel="icon" href="favicon.ico">
+        <meta name="keywords" content="transit, bus, buses, train, tracker, Montreal, STM, STL, RTL, exo, map">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:creator" content="@felixinx">
+        <meta name="twitter:title" content="Montreal Transit Tracker">
+        <meta name="twitter:description" content="One map for most buses and trains in the greater Montreal area">
+        <meta name="twitter:image" content="/img/twitter-card.png">
+        <meta name="og:title" content="Montreal Transit Tracker">
+        <meta name="og:description" content="One map for most buses and trains in the greater Montreal area">
+        <meta name="og:image" content="/img/open-graph.png">
+        <meta name="og:url" content="https://transittracker.ca">
+        <meta name="og:locale" content="en_CA">
+        <meta name="og:locale:alternate" content="fr_CA">
+
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css" rel="stylesheet"/>

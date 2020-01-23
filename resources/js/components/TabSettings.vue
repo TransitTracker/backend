@@ -158,6 +158,12 @@ export default {
 }
 </script>
 
+<style>
+  .fab-refresh {
+    bottom: 16px;
+  }
+</style>
+
 <style lang="scss" scoped>
   .v-input--checkbox {
     margin-right: 15px;

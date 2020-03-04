@@ -27,7 +27,8 @@ class VehicleResource extends JsonResource
             'speed' => $this->speed,
             'stop_sequence' => $this->stop_sequence,
             'status' => $this->status,
-            'trip' => new TripResource($this->trip)
+            'trip' => new TripResource($this->trip),
+            'icon' => $this->icon
         ];
     }
 }

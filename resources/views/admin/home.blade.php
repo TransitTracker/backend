@@ -19,17 +19,64 @@
                 @endif
 
                 Welcome back {{ Auth::User()->name }}!
-                <div class="mt-4">
-                    <a href="/horizon" class="btn btn-success"><i class="fas fa-tasks-alt"></i> Horizon</a>
-                </div>
-                <div class="mt-2">
-                    <a href="/admin/agencies" class="btn btn-success"><i class="fas fa-warehouse"></i> Manage agencies</a>
-                    <a href="/admin/refresh-agencies" class="btn btn-info"><i class="fas fa-sync"></i> Refresh all agencies now</a>
-                </div>
-                <div class="mt-2">
-                    <a href="/admin/alerts" class="btn btn-success"><i class="fas fa-exclamation-triangle"></i> Manage alerts</a>
+
+                <div class="row row-cols-1 row-cols-lg-3">
+                    <div class="col mb-4">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body">
+                                <i class="fad fa-external-link"></i>
+                                <h5 class="card-title">Horizon</h5>
+                                <a href="{{ route('horizon.index') }}" class="card-link stretched-link" target="_blank">Access</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card bg-success">
+                            <div class="card-body">
+                                <i class="fad fa-map-marked"></i>
+                                <h5 class="card-title">Regions</h5>
+                                <a href="{{ route('regions.index') }}" class="card-link stretched-link">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card bg-success">
+                            <div class="card-body">
+                                <i class="fad fa-warehouse"></i>
+                                <h5 class="card-title">Agencies</h5>
+                                <a href="{{ route('agencies.index') }}" class="card-link stretched-link">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card bg-success">
+                            <div class="card-body">
+                                <i class="fad fa-bus"></i>
+                                <h5 class="card-title">Vehicles</h5>
+                                <a href="" class="card-link disabled">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card bg-success">
+                            <div class="card-body">
+                                <i class="fad fa-exclamation-triangle"></i>
+                                <h5 class="card-title">Alerts</h5>
+                                <a href="{{ route('alerts.index') }}" class="card-link stretched-link">Manage</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .card-link {
+            color: #000000;
+        }
+        .text-light .card-link {
+            color: #ffffff !important;
+        }
+    </style>
 @endsection

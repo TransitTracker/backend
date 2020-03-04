@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Agency extends Model
@@ -11,7 +12,8 @@ class Agency extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type', 'realtime_options', 'color', 'text_color', 'vehicles_type', 'is_active'];
+    protected $fillable = [ 'name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type', 'realtime_options',
+                            'color', 'text_color', 'vehicles_type', 'is_active', 'region_id' ];
 
     /**
      * The attributes that should be cast to native types.
@@ -52,6 +54,14 @@ class Agency extends Model
     public function services()
     {
         return $this->hasMany('App\Service');
+    }
+
+    /**
+     * Get the region of this agency
+     */
+    public function region()
+    {
+        return $this->belongsTo('App\Region');
     }
 
     /**
@@ -133,5 +143,16 @@ class Agency extends Model
         } else {
             return null;
         }
+    }
+
+    /**
+     * Scope a query to only include active agencies.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', 1);
     }
 }

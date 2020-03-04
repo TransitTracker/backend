@@ -25,6 +25,7 @@ import color from 'color'
 const markerIcon = 'M 12,2 C 8.13,2 5,5.13 5,9 c 0,5.25 7,13 7,13 0,0 7,-7.75 7,-13 0,-3.87 -3.13,-7 -7,-7 z'
 const busIcon = 'M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z'
 const trainIcon = 'M12 2c-4.42 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-3.58-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-6H6V6h5v5zm5.5 6c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6h-5V6h5v5z'
+const tramIcon = 'M9 1L5 4L7.5 6H5C5 6 2 6 2 9V19H7C7 19 7 17 9 17H22V14H18V8H22V6H10.5L13 4L9 1M4 8H9V14H4V8M11 8H16V14H11V8M4 16H5V18H4V16M9 19V19.5C9 20.88 10.12 22 11.5 22C12.5 22 13.39 21.41 13.79 20.5H15.21C15.61 21.41 16.5 22 17.5 22C18.88 22 20 20.88 20 19.5V19H9Z'
 
 export default {
   name: 'TabMap',
@@ -43,9 +44,9 @@ export default {
 
     this.map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-73.5682, 45.4997],
-      zoom: 11,
+      style: this.mapStyle,
+      center: this.activeRegion.map_box,
+      zoom: this.activeRegion.map_zoom,
       attributionControl: false
     })
 
@@ -90,6 +91,9 @@ export default {
     })
   },
   computed: {
+    activeRegion () {
+      return this.$store.state.regions.active
+    },
     vehicles () {
       return this.$store.state.vehicles.data
     },
@@ -156,7 +160,7 @@ export default {
 
         // Create icon (full marker)
         const iconElement = document.createElement('path')
-        iconElement.setAttribute('d', agency.vehicles_type === 'bus' ? busIcon : trainIcon)
+        iconElement.setAttribute('d', vehicle.icon === 'tram' ? tramIcon : vehicle.icon === 'train' ? trainIcon : busIcon)
         iconElement.setAttribute('fill', agency.text_color)
         iconElement.setAttribute('transform', 'translate(7.25 4) scale(0.4 0.4)')
         svgFull.appendChild(iconElement)
@@ -174,6 +178,13 @@ export default {
         marker.setOffset([0, isSelected ? -25 : -16])
         return marker
       }).toArray()
+    },
+    mapStyle () {
+      if (this.$store.state.settings.darkMode) {
+        return 'mapbox://styles/mapbox/dark-v10?optimize=true'
+      } else {
+        return 'mapbox://styles/mapbox/streets-v11?optimize=true'
+      }
     }
   },
   watch: {
@@ -181,6 +192,13 @@ export default {
       deep: true,
       handler (val, oldVal) {
         this.putMarkersOnMap(val, oldVal)
+      }
+    },
+    activeRegion: {
+      deep: true,
+      handler (val, oldVal) {
+        this.map.panTo(val.map_box)
+        this.map.zoomTo(val.map_zoom)
       }
     }
   },

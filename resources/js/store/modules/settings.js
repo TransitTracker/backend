@@ -4,7 +4,9 @@ const state = {
   defaultPath: '/',
   configurationDone: false,
   language: 'en',
-  alertRead: 0
+  alertRead: 0,
+  activeRegion: 'mtl',
+  darkMode: false
 }
 
 const mutations = {
@@ -25,6 +27,12 @@ const mutations = {
   },
   setAlertRead (state, newSetting) {
     state.alertRead = newSetting
+  },
+  setActiveRegion (state, newSetting) {
+    state.activeRegion = newSetting
+  },
+  setDarkMode (state, newSetting) {
+    state.darkMode = newSetting
   }
 }
 

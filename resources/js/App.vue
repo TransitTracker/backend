@@ -4,12 +4,28 @@
             <v-app-bar
                     app
                     absolute
-                    color="primary"
+                    :color="appBarColor"
                     dark
                     id="header"
             >
-                <v-toolbar-title><b>Montréal</b> Transit Tracker</v-toolbar-title>
+                <v-toolbar-title><b>{{ activeRegion.name }}</b> Transit Tracker</v-toolbar-title>
+
                 <v-spacer></v-spacer>
+
+                <v-menu>
+                    <template v-slot:activator="{ on }">
+                        <v-btn icon v-on="on">
+                            <v-icon>mdi-map</v-icon>
+                        </v-btn>
+                    </template>
+                    <v-list>
+                        <v-list-item v-for="region in regions" :key="region.slug" @click="changeActiveRegion(region)">
+                            <v-list-item-title>{{ region.name }}</v-list-item-title>
+                            <v-list-item-action v-if="region === activeRegion"><v-icon>mdi-check</v-icon></v-list-item-action>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+
                 <template v-slot:extension>
                     <v-tabs
                             fixed-tabs
@@ -38,6 +54,7 @@
                         v-on:configurationDone="setConfigurationAsDone"></dialog-configuration>
                 <router-view
                         :vehicles-pending-request="vehiclesRequestPending"
+                        v-on:refresh-vehicles="refreshVehicles()"
                         v-if="settings.configurationDone"></router-view>
                 <v-snackbar
                         v-model="oldAgenciesSnackbarVisible"
@@ -57,7 +74,7 @@
 </template>
 
 <script>
-import { VApp, VAppBar, VBtn, VContent, VSnackbar, VSpacer, VTab, VTabs, VToolbarTitle } from 'vuetify/lib'
+import { VApp, VAppBar, VBtn, VContent, VSnackbar, VSpacer, VTab, VTabs, VToolbarTitle, VMenu, VIcon, VList, VListItem, VListItemTitle, VListItemAction } from 'vuetify/lib'
 import axios from 'axios/index'
 import AlertBanner from './components/AlertBanner'
 import AlertDialog from './components/AlertDialog'
@@ -72,7 +89,7 @@ axios.defaults.baseURL = process.env.MIX_APIENDPOINT
 
 export default {
   name: 'app',
-  components: { VApp, VAppBar, VBtn, VContent, VSnackbar, VSpacer, VTab, VTabs, VToolbarTitle, AlertBanner, AlertDialog, DialogConfiguration },
+  components: { VApp, VAppBar, VBtn, VContent, VSnackbar, VSpacer, VTab, VTabs, VToolbarTitle, VMenu, VIcon, VList, VListItem, VListItemTitle, VListItemAction, AlertBanner, AlertDialog, DialogConfiguration },
   data: () => ({
     menuVisible: false,
     oldAgenciesSnackbarVisible: false,
@@ -82,6 +99,9 @@ export default {
     vehiclesRequestPending: 0
   }),
   mounted () {
+    // Change theme
+    this.$vuetify.theme.dark = this.settings.darkMode
+
     // Add axios interceptors
     axios.interceptors.request.use(config => {
       this.vehiclesRequestPending++
@@ -98,6 +118,59 @@ export default {
 
     // Start application if configuration is done
     if (this.settings.configurationDone) {
+      this.loadApplication()
+    }
+
+    // Change language
+    this.$vuetify.lang.current = this.settings.language
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+      })
+    }
+  },
+  computed: {
+    activeRegion () {
+      return this.$store.state.regions.active
+    },
+    agencies: {
+      get () {
+        return this.$store.state.agencies.data
+      },
+      set (newAgencies) {
+        this.$store.commit('agencies/setData', newAgencies)
+      }
+    },
+    alertIsVisible () {
+      return this.$store.state.alert.isVisible
+    },
+    appBarColor () {
+      if (this.settings.darkMode) {
+        return 'dark'
+      } else {
+        return 'primary'
+      }
+    },
+    regions: {
+      get () {
+        return this.$store.state.regions.data
+      },
+      set (newRegions) {
+        this.$store.commit('regions/setData', newRegions)
+      }
+    },
+    settings () {
+      return this.$store.state.settings
+    }
+  },
+  methods: {
+    setConfigurationAsDone () {
+      this.$store.commit('settings/setConfigurationDone', true)
+      this.loadApplication()
+    },
+    loadApplication () {
       // Starting app
       const timestamp = Math.floor(Date.now() / 1000)
       console.log('Loading at ' + timestamp)
@@ -105,15 +178,25 @@ export default {
       // Redirect user to default path
       this.$router.push(this.$store.state.settings.defaultPath)
 
-      // Load agencies
+      // Load regions and agencies
       axios
-        .get('/agencies')
-        .then(response => (this.agencies = response.data.data))
+        .get('/regions')
+        .then(response => {
+          // Save regions and agencies
+          this.regions = response.data.data
+          response.data.data.forEach(region => {
+            this.agencies = this.agencies.concat(region.agencies)
 
-      // Load vehicle from each active agencies
-      collect(this.settings.activeAgencies).each((agency) => {
-        this.loadVehiclesFromAgency(agency, timestamp)
-      })
+            if (region.slug === this.settings.activeRegion) {
+              this.$store.commit('regions/setActive', region)
+            }
+          })
+
+          // Load vehicle from each active agencies
+          collect(this.settings.activeAgencies).each((agency) => {
+            this.loadVehiclesFromAgency(agency, timestamp)
+          })
+        })
 
       // Load alert
       axios
@@ -154,56 +237,33 @@ export default {
             }
           })
       }
-    }
-
-    // Change language
-    this.$vuetify.lang.current = this.settings.language
-  },
-  computed: {
-    agencies: {
-      get () {
-        return this.$store.state.agencies.data
-      },
-      set (newAgencies) {
-        this.$store.commit('agencies/setData', newAgencies)
-      }
-    },
-    alertIsVisible () {
-      return this.$store.state.alert.isVisible
-    },
-    settings () {
-      return this.$store.state.settings
-    }
-  },
-  methods: {
-    setConfigurationAsDone () {
-      this.$store.commit('settings/setConfigurationDone', true)
-      this.loadData()
     },
     loadVehiclesFromAgency (agencySlug, timestamp) {
       // Empty vehicles and count
-      const agency = collect(this.agencies).where('slug', agencySlug)
+      const agency = collect(this.agencies).firstWhere('slug', agencySlug)
       this.$store.commit('vehicles/emptyData', agency.id)
       this.$store.commit('agencies/emptyCount', agencySlug)
 
-      // Load vehicles from specified agency
-      console.log('Loading vehicles from ' + agencySlug)
-      axios.get('/vehicles/' + agencySlug)
-        .then((response) => {
-          // Calculate time difference and set data
-          const timeDiff = timestamp - response.data.timestamp
-          this.$store.commit('vehicles/setData', response.data.data)
-          this.$store.commit('agencies/setCount', { agency: agencySlug, count: response.data.count, diff: timeDiff })
+      if (agency.region === this.settings.activeRegion) {
+        // Load vehicles from specified agency
+        console.log('Loading vehicles from ' + agencySlug)
+        axios.get('/vehicles/' + agencySlug)
+          .then((response) => {
+            // Calculate time difference and set data
+            const timeDiff = timestamp - response.data.timestamp
+            this.$store.commit('vehicles/setData', response.data.data)
+            this.$store.commit('agencies/setCount', { agency: agencySlug, count: response.data.count, diff: timeDiff })
 
-          // If time difference is too high, show the snackbar
-          timeDiff > 300 && this.showSnackbar()
-        })
-        .catch((error) => {
-          if (error.response.status === 403 || error.response.status === 404) {
-          // Agency is either invalid or dosen't exist
-            this.removeAgency(agencySlug)
-          }
-        })
+            // If time difference is too high, show the snackbar
+            timeDiff > 300 && this.showSnackbar()
+          })
+          .catch((error) => {
+            if (error.response.status === 403 || error.response.status === 404) {
+              // Agency is either invalid or dosen't exist
+              this.removeAgency(agencySlug)
+            }
+          })
+      }
     },
     showSnackbar () {
       // Add time and show snackbar
@@ -219,6 +279,20 @@ export default {
     changeAlertDialogVisibility (newState) {
       this.alertDialogVisible = false
       this.alertDialogVisible = newState
+    },
+    changeActiveRegion (newRegion) {
+      this.$store.commit('regions/setActive', newRegion)
+      this.$store.commit('settings/setActiveRegion', newRegion.slug)
+
+      const timestamp = Math.floor(Date.now() / 1000)
+
+      // Load vehicle from each active agencies
+      collect(this.settings.activeAgencies).each((agency) => {
+        this.loadVehiclesFromAgency(agency, timestamp)
+      })
+    },
+    refreshVehicles () {
+      this.changeActiveRegion(this.activeRegion)
     }
   }
 }
@@ -231,5 +305,9 @@ export default {
 
     .v-snack__content b {
         padding-right: 10px;
+    }
+
+    .v-slide-group__prev {
+        display: none !important;
     }
 </style>

@@ -11,7 +11,7 @@ class Stat extends Model
      *
      * @var array
      */
-    protected $fillable = ['type', 'data'];
+    protected $fillable = ['type', 'data', 'region_id'];
 
     /**
      * The attributes that should be cast to native types.
@@ -21,4 +21,12 @@ class Stat extends Model
     protected $casts = [
         'data' => 'object'
     ];
+
+    /**
+     * Get the region of this agency
+     */
+    public function region()
+    {
+        return $this->belongsTo('App\Region');
+    }
 }

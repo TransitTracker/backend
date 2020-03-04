@@ -1,8 +1,6 @@
 <template>
 <div>
-    <v-footer
-        fixed
-        color="white">
+    <v-footer fixed>
         <v-row
                 justify="center"
                 v-if="!noVehicle">

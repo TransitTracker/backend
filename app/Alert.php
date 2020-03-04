@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Alert extends Model
 {
-    protected $fillable = ['title_en', 'title_fr', 'body_en', 'body_fr', 'color', 'icon', 'is_active', 'can_be_closed'];
+    protected $fillable = [ 'title_en', 'title_fr', 'body_en', 'body_fr', 'color', 'icon', 'is_active', 'can_be_closed',
+                            'region_id' ];
+
+    /**
+     * Get the region of this agency
+     */
+    public function region()
+    {
+        return $this->belongsTo('App\Region');
+    }
 }

@@ -17,7 +17,8 @@
 
         <div class="d-flex">
             <h1 class="flex-fill">Agencies list</h1>
-            <a href="{{ route('agencies.create') }}" class="btn btn-primary float-right align-self-center"><i class="fas fa-plus"></i> Create</a>
+            <a href="/admin/refresh-agencies" class="btn btn-primary float-right align-self-center mr-2"><i class="fas fa-sync"></i> Refresh all agencies</a>
+            <a href="{{ route('agencies.create') }}" class="btn btn-dark float-right align-self-center"><i class="fas fa-plus"></i> Create</a>
         </div>
         <table class="table table-sm">
             <thead class="thead-dark">

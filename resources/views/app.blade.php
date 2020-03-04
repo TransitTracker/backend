@@ -5,25 +5,26 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-        <title>Montréal Transit Tracker</title>
-        <meta name="description" content="A tracker for most transit vehicles in the greater Montreal area, see almost 2000 vehicules in one map, including STM, exo, STL and RTL buses and exo trains.">
+        <title>Transit Tracker</title>
+        <meta name="description" content="A tracker for most transit vehicles in the greater Montreal and Toronto area, see more than 2000 vehicules in one map, including STM, TTC, and many more!">
         <meta name="author" content="FelixINX">
         <link rel="icon" href="favicon.ico">
-        <meta name="keywords" content="transit, bus, buses, train, tracker, Montreal, STM, STL, RTL, exo, map">
+        <meta name="keywords" content="transit, bus, buses, train, tracker, tram, Montreal, STM, STL, RTL, exo, map">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:creator" content="@felixinx">
-        <meta name="twitter:title" content="Montreal Transit Tracker">
-        <meta name="twitter:description" content="One map for most buses and trains in the greater Montreal area">
+        <meta name="twitter:title" content="Transit Tracker">
+        <meta name="twitter:description" content="One map for most buses and trains in the greater Montreal and Toronto">
         <meta name="twitter:image" content="/img/twitter-card.png">
-        <meta name="og:title" content="Montreal Transit Tracker">
-        <meta name="og:description" content="One map for most buses and trains in the greater Montreal area">
+        <meta name="og:title" content="Transit Tracker">
+        <meta name="og:description" content="One map for most buses and trains in the greater Montreal and Toronto">
         <meta name="og:image" content="/img/open-graph.png">
         <meta name="og:url" content="https://transittracker.ca">
         <meta name="og:locale" content="en_CA">
         <meta name="og:locale:alternate" content="fr_CA">
 
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap" rel="stylesheet">
+        <link rel="preload" href="/fonts/vendor/@mdi/materialdesignicons-webfont.woff2" as="font">
         <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css" rel="stylesheet"/>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="manifest" href="/manifest.json">
@@ -44,7 +45,7 @@
                           height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
         <noscript>
-            <strong>We're sorry but Montreal Transit Tracker doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+            <strong>We're sorry but Transit Tracker doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
         </noscript>
         <div id="app"></div>
         <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>

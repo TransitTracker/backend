@@ -17,17 +17,7 @@ export default {
     secondsAgo: 'seconds ago',
     minutesAgo: 'minutes ago',
     outdated: 'Outdated',
-    whatsNewTitle: 'What\'s new?',
-    whatsNewBody: '<b>Montréal Transit Tracker version 2 introduces several new features and changes that enhance your experience.</b>' +
-      '<ul>' +
-      '<li>New interface</li>' +
-      '<li>More agencies</li>' +
-      '<li>Auto refresh</li>' +
-      '<li>Detailed information on vehicles and their trip</li>' +
-      '</ul>',
-    communityTitle: 'Community',
-    communityBody: 'To discuss about this application, visit the ' +
-      '<a href="https://cptdb.ca/topic/19090-montr%C3%A9al-transit-tracker/php" class="white--text">official thread</a>.'
+    creditsTitle: 'Credits'
   },
   mapFooter: {
     select: 'Please select a vehicle to see more information'
@@ -39,7 +29,7 @@ export default {
     route: 'Route:',
     headsign: 'Headsign:',
     tripId: 'Trip ID:',
-    searchTrip: 'View related departures',
+    searchTrip: 'View related departures (by Gerbil)',
     startTime: 'Start time:',
     status: 'Status:',
     stopSequence: 'Stop sequence:',
@@ -57,7 +47,8 @@ export default {
     action: 'View on map'
   },
   settings: {
-    changeEffect: 'Agencies changes will not be taken into account until the next refresh or the next start of the application.',
+    changeEffect: 'Some changes will not take effect before the next application startup.',
+    reloadButton: 'Restart',
     agenciesTitle: 'Agencies',
     agenciesBody: 'You can select as many agencies as you want. <b>Please remember that the number of agencies you ' +
       'choose will impact the download size and the performance of this application, especially on mobile devices.</b>',
@@ -66,10 +57,12 @@ export default {
     otherAutoRefreshMessage: 'Warning! This option consumes more internet. Usually, updates are done every minute.',
     otherDefaultTab: 'Default tab on launch',
     otherLanguage: 'Language',
+    otherTheme: 'Theme',
+    otherLightTheme: 'Light',
+    otherDarkTheme: 'Dark',
     aboutTitle: 'About this application',
-    aboutBody: 'This application is made by FelixINX. Data is from the <a class="white--text" href="https://stm.info">Société de ' +
-      'transport de Montréal</a>, the <a class="white--text" href="https://stl.laval.qc.ca">Société de transport de Laval</a> trough ' +
-      '<a class="white--text" href="https://nextbus.com">Nextbus</a> and <a class="white--text" href="https://exo.quebec">exo</a>.',
+    aboutBody: 'This application is made by FelixINX. Data is available through open data programs.' +
+      'A problem, a comment or a suggestion? <a href="https://forms.gle/3qGEuNKs7pGKMijs9" class="white--text">Contact me</a>',
     aboutSource: 'Source code'
   },
   configuration: {
@@ -82,20 +75,18 @@ export default {
       '<a href="https://cptdb.ca/topic/19090-montr%C3%A9al-transit-tracker/">CPTDB</a> or ' +
       '<a href="https://github.com/felixinx/montreal-transit-tracker/issues">GitHub</a>',
     conditionsTitle: 'Please read the following information before continuing:',
-    conditionsBody: '<p class="body-1">This application is intended to provide an overview of the Montréal metropolitan area\'s public transportation network.</p>' +
+    conditionsBody: '<p class="body-1">The purpose of this application is to offer an overview of the public transportation network in some regions.</p>' +
       '<p class="body-1">The data on this website is given as is and should not be used as a public transport timetable. The accuracy and reliability of the data is not guaranteed.</p>' +
-      '<p class="body-1">The data is provided by the following agencies:</p>' +
-      '<ul class="body-1 mb-4">' +
-      '<li><a href="http://stm.info">Société de transport de Montréal (STM)</a></li>' +
-      '<li><a href="https://stl.laval.qc.ca">Société de transport de Laval (STL)</a></li>' +
-      '<li><a href="https://exo.quebec">exo</a> (including exo buses, exo trains and Réseau de transport de Longueuil buses)</li>' +
-      '</ul>' +
-      '<p class="body-2">All of the above data is available under the <a href="https://creativecommons.org/licenses/by/4.0/deed.en">Creative Common 4.0 CC BY</a> license.</p>' +
-      '<p class="body-2">Your preferences are saved in your browser. Google Analytics is used for statistical purposes.</p>',
+      '<p class="body-1">Data is available through the open data programs of several transit agencies.</p>' +
+      '<p class="body-1">Your preferences are saved in your browser. Google Analytics is used for statistical purposes.</p>',
     conditionsAgree: 'Continue',
     agenciesTitle: 'Choose the agencies you want to see:',
     agenciesSelectAll: 'Select all',
     agenciesContinue: 'Continue',
+    regionStep: 'Region',
+    regionTitle: 'Choose the region you want to see first',
+    regionChangeLater: 'You can always change the region later using the map icon, located in the top right corner',
+    regionContinue: 'Continue',
     settingsTitle: 'Settings',
     settingsChangeLater: 'All settings can be changed later.',
     settingsDone: 'Done',
@@ -108,6 +99,12 @@ export default {
     close: 'Close'
   },
   download: {
-    cardTitle: 'Download data'
+    cardTitle: 'Download data',
+    loadedTitle: 'Download loaded vehicles',
+    loadedDescription: 'This file includes all vehicles currently loaded in the application.',
+    allTitle: 'Download all vehicles',
+    allDescription: 'This file is generated each hour and is available only in CSV format.',
+    agencySelect: 'Agency',
+    downloadButton: 'Download'
   }
 }

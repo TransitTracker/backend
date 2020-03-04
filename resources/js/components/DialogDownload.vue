@@ -8,29 +8,25 @@
                     <v-col
                         cols="12"
                         md="6">
-                        <b>Download active vehicles from selected agencies</b>
+                        <b>{{ $vuetify.lang.t('$vuetify.download.loadedTitle') }}</b>
+                        <p>{{ $vuetify.lang.t('$vuetify.download.loadedDescription') }}</p>
 
-                        <v-radio-group v-model="downloadType" label="File format">
-                            <v-radio label="CSV" value="csv"></v-radio>
-                            <v-radio label="Excel" value="xls"></v-radio>
-                        </v-radio-group>
-
-                        <json-excel :data="stateVehicles" :fields="downloadFields" :type="downloadType" :name="downloadName">
+                        <json-excel :data="stateVehicles" :fields="downloadFields" type="csv" :name="downloadName">
                             <v-btn color="primary">
                                 <v-icon left>mdi-download</v-icon>
-                                Download
+                                {{ $vuetify.lang.t('$vuetify.download.downloadButton') }}
                             </v-btn>
                         </json-excel>
                     </v-col>
                     <v-col cols="12" md="6">
-                        <b>Download all vehicles in the database from selected agency</b>
-                        <p>This file is generated each hour and is available only in CSV format.</p>
+                        <b>{{ $vuetify.lang.t('$vuetify.download.allTitle') }}</b>
+                        <p>{{ $vuetify.lang.t('$vuetify.download.allDescription') }}</p>
 
-                        <v-select :items="agencies" label="Agency" v-model="selectedAgency"></v-select>
+                        <v-select :items="agencies" :label="$vuetify.lang.t('$vuetify.download.agencySelect')" v-model="selectedAgency"></v-select>
 
                         <v-btn color="primary" class="mt-4" @click="downloadDump">
                             <v-icon left>mdi-download</v-icon>
-                            Download
+                            {{ $vuetify.lang.t('$vuetify.download.downloadButton') }}
                         </v-btn>
                     </v-col>
                 </v-row>
@@ -42,10 +38,10 @@
 <script>
 import collect from 'collect.js'
 import JsonExcel from 'vue-json-excel'
-import { VDialog, VCard, VCardTitle, VCardText, VRow, VCol, VRadioGroup, VRadio, VBtn, VIcon, VSelect } from 'vuetify/lib'
+import { VDialog, VCard, VCardTitle, VCardText, VRow, VCol, VBtn, VIcon, VSelect } from 'vuetify/lib'
 
 export default {
-  components: { VDialog, VCard, VCardTitle, VCardText, VRow, VCol, VRadioGroup, VRadio, VBtn, VIcon, VSelect, JsonExcel },
+  components: { VDialog, VCard, VCardTitle, VCardText, VRow, VCol, VBtn, VIcon, VSelect, JsonExcel },
   computed: {
     agencies () {
       const agencies = collect(this.$store.state.agencies.data)
@@ -55,7 +51,7 @@ export default {
         const agencyObject = {}
 
         agencyObject.value = agency.slug
-        agencyObject.text = agency.name
+        agencyObject.text = agency.region.toUpperCase() + ' - ' + agency.name
 
         selectAgencies.push(agencyObject)
       })

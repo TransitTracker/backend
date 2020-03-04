@@ -2,9 +2,16 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <v-alert
-          type="info"
-          outlined>{{ $vuetify.lang.t('$vuetify.settings.changeEffect') }}</v-alert>
+        <v-alert type="info" dark color="dark" class="mb-0" prominent>
+          <v-row align="center">
+            <v-col class="grow">{{ $vuetify.lang.t('$vuetify.settings.changeEffect') }}</v-col>
+            <v-col class="shrink">
+              <v-btn @click="refreshWindow()">
+                <v-icon left>mdi-restart</v-icon> {{ $vuetify.lang.t('$vuetify.settings.reloadButton') }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-alert>
       </v-col>
       <v-col cols="12" md="6">
         <v-card>
@@ -21,7 +28,10 @@
                         :value="agency.slug"></v-checkbox>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>{{ agency.name }}</v-list-item-title>
+                <v-list-item-title>
+                  <span class="region" dark>{{ agency.region }}</span>
+                  {{ agency.name }}
+                </v-list-item-title>
               </v-list-item-content>
               <v-list-item-avatar v-bind:style="{ backgroundColor: agency.color, borderColor: agency.text_color }">
                 <v-icon v-bind:style="{ color: agency.text_color }">mdi-{{ agency.vehicles_type }}</v-icon>
@@ -57,14 +67,18 @@
                 value="fr"
                 label="Français"></v-radio>
             </v-radio-group>
+            <v-divider></v-divider>
+            <p class="subtitle-1">{{ $vuetify.lang.t('$vuetify.settings.otherTheme' )}}</p>
+            <v-radio-group v-model="theme">
+              <v-radio key="false" :value="false" :label="$vuetify.lang.t('$vuetify.settings.otherLightTheme')"></v-radio>
+              <v-radio key="true" :value="true" :label="$vuetify.lang.t('$vuetify.settings.otherDarkTheme')"></v-radio>
+            </v-radio-group>
           </v-card-text>
         </v-card>
       </v-col>
       <v-col cols="12" md="6" lg="3">
-        <v-card
-          color="secondary"
-          dark>
-          <v-card-title>{{ $vuetify.lang.t('$vuetify.settings.aboutTitle') }}</v-card-title>
+        <v-card dark>
+          <v-card-title class="wb-bw">{{ $vuetify.lang.t('$vuetify.settings.aboutTitle') }}</v-card-title>
           <v-card-text>
             <span v-html="$vuetify.lang.t('$vuetify.settings.aboutBody')"></span>
             <br>
@@ -106,8 +120,6 @@ export default {
     VRadioGroup,
     VRadio,
     VBtn
-  },
-  mounted () {
   },
   computed: {
     routes () {
@@ -153,6 +165,20 @@ export default {
         this.$store.commit('settings/setLanguage', value)
         this.$vuetify.lang.current = value
       }
+    },
+    theme: {
+      get () {
+        return this.$store.state.settings.darkMode
+      },
+      set (value) {
+        this.$vuetify.theme.dark = value
+        this.$store.commit('settings/setDarkMode', value)
+      }
+    }
+  },
+  methods: {
+    refreshWindow () {
+      window.location.reload()
     }
   }
 }
@@ -182,5 +208,13 @@ export default {
   }
   .v-card a {
     color: #fafafa;
+  }
+  .region {
+    text-transform: uppercase;
+    padding: 5px;
+    font-size: 75%;
+  }
+  .wb-bw {
+    word-break: break-word;
   }
 </style>

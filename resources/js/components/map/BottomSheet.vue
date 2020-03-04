@@ -27,8 +27,9 @@
                 <v-list-item-icon>
                     <v-icon>mdi-map-marker-path</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.route') }}</b> {{ vehicle.route }}
-                    <span v-if="vehicle.trip.long_name">{{ vehicle.trip.long_name}}</span>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.route') }}</b>
+                    <span v-if="vehicle.trip.long_name">{{ vehicle.trip.route_short_name}} {{ vehicle.trip.long_name}} (<code>{{ vehicle.route }}</code>)</span>
+                    <span v-else>{{ vehicle.route }}</span>
                 </v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.trip.headsign">

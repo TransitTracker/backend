@@ -1,4 +1,5 @@
-let mix = require('laravel-mix')
+const mix = require('laravel-mix')
+require('laravel-mix-workbox')
 
 /*
  |--------------------------------------------------------------------------
@@ -12,7 +13,7 @@ let mix = require('laravel-mix')
  */
 
 mix.extend('i18n', new class {
-  webpackRules() {
+  webpackRules () {
     return [
       {
         resourceQuery: /blockType=i18n/,
@@ -44,6 +45,7 @@ mix.i18n()
   .js('resources/js/app.js', 'public/js')
   .sass('resources/sass/app.scss', 'public/css')
   .extract(['vue', 'vuetify'])
+  .generateSW()
 
 mix.browserSync('127.0.0.1:8000')
 

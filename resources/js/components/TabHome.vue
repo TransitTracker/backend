@@ -4,9 +4,10 @@
             <v-row>
                 <v-col cols="12">
                     <v-card color="accent">
-                        <v-card-title class="app-title">{{ $vuetify.lang.t('$vuetify.home.welcome') }} Transit Tracker
+                        <v-card-title class="app-title">
+                            {{ $vuetify.lang.t('$vuetify.home.welcome') }} Transit Tracker
                         </v-card-title>
-                        <v-card-text>{{ $vuetify.lang.t('$vuetify.home.version') }} 2.0.0-beta.5+001</v-card-text>
+                        <v-card-text>{{ $vuetify.lang.t('$vuetify.home.version') }} 2.0.0</v-card-text>
                     </v-card>
                 </v-col>
                 <v-col
@@ -14,14 +15,10 @@
                     <v-card>
                         <v-card-title>
                             <span class="flex-grow-1">{{ totalCount }} {{ $vuetify.lang.t('$vuetify.home.vehicleTotal') }}</span>
-                            <!-- Todo: complete download -->
-<!--                            <v-btn-->
-<!--                                    color="secondary"-->
-<!--                                    @click="dialogDownloadOpen = true"-->
-<!--                                    :loading="vehiclesPendingRequest > 0">-->
-<!--                                <v-icon left>mdi-download</v-icon>-->
-<!--                                {{ $vuetify.lang.t('$vuetify.home.download') }}-->
-<!--                            </v-btn>-->
+                            <v-btn dark @click="dialogDownloadOpen = true" :loading="vehiclesPendingRequest > 0">
+                                <v-icon left>mdi-download</v-icon>
+                                {{ $vuetify.lang.t('$vuetify.home.download') }}
+                            </v-btn>
                         </v-card-title>
                         <v-card-text>
                             <v-row>
@@ -44,10 +41,7 @@
                                             width="100%"
                                             height="100%"
                                             class="d-flex pa-1">
-                                        <v-avatar
-                                                color="white"
-                                                size="36"
-                                                class="ml-1 mr-2 align-self-center">
+                                        <v-avatar size="36" class="ml-1 mr-2 align-self-center avatar" color="white">
                                             {{ count.count }}
                                         </v-avatar>
                                         <div
@@ -62,10 +56,7 @@
                                             {{ Math.floor(count.secondsAgo / 60) }} {{ $vuetify.lang.t('$vuetify.home.minutesAgo') }}
                                         </span>
                                             <div v-if="count.secondsAgo > 300">
-                                                <v-chip
-                                                        label
-                                                        x-small
-                                                        color="white">
+                                                <v-chip label x-small>
                                                     <v-icon left>mdi-close</v-icon>
                                                     {{ $vuetify.lang.t('$vuetify.home.outdated') }}
                                                 </v-chip>
@@ -77,51 +68,28 @@
                         </v-card-text>
                     </v-card>
                 </v-col>
-                <v-col
-                        cols="12"
-                        md="6">
-                    <v-card
-                            color="primary"
-                            dark>
-                        <v-card-title>{{ $vuetify.lang.t('$vuetify.home.whatsNewTitle') }}</v-card-title>
-                        <v-card-text v-html="$vuetify.lang.t('$vuetify.home.whatsNewBody')"></v-card-text>
+                <v-col cols="12" md="6">
+                    <v-card v-if="isEnglish">
+                        <v-card-title v-html="stateActiveRegion.info_title.en"></v-card-title>
+                        <v-card-text v-html="stateActiveRegion.info_body.en"></v-card-text>
+                    </v-card>
+                    <v-card v-else>
+                        <v-card-title v-html="stateActiveRegion.info_title.fr"></v-card-title>
+                        <v-card-text v-html="stateActiveRegion.info_body.fr"></v-card-text>
                     </v-card>
                 </v-col>
-                <v-col
-                        cols="12"
-                        md="6">
-                    <v-card
-                            color="red"
-                            dark>
-                        <v-card-title>{{ $vuetify.lang.t('$vuetify.home.communityTitle') }}</v-card-title>
-                        <v-card-text v-html="$vuetify.lang.t('$vuetify.home.communityBody')"></v-card-text>
-                    </v-card>
-                </v-col>
-                <v-col
-                        cols="12"
-                        md="6"
-                        v-if="alertShow">
-                    <v-card
-                            :color="stateAlert.data.color"
-                            :dark="alertIsDark">
-                        <v-card-title>
-                            <v-icon large left>{{ stateAlert.data.icon }}</v-icon>
-                            <span v-if="isEnglish">{{ stateAlert.data.title_en }}</span>
-                            <span v-else>{{ stateAlert.data.title_fr }}</span>
-                        </v-card-title>
-                        <v-card-text v-if="isEnglish" v-html="stateAlert.data.body_en"></v-card-text>
-                        <v-card-text v-else v-html="stateAlert.data.body_fr"></v-card-text>
+                <v-col cols="12" md="6">
+                    <v-card>
+                        <v-card-title>{{ $vuetify.lang.t('$vuetify.home.creditsTitle') }}</v-card-title>
+                        <v-card-text v-html="stateActiveRegion.credits.en" v-if="isEnglish"></v-card-text>
+                        <v-card-text v-html="stateActiveRegion.credits.fr" v-else></v-card-text>
                     </v-card>
                 </v-col>
             </v-row>
             <!-- Todo: complete refresh button -->
-<!--            <v-btn-->
-<!--                    color="secondary"-->
-<!--                    fab-->
-<!--                    class="fab-refresh"-->
-<!--                    @click="refreshVehicles()">-->
-<!--                <v-icon>mdi-refresh</v-icon>-->
-<!--            </v-btn>-->
+            <v-btn dark fab class="fab-refresh" @click="refreshVehicles()">
+                <v-icon>mdi-refresh</v-icon>
+            </v-btn>
         </v-container>
 
         <dialog-download v-if="dialogDownloadOpen" v-on:close-dialog="dialogDownloadOpen = false"
@@ -134,6 +102,7 @@ import collect from 'collect.js'
 import DialogDownload from './DialogDownload'
 import {
   VAvatar,
+  VBtn,
   VCard,
   VCardText,
   VCardTitle,
@@ -160,6 +129,7 @@ export default {
     VAvatar,
     VChip,
     VIcon,
+    VBtn,
     DialogDownload
   },
   data: () => ({
@@ -167,6 +137,9 @@ export default {
   }),
   props: ['vehiclesPendingRequest'],
   computed: {
+    stateActiveRegion () {
+      return this.$store.state.regions.active
+    },
     stateAgencies () {
       return collect(this.$store.state.agencies.data)
     },
@@ -218,7 +191,7 @@ export default {
   },
   methods: {
     refreshVehicles () {
-      // Todo: manual refresh
+      this.$emit('refresh-vehicles')
     }
   },
   watch: {
@@ -245,5 +218,9 @@ export default {
         position: fixed;
         right: 16px;
         bottom: 16px;
+    }
+
+    .avatar {
+        color: #000000;
     }
 </style>

@@ -44,3 +44,8 @@ Route::get('admin/refresh-agencies', function () {
  */
 Route::resource('admin/alerts', 'Admin\AlertController')->middleware('auth');
 Route::post('admin/alerts/{alert}/active', 'Admin\AlertController@active')->middleware('auth');
+
+/**
+ * Regions
+ */
+Route::resource('admin/regions', 'Admin\RegionController')->middleware('auth');

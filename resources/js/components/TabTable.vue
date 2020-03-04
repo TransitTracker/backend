@@ -15,6 +15,7 @@
                 :group-options="{
           enabled: true
         }"
+                :theme="tableTheme"
                 @on-cell-click="viewOnMap"
                 max-height="calc(100vh - 170px)">
             <div slot="emptystate">
@@ -77,6 +78,13 @@ export default {
       },
       set (vehicle) {
         this.$store.commit('vehicles/setSelection', vehicle)
+      }
+    },
+    tableTheme () {
+      if (this.$store.state.settings.darkMode) {
+        return 'nocturnal'
+      } else {
+        return ''
       }
     }
   },
@@ -147,14 +155,15 @@ export default {
 </script>
 
 <style>
-    .fab-refresh {
-        bottom: 74px;
-    }
+
 </style>
 
 <style scoped>
     .v-btn {
         width: 100%;
         height: 100%;
+    }
+    .vgt-table.nocturnal .vgt-row-header {
+        background-color: #435169;
     }
 </style>

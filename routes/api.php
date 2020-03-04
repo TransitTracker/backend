@@ -4,7 +4,10 @@ use App\Agency;
 use App\Alert;
 use App\Http\Resources\AgencyCollection;
 use App\Http\Resources\AlertResource;
+use App\Http\Resources\RegionCollection;
+use App\Http\Resources\RegionResource;
 use App\Http\Resources\VehiclesCollection;
+use App\Region;
 use App\Vehicle;
 use Laracsv\Export;
 
@@ -49,11 +52,11 @@ Route::get('/alert', function () {
 })->middleware('cacheResponse:10000,alert');
 
 /**
- * Agencies
+ * Regions
  */
-Route::get('/agencies', function () {
-    return new AgencyCollection(Agency::where('is_active', true)->select(['id', 'name', 'color', 'text_color', 'vehicles_type', 'slug', 'is_active'])->get());
-})->middleware('cacheResponse:10080,agencies');
+Route::get('/regions', function () {
+    return RegionResource::collection(Region::all());
+})->middleware('cacheResponse:10080,regions');
 
 /**
  * Dump
@@ -67,7 +70,7 @@ Route::get('/dump/{agency}', function (Agency $agency) {
 
     $vehicles = Vehicle::where('agency_id', $agency->id)->get();
 
-    $fileName = 'mtltt-dump-' . $agency->slug . '-' . date('Ymd_Hi');
+    $fileName = 'mtltt-dump-' . $agency->slug . '-' . date('Ymd_Hi') . '.csv';
 
     $csvExporter = new Export();
     return $csvExporter->build($vehicles, $fields)->download($fileName);

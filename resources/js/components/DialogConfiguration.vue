@@ -12,7 +12,6 @@
                     v-model="stepper"
                     class="stepper"
                     vertical>
-
                 <v-stepper-items>
 
                     <v-stepper-step

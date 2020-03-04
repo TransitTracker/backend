@@ -9,7 +9,6 @@
                     id="header"
             >
                 <v-toolbar-title><b>{{ activeRegion.name }}</b> Transit Tracker</v-toolbar-title>
-
                 <v-spacer></v-spacer>
 
                 <v-menu>

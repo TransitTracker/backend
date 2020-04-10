@@ -154,16 +154,15 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
-
 <style scoped>
     .v-btn {
         width: 100%;
         height: 100%;
     }
-    .vgt-table.nocturnal .vgt-row-header {
-        background-color: #435169;
+</style>
+
+<style>
+    .vgt-table.nocturnal th.vgt-row-header {
+        background-color: #435169 !important;
     }
 </style>

@@ -34,6 +34,9 @@ mix.webpackConfig({
         exclude: /node_modules/
       }
     ]
+  },
+  output: {
+    publicPath: ''
   }
 })
 
@@ -45,11 +48,9 @@ mix.i18n()
   .js('resources/js/app.js', 'public/js')
   .sass('resources/sass/app.scss', 'public/css')
   .extract(['vue', 'vuetify'])
+  .version()
   .generateSW()
 
-mix.browserSync('127.0.0.1:8000')
-
 if (mix.inProduction()) {
-  mix.version()
   mix.disableNotifications()
 }

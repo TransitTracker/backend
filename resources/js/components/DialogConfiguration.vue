@@ -430,7 +430,7 @@ export default {
   },
   data () {
     return {
-      stepper: 0,
+      stepper: 1,
       dialog: true,
       settingsLang: 'en',
       loadedRegions: []

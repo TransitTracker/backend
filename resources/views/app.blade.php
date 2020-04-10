@@ -22,10 +22,7 @@
         <meta name="og:locale" content="en_CA">
         <meta name="og:locale:alternate" content="fr_CA">
 
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap" rel="stylesheet">
-        <link rel="preload" href="/fonts/vendor/@mdi/materialdesignicons-webfont.woff2" as="font">
-        <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css" rel="stylesheet"/>
+        <link rel="preload" href="/fonts/vendor/@mdi/materialdesignicons-webfont.woff2?d0066537ab6a4c6f8285a5aeb3ba5f09" as="font">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="manifest" href="/manifest.json">
         <link rel="icon" sizes="192x192" href="/img/icon-192.png">
@@ -48,8 +45,14 @@
             <strong>We're sorry but Transit Tracker doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
         </noscript>
         <div id="app"></div>
+
+        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
         <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
         <script src="{{ mix('js/vendor.js') }}" type="text/javascript"></script>
         <script src="{{ mix('js/manifest.js') }}" type="text/javascript"></script>
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap" rel="stylesheet" async>
+        <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css" rel="stylesheet" async>
     </body>
 </html>

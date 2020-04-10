@@ -122,8 +122,6 @@ class RefreshForNextbus implements ShouldQueue
         ];
         $stat->save();
 
-        print_r('[LOG] RefreshForNextbus:' . $this->agency->slug . ' at ' . $this->time . ' with ' . count($xml->vehicle) . ' vehicles\n');
-
         // Delete the file
         Storage::delete($this->dataFile);
     }

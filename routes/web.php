@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Artisan;
  */
 Route::get('/', function () {
     return view('app');
-});
+})->name('tt.app');
 
 /**
  * Auth & base admin

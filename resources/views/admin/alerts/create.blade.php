@@ -43,8 +43,8 @@
                 <div class="form-group col-md-6">
                     <label for="color">Color*</label>
                     <select name="color" class="custom-select">
-                        <option value="secondary">Secondary</option>
-                        <option value="accent">Accent</option>
+                        <option value="dark">Dark</option>
+                        <option value="accent">Accent (aqua)</option>
                         <option value="error">Error</option>
                         <option value="info">Info</option>
                         <option value="success">Success</option>
@@ -53,12 +53,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="icon">Icon*</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">mdi-</span>
-                        </div>
-                        <input type="text" class="form-control" name="icon" required>
-                    </div>
+                    <input type="text" class="form-control" name="icon" required>
                     <small class="form-text text-muted">Select from <a href="https://materialdesignicons.com/">Material Design Icons</a></small>
                 </div>
             </div>

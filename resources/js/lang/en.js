@@ -6,7 +6,8 @@ export default {
     tabSettings: 'Settings',
     snackbarBold: 'Warning!',
     snackbarText: 'Data from some agencies are outdated and should be used with caution.',
-    snackbarBtn: 'Close'
+    snackbarBtn: 'Close',
+    regionAriaLabel: 'Change region'
   },
   home: {
     welcome: 'Welcome to ',
@@ -17,7 +18,8 @@ export default {
     secondsAgo: 'seconds ago',
     minutesAgo: 'minutes ago',
     outdated: 'Outdated',
-    creditsTitle: 'Credits'
+    creditsTitle: 'Credits',
+    refreshAriaLabel: 'Rafraîchir'
   },
   mapFooter: {
     select: 'Please select a vehicle to see more information'
@@ -52,6 +54,7 @@ export default {
     agenciesTitle: 'Agencies',
     agenciesBody: 'You can select as many agencies as you want. <b>Please remember that the number of agencies you ' +
       'choose will impact the download size and the performance of this application, especially on mobile devices.</b>',
+    agenciesTip: 'Use the button at the top right to change the region.',
     otherTitle: 'Other settings',
     otherAutoRefresh: 'Auto refresh',
     otherAutoRefreshMessage: 'Warning! This option consumes more internet. Usually, updates are done every minute.',

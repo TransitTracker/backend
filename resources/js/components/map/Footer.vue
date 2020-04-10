@@ -1,8 +1,6 @@
 <template>
 <div>
-    <v-footer
-        fixed
-        color="white">
+    <v-footer fixed :color="componentColor">
         <v-row
                 justify="center"
                 v-if="!noVehicle">
@@ -74,6 +72,9 @@ export default {
       } else {
         return false
       }
+    },
+    componentColor () {
+      return this.$vuetify.theme.dark ? '' : 'white'
     }
   },
   filters: {

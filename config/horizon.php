@@ -142,7 +142,7 @@ return [
         'production' => [
             'supervisor-main' => [
                 'connection' => 'redis',
-                'queue' => ['vehicles', 'notifications'],
+                'queue' => ['vehicles', 'notifications', 'stats'],
                 'balance' => 'simple',
                 'processes' => 5,
                 'tries' => 1,
@@ -159,7 +159,7 @@ return [
         'local' => [
             'supervisor-main' => [
                 'connection' => 'redis',
-                'queue' => ['vehicles', 'gtfs', 'notifications'],
+                'queue' => ['vehicles', 'gtfs', 'notifications', 'stats'],
                 'balance' => 'simple',
                 'processes' => 15,
                 'tries' => 1,

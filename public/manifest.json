@@ -1,6 +1,6 @@
 {
-  "short_name": "MTLTT",
-  "name": "Montréal Transit Tracker",
+  "short_name": "T Tracker",
+  "name": "Transit Tracker",
   "icons": [
     {
       "src": "/img/icon-192.png",

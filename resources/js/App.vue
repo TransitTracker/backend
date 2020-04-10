@@ -13,7 +13,7 @@
 
                 <v-menu>
                     <template v-slot:activator="{ on }">
-                        <v-btn icon v-on="on">
+                        <v-btn icon v-on="on" :aria-label="$vuetify.lang.t('$vuetify.app.regionAriaLabel')">
                             <v-icon>mdi-map</v-icon>
                         </v-btn>
                     </template>
@@ -123,8 +123,9 @@ export default {
     // Change language
     this.$vuetify.lang.current = this.settings.language
 
-    // Register service worker
+    // Check that service workers are supported
     if ('serviceWorker' in navigator) {
+      // Use the window load event to keep the page load performant
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
       })

@@ -67,8 +67,6 @@ class RefreshForGTFS implements ShouldQueue
              * Check if trip is in database
              */
             $trip = Trip::where([['agency_id', '=', $this->agency->id], ['trip_id', '=', $entity->getVehicle()->getTrip()->getTripId()]])
-                ->remember(60 * 60 * 24)
-                ->cacheTags('trip_queries')
                 ->select('id')
                 ->first();
 
@@ -157,8 +155,6 @@ class RefreshForGTFS implements ShouldQueue
             'time' => $this->time
         ];
         $stat->save();
-
-        print_r('[LOG] RefreshForGTFS:' . $this->agency->slug . ' at ' . $this->time . ' with ' . count($feed->getEntity()) . ' vehicles\n');
 
         // Delete the file
         Storage::delete($this->dataFile);

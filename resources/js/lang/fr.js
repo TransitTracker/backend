@@ -6,7 +6,8 @@ export default {
     tabSettings: 'Réglages',
     snackbarBold: 'Attention!',
     snackbarText: 'Les données de certaines agences ne sont pas à jour et doivent être utilisées avec prudence.',
-    snackbarBtn: 'Fermer'
+    snackbarBtn: 'Fermer',
+    regionAriaLabel: 'Changer de région'
   },
   home: {
     welcome: 'Bienvenue dans ',
@@ -17,7 +18,8 @@ export default {
     secondsAgo: 'secondes',
     minutesAgo: 'minutes',
     outdated: 'Pas à jour',
-    creditsTitle: 'Crédits'
+    creditsTitle: 'Crédits',
+    refreshAriaLabel: 'Rafraîchir'
   },
   mapFooter: {
     select: 'Veuillez sélectionner un véhicule pour y consulter toutes les informations'
@@ -52,6 +54,7 @@ export default {
     agenciesTitle: 'Agences',
     agenciesBody: 'Vous pouvez choisir autant d\'agences que vous le souhaitez. <b>N\'oubliez pas que le nombre d\'agences que vous choisissez ' +
       'aura une incidence sur la taille du téléchargement et les performances de cette application, en particulier sur les appareils mobiles.</b>',
+    agenciesTip: 'Utilisez le bouton situé en haut à droite pour changer de région.',
     otherTitle: 'Autres réglages',
     otherAutoRefresh: 'Actualisation automatique',
     otherAutoRefreshMessage: 'Attention! Cette option consomme plus d\'internet. Habituellement, les mises à jours se font à chaque minute.',

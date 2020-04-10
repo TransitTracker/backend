@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <v-alert type="info" dark color="dark" class="mb-0" prominent>
+        <v-alert type="info" dark :color="componentColor" class="mb-0" prominent>
           <v-row align="center">
             <v-col class="grow">{{ $vuetify.lang.t('$vuetify.settings.changeEffect') }}</v-col>
             <v-col class="shrink">
@@ -18,7 +18,9 @@
           <v-card-title>{{ $vuetify.lang.t('$vuetify.settings.agenciesTitle') }}</v-card-title>
           <v-card-text>
             <span v-html="$vuetify.lang.t('$vuetify.settings.agenciesBody')"></span>
-            <br>
+            <v-alert icon="mdi-lightbulb-on" dense :color="tipComponentColor" class="my-2">
+              {{ $vuetify.lang.t('$vuetify.settings.agenciesTip') }}
+            </v-alert>
             <v-list-item
               v-for="agency in agencies"
               :key="agency.id">
@@ -77,7 +79,7 @@
         </v-card>
       </v-col>
       <v-col cols="12" md="6" lg="3">
-        <v-card dark>
+        <v-card dark :color="componentColor">
           <v-card-title class="wb-bw">{{ $vuetify.lang.t('$vuetify.settings.aboutTitle') }}</v-card-title>
           <v-card-text>
             <span v-html="$vuetify.lang.t('$vuetify.settings.aboutBody')"></span>
@@ -174,6 +176,12 @@ export default {
         this.$vuetify.theme.dark = value
         this.$store.commit('settings/setDarkMode', value)
       }
+    },
+    componentColor () {
+      return this.$vuetify.theme.dark ? 'dark' : 'secondary'
+    },
+    tipComponentColor () {
+      return this.$vuetify.theme.dark ? 'primary' : 'accent'
     }
   },
   methods: {

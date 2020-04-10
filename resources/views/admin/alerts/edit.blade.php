@@ -45,8 +45,8 @@
                 <div class="form-group col-md-6">
                     <label for="color">Color*</label>
                     <select name="color" class="custom-select" id="color">
-                        <option value="secondary">Secondary</option>
-                        <option value="accent">Accent</option>
+                        <option value="dark">Dark</option>
+                        <option value="accent">Accent (aqua)</option>
                         <option value="error">Error</option>
                         <option value="info">Info</option>
                         <option value="success">Success</option>

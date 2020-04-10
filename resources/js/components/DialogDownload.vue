@@ -24,7 +24,7 @@
 
                         <v-select :items="agencies" :label="$vuetify.lang.t('$vuetify.download.agencySelect')" v-model="selectedAgency"></v-select>
 
-                        <v-btn color="primary" class="mt-4" @click="downloadDump">
+                        <v-btn color="primary" class="mt-4" :href="downloadUrl" :disabled="selectedAgency === ''">
                             <v-icon left>mdi-download</v-icon>
                             {{ $vuetify.lang.t('$vuetify.download.downloadButton') }}
                         </v-btn>
@@ -98,8 +98,8 @@ export default {
     selectedAgency: ''
   }),
   methods: {
-    downloadDump () {
-      window.location.href = process.env.MIX_APIENDPOINT + '/dump/' + this.selectedAgency
+    downloadUrl () {
+      return process.env.MIX_APIENDPOINT + '/dump/' + this.selectedAgency
     }
   },
   props: {

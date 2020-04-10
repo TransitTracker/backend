@@ -1,7 +1,7 @@
 <template>
     <v-banner
             v-if="stateAlert.isVisible"
-            :class="stateAlert.data.color"
+            :color="stateAlert.data.color"
             :icon="stateAlert.data.icon"
             :dark="isDark"
             single-line>
@@ -48,7 +48,7 @@ export default {
       return this.$vuetify.lang.current === 'en'
     },
     isDark () {
-      return this.stateAlert.data.color === 'secondary'
+      return this.stateAlert.data.color === 'dark'
     }
   },
   methods: {

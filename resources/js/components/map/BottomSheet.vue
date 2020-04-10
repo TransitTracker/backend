@@ -6,7 +6,6 @@
         <v-list>
             <v-btn
                     icon
-                    color="secondary"
                     v-on:click="togglePersistent"
                     class="float-right">
                 <v-icon v-if="persistent">mdi-pin-off</v-icon>
@@ -46,7 +45,7 @@
                 <v-list-item-action v-if="agency.slug === 'stm'">
                     <v-tooltip left>
                         <template v-slot:activator="{ on }">
-                            <v-btn icon color="secondary" v-on="on" @click="searchTrip"><v-icon>mdi-table-search</v-icon></v-btn>
+                            <v-btn icon v-on="on" @click="searchTrip"><v-icon>mdi-table-search</v-icon></v-btn>
                         </template>
                         <span>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.searchTrip') }}</span>
                     </v-tooltip>

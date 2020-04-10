@@ -7,7 +7,7 @@
                         <v-card-title class="app-title">
                             {{ $vuetify.lang.t('$vuetify.home.welcome') }} Transit Tracker
                         </v-card-title>
-                        <v-card-text>{{ $vuetify.lang.t('$vuetify.home.version') }} 2.0.0</v-card-text>
+                        <v-card-text>{{ $vuetify.lang.t('$vuetify.home.version') }} 2.0.1</v-card-text>
                     </v-card>
                 </v-col>
                 <v-col
@@ -69,11 +69,11 @@
                     </v-card>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-card v-if="isEnglish">
+                    <v-card v-if="isEnglish" :color="cardComponentColor" dark>
                         <v-card-title v-html="stateActiveRegion.info_title.en"></v-card-title>
                         <v-card-text v-html="stateActiveRegion.info_body.en"></v-card-text>
                     </v-card>
-                    <v-card v-else>
+                    <v-card v-else :color="cardComponentColor" dark>
                         <v-card-title v-html="stateActiveRegion.info_title.fr"></v-card-title>
                         <v-card-text v-html="stateActiveRegion.info_body.fr"></v-card-text>
                     </v-card>
@@ -86,8 +86,8 @@
                     </v-card>
                 </v-col>
             </v-row>
-            <!-- Todo: complete refresh button -->
-            <v-btn dark fab class="fab-refresh" @click="refreshVehicles()">
+            <v-btn fab class="fab-refresh" @click="refreshVehicles()" :color="btnComponentColor"
+                   :aria-label="$vuetify.lang.t('$vuetify.home.refreshAriaLabel')">
                 <v-icon>mdi-refresh</v-icon>
             </v-btn>
         </v-container>
@@ -182,11 +182,14 @@ export default {
     isEnglish () {
       return this.$store.state.settings.language === 'en'
     },
-    alertIsDark () {
-      return this.stateAlert.data.color === 'secondary'
-    },
     alertShow () {
       return this.stateAlert.data.id !== null && this.stateAgencies.isVisble
+    },
+    btnComponentColor () {
+      return this.$vuetify.theme.dark ? 'accent' : 'secondary'
+    },
+    cardComponentColor () {
+      return this.$vuetify.theme.dark ? 'dark' : 'secondary'
     }
   },
   methods: {

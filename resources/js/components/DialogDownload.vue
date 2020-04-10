@@ -24,7 +24,7 @@
 
                         <v-select :items="agencies" :label="$vuetify.lang.t('$vuetify.download.agencySelect')" v-model="selectedAgency"></v-select>
 
-                        <v-btn color="primary" class="mt-4" :href="downloadUrl" :disabled="selectedAgency === ''">
+                        <v-btn color="primary" class="mt-4" :href="downloadUrl" :disabled="selectedAgency === ''" download>
                             <v-icon left>mdi-download</v-icon>
                             {{ $vuetify.lang.t('$vuetify.download.downloadButton') }}
                         </v-btn>
@@ -75,6 +75,9 @@ export default {
     },
     stateVehicles () {
       return this.$store.state.vehicles.data
+    },
+    downloadUrl () {
+      return process.env.MIX_APIENDPOINT + '/dump/' + this.selectedAgency
     }
   },
   data: () => ({
@@ -97,11 +100,6 @@ export default {
     downloadType: 'xls',
     selectedAgency: ''
   }),
-  methods: {
-    downloadUrl () {
-      return process.env.MIX_APIENDPOINT + '/dump/' + this.selectedAgency
-    }
-  },
   props: {
     dialogOpen: Boolean
   }

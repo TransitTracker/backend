@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
 
     /*
@@ -52,7 +54,10 @@ return [
     |
     */
 
-    'prefix' => env('HORIZON_PREFIX', 'horizon:'),
+    'prefix' => env(
+        'HORIZON_PREFIX',
+        Str::slug(env('APP_NAME', 'laravel'), '_').'_horizon:'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -95,8 +100,29 @@ return [
 
     'trim' => [
         'recent' => 60,
+        'pending' => 60,
+        'completed' => 60,
+        'recent_failed' => 10080,
         'failed' => 10080,
         'monitored' => 10080,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Metrics
+    |--------------------------------------------------------------------------
+    |
+    | Here you can configure how many snapshots should be kept to display in
+    | the metrics graph. This will get used in combination with Horizon's
+    | `horizon:snapshot` schedule to define how long to retain metrics.
+    |
+    */
+
+    'metrics' => [
+        'trim_snapshots' => [
+            'job' => 24,
+            'queue' => 24,
+        ],
     ],
 
     /*
@@ -142,7 +168,7 @@ return [
         'production' => [
             'supervisor-main' => [
                 'connection' => 'redis',
-                'queue' => ['vehicles', 'notifications', 'stats'],
+                'queue' => ['vehicles', 'notifications'],
                 'balance' => 'simple',
                 'processes' => 5,
                 'tries' => 1,
@@ -150,18 +176,19 @@ return [
             'supervisor-gtfs' => [
                 'connection' => 'redis',
                 'queue' => ['gtfs'],
-                'processes' => 2,
+                'balance' => 'simple',
+                'processes' => 1,
                 'tries' => 1,
                 'timeout' => 600
-            ]
+            ],
         ],
 
         'local' => [
-            'supervisor-main' => [
+            'supervisor-dev' => [
                 'connection' => 'redis',
-                'queue' => ['vehicles', 'gtfs', 'notifications', 'stats'],
+                'queue' => ['vehicles', 'notifications', 'gtfs'],
                 'balance' => 'simple',
-                'processes' => 15,
+                'processes' => 3,
                 'tries' => 1,
                 'timeout' => 600
             ],

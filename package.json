@@ -1,7 +1,7 @@
 {
     "name": "montreal-transit-tracker",
     "author": "Félix Desjardins",
-    "version": "2.0.1",
+    "version": "2.0.1+003",
     "private": true,
     "scripts": {
         "dev": "npm run development",
@@ -32,8 +32,6 @@
         "fibers": "^4.0.2",
         "jquery": "^3.5.0",
         "laravel-mix": "^5.0.4",
-        "laravel-mix-bundle-analyzer": "^1.0.5",
-        "laravel-mix-workbox": "^0.1.2",
         "lodash": "^4.17.15",
         "popper.js": "^1.16.1",
         "resolve-url-loader": "^3.1.1",
@@ -43,14 +41,13 @@
         "workbox-webpack-plugin": "^5.1.2"
     },
     "dependencies": {
-        "@bugsnag/js": "^6.5.2",
-        "@bugsnag/plugin-vue": "^6.5.0",
         "axios": "^0.19.2",
         "chart.js": "^2.9.3",
         "collect.js": "^4.20.3",
         "color": "^3.1.2",
         "downloadjs": "^1.4.7",
         "laravel-echo": "^1.7.0",
+        "laravel-mix-workbox": "^0.1.2",
         "mapbox-gl": "^1.9.1",
         "pusher-js": "^5.1.1",
         "vue": "^2.6.11",

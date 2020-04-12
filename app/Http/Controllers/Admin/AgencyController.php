@@ -78,7 +78,7 @@ class AgencyController extends Controller
         ]);
         $agency->save();
 
-        ResponseCache::clear(['agencies']);
+        ResponseCache::clear();
 
         return redirect('/admin/agencies')->with('success', 'Agency saved!');
     }
@@ -149,7 +149,7 @@ class AgencyController extends Controller
             'is_active' => $request->get('is_active'),
         ]);
 
-        ResponseCache::clear(['agencies']);
+        ResponseCache::clear();
 
         return redirect('/admin/agencies')->with('success', 'Agency saved!');
     }

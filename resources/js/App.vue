@@ -197,6 +197,10 @@ export default {
             this.loadVehiclesFromAgency(agency, timestamp)
           })
         })
+        .catch(error => {
+          console.log(error)
+          this.vehiclesRequestPending--
+        })
 
       // Load alert
       axios
@@ -237,32 +241,46 @@ export default {
             }
           })
       }
+
+      // Send statistics
+      window._paq.push(
+        ['setCustomDimension', 1, this.settings.activeRegion],
+        ['setCustomDimension', 2, this.settings.autoRefresh],
+        ['setCustomDimension', 3, this.settings.defaultPath],
+        ['setCustomDimension', 4, this.settings.darkMode],
+        ['setCustomDimension', 5, this.settings.activeAgencies],
+        ['setCustomDimension', 6, this.settings.language]
+      )
     },
     loadVehiclesFromAgency (agencySlug, timestamp) {
       // Empty vehicles and count
       const agency = collect(this.agencies).firstWhere('slug', agencySlug)
-      this.$store.commit('vehicles/emptyData', agency.id)
-      this.$store.commit('agencies/emptyCount', agencySlug)
+      if (agency) {
+        this.$store.commit('vehicles/emptyData', agency.id)
+        this.$store.commit('agencies/emptyCount', agencySlug)
 
-      if (agency.region === this.settings.activeRegion) {
-        // Load vehicles from specified agency
-        console.log('Loading vehicles from ' + agencySlug)
-        axios.get('/vehicles/' + agencySlug)
-          .then((response) => {
-            // Calculate time difference and set data
-            const timeDiff = timestamp - response.data.timestamp
-            this.$store.commit('vehicles/setData', response.data.data)
-            this.$store.commit('agencies/setCount', { agency: agencySlug, count: response.data.count, diff: timeDiff })
+        if (agency.region === this.settings.activeRegion) {
+          // Load vehicles from specified agency
+          console.log('Loading vehicles from ' + agencySlug)
+          axios.get('/vehicles/' + agencySlug)
+            .then((response) => {
+              // Calculate time difference and set data
+              const timeDiff = timestamp - response.data.timestamp
+              this.$store.commit('vehicles/setData', response.data.data)
+              this.$store.commit('agencies/setCount', { agency: agencySlug, count: response.data.count, diff: timeDiff })
 
-            // If time difference is too high, show the snackbar
-            timeDiff > 300 && this.showSnackbar()
-          })
-          .catch((error) => {
-            if (error.response.status === 403 || error.response.status === 404) {
-              // Agency is either invalid or dosen't exist
-              this.removeAgency(agencySlug)
-            }
-          })
+              // If time difference is too high, show the snackbar
+              timeDiff > 300 && this.showSnackbar()
+            })
+            .catch((error) => {
+              if (error.response.status === 403 || error.response.status === 404) {
+                // Agency is either invalid or dosen't exist
+                this.removeAgency(agencySlug)
+              }
+            })
+        }
+      } else {
+        this.removeAgency(agencySlug)
       }
     },
     showSnackbar () {

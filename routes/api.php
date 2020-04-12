@@ -36,7 +36,7 @@ Route::get('/vehicles/{agency}', function (Agency $agency) {
     } else {
         return response()->json(['message' => 'AGENCY_INACTIVE'], 403);
     }
-})->middleware('cacheResponse:300,vehicles')->name('tt.api.vehicles');
+})->middleware('cacheResponse:300')->name('tt.api.vehicles');
 
 /**
  * Alerts
@@ -49,14 +49,14 @@ Route::get('/alert', function () {
     } else {
         return response()->json(['message' => 'NO_ACTIVE_ALERT'], 200);
     }
-})->middleware('cacheResponse:10000,alert')->name('tt.api.alert');
+})->middleware('cacheResponse:10000')->name('tt.api.alert');
 
 /**
  * Regions
  */
 Route::get('/regions', function () {
     return RegionResource::collection(Region::all());
-})->middleware('cacheResponse:10080,regions')->name('tt.api.regions');
+})->middleware('cacheResponse:10080')->name('tt.api.regions');
 
 /**
  * Dump
@@ -74,7 +74,7 @@ Route::get('/dump/{agency}', function (Agency $agency) {
 
     $csvExporter = new Export();
     return $csvExporter->build($vehicles, $fields)->download($fileName);
-})->middleware('cacheResponse:3600,dump')->name('tt.api.dump');
+})->middleware('cacheResponse:3600')->name('tt.api.dump');
 
 /**
  * Fallback (404)

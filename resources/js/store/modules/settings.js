@@ -1,5 +1,5 @@
 const state = {
-  activeAgencies: ['stm'],
+  activeAgencies: ['stm', 'ttc'],
   autoRefresh: false,
   defaultPath: '/',
   configurationDone: false,

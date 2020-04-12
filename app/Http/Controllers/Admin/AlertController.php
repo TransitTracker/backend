@@ -61,7 +61,7 @@ class AlertController extends Controller
         ]);
         $alert->save();
 
-        ResponseCache::clear(['alerts']);
+        ResponseCache::clear();
 
         return redirect('/admin/alerts')->with('success', 'Alert created!');
     }
@@ -117,7 +117,7 @@ class AlertController extends Controller
             'icon' => $request->get('icon')
         ]);
 
-        ResponseCache::clear(['alerts']);
+        ResponseCache::clear();
 
         return redirect('/admin/alerts')->with('success', 'Alert saved!');
     }
@@ -152,7 +152,7 @@ class AlertController extends Controller
 
         $alert->save();
 
-        ResponseCache::clear(['alerts']);
+        ResponseCache::clear();
 
         return redirect('/admin/alerts')->with('success', 'Alert is now active!');
     }

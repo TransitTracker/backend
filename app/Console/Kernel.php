@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new DispatchAgencies(Agency::active()->get()))->everyMinute()->unlessBetween('1:00', '4:00');
+        $schedule->job(new DispatchAgencies(Agency::active()->get()), 'vehicles')->everyMinute()->unlessBetween('1:00', '4:00');
     }
 
     /**

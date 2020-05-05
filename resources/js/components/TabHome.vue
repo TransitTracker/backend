@@ -7,7 +7,7 @@
                         <v-card-title class="app-title">
                             {{ $vuetify.lang.t('$vuetify.home.welcome') }} Transit Tracker
                         </v-card-title>
-                        <v-card-text>{{ $vuetify.lang.t('$vuetify.home.version') }} 2.0.1</v-card-text>
+                        <v-card-text>{{ $vuetify.lang.t('$vuetify.home.version') }} 2.0.2</v-card-text>
                     </v-card>
                 </v-col>
                 <v-col

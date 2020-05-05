@@ -39,7 +39,7 @@ class JobFailed extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.job.failed')
+        return $this->markdown('emails.failed.job')
                     ->with([
                         'jobName' => $this->className,
                         'jobException' => $this->exception->getMessage(),

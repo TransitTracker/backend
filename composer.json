@@ -16,6 +16,7 @@
         "fideloper/proxy": "^4.3",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
+        "inspector-apm/inspector-laravel": "^4.4",
         "laravel/framework": "^7.0",
         "laravel/horizon": "^4.0",
         "laravel/tinker": "^2.0",

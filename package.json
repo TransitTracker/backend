@@ -1,7 +1,7 @@
 {
     "name": "montreal-transit-tracker",
     "author": "Félix Desjardins",
-    "version": "2.0.1+003",
+    "version": "2.0.2",
     "private": true,
     "scripts": {
         "dev": "npm run development",

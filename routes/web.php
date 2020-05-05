@@ -11,6 +11,8 @@
 |
 */
 
+use App\Agency;
+use App\Jobs\DispatchAgencies;
 use Illuminate\Support\Facades\Artisan;
 
 /**
@@ -35,8 +37,8 @@ Route::post('admin/agencies/{agency}/gtfsCleanAndUpdate', 'Admin\AgencyControlle
 Route::post('admin/agencies/{agency}/gtfsDelete', 'Admin\AgencyController@gtfsDelete')->middleware('auth');
 Route::post('admin/agencies/{agency}/gtfsClean', 'Admin\AgencyController@gtfsClean')->middleware('auth');
 Route::get('admin/refresh-agencies', function () {
-    Artisan::call('agency:refresh-actives');
-    return redirect('/admin');
+    DispatchAgencies::dispatch(Agency::active()->get())->onQueue('vehicles');
+    return redirect('admin/agencies')->with('success', 'The job is now in the queue!');
 })->middleware('auth');
 
 /**

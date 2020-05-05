@@ -2,34 +2,42 @@
 
 namespace App\Mail;
 
+use App\Agency;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\Events\JobFailed as EventJobFailed;
+use Illuminate\Queue\SerializesModels;
 
-class JobFailed extends Mailable
+class RefreshFailed extends Mailable
 {
     use Queueable, SerializesModels;
-
-    /**
-     * @var string
-     */
-    protected string $className;
 
     protected $exception;
 
     /**
+     * @var string
+     */
+    protected string $agencySlug;
+
+    /**
+     * @var string
+     */
+    protected string $jobName;
+
+    /**
      * Create a new message instance.
      *
-     * @param string $className
      * @param $exception
+     * @param string $agencySlug
+     * @param string $jobName
      */
-    public function __construct(string $className, $exception)
+    public function __construct($exception, string $agencySlug, string $jobName)
     {
-        $this->className = $className;
         $this->exception = $exception;
+        $this->agencySlug = strtoupper($agencySlug);
+        $this->jobName = $jobName;
     }
 
     /**
@@ -39,9 +47,11 @@ class JobFailed extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.job.failed')
+        return $this->markdown('emails.failed.refresh')
+                    ->subject('Refresh Failed for ' . $this->agencySlug)
                     ->with([
-                        'jobName' => $this->className,
+                        'jobName' => $this->jobName,
+                        'agencySlug' => $this->agencySlug,
                         'jobException' => $this->exception->getMessage(),
                         'jobTrace' => $this->exception->getTraceAsString()
                     ]);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Agency;
 use App\Jobs\CleanGtfsData;
 use App\Jobs\DownloadGTFS;
+use App\Jobs\DispatchAgencies;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -175,9 +176,8 @@ class AgencyController extends Controller
      */
     public function refresh(Agency $agency)
     {
-        Artisan::call('agency:refresh', [
-            'agency' => $agency->slug
-        ]);
+
+        DispatchAgencies::dispatch(Agency::where('id', $agency->id)->get())->onQueue('vehicles');
 
         return redirect('/admin/agencies')->with('success', 'Vehicles will be refresh soon!');
     }

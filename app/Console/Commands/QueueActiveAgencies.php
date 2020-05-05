@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Agency;
+use App\Jobs\DispatchAgencies;
 use App\Jobs\RefreshForNextbus;
 use GuzzleHttp\Client;
 use App\Jobs\RefreshForGTFS;
@@ -42,59 +43,6 @@ class QueueActiveAgencies extends Command
      */
     public function handle()
     {
-        // Get all agencies
-        $agencies = Agency::where('is_active', 1)->get();
-
-        // Get time
-        $time = time();
-
-        // Create client
-        $client = new Client();
-
-        // Run each agency
-        foreach ($agencies as $agency) {
-            try {
-                $requestOptions = [];
-
-                // Add header to options (if one)
-                if ($agency->header_name) {
-                    $headerArray = [
-                        $agency->header_name => $agency->header_value
-                    ];
-                    $requestOptions['headers'] = $headerArray;
-                }
-
-                // Add query parameters to options (if one)
-                if ($agency->param_name) {
-                    $headerQuery = [
-                        $agency->param_name => $agency->param_value
-                    ];
-                    $requestOptions['query'] = $headerQuery;
-                }
-
-                $response = $client->request($agency->realtime_method, $agency->realtime_url, $requestOptions);
-
-                if ($response->getStatusCode() !== 200) {
-                    break;
-                }
-
-                $fileName = 'downloads/' . $agency->slug . '-' . $time . '.pb';
-                Storage::put($fileName, (string) $response->getBody());
-
-                if ($agency->realtime_type === 'gtfsrt') {
-                    RefreshForGTFS::dispatch($agency, $fileName, $time)->onQueue('vehicles');
-                }
-
-                if ($agency->realtime_type === 'nextbus') {
-                    RefreshForNextbus::dispatch($agency, $fileName, $time)->onQueue('vehicles');
-                }
-            } catch (\Exception $e) {
-                report($e);
-            }
-        }
-
-        $client = null;
+        DispatchAgencies::dispatch(Agency::active()->get())->onQueue('vehicles');
     }
-
-    // Todo: send email if fails
 }

@@ -1,5 +1,6 @@
 const mix = require('laravel-mix')
 require('laravel-mix-workbox')
+require('laravel-mix-bundle-analyzer')
 
 /*
  |--------------------------------------------------------------------------
@@ -41,7 +42,7 @@ mix.webpackConfig({
 })
 
 mix.babelConfig({
-  plugins: ['@babel/plugin-syntax-dynamic-import'],
+  plugins: ['@babel/plugin-syntax-dynamic-import']
 })
 
 mix.i18n()
@@ -49,8 +50,10 @@ mix.i18n()
   .sass('resources/sass/app.scss', 'public/css')
   .extract(['vue', 'vuetify'])
   .version()
-  .generateSW()
 
 if (mix.inProduction()) {
+  mix.generateSW()
   mix.disableNotifications()
+} else {
+  mix.bundleAnalyzer()
 }

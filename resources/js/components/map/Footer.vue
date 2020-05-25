@@ -1,57 +1,44 @@
 <template>
-<div>
-    <v-footer fixed :color="componentColor">
-        <v-row
-                justify="center"
-                v-if="!noVehicle">
-            <v-col class="agency">
-                <span class="d-none d-md-block">{{ agency.name }}</span>
-                <span class="d-md-none">{{ agency.slug | uppercase }}</span>
-            </v-col>
-            <v-col class="ref">
-                {{ vehicle.ref }}
-            </v-col>
-            <v-col
-                    class="bearing d-none d-md-block"
-                    v-if="vehicle.bearing">
-                <v-icon :style="{ transform: 'rotate(' + vehicle.bearing + 'deg)'}">mdi-navigation</v-icon>
-            </v-col>
-            <v-col
-                    class="speed d-none d-md-block"
-                    v-if="vehicle.speed">
-                {{ vehicle.speed }} km/h
-            </v-col>
-            <v-col class="trip">
-                <div
-                        class="route"
-                        :style="{ backgroundColor: vehicle.trip.color, color: vehicle.trip.text_color }">
-                    {{ vehicle.trip.route_short_name === null ? vehicle.route : vehicle.trip.route_short_name }}
-                    <span class="d-none d-md-block">{{ vehicle.trip.long_name }}</span>
-                </div>
-            </v-col>
-            <v-col class="expand">
-                <v-btn
-                        text
-                        icon
-                        v-on:click="$emit('open-sheet')">
-                    <v-icon>mdi-chevron-up</v-icon>
-                </v-btn>
-            </v-col>
-        </v-row>
-        <v-row
-                align="center"
-                justify="center"
-                v-else>
-            <v-col class="select">
-                {{ $vuetify.lang.t('$vuetify.mapFooter.select') }}
-            </v-col>
-        </v-row>
-    </v-footer>
-</div>
+    <div>
+        <v-footer fixed :color="componentColor">
+            <v-row justify="center" v-if="!noVehicle">
+                <v-col class="agency">
+                    <span class="d-none d-md-block">{{ agency.name }}</span>
+                    <span class="d-md-none">{{ agency.slug | uppercase }}</span>
+                </v-col>
+                <v-col class="ref">
+                    {{ vehicle.ref }}
+                </v-col>
+                <v-col class="bearing d-none d-md-block" v-if="vehicle.bearing">
+                    <v-icon :style="{ transform: 'rotate(' + vehicle.bearing + 'deg)'}">{{ mdiSvg.navigation }}</v-icon>
+                </v-col>
+                <v-col class="speed d-none d-md-block" v-if="vehicle.speed">
+                    {{ vehicle.speed }} km/h
+                </v-col>
+                <v-col class="trip">
+                    <div class="route" :style="{ backgroundColor: vehicle.trip.color, color: vehicle.trip.text_color }">
+                        {{ vehicle.trip.route_short_name === null ? vehicle.route : vehicle.trip.route_short_name }}
+                        <span class="d-none d-md-block">{{ vehicle.trip.long_name }}</span>
+                    </div>
+                </v-col>
+                <v-col class="expand">
+                    <v-btn text icon v-on:click="$emit('open-sheet')">
+                        <v-icon>{{ mdiSvg.chevronUp }}</v-icon>
+                    </v-btn>
+                </v-col>
+            </v-row>
+            <v-row align="center" justify="center" v-else>
+                <v-col class="select">
+                    {{ $vuetify.lang.t('$vuetify.mapFooter.select') }}
+                </v-col>
+            </v-row>
+        </v-footer>
+    </div>
 </template>
 
 <script>
 import { VFooter, VRow, VCol, VBtn, VIcon } from 'vuetify/lib'
+import { mdiNavigation, mdiChevronUp } from '@mdi/js'
 
 export default {
   components: {
@@ -60,10 +47,6 @@ export default {
     VCol,
     VBtn,
     VIcon
-  },
-  props: {
-    agency: Object,
-    vehicle: Object
   },
   computed: {
     noVehicle () {
@@ -77,10 +60,20 @@ export default {
       return this.$vuetify.theme.dark ? '' : 'white'
     }
   },
+  data: () => ({
+    mdiSvg: {
+      navigation: mdiNavigation,
+      chevronUp: mdiChevronUp
+    }
+  }),
   filters: {
     uppercase: (value) => {
       return value.toUpperCase()
     }
+  },
+  props: {
+    agency: Object,
+    vehicle: Object
   }
 }
 </script>

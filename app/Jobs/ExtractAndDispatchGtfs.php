@@ -37,40 +37,39 @@ class ExtractAndDispatchGtfs implements ShouldQueue
      */
     public function handle()
     {
+        var_dump("[Extract-Starting]");
         $zip = new \ZipArchive();
         $file = $zip->open($this->zipFile);
 
         if ($file) {
-            // Unzip file
+            var_dump("[Extract-HasZip]");
+            // Set extract folder
             $extractFolder = getcwd() . '/storage/app/gtfs/' . $this->agency->slug . '-' . time();
-            $zip->extractTo($extractFolder);
-            $zip->close();
+            mkdir($extractFolder);
 
+            var_dump("[Extract-Calendar]");
+            // Extract and dispatch services
+            $services = $zip->getFromName('calendar.txt');
+            file_put_contents($extractFolder . '/calendar.txt', $services);
+            ProcessGtfsServices::dispatch($this->agency, $extractFolder . '/calendar.txt')->onQueue('gtfs');
+
+            var_dump("[Extract-Routes]");
             // Open and dispatch routes
-            $routesReader = Reader::createFromPath($extractFolder . '/routes.txt', 'r')->setHeaderOffset(0);
-            foreach ($routesReader->getRecords() as $route) {
-                ProcessGtfsRoute::dispatch($this->agency, $route)->onQueue('gtfs');
-            }
-            $routesReader = null;
+            $routes = $zip->getFromName('routes.txt');
+            file_put_contents($extractFolder . '/routes.txt', $routes);
+            ProcessGtfsRoutes::dispatch($this->agency, $extractFolder . '/routes.txt')->onQueue('gtfs');
 
-            // Open and dispatch services
-            $servicesReader = Reader::createFromPath($extractFolder . '/calendar.txt', 'r')->setHeaderOffset(0);
-            foreach ($servicesReader->getRecords() as $service) {
-                ProcessGtfsService::dispatch($this->agency, $service)->onQueue('gtfs');
-            }
-            $servicesReader = null;
-
+            var_dump("[Extract-Trips]");
             // Open and dispatch trips
-            $tripsReader = Reader::createFromPath($extractFolder . '/trips.txt', 'r')->setHeaderOffset(0);
-            foreach ($tripsReader->getRecords() as $trip) {
-                ProcessGtfsTrip::dispatch($this->agency, $trip)->onQueue('gtfs')->delay(3);
-            }
-            $tripsReader = null;
+            $trips = $zip->getFromName('trips.txt');
+            file_put_contents($extractFolder . '/trips.txt', $trips);
+            ProcessGtfsTrips::dispatch($this->agency, $extractFolder . '/trips.txt')->onQueue('gtfs');
 
-            // Delete files
-            array_map('unlink', glob($extractFolder . '/*.txt'));
-            rmdir($extractFolder);
-            Storage::delete($this->zipFile);
+            var_dump("[Extract-Close]");
+            $zip->close();
         }
+
+        $zip = null;
+        var_dump("[Extract-Finish]");
     }
 }

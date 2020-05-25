@@ -54,6 +54,7 @@ class DispatchAgencies implements ShouldQueue
         foreach ($this->agencies as $agency) {
             try {
                 $requestOptions = [];
+                $requestOptions['timeout'] = 5;
 
                 // Add header to options (if one)
                 if ($agency->header_name) {
@@ -73,10 +74,6 @@ class DispatchAgencies implements ShouldQueue
 
                 $response = $client->request($agency->realtime_method, $agency->realtime_url, $requestOptions);
 
-                if ($response->getStatusCode() !== 200) {
-                    break;
-                }
-
                 $fileName = 'downloads/' . $agency->slug . '-' . $time . '.pb';
                 Storage::put($fileName, (string) $response->getBody());
 
@@ -87,12 +84,12 @@ class DispatchAgencies implements ShouldQueue
                 if ($agency->realtime_type === 'nextbus') {
                     RefreshForNextbus::dispatch($agency, $fileName, $time)->onQueue('vehicles');
                 }
-            } catch (ClientException $e) {
+            } catch (Exception $e) {
                 $className = get_class($this);
 
                 $lastFailedJob = FailedJobsHistory::firstWhere([
                     'name' => $className,
-                    'exception' => $e->getCode(),
+                    'exception' => $e->getMessage(),
                     'agency_id' => $agency->id,
                 ]);
 

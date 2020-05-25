@@ -3,8 +3,6 @@ import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
 import { Ripple } from 'vuetify/lib/directives'
 
-import '@mdi/font/css/materialdesignicons.css'
-
 import en from './lang/en'
 import fr from './lang/fr'
 
@@ -19,18 +17,19 @@ export default new Vuetify({
     themes: {
       light: {
         primary: '#2374AB',
-        secondary: '#303633',
-        accent: '#4DCCBD'
+        secondary: '#4DCCBD',
+        accent: '#303633'
       },
       dark: {
-        primary: '#2374AB',
-        secondary: '#303633',
-        accent: '#4DCCBD'
+        primary: '#00497B',
+        secondary: '#009A8D',
+        accent: '#303633',
+        anchor: '#FFFFFF'
       }
     }
   },
   icons: {
-    iconfont: 'mdi'
+    iconfont: 'mdiSvg'
   },
   lang: {
     locales: { en, fr },

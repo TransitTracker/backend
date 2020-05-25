@@ -2,7 +2,7 @@
     <v-banner
             v-if="stateAlert.isVisible"
             :color="stateAlert.data.color"
-            :icon="stateAlert.data.icon"
+            :icon="mdiSvg[stateAlert.data.icon]"
             :dark="isDark"
             single-line>
         <span v-if="isEnglish">{{ stateAlert.data.title_en}}</span>
@@ -19,7 +19,7 @@
                     v-if="stateAlert.data.can_be_closed"
                     class="d-none d-md-block"
                     @click="markAlertAsRead">
-                <v-icon>mdi-close</v-icon>
+                <v-icon>{{ mdiSvg.close }}</v-icon>
             </v-btn>
         </template>
     </v-banner>
@@ -27,6 +27,7 @@
 
 <script>
 import { VBanner, VBtn, VIcon } from 'vuetify/lib'
+import { mdiAlert, mdiStarCircle, mdiServerNetworkOff, mdiCheck, mdiUpdate, mdiInformation, mdiClose } from '@mdi/js'
 
 export default {
   name: 'AlertBanner',
@@ -35,11 +36,17 @@ export default {
     VIcon,
     VBtn
   },
-  data () {
-    return {
-      iconColor: 'accent'
+  data: () => ({
+    mdiSvg: {
+      alert: mdiAlert,
+      starCircle: mdiStarCircle,
+      serverNetworkOff: mdiServerNetworkOff,
+      check: mdiCheck,
+      update: mdiUpdate,
+      information: mdiInformation,
+      close: mdiClose
     }
-  },
+  }),
   computed: {
     stateAlert () {
       return this.$store.state.alert

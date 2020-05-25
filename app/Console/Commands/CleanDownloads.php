@@ -41,5 +41,7 @@ class CleanDownloads extends Command
         $filesystem = new Filesystem();
         $filesystem->cleanDirectory('storage/app/gtfs');
         $filesystem->cleanDirectory('storage/app/downloads');
+        $filesystem->copy('storage/app/public/.gitignore', 'storage/app/gtfs/.gitignore');
+        $filesystem->copy('storage/app/public/.gitignore', 'storage/app/downloads/.gitignore');
     }
 }

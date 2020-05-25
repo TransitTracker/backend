@@ -13,8 +13,12 @@ const mutations = {
     state.counts = state.counts.concat([payload])
   },
   emptyCount (state, agencySlug) {
-    const counts = collect(state.counts)
-    state.counts = counts.reject(count => count.agency === agencySlug).items
+    if (agencySlug === 'all') {
+      state.counts = []
+    } else {
+      const counts = collect(state.counts)
+      state.counts = counts.reject(count => count.agency === agencySlug).items
+    }
   }
 }
 

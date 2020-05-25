@@ -5,27 +5,30 @@
 
             <v-card-text>
                 <v-row>
-                    <v-col
-                        cols="12"
-                        md="6">
-                        <b>{{ $vuetify.lang.t('$vuetify.download.loadedTitle') }}</b>
-                        <p>{{ $vuetify.lang.t('$vuetify.download.loadedDescription') }}</p>
+                    <v-col cols="12" md="6" class="d-flex flex-column justify-space-between">
+                        <div>
+                            <b>{{ $vuetify.lang.t('$vuetify.download.loadedTitle') }}</b>
+                            <p>{{ $vuetify.lang.t('$vuetify.download.loadedDescription') }}</p>
+                        </div>
 
                         <json-excel :data="stateVehicles" :fields="downloadFields" type="csv" :name="downloadName">
                             <v-btn color="primary">
-                                <v-icon left>mdi-download</v-icon>
+                                <v-icon left>{{ mdiSvg.download }}</v-icon>
                                 {{ $vuetify.lang.t('$vuetify.download.downloadButton') }}
                             </v-btn>
                         </json-excel>
                     </v-col>
-                    <v-col cols="12" md="6">
-                        <b>{{ $vuetify.lang.t('$vuetify.download.allTitle') }}</b>
-                        <p>{{ $vuetify.lang.t('$vuetify.download.allDescription') }}</p>
+                    <v-col cols="12" md="6" class="d-flex flex-column justify-space-between">
+                        <div>
+                            <b>{{ $vuetify.lang.t('$vuetify.download.allTitle') }}</b>
+                            <p>{{ $vuetify.lang.t('$vuetify.download.allDescription') }}</p>
+                        </div>
 
                         <v-select :items="agencies" :label="$vuetify.lang.t('$vuetify.download.agencySelect')" v-model="selectedAgency"></v-select>
 
-                        <v-btn color="primary" class="mt-4" :href="downloadUrl" :disabled="selectedAgency === ''" download>
-                            <v-icon left>mdi-download</v-icon>
+                        <v-btn color="primary" class="mt-4" :href="downloadUrl" :disabled="selectedAgency === ''"
+                               download>
+                            <v-icon left>{{ mdiSvg.download }}</v-icon>
                             {{ $vuetify.lang.t('$vuetify.download.downloadButton') }}
                         </v-btn>
                     </v-col>
@@ -39,9 +42,21 @@
 import collect from 'collect.js'
 import JsonExcel from 'vue-json-excel'
 import { VDialog, VCard, VCardTitle, VCardText, VRow, VCol, VBtn, VIcon, VSelect } from 'vuetify/lib'
+import { mdiDownload } from '@mdi/js'
 
 export default {
-  components: { VDialog, VCard, VCardTitle, VCardText, VRow, VCol, VBtn, VIcon, VSelect, JsonExcel },
+  components: {
+    VDialog,
+    VCard,
+    VCardTitle,
+    VCardText,
+    VRow,
+    VCol,
+    VBtn,
+    VIcon,
+    VSelect,
+    JsonExcel
+  },
   computed: {
     agencies () {
       const agencies = collect(this.$store.state.agencies.data)
@@ -70,8 +85,7 @@ export default {
       function pad (s) { return (s < 10) ? '0' + s : s }
       const date = new Date()
       const dateTime = date.getFullYear() + pad(date.getMonth() + 1) + pad(date.getDate()) + '_' + pad(date.getHours()) + pad(date.getMinutes())
-      // Todo : add region name
-      return 'mtltt-export-' + dateTime + '.' + this.downloadType
+      return `tt-${this.$store.state.settings.activeRegion}-export-${dateTime}.${this.downloadType}`
     },
     stateVehicles () {
       return this.$store.state.vehicles.data
@@ -98,7 +112,10 @@ export default {
       Bearing: 'bearing'
     },
     downloadType: 'xls',
-    selectedAgency: ''
+    selectedAgency: '',
+    mdiSvg: {
+      download: mdiDownload
+    }
   }),
   props: {
     dialogOpen: Boolean

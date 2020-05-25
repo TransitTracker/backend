@@ -15,9 +15,13 @@ const mutations = {
     state.selection = selectedVehicle
   },
   emptyData (state, agencyId) {
-    const vehicles = collect(state.data)
-    state.data = vehicles.filter((vehicle, key) => vehicle.agency_id !== agencyId).items
-    state.selection = { id: null }
+    if (agencyId === 'all') {
+      state.data = []
+    } else {
+      const vehicles = collect(state.data)
+      state.data = vehicles.filter((vehicle, key) => vehicle.agency_id !== agencyId).items
+      state.selection = { id: null }
+    }
   }
 }
 

@@ -1,16 +1,9 @@
 <template>
     <div class="tab-map">
         <div id="map"></div>
-        <map-footer
-            v-on:open-sheet="sheetOpen = true"
-            :agency="selectedAgency"
-            :vehicle="selectedVehicle"></map-footer>
-        <map-bottom-sheet
-            v-if="sheetOpen"
-            v-on:close-sheet="sheetOpen = false"
-            :agency="selectedAgency"
-            :vehicle="selectedVehicle"
-            :sheet-open="sheetOpen"></map-bottom-sheet>
+        <map-footer v-on:open-sheet="sheetOpen = true" :agency="selectedAgency" :vehicle="selectedVehicle"></map-footer>
+        <map-bottom-sheet v-if="sheetOpen" v-on:close-sheet="sheetOpen = false" :agency="selectedAgency"
+                          :vehicle="selectedVehicle" :sheet-open="sheetOpen"></map-bottom-sheet>
     </div>
 </template>
 
@@ -32,63 +25,6 @@ export default {
   components: {
     MapFooter,
     MapBottomSheet
-  },
-  data () {
-    return {
-      map: null,
-      sheetOpen: false
-    }
-  },
-  mounted () {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZmVsaXhpbngiLCJhIjoiY2lqYzJoMW9vMDA1dnZsa3F3cmZzcWVsciJ9.ZWBQm52vI7RFRwGuoAzwMg'
-
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: this.mapStyle,
-      center: this.activeRegion.map_box,
-      zoom: this.activeRegion.map_zoom,
-      attributionControl: false
-    })
-
-    this.map.addControl(new mapboxgl.AttributionControl(), 'top-right')
-    this.map.addControl(new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true
-      },
-      trackUserLocation: true
-    }), 'top-left')
-    this.map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left')
-
-    this.putMarkersOnMap(this.markers)
-
-    if (this.selectedVehicle.lat) {
-      this.map.flyTo({
-        center: [this.selectedVehicle.lon, this.selectedVehicle.lat],
-        zoom: 13
-      })
-    }
-
-    this.map.on('zoom', () => {
-      if (this.map.getZoom() < 12) {
-        const markers = document.getElementsByClassName('marker')
-        for (let i = 0; i < markers.length; i++) {
-          markers[i].style.display = 'none'
-        }
-        const circles = document.getElementsByClassName('circle')
-        for (let i = 0; i < circles.length; i++) {
-          circles[i].style.display = 'block'
-        }
-      } else {
-        const markers = document.getElementsByClassName('marker')
-        for (let i = 0; i < markers.length; i++) {
-          markers[i].style.display = 'block'
-        }
-        const circles = document.getElementsByClassName('circle')
-        for (let i = 0; i < circles.length; i++) {
-          circles[i].style.display = 'none'
-        }
-      }
-    })
   },
   computed: {
     activeRegion () {
@@ -187,21 +123,10 @@ export default {
       }
     }
   },
-  watch: {
-    markers: {
-      deep: true,
-      handler (val, oldVal) {
-        this.putMarkersOnMap(val, oldVal)
-      }
-    },
-    activeRegion: {
-      deep: true,
-      handler (val, oldVal) {
-        this.map.panTo(val.map_box)
-        this.map.zoomTo(val.map_zoom)
-      }
-    }
-  },
+  data: () => ({
+    map: null,
+    sheetOpen: false
+  }),
   methods: {
     putMarkersOnMap (newMarkers, oldMarkers) {
       // Remove old markers
@@ -219,6 +144,72 @@ export default {
         this.sheetOpen = false
       } else {
         this.sheetOpen = true
+      }
+    }
+  },
+  mounted () {
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZmVsaXhpbngiLCJhIjoiY2lqYzJoMW9vMDA1dnZsa3F3cmZzcWVsciJ9.ZWBQm52vI7RFRwGuoAzwMg'
+
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      style: this.mapStyle,
+      center: this.activeRegion.map_box,
+      zoom: this.activeRegion.map_zoom,
+      attributionControl: false
+    })
+
+    this.map.addControl(new mapboxgl.AttributionControl(), 'top-right')
+    this.map.addControl(new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true
+    }), 'top-left')
+    this.map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left')
+
+    this.putMarkersOnMap(this.markers)
+
+    if (this.selectedVehicle.lat) {
+      this.map.flyTo({
+        center: [this.selectedVehicle.lon, this.selectedVehicle.lat],
+        zoom: 13
+      })
+    }
+
+    this.map.on('zoom', () => {
+      if (this.map.getZoom() < 11) {
+        const markers = document.getElementsByClassName('marker')
+        for (let i = 0; i < markers.length; i++) {
+          markers[i].style.display = 'none'
+        }
+        const circles = document.getElementsByClassName('circle')
+        for (let i = 0; i < circles.length; i++) {
+          circles[i].style.display = 'block'
+        }
+      } else {
+        const markers = document.getElementsByClassName('marker')
+        for (let i = 0; i < markers.length; i++) {
+          markers[i].style.display = 'block'
+        }
+        const circles = document.getElementsByClassName('circle')
+        for (let i = 0; i < circles.length; i++) {
+          circles[i].style.display = 'none'
+        }
+      }
+    })
+  },
+  props: ['vehiclesPendingRequest'],
+  watch: {
+    markers: {
+      deep: true,
+      handler (val, oldVal) {
+        this.putMarkersOnMap(val, oldVal)
+      }
+    },
+    activeRegion: {
+      deep: true,
+      handler (val, oldVal) {
+        this.$forceUpdate()
       }
     }
   }

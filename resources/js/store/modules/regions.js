@@ -2,7 +2,7 @@ const state = {
   data: [],
   active: {
     agencies: [],
-    conditions: {
+    contributions: {
       en: '',
       fr: ''
     },

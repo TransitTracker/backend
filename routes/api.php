@@ -2,9 +2,7 @@
 
 use App\Agency;
 use App\Alert;
-use App\Http\Resources\AgencyCollection;
 use App\Http\Resources\AlertResource;
-use App\Http\Resources\RegionCollection;
 use App\Http\Resources\RegionResource;
 use App\Http\Resources\VehiclesCollection;
 use App\Region;
@@ -27,7 +25,7 @@ use Laracsv\Export;
  */
 Route::get('/vehicles/{agency}', function (Agency $agency) {
     if ($agency->is_active) {
-        $vehicles = Vehicle::where([['active', true], ['agency_id', $agency->id]])->get();
+        $vehicles = Vehicle::where([['active', true], ['agency_id', $agency->id]])->with('trip')->get();
 
         return (new VehiclesCollection($vehicles))
             ->additional([
@@ -55,7 +53,7 @@ Route::get('/alert', function () {
  * Regions
  */
 Route::get('/regions', function () {
-    return RegionResource::collection(Region::all());
+    return RegionResource::collection(Region::with('agencies')->get());
 })->middleware('cacheResponse:10080')->name('tt.api.regions');
 
 /**

@@ -53,8 +53,14 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="icon">Icon*</label>
-                    <input type="text" class="form-control" name="icon" required>
-                    <small class="form-text text-muted">Select from <a href="https://materialdesignicons.com/">Material Design Icons</a></small>
+                    <select name="icon" class="custom-select" id="icon">
+                        <option value="alert">Alert</option>
+                        <option value="starCircle">Star</option>
+                        <option value="serverNetworkOff">Server off</option>
+                        <option value="check">Check</option>
+                        <option value="update">Update</option>
+                        <option value="information">Information</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">

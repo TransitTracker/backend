@@ -23,6 +23,13 @@ Route::get('/', function () {
 })->name('tt.app');
 
 /**
+ * Opt-out from statistics
+ */
+Route::get('/opt-out/{lang?}', function ($lang = 'en') {
+    return view('opt-out', compact('lang'));
+})->name('tt.opt-out');
+
+/**
  * Auth & base admin
  */
 Auth::routes(['register' => false]);

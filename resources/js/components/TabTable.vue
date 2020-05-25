@@ -1,23 +1,9 @@
 <template>
     <div id="table">
-        <vue-good-table
-                :columns="tableColumns"
-                :rows="groupedVehicles"
-                :fixed-header="true"
-                :sort-options="{
-          enabled: true,
-          initialSortBy: {field: 'data.ref', type: 'asc'}
-        }"
-                :pagination-options="{
-          enabled: true,
-          perPage: 100
-        }"
-                :group-options="{
-          enabled: true
-        }"
-                :theme="tableTheme"
-                @on-cell-click="viewOnMap"
-                max-height="calc(100vh - 170px)">
+        <vue-good-table :columns="tableColumns" :rows="groupedVehicles" :fixed-header="true"
+                        :sort-options="{ enabled: true, initialSortBy: {field: 'data.ref', type: 'asc'} }"
+                        :pagination-options="{ enabled: true, perPage: 100 }" :group-options="{ enabled: true }"
+                        :theme="tableComponentTheme" @on-cell-click="viewOnMap" max-height="calc(100vh - 170px)">
             <div slot="emptystate">
                 {{ $vuetify.lang.t('$vuetify.table.empty') }}
             </div>
@@ -29,6 +15,7 @@
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table'
 import collect from 'collect.js'
+import { mdiMapMarker } from '@mdi/js'
 
 export default {
   name: 'TabTable',
@@ -45,20 +32,23 @@ export default {
     stateActiveAgencies () {
       return this.$store.state.settings.activeAgencies
     },
+    stateCounts () {
+      return this.$store.state.agencies.counts
+    },
     vehicles () {
       const stateVehicles = collect(this.stateVehicles)
       return stateVehicles.map(item => {
         const vehicle = {}
         vehicle.data = item
-        vehicle.action = '<button type="button" class="view-map-button v-btn v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default accent--text"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-map-marker theme--light"></i></span></button>'
+        vehicle.action = `<button type="button" class="v-btn v-btn--flat v-btn--icon v-btn--round v-btn--text theme--dark v-size--default ${this.buttonComponentColor}--text"><span class="v-btn__content"><span aria-hidden="true" class="v-icon notranslate v-icon--svg theme--dark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24" role="img" aria-hidden="true"><path d="${mdiMapMarker}"></path></svg></span></span></button>`
         return vehicle
       })
     },
     groupedVehicles () {
-      const stateActiveAgencies = collect(this.stateActiveAgencies)
-      return stateActiveAgencies.map(agencySlug => {
-        const stateAgencies = collect(this.stateAgencies)
-        const agency = stateAgencies.firstWhere('slug', agencySlug)
+      const stateCounts = collect(this.stateCounts)
+      const stateAgencies = collect(this.stateAgencies)
+      return stateCounts.map(count => {
+        const agency = stateAgencies.firstWhere('slug', count.agency)
 
         const group = {
           mode: 'span',
@@ -80,15 +70,18 @@ export default {
         this.$store.commit('vehicles/setSelection', vehicle)
       }
     },
-    tableTheme () {
-      if (this.$store.state.settings.darkMode) {
-        return 'nocturnal'
-      } else {
-        return ''
-      }
+    tableComponentTheme () {
+      return this.$vuetify.theme.dark
+        ? 'nocturnal'
+        : ''
+    },
+    buttonComponentColor () {
+      return this.$vuetify.theme.dark
+        ? 'white'
+        : 'primary'
     }
   },
-  data () {
+  data: function () {
     return {
       tableColumns: [
         {

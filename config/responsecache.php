@@ -26,7 +26,7 @@ return [
      * with the cache time should be added to a cached response. This
      * can be handy when debugging.
      */
-    'add_cache_time_header' => env('APP_DEBUG', true),
+    'add_cache_time_header' => env('RESPONSE_CACHE_DEBUG', false),
 
     /*
      * Here you may define the cache store that should be used to store

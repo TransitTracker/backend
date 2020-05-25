@@ -200,5 +200,8 @@ class RefreshForGTFS implements ShouldQueue
                 'last_failed' => Carbon::now()
             ]);
         }
+
+        // Delete the file
+        Storage::delete($this->dataFile);
     }
 }

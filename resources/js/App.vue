@@ -1,34 +1,28 @@
 <template>
     <div id="app">
         <v-app id="mtltt">
-            <v-app-bar
-                    app
-                    absolute
-                    :color="appBarColor"
-                    dark
-                    id="header"
-            >
+            <v-app-bar app absolute :color="appBarComponentColor" dark id="header">
                 <v-toolbar-title><b>{{ activeRegion.name }}</b> Transit Tracker</v-toolbar-title>
                 <v-spacer></v-spacer>
 
                 <v-menu>
                     <template v-slot:activator="{ on }">
                         <v-btn icon v-on="on" :aria-label="$vuetify.lang.t('$vuetify.app.regionAriaLabel')">
-                            <v-icon>mdi-map</v-icon>
+                            <v-icon>{{ mdiSvg.map }}</v-icon>
                         </v-btn>
                     </template>
                     <v-list>
                         <v-list-item v-for="region in regions" :key="region.slug" @click="changeActiveRegion(region)">
                             <v-list-item-title>{{ region.name }}</v-list-item-title>
-                            <v-list-item-action v-if="region === activeRegion"><v-icon>mdi-check</v-icon></v-list-item-action>
+                            <v-list-item-action v-if="region === activeRegion">
+                                <v-icon>{{ mdiSvg.check }}</v-icon>
+                            </v-list-item-action>
                         </v-list-item>
                     </v-list>
                 </v-menu>
 
                 <template v-slot:extension>
-                    <v-tabs
-                            fixed-tabs
-                            background-color="transparent">
+                    <v-tabs fixed-tabs background-color="transparent" color="white">
                         <v-tab to="/">{{ $vuetify.lang.t('$vuetify.app.tabHome') }}</v-tab>
                         <v-tab to="/map">{{ $vuetify.lang.t('$vuetify.app.tabMap') }}</v-tab>
                         <v-tab to="/table">{{ $vuetify.lang.t('$vuetify.app.tabTable') }}</v-tab>
@@ -38,32 +32,22 @@
 
             </v-app-bar>
 
-            <alert-dialog
-                    v-if="alertIsVisible"
-                    :dialog-visible="alertDialogVisible"
-                    v-on:alert-has-been-read="alertBannerVisible = false"
-                    v-on:hide-dialog="changeAlertDialogVisibility(false)"></alert-dialog>
+            <alert-dialog :dialog-visible="alertDialogVisible" v-on:alert-has-been-read="alertBannerVisible = false"
+                          v-if="alertIsVisible" v-on:hide-dialog="changeAlertDialogVisibility(false)">
+            </alert-dialog>
 
             <v-content>
-                <alert-banner
-                        v-if="alertIsVisible"
-                        v-on:show-dialog="changeAlertDialogVisibility(true)"></alert-banner>
-                <dialog-configuration
-                        v-if="!settings.configurationDone"
-                        v-on:configurationDone="setConfigurationAsDone"></dialog-configuration>
-                <router-view
-                        :vehicles-pending-request="vehiclesRequestPending"
-                        v-on:refresh-vehicles="refreshVehicles()"
-                        v-if="settings.configurationDone"></router-view>
-                <v-snackbar
-                        v-model="oldAgenciesSnackbarVisible"
-                        :timeout="oldAgenciesSnackbarTimeout">
+                <alert-banner v-if="alertIsVisible" v-on:show-dialog="changeAlertDialogVisibility(true)">
+                </alert-banner>
+                <dialog-configuration v-if="!settings.configurationDone"
+                                      v-on:configurationDone="setConfigurationAsDone"></dialog-configuration>
+                <router-view :vehicles-pending-request="vehiclesRequestPending" v-if="settings.configurationDone"
+                             v-on:refresh-vehicles="refreshVehicles()" v-on:change-region="changeActiveRegion">
+                </router-view>
+                <v-snackbar v-model="oldAgenciesSnackbarVisible" :timeout="oldAgenciesSnackbarTimeout">
                     <b>{{ $vuetify.lang.t('$vuetify.app.snackbarBold') }}</b>
                     <span>{{ $vuetify.lang.t('$vuetify.app.snackbarText') }}</span>
-                    <v-btn
-                            color="accent"
-                            text
-                            @click="oldAgenciesSnackbarVisible = false">
+                    <v-btn color="primary lighten-3" text @click="oldAgenciesSnackbarVisible = false">
                         {{ $vuetify.lang.t('$vuetify.app.snackbarBtn') }}
                     </v-btn>
                 </v-snackbar>
@@ -73,29 +57,69 @@
 </template>
 
 <script>
-import { VApp, VAppBar, VBtn, VContent, VSnackbar, VSpacer, VTab, VTabs, VToolbarTitle, VMenu, VIcon, VList, VListItem, VListItemTitle, VListItemAction } from 'vuetify/lib'
+import {
+  VApp,
+  VAppBar,
+  VBtn,
+  VContent,
+  VIcon,
+  VList,
+  VListItem,
+  VListItemAction,
+  VListItemTitle,
+  VMenu,
+  VSnackbar,
+  VSpacer,
+  VTab,
+  VTabs,
+  VToolbarTitle
+} from 'vuetify/lib'
+import { mdiMap, mdiCheck } from '@mdi/js'
 import axios from 'axios/index'
-import AlertBanner from './components/AlertBanner'
-import AlertDialog from './components/AlertDialog'
-import DialogConfiguration from './components/DialogConfiguration'
 import collect from 'collect.js/src/index.js'
 import Echo from 'laravel-echo'
 // eslint-disable-next-line no-unused-vars
 import Pusher from 'pusher-js'
+const AlertBanner = () => import(/* webpackChunkName: 'alert' */ './components/app/AlertBanner')
+const AlertDialog = () => import(/* webpackChunkName: 'alert' */'./components/app/AlertDialog')
+const DialogConfiguration = () => import(/* webpackChunkName: 'configuration' */'./components/app/DialogConfiguration')
 
 // Define default axios base URL
 axios.defaults.baseURL = process.env.MIX_APIENDPOINT
 
 export default {
   name: 'app',
-  components: { VApp, VAppBar, VBtn, VContent, VSnackbar, VSpacer, VTab, VTabs, VToolbarTitle, VMenu, VIcon, VList, VListItem, VListItemTitle, VListItemAction, AlertBanner, AlertDialog, DialogConfiguration },
+  components: {
+    VApp,
+    VAppBar,
+    VBtn,
+    VContent,
+    VSnackbar,
+    VSpacer,
+    VTab,
+    VTabs,
+    VToolbarTitle,
+    VMenu,
+    VIcon,
+    VList,
+    VListItem,
+    VListItemTitle,
+    VListItemAction,
+    AlertBanner,
+    AlertDialog,
+    DialogConfiguration
+  },
   data: () => ({
     menuVisible: false,
     oldAgenciesSnackbarVisible: false,
     oldAgenciesSnackbarTimeout: 10000,
     echo: null,
     alertDialogVisible: false,
-    vehiclesRequestPending: 0
+    vehiclesRequestPending: 0,
+    mdiSvg: {
+      map: mdiMap,
+      check: mdiCheck
+    }
   }),
   mounted () {
     // Change theme
@@ -146,12 +170,10 @@ export default {
     alertIsVisible () {
       return this.$store.state.alert.isVisible
     },
-    appBarColor () {
-      if (this.settings.darkMode) {
-        return 'dark'
-      } else {
-        return 'primary'
-      }
+    appBarComponentColor () {
+      return this.$vuetify.theme.dark
+        ? 'dark'
+        : 'primary'
     },
     regions: {
       get () {
@@ -168,7 +190,7 @@ export default {
   methods: {
     setConfigurationAsDone () {
       this.$store.commit('settings/setConfigurationDone', true)
-      this.loadApplication()
+      location.reload()
     },
     loadApplication () {
       // Starting app
@@ -253,21 +275,25 @@ export default {
       )
     },
     loadVehiclesFromAgency (agencySlug, timestamp) {
-      // Empty vehicles and count
       const agency = collect(this.agencies).firstWhere('slug', agencySlug)
       if (agency) {
-        this.$store.commit('vehicles/emptyData', agency.id)
-        this.$store.commit('agencies/emptyCount', agencySlug)
-
         if (agency.region === this.settings.activeRegion) {
           // Load vehicles from specified agency
           console.log('Loading vehicles from ' + agencySlug)
           axios.get('/vehicles/' + agencySlug)
             .then((response) => {
+              // Empty vehicles and count only if request is successful
+              this.$store.commit('vehicles/emptyData', agency.id)
+              this.$store.commit('agencies/emptyCount', agencySlug)
+
               // Calculate time difference and set data
               const timeDiff = timestamp - response.data.timestamp
               this.$store.commit('vehicles/setData', response.data.data)
-              this.$store.commit('agencies/setCount', { agency: agencySlug, count: response.data.count, diff: timeDiff })
+              this.$store.commit('agencies/setCount', {
+                agency: agencySlug,
+                count: response.data.count,
+                diff: timeDiff
+              })
 
               // If time difference is too high, show the snackbar
               timeDiff > 300 && this.showSnackbar()
@@ -299,6 +325,8 @@ export default {
       this.alertDialogVisible = newState
     },
     changeActiveRegion (newRegion) {
+      this.$store.commit('vehicles/emptyData', 'all')
+      this.$store.commit('agencies/emptyCount', 'all')
       this.$store.commit('regions/setActive', newRegion)
       this.$store.commit('settings/setActiveRegion', newRegion.slug)
 
@@ -310,7 +338,12 @@ export default {
       })
     },
     refreshVehicles () {
-      this.changeActiveRegion(this.activeRegion)
+      const timestamp = Math.floor(Date.now() / 1000)
+
+      // Load vehicle from each active agencies
+      collect(this.settings.activeAgencies).each((agency) => {
+        this.loadVehiclesFromAgency(agency, timestamp)
+      })
     }
   }
 }

@@ -84,7 +84,9 @@ return [
     */
 
     'waits' => [
-        'redis:default' => 60,
+        'redis:vehicles' => 120,
+        'redis:notifications' => 120,
+        'redis:gtfs' => 1200,
     ],
 
     /*
@@ -169,7 +171,7 @@ return [
             'supervisor-main' => [
                 'connection' => 'redis',
                 'queue' => ['vehicles', 'notifications'],
-                'balance' => 'simple',
+                'balance' => 'auto',
                 'processes' => 5,
                 'tries' => 1,
             ],

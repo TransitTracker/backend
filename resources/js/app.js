@@ -1,3 +1,6 @@
+// Polyfill for support of IE11, Edge and Safari 9/10
+import 'babel-polyfill'
+
 // Vuetify
 import vuetify from './vuetify'
 

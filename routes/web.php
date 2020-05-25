@@ -13,7 +13,6 @@
 
 use App\Agency;
 use App\Jobs\DispatchAgencies;
-use Illuminate\Support\Facades\Artisan;
 
 /**
  * Base Vue app

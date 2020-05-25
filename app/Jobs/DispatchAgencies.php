@@ -8,7 +8,6 @@ use App\Mail\JobFailed;
 use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
@@ -54,7 +53,7 @@ class DispatchAgencies implements ShouldQueue
         foreach ($this->agencies as $agency) {
             try {
                 $requestOptions = [];
-                $requestOptions['timeout'] = 5;
+                $requestOptions['timeout'] = 10;
 
                 // Add header to options (if one)
                 if ($agency->header_name) {

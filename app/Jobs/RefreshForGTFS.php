@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Agency;
 use App\Events\VehiclesUpdated;
 use App\FailedJobsHistory;
-use App\Mail\DispatchFailed;
 use App\Mail\RefreshFailed;
 use App\Stat;
 use App\Trip;

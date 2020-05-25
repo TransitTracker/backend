@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.4",
         "ext-json": "*",
+        "ext-simplexml": "*",
         "ext-zip": "*",
         "doctrine/dbal": "^2.10",
         "felixinx/gtfs-realtime-protobuf-php": "@dev",

@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\FailedJobsHistory;
 use App\Mail\RefreshFailed;
 use App\Stat;
-use App\Trip;
 use Carbon\Carbon;
 use Exception;
 use App\Agency;

@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Agency;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -41,7 +40,7 @@ class DownloadGTFS implements ShouldQueue
 
         // Download GTFS
         $client = new Client();
-        $response = $client->request('GET', $this->agency->static_gtfs_url, ['sink' => $fileName]);
+        $client->request('GET', $this->agency->static_gtfs_url, ['sink' => $fileName]);
 
         ExtractAndDispatchGtfs::dispatch($this->agency, $fileName)->onQueue('gtfs');
         $client = null;

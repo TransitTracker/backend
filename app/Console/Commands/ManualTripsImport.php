@@ -83,7 +83,7 @@ class ManualTripsImport extends Command
         }
         $tripsReader = null;
         $bar->finish();
-        $this->line();
+        $this->line('');
         $this->info('Success!');
     }
 }

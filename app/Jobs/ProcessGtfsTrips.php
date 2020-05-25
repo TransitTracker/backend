@@ -6,7 +6,6 @@ use App\Agency;
 use App\Route;
 use App\Service;
 use App\Trip;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

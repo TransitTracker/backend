@@ -17,8 +17,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Monolog\Logger;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 class RefreshForGTFS implements ShouldQueue
@@ -139,7 +141,14 @@ class RefreshForGTFS implements ShouldQueue
             /*
              * Create or update the vehicle model
              */
-            Vehicle::updateOrCreate(['vehicle' => $entity->getId(), 'agency_id' => $this->agency->id], $newVehicle);
+            try {
+                Vehicle::updateOrCreate(['vehicle' => $entity->getId(), 'agency_id' => $this->agency->id], $newVehicle);
+            } catch (Exception $e) {
+                Log::error('Vehicle in the refresh failed', [
+                    'agency' => $this->agency->slug,
+                    'exception' => $e->getMessage()
+                ]);
+            }
         }
 
         // Replace timestamp
@@ -176,7 +185,7 @@ class RefreshForGTFS implements ShouldQueue
 
         $lastFailedJob = FailedJobsHistory::firstWhere([
             'name' => $className,
-            'exception' => $exception->getMessage(),
+            'exception' => substr($exception->getMessage(), 0, 250),
             'agency_id' => $this->agency->id,
         ]);
 
@@ -194,7 +203,7 @@ class RefreshForGTFS implements ShouldQueue
             Mail::to(env('MAIL_TO'))->send(new RefreshFailed($exception, $this->agency->slug, $className));
             FailedJobsHistory::create([
                 'name' => $className,
-                'exception' => $exception->getMessage(),
+                'exception' => substr($exception->getMessage(), 0, 250),
                 'agency_id' => $this->agency->id,
                 'last_failed' => Carbon::now()
             ]);

@@ -2,10 +2,14 @@
 
 namespace App;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Vehicle extends Model
 {
+    use CrudTrait;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -37,6 +41,31 @@ class Vehicle extends Model
     public function trip()
     {
         return $this->belongsTo('App\Trip')->withDefault();
+    }
+
+    public function links()
+    {
+        return $this->belongsToMany('App\Link');
+    }
+
+    /**
+     * Scope a query to only include active agencies.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
+
+    protected static function booted()
+    {
+        static::created(function ($vehicle) {
+            $vehicle->icon = $vehicle->agency->vehicles_type;
+            $vehicle->links()->attach($vehicle->agency->links->pluck('id'));
+            $vehicle->save();
+        });
     }
 
 }

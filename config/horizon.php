@@ -185,6 +185,24 @@ return [
             ],
         ],
 
+        'staging' => [
+            'supervisor-staging-main' => [
+                'connection' => 'redis',
+                'queue' => ['vehicles', 'notifications'],
+                'balance' => 'auto',
+                'processes' => 5,
+                'tries' => 1,
+            ],
+            'supervisor-staging-gtfs' => [
+                'connection' => 'redis',
+                'queue' => ['gtfs'],
+                'balance' => 'simple',
+                'processes' => 1,
+                'tries' => 1,
+                'timeout' => 600
+            ],
+        ],
+
         'local' => [
             'supervisor-dev' => [
                 'connection' => 'redis',

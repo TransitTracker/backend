@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/app/Transit-Tracker
 /vendor
 /.idea
 .env
@@ -20,3 +21,4 @@ yarn-error.log
 /public/fonts/vendor
 /public/vendor
 /public/mix-manifest.json
+/public/packages

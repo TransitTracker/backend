@@ -2,18 +2,29 @@
 
 namespace App;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Alert extends Model
 {
-    protected $fillable = [ 'title_en', 'title_fr', 'body_en', 'body_fr', 'color', 'icon', 'is_active', 'can_be_closed',
-                            'region_id' ];
+    use CrudTrait;
+    use HasTranslations;
 
-    /**
-     * Get the region of this agency
-     */
-    public function region()
+    protected $fillable = ['title', 'body', 'color', 'icon', 'is_active', 'can_be_closed'];
+
+    public $translatable = ['title', 'body'];
+
+    public function regions()
     {
-        return $this->belongsTo('App\Region');
+        return $this->belongsToMany('App\Region');
+    }
+
+    protected static function booted()
+    {
+        static::updated(function ($alert) {
+            ResponseCache::forget('/api/alert');
+        });
     }
 }

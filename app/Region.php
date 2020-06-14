@@ -2,10 +2,15 @@
 
 namespace App;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
+use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Region extends Model
 {
+    use CrudTrait;
+    use HasTranslations;
 
     /**
      * The attributes that are mass assignable.
@@ -21,13 +26,11 @@ class Region extends Model
      * @var array
      */
     protected $casts = [
-        'info_title' => 'array',
-        'info_body' => 'array',
         'map_box' => 'array',
-        'map_zoom' => 'integer',
-        'conditions' => 'array',
-        'credits' => 'array',
+        'map_zoom' => 'integer'
     ];
+
+    public $translatable = ['info_title', 'info_body', 'conditions', 'credits'];
 
     /**
      * Get all agencies from this region
@@ -50,7 +53,7 @@ class Region extends Model
      */
     public function alerts()
     {
-        return $this->hasMany('App\Alert');
+        return $this->belongsToMany('App\Alert');
     }
 
     /**
@@ -58,17 +61,14 @@ class Region extends Model
      */
     public function stats()
     {
-        return $this->hasMany('App\Stats');
+        return $this->hasMany('App\Stat');
     }
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
+    protected static function booted()
     {
-        return 'slug';
+        static::updated(function ($region) {
+            ResponseCache::forget('/api/regions');
+        });
     }
 
 }

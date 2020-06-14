@@ -26,8 +26,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new DispatchAgencies(Agency::active()->get()), 'vehicles')->everyMinute()->unlessBetween('1:00', '4:00');
+        $schedule->job(new DispatchAgencies(Agency::active()->get()), 'vehicles')->everyMinute();
         $schedule->command('download:clean')->dailyAt('3:55');
+        $schedule->command('backup:clean')->dailyAt('01:00');
+        $schedule->command('backup:run')->dailyAt('02:00');
     }
 
     /**

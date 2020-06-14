@@ -16,13 +16,14 @@ class AlertResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title_en' => $this->title_en,
-            'title_fr' => $this->title_fr,
-            'body_en' => $this->body_en,
-            'body_fr' => $this->body_fr,
+            'title_en' => $this->getTranslation('title', 'en'),
+            'title_fr' => $this->getTranslation('title', 'fr'),
+            'body_en' => $this->getTranslation('body', 'en'),
+            'body_fr' => $this->getTranslation('body', 'fr'),
             'color' => $this->color,
             'icon' => $this->icon,
-            'can_be_closed' => $this->can_be_closed
+            'can_be_closed' => $this->can_be_closed,
+            'regions' => $this->regions
         ];
     }
 

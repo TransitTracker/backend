@@ -45,7 +45,7 @@ class CleanGtfsData implements ShouldQueue
         }
 
         // Find upcoming services
-        $upcomingServices = Service::where([['agency_id', $this->agency->id], ['start_date', '>', Carbon::now()->add(1, 'week')]])->get();
+        $upcomingServices = Service::where([['agency_id', $this->agency->id], ['start_date', '>', Carbon::now()->add('week', 1)]])->get();
 
         // Delete all upcoming trips
         foreach ($upcomingServices as $upcomingService) {

@@ -2,11 +2,15 @@
 
 namespace App;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Agency extends Model
 {
+    use CrudTrait;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -64,6 +68,11 @@ class Agency extends Model
         return $this->belongsTo('App\Region');
     }
 
+    public function links()
+    {
+        return $this->belongsToMany('App\Link');
+    }
+
     /**
      * Get the route key for the model.
      *
@@ -81,11 +90,7 @@ class Agency extends Model
      */
     public function getRealtimeMethodAttribute()
     {
-        if ($this->realtime_options) {
-            return json_decode($this->realtime_options)->method;
-        } else {
-            return null;
-        }
+        return json_decode($this->realtime_options)->realtime_method;
     }
 
     /**
@@ -95,12 +100,7 @@ class Agency extends Model
      */
     public function getHeaderNameAttribute()
     {
-        if ($this->realtime_options) {
-            return key(json_decode($this->realtime_options)->header);
-        } else {
-            return null;
-        }
-
+        return json_decode($this->realtime_options)->header_name;
     }
 
     /**
@@ -110,11 +110,7 @@ class Agency extends Model
      */
     public function getHeaderValueAttribute()
     {
-        if ($this->realtime_options) {
-            return current(json_decode($this->realtime_options)->header);
-        } else {
-            return null;
-        }
+        return json_decode($this->realtime_options)->header_value;
     }
 
     /**
@@ -124,11 +120,7 @@ class Agency extends Model
      */
     public function getParamNameAttribute()
     {
-        if ($this->realtime_options) {
-            return key(json_decode($this->realtime_options)->param);
-        } else {
-            return null;
-        }
+        return json_decode($this->realtime_options)->param_name;
     }
 
     /**
@@ -138,11 +130,7 @@ class Agency extends Model
      */
     public function getParamValueAttribute()
     {
-        if ($this->realtime_options) {
-            return current(json_decode($this->realtime_options)->param);
-        } else {
-            return null;
-        }
+        return json_decode($this->realtime_options)->param_value;
     }
 
     /**
@@ -154,5 +142,14 @@ class Agency extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);
+    }
+
+    protected static function booted()
+    {
+        static::updated(function ($agency) {
+            ResponseCache::forget('/api/regions');
+            ResponseCache::forget('/api/vehicles/'.$agency->slug);
+            ResponseCache::forget('/api/geojson/'.$agency->slug);
+        });
     }
 }

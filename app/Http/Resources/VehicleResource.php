@@ -28,7 +28,8 @@ class VehicleResource extends JsonResource
             'stop_sequence' => $this->stop_sequence,
             'status' => $this->status,
             'trip' => new TripResource($this->trip),
-            'icon' => $this->icon
+            'icon' => $this->icon,
+            'links' => VehicleLinkResource::collection($this->links)
         ];
     }
 }

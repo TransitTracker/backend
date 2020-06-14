@@ -3,8 +3,11 @@
 use App\Agency;
 use App\Alert;
 use App\Http\Resources\AlertResource;
+use App\Http\Resources\GeojsonVehiclesCollection;
+use App\Http\Resources\LinkResource;
 use App\Http\Resources\RegionResource;
 use App\Http\Resources\VehiclesCollection;
+use App\Link;
 use App\Region;
 use App\Vehicle;
 use Laracsv\Export;
@@ -25,12 +28,21 @@ use Laracsv\Export;
  */
 Route::get('/vehicles/{agency}', function (Agency $agency) {
     if ($agency->is_active) {
-        $vehicles = Vehicle::where([['active', true], ['agency_id', $agency->id]])->with('trip')->get();
+        $vehicles = Vehicle::where([['active', true], ['agency_id', $agency->id]])->with(['trip', 'links:link_id'])->get();
 
         return (new VehiclesCollection($vehicles))
             ->additional([
                 'timestamp' => $agency->timestamp
             ]);
+    } else {
+        return response()->json(['message' => 'AGENCY_INACTIVE'], 403);
+    }
+})->middleware('cacheResponse:300')->name('tt.api.vehicles');
+
+Route::get('/geojson/{agency}', function (Agency $agency) {
+    if ($agency->is_active) {
+        $vehicles = Vehicle::where(['active' => true, 'agency_id' => $agency->id])->select('id', 'active', 'icon', 'lat', 'lon')->get();
+        return new GeojsonVehiclesCollection($vehicles);
     } else {
         return response()->json(['message' => 'AGENCY_INACTIVE'], 403);
     }
@@ -73,6 +85,13 @@ Route::get('/dump/{agency}', function (Agency $agency) {
     $csvExporter = new Export();
     return $csvExporter->build($vehicles, $fields)->download($fileName);
 })->middleware('cacheResponse:3600')->name('tt.api.dump');
+
+/**
+ * Links
+ */
+Route::get('/links', function () {
+    return LinkResource::collection(Link::all());
+})->middleware('cacheResponse:10080')->name('tt.api.links');
 
 /**
  * Fallback (404)

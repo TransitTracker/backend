@@ -11,9 +11,6 @@
 |
 */
 
-use App\Agency;
-use App\Jobs\DispatchAgencies;
-
 /**
  * Base Vue app
  */
@@ -27,33 +24,3 @@ Route::get('/', function () {
 Route::get('/opt-out/{lang?}', function ($lang = 'en') {
     return view('opt-out', compact('lang'));
 })->name('tt.opt-out');
-
-/**
- * Auth & base admin
- */
-Auth::routes(['register' => false]);
-Route::get('admin', 'AdminController@index');
-
-/**
- * Agencies
- */
-Route::resource('admin/agencies', 'Admin\AgencyController')->middleware('auth');
-Route::post('admin/agencies/{agency}/refresh', 'Admin\AgencyController@refresh')->middleware('auth');
-Route::post('admin/agencies/{agency}/gtfsCleanAndUpdate', 'Admin\AgencyController@gtfsCleanAndUpdate')->middleware('auth');
-Route::post('admin/agencies/{agency}/gtfsDelete', 'Admin\AgencyController@gtfsDelete')->middleware('auth');
-Route::post('admin/agencies/{agency}/gtfsClean', 'Admin\AgencyController@gtfsClean')->middleware('auth');
-Route::get('admin/refresh-agencies', function () {
-    DispatchAgencies::dispatch(Agency::active()->get())->onQueue('vehicles');
-    return redirect('admin/agencies')->with('success', 'The job is now in the queue!');
-})->middleware('auth');
-
-/**
- * Alerts
- */
-Route::resource('admin/alerts', 'Admin\AlertController')->middleware('auth');
-Route::post('admin/alerts/{alert}/active', 'Admin\AlertController@active')->middleware('auth');
-
-/**
- * Regions
- */
-Route::resource('admin/regions', 'Admin\RegionController')->middleware('auth');

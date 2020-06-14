@@ -12,29 +12,36 @@
         "ext-json": "*",
         "ext-simplexml": "*",
         "ext-zip": "*",
+        "backpack/crud": "^4.1",
+        "backpack/logmanager": "^4.0",
         "doctrine/dbal": "^2.10",
         "felixinx/gtfs-realtime-protobuf-php": "@dev",
         "fideloper/proxy": "^4.3",
         "fruitcake/laravel-cors": "^1.0",
-        "guzzlehttp/guzzle": "^6.3",
-        "laravel/framework": "^7.0",
-        "laravel/horizon": "^4.0",
-        "laravel/tinker": "^2.0",
+        "guzzlehttp/guzzle": "^6.5",
+        "laravel/framework": "^7.15",
+        "laravel/horizon": "^4.3",
+        "laravel/tinker": "^2.4",
         "laravel/ui": "^2.0",
-        "league/csv": "^9.5",
+        "league/csv": "^9.6",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^4.1",
-        "sentry/sentry-laravel": "1.7.1",
+        "sentry/sentry-laravel": "^1.7",
+        "spatie/flysystem-dropbox": "^1.2",
+        "spatie/laravel-backup": "^6.10",
         "spatie/laravel-responsecache": "^6.6",
+        "spatie/laravel-translatable": "^4.3",
         "symfony/psr-http-message-bridge": "^2.0",
         "usmanhalalit/laracsv": "^2.0"
     },
     "require-dev": {
+        "backpack/generators": "^3.1",
         "barryvdh/laravel-debugbar": "^3.2",
+        "barryvdh/laravel-ide-helper": "^2.7",
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9",
         "mockery/mockery": "^1.3",
-        "nunomaduro/collision": "^4.1",
+        "nunomaduro/collision": "^4.2",
         "phpunit/phpunit": "^8.5"
     },
     "config": {
@@ -75,6 +82,10 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --provider=\"Backpack\\CRUD\\BackpackServiceProvider\" --tag=public --force",
+            "@php artisan ide-helper:generate"
+        ],
         "app-install": [
             "@composer install",
             "@php artisan app:install"
@@ -87,10 +98,6 @@
             "options": {
                 "symlink": true
             }
-        },
-        "hooks": {
-            "type": "composer",
-            "url": "https://larapack.io"
         }
     }
 }

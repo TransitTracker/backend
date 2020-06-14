@@ -4,8 +4,7 @@
     "version": "0.1.0",
     "authors": [
         {
-            "name": "Félix Desjardins",
-            "email": "felixinx@gmail.com"
+            "name": "Félix Desjardins"
         }
     ],
     "require": {

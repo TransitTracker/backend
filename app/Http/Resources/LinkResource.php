@@ -18,7 +18,7 @@ class LinkResource extends JsonResource
             'id' => $this->id,
             'title' => $this->getTranslations('title'),
             'description' => $this->getTranslations('description'),
-            'link' => $this->link
+            'url' => $this->link
         ];
     }
 }

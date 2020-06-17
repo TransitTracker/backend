@@ -139,7 +139,12 @@ export default {
   methods: {
     viewOnMap (params) {
       if (params.column.field === 'action') {
-        this.selectedVehicle = params.row.data
+        const vehicle = {
+          coordinates: [params.row.data.lon, params.row.data.lat],
+          id: params.row.data.id,
+          agency: collect(this.stateAgencies).firstWhere('id', params.row.data.agency_id)
+        }
+        this.selectedVehicle = vehicle
         this.$router.push('/map')
       }
     }

@@ -36,7 +36,7 @@
                           v-if="alertIsVisible" v-on:hide-dialog="changeAlertDialogVisibility(false)">
             </alert-dialog>
 
-            <v-content>
+            <v-main>
                 <alert-banner v-if="alertIsVisible" v-on:show-dialog="changeAlertDialogVisibility(true)">
                 </alert-banner>
                 <dialog-configuration v-if="!settings.configurationDone"
@@ -47,11 +47,13 @@
                 <v-snackbar v-model="oldAgenciesSnackbarVisible" :timeout="oldAgenciesSnackbarTimeout">
                     <b>{{ $vuetify.lang.t('$vuetify.app.snackbarBold') }}</b>
                     <span>{{ $vuetify.lang.t('$vuetify.app.snackbarText') }}</span>
-                    <v-btn color="primary lighten-3" text @click="oldAgenciesSnackbarVisible = false">
-                        {{ $vuetify.lang.t('$vuetify.app.snackbarBtn') }}
-                    </v-btn>
+                    <template v-slot:action="{attrs}">
+                        <v-btn color="primary lighten-3" text @click="oldAgenciesSnackbarVisible = false" v-bind="attrs">
+                            {{ $vuetify.lang.t('$vuetify.app.snackbarBtn') }}
+                        </v-btn>
+                    </template>
                 </v-snackbar>
-            </v-content>
+            </v-main>
         </v-app>
     </div>
 </template>
@@ -61,12 +63,12 @@ import {
   VApp,
   VAppBar,
   VBtn,
-  VContent,
   VIcon,
   VList,
   VListItem,
   VListItemAction,
   VListItemTitle,
+  VMain,
   VMenu,
   VSnackbar,
   VSpacer,
@@ -93,12 +95,12 @@ export default {
     VApp,
     VAppBar,
     VBtn,
-    VContent,
     VSnackbar,
     VSpacer,
     VTab,
     VTabs,
     VToolbarTitle,
+    VMain,
     VMenu,
     VIcon,
     VList,
@@ -238,6 +240,16 @@ export default {
               }
             }
           }
+        })
+
+      // Load links
+      axios
+        .get('/links')
+        .then(response => {
+          if (response.status !== 200) {
+            return
+          }
+          this.$store.commit('links/setData', response.data.data)
         })
 
       // If enabled, listen to auto refresh

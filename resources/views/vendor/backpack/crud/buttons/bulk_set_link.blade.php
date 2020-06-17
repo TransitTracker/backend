@@ -69,7 +69,7 @@
                     let linksUl = document.createElement('ul');
                     availableLinks.map(link => {
                       let linkLi = document.createElement('li');
-                      linkLi.innerHTML = `<b>${link.id}</b> ${link.link}`
+                      linkLi.innerHTML = `<b>${link.id}</b> ${link.url}`
                       linksUl.appendChild(linkLi);
                     })
                     return document.getElementsByClassName('swal-text')[0].appendChild(linksUl);

@@ -1,16 +1,32 @@
 <template>
     <v-bottom-sheet hide-overlay v-model="sheetModel" :persistent="persistent">
         <v-list>
-            <v-btn icon v-on:click="togglePersistent" class="float-right" :color="componentColor">
-                <v-icon v-if="persistent">{{ mdiSvg.pinOff }}</v-icon>
-                <v-icon v-else>{{ mdiSvg.pin }}</v-icon>
-            </v-btn>
-            <v-btn outlined :color="componentColor" @click="$emit('close-sheet')" class="float-right">
-                <span class="d-none d-md-block">{{ $vuetify.lang.t('$vuetify.mapBottomSheet.close') }}</span>
-                <v-icon>{{ mdiSvg.close }}</v-icon>
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-subheader>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.moreInfo') }} {{ vehicle.ref }}</v-subheader>
+            <div class="d-flex align-center">
+                <v-subheader>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.moreInfo') }} {{ vehicle.ref }}</v-subheader>
+                <v-spacer></v-spacer>
+                <v-btn icon v-on:click="togglePersistent" :color="componentColor" class="mx-4">
+                    <v-icon v-if="persistent">{{ mdiSvg.pinOff }}</v-icon>
+                    <v-icon v-else>{{ mdiSvg.pin }}</v-icon>
+                </v-btn>
+                <v-btn outlined :color="componentColor" @click="$emit('close-sheet')" class="mr-4">
+                    <span class="d-none d-md-block">{{ $vuetify.lang.t('$vuetify.mapBottomSheet.close') }}</span>
+                    <v-icon>{{ mdiSvg.close }}</v-icon>
+                </v-btn>
+            </div>
+            <div class="mx-4 mt-4 d-flex align-center" v-if="vehicle.links.length">
+                <div class="flex-grow-1 d-flex" id="links-list">
+                    <v-sheet v-for="link in stateLinks" :key="link.id" @click="openLink(link.url)" rounded
+                             color="secondary darken-3" class="pa-2 d-flex align-center mr-4 mb-2">
+                        <div>
+                            <p class="subtitle-2 mb-1">{{ settingsLanguageEnglish ? link.title.en : link.title.fr }}</p>
+                            <p class="body-2 mb-0">{{ settingsLanguageEnglish ? link.description.en : link.description.fr
+                                }}</p>
+                        </div>
+                        <v-icon class="ml-4" size="20px">{{ mdiSvg.openInNew }}</v-icon>
+                    </v-sheet>
+                </div>
+                <v-icon id="links-chevron" v-if="showChevron">{{ mdiSvg.chevronRight }}</v-icon>
+            </div>
             <v-list-item v-if="vehicle.route">
                 <v-list-item-icon>
                     <v-icon>{{ mdiSvg.mapMarkerPath }}</v-icon>
@@ -24,39 +40,40 @@
                 <v-list-item-icon>
                     <v-icon>{{ mdiSvg.signDirection }}</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.headsign') }}</b> {{ vehicle.trip.headsign }}</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.headsign') }}</b> {{
+                    vehicle.trip.headsign }}
+                </v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.gtfs_trip">
                 <v-list-item-icon>
                     <v-icon>{{ mdiSvg.identifier }}</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.tripId') }}</b> {{ vehicle.gtfs_trip }}</v-list-item-title>
-                <v-list-item-action v-if="agency.slug === 'stm'">
-                    <v-tooltip left>
-                        <template v-slot:activator="{ on }">
-                            <v-btn icon v-on="on" @click="searchTrip"><v-icon>{{ mdiSvg.tableSearch }}</v-icon></v-btn>
-                        </template>
-                        <span>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.searchTrip') }}</span>
-                    </v-tooltip>
-                </v-list-item-action>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.tripId') }}</b> {{ vehicle.gtfs_trip
+                    }}
+                </v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.start">
                 <v-list-item-icon>
                     <v-icon>{{ mdiSvg.busClock }}</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.startTime') }}</b> {{ vehicle.start }}</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.startTime') }}</b> {{ vehicle.start }}
+                </v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.status">
                 <v-list-item-icon>
                     <v-icon>{{ mdiSvg.busStop }}</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.status') }}</b> {{ vehicle.status === 1 ? 'STOPPED_AT' : 'IN_TRANSIT_TO' }}</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.status') }}</b> {{ vehicle.status ===
+                    1 ? 'STOPPED_AT' : 'IN_TRANSIT_TO' }}
+                </v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.stop_sequence">
                 <v-list-item-icon>
                     <v-icon>{{ mdiSvg.timetable }}</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.stopSequence') }}</b> {{ vehicle.stop_sequence }}</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.stopSequence') }}</b> {{
+                    vehicle.stop_sequence }}
+                </v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.bearing">
                 <v-list-item-icon>
@@ -65,20 +82,25 @@
                 <v-list-item-title>
                     <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.bearing') }}</b>
                     {{ vehicle.bearing }}&deg;
-                    <v-icon :style="{ transform: 'rotate(' + vehicle.bearing + 'deg)' }">{{ mdiSvg.navigation }}</v-icon>
+                    <v-icon :style="{ transform: 'rotate(' + vehicle.bearing + 'deg)' }">{{ mdiSvg.navigation }}
+                    </v-icon>
                 </v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.speed">
                 <v-list-item-icon>
                     <v-icon>{{ mdiSvg.speedometer }}</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.speed') }}</b> {{ vehicle.speed }} km/h</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.speed') }}</b> {{ vehicle.speed }}
+                    km/h
+                </v-list-item-title>
             </v-list-item>
             <v-list-item v-if="vehicle.trip.trip_short_name">
                 <v-list-item-icon>
                     <v-icon>{{ mdiSvg.ticketConfirmation }}</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.departureNumber') }}</b> {{ vehicle.trip.trip_short_name }}</v-list-item-title>
+                <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.departureNumber') }}</b> {{
+                    vehicle.trip.trip_short_name }}
+                </v-list-item-title>
             </v-list-item>
         </v-list>
     </v-bottom-sheet>
@@ -86,13 +108,36 @@
 
 <script>
 import {
-  VBtn, VIcon, VBottomSheet, VList, VSubheader, VListItem, VListItemIcon, VListItemTitle, VListItemAction, VTooltip,
-  VSpacer
+  VBottomSheet,
+  VBtn,
+  VIcon,
+  VList,
+  VListItem,
+  VListItemIcon,
+  VListItemTitle,
+  VSheet,
+  VSpacer,
+  VSubheader
 } from 'vuetify/lib'
 import {
-  mdiPinOff, mdiPin, mdiClose, mdiMapMarkerPath, mdiSignDirection, mdiIdentifier, mdiTableSearch, mdiBusClock,
-  mdiBusStop, mdiTimetable, mdiCompass, mdiNavigation, mdiSpeedometer, mdiTicketConfirmation
+  mdiBusClock,
+  mdiBusStop,
+  mdiClose,
+  mdiChevronRight,
+  mdiCompass,
+  mdiIdentifier,
+  mdiMapMarkerPath,
+  mdiNavigation,
+  mdiOpenInNew,
+  mdiPin,
+  mdiPinOff,
+  mdiSignDirection,
+  mdiSpeedometer,
+  mdiTableSearch,
+  mdiTicketConfirmation,
+  mdiTimetable
 } from '@mdi/js'
+import collect from 'collect.js'
 
 export default {
   components: {
@@ -100,20 +145,22 @@ export default {
     VBtn,
     VIcon,
     VList,
+    VSheet,
     VSubheader,
     VListItem,
     VListItemIcon,
     VListItemTitle,
-    VListItemAction,
-    VTooltip,
     VSpacer
   },
   data: () => ({
     persistent: false,
+    showChevron: false,
     mdiSvg: {
       pinOff: mdiPinOff,
       pin: mdiPin,
       close: mdiClose,
+      chevronRight: mdiChevronRight,
+      openInNew: mdiOpenInNew,
       mapMarkerPath: mdiMapMarkerPath,
       signDirection: mdiSignDirection,
       identifier: mdiIdentifier,
@@ -145,6 +192,12 @@ export default {
       return this.$vuetify.theme.dark
         ? 'white'
         : 'primary'
+    },
+    settingsLanguageEnglish () {
+      return this.$store.state.settings.language === 'en'
+    },
+    stateLinks () {
+      return collect(this.$store.state.links.data).whereIn('id', this.vehicle.links).all()
     }
   },
   methods: {
@@ -156,19 +209,27 @@ export default {
         this.$emit('close-sheet')
       }
     },
-    searchTrip () {
-      const tab = window.open('https://www.cs.mcgill.ca/~jread3/cgi-bin/runsearch.cgi?tripid=' + this.vehicle.gtfs_trip, '_blank')
+    openLink (url) {
+      const tab = window.open(
+        url.replace(':id', this.vehicle.id).replace(':ref', this.vehicle.ref).replace(':trip', this.vehicle.gtfs_trip)
+        , '_blank')
       tab.focus()
+    }
+  },
+  mounted () {
+    if (this.vehicle.links.length) {
+      const div = document.getElementById('links-list')
+      this.showChevron = div.scrollWidth > div.scrollHeight
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-    .v-btn {
-        margin-left: 16px;
+<style scoped>
+    #links-list {
+        overflow-x: scroll;
     }
-    .v-btn--icon {
-        margin-right: 16px;
+    #links-list > div {
+        white-space: nowrap;
     }
 </style>

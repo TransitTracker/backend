@@ -3,8 +3,8 @@
         <div class="welcome secondary black--text">
             <v-container class="d-flex align-center pa-6">
                 <div class="flex-grow-1">
-                    <h1 class="headline font-weight-medium">{{ $vuetify.lang.t('$vuetify.home.welcome') }} Transit&nbsp;Tracker</h1>
-                    <h2 class="subtitle-1">{{ $vuetify.lang.t('$vuetify.home.version') }} 2.1.0</h2>
+                    <h1 class="text-h5 font-weight-medium">{{ $vuetify.lang.t('$vuetify.home.welcome') }} Transit&nbsp;Tracker</h1>
+                    <h2 class="text-subtitle-1">{{ $vuetify.lang.t('$vuetify.home.version') }} 2.2.0-beta.2</h2>
                     <v-btn icon color="black" href="https://twitter.com/ttrackerca">
                         <v-icon>{{ mdiSvg.twitter }}</v-icon>
                     </v-btn>
@@ -34,7 +34,7 @@
                                 </v-col>
                                 <v-col v-for="count in counts" :key="count.name" cols="12" md="4">
                                     <v-sheet :color="count.backgroundColor" width="100%" height="100%"
-                                             class="d-flex pa-1">
+                                             class="d-flex pa-1" rounded>
                                         <v-avatar size="36" class="ml-1 mr-2 align-self-center avatar" color="white">
                                             {{ count.count }}
                                         </v-avatar>
@@ -62,8 +62,8 @@
                     <v-card v-else>
                         <v-card-text class="d-flex flex-column align-center">
                             <v-icon size="100" color="primary">{{ mdiSvg.mapPlus }}</v-icon>
-                            <h2 class="title text-center my-2">{{ $vuetify.lang.t('$vuetify.home.emptyTitle') }}</h2>
-                            <p class="subtitle-1 text-center">{{ $vuetify.lang.t('$vuetify.home.emptyBody') }}</p>
+                            <h2 class="text-h6 text-center my-2">{{ $vuetify.lang.t('$vuetify.home.emptyTitle') }}</h2>
+                            <p class="text-subtitle-1 text-center">{{ $vuetify.lang.t('$vuetify.home.emptyBody') }}</p>
                             <v-btn large color="primary" to="/settings">
                                 {{ $vuetify.lang.t('$vuetify.home.emptyButton') }}
                             </v-btn>

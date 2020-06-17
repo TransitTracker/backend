@@ -15,12 +15,12 @@
                         </v-btn>
                         <div class="d-flex card-0-text align-center justify-center">
                             <div class="text-center d-lg-none">
-                                <h1 class="headline">{{ $vuetify.lang.t('$vuetify.onboarding.welcome') }}</h1>
-                                <h2 class="subtitle-1">{{ $vuetify.lang.t('$vuetify.onboarding.headline') }}</h2>
+                                <h1 class="text-h5">{{ $vuetify.lang.t('$vuetify.onboarding.welcome') }}</h1>
+                                <h2 class="text-subtitle-1">{{ $vuetify.lang.t('$vuetify.onboarding.Headline') }}</h2>
                             </div>
                             <div class="text-center d-none d-lg-block">
-                                <h1 class="display-2">{{ $vuetify.lang.t('$vuetify.onboarding.welcome') }}</h1>
-                                <h2 class="headline">{{ $vuetify.lang.t('$vuetify.onboarding.headline') }}</h2>
+                                <h1 class="text-h2">{{ $vuetify.lang.t('$vuetify.onboarding.welcome') }}</h1>
+                                <h2 class="text-h5">{{ $vuetify.lang.t('$vuetify.onboarding.Headline') }}</h2>
                             </div>
                         </div>
                     </v-card>
@@ -28,18 +28,18 @@
                 <v-window-item key="card-1">
                     <v-card color="transparent" height="500" class="pa-6 overflow-y-auto d-flex flex-column">
                         <div class="text-center mb-4">
-                            <h1 class="headline mb-2">{{ $vuetify.lang.t('$vuetify.onboarding.conditionsTitle') }}</h1>
+                            <h1 class="text-h5 mb-2">{{ $vuetify.lang.t('$vuetify.onboarding.conditionsTitle') }}</h1>
                             <h2 class="title">{{ $vuetify.lang.t('$vuetify.onboarding.conditionsHeadline') }}</h2>
                         </div>
-                        <p class="body-1" v-html="$vuetify.lang.t('$vuetify.onboarding.conditionsBody')"></p>
+                        <p class="text-body-1" v-html="$vuetify.lang.t('$vuetify.onboarding.conditionsBody')"></p>
                         <div class="flex-grow-1"></div>
-                        <p class="body-1" v-html="$vuetify.lang.t('$vuetify.onboarding.contributions')"></p>
+                        <p class="text-body-1" v-html="$vuetify.lang.t('$vuetify.onboarding.contributions')"></p>
                     </v-card>
                 </v-window-item>
                 <v-window-item key="card-2">
                     <v-card color="transparent" height="500" class="pa-6 overflow-y-auto">
                         <div class="text-center mb-4">
-                            <h1 class="headline mb-2">{{ $vuetify.lang.t('$vuetify.onboarding.regionTitle') }}</h1>
+                            <h1 class="text-h5 mb-2">{{ $vuetify.lang.t('$vuetify.onboarding.regionTitle') }}</h1>
                             <h2 class="title">{{ $vuetify.lang.t('$vuetify.onboarding.regionHeadline') }}</h2>
                         </div>
                         <v-row>
@@ -71,7 +71,7 @@
                 <v-window-item key="card-3">
                     <v-card color="transparent" height="500" class="pa-6 overflow-y-auto">
                         <div class="text-center mb-4">
-                            <h1 class="headline mb-2">{{ $vuetify.lang.t('$vuetify.onboarding.agenciesTitle') }}</h1>
+                            <h1 class="text-h5 mb-2">{{ $vuetify.lang.t('$vuetify.onboarding.agenciesTitle') }}</h1>
                             <h2 class="title">{{ $vuetify.lang.t('$vuetify.onboarding.agenciesHeadline') }}</h2>
                         </div>
                         <v-alert :icon="mdiSvg.alert" color="warning">
@@ -108,27 +108,27 @@
                 <v-window-item key="card-4">
                     <v-card color="transparent" height="500" class="pa-6 overflow-y-auto">
                         <div class="text-center mb-4">
-                            <h1 class="headline mb-2">{{ $vuetify.lang.t('$vuetify.onboarding.settingsTitle') }}</h1>
+                            <h1 class="text-h5 mb-2">{{ $vuetify.lang.t('$vuetify.onboarding.settingsTitle') }}</h1>
                             <h2 class="title">{{ $vuetify.lang.t('$vuetify.onboarding.settingsHeadline') }}</h2>
                         </div>
                         <div class="settings-row d-flex">
                             <div class="settings-label flex-grow-1">
-                                <span class="body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setRefreshLabel') }}</span><br>
-                                <span class="caption">{{ $vuetify.lang.t('$vuetify.onboarding.setRefreshCaption') }}</span>
+                                <span class="text-body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setRefreshLabel') }}</span><br>
+                                <span class="text-caption">{{ $vuetify.lang.t('$vuetify.onboarding.setRefreshCaption') }}</span>
                             </div>
                             <v-switch v-model="settingsAutoRefresh" color="secondary"></v-switch>
                         </div>
                         <div class="settings-row d-flex">
                             <div class="settings-label flex-grow-1">
-                                <span class="body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setDarkLabel') }}</span><br>
-                                <span class="caption">{{ $vuetify.lang.t('$vuetify.onboarding.setDarkCaption') }}</span>
+                                <span class="text-body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setDarkLabel') }}</span><br>
+                                <span class="text-caption">{{ $vuetify.lang.t('$vuetify.onboarding.setDarkCaption') }}</span>
                             </div>
                             <v-switch v-model="settingsDarkMode" color="secondary"></v-switch>
                         </div>
                         <div class="settings-row d-flex">
                             <div class="settings-label flex-grow-1">
-                                <span class="body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setPathLabel') }}</span><br>
-                                <span class="caption">{{ $vuetify.lang.t('$vuetify.onboarding.setPathCaption') }}</span>
+                                <span class="text-body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setPathLabel') }}</span><br>
+                                <span class="text-caption">{{ $vuetify.lang.t('$vuetify.onboarding.setPathCaption') }}</span>
                             </div>
                             <v-select :items="defaultPath" v-model="settingsDefaultPath" class="settings-select"
                                       color="secondary" item-color="secondary darken-3">
@@ -136,8 +136,8 @@
                         </div>
                         <div class="settings-row d-flex pa-2 secondary darken-1" v-if="pwa.showPromotion">
                             <div class="settings-label flex-grow-1">
-                                <span class="body-1">{{ $vuetify.lang.t('$vuetify.onboarding.addHomeLabel') }}</span><br>
-                                <span class="caption">{{ $vuetify.lang.t('$vuetify.onboarding.addHomeCaption') }}</span>
+                                <span class="text-body-1">{{ $vuetify.lang.t('$vuetify.onboarding.addHomeLabel') }}</span><br>
+                                <span class="text-caption">{{ $vuetify.lang.t('$vuetify.onboarding.addHomeCaption') }}</span>
                             </div>
                             <v-btn color="primary" @click="pwaInstall" :loading="pwa.buttonLoading" dark
                                    :disabled="pwa.buttonDisabled">

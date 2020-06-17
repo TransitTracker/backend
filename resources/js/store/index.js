@@ -2,9 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import agencies from './modules/agencies'
 import alert from './modules/alert'
-import vehicles from './modules/vehicles'
-import settings from './modules/settings'
+import links from './modules/links'
 import regions from './modules/regions'
+import settings from './modules/settings'
+import vehicles from './modules/vehicles'
 import VuexPersistence from 'vuex-persist'
 
 Vue.use(Vuex)
@@ -18,9 +19,10 @@ export default new Vuex.Store({
   modules: {
     agencies,
     alert,
-    vehicles,
+    links,
     regions,
-    settings
+    settings,
+    vehicles
   },
   plugins: [vuexlocal.plugin]
 })

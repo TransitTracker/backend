@@ -3,7 +3,9 @@ import collect from 'collect.js/src/index.js'
 const state = {
   data: [],
   selection: {
-    id: null
+    id: null,
+    coordinates: {},
+    agency: {}
   }
 }
 
@@ -11,8 +13,8 @@ const mutations = {
   setData (state, vehicles) {
     state.data = state.data.concat(vehicles)
   },
-  setSelection (state, selectedVehicle) {
-    state.selection = selectedVehicle
+  setSelection (state, selection) {
+    state.selection = selection
   },
   emptyData (state, agencyId) {
     if (agencyId === 'all') {

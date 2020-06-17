@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-footer fixed :color="componentColor">
-            <v-row justify="center" v-if="!noVehicle">
+            <v-row justify="center" v-if="vehicle.id">
                 <v-col class="agency">
                     <span class="d-none d-md-block">{{ agency.name }}</span>
                     <span class="d-md-none">{{ agency.slug | uppercase }}</span>
@@ -49,13 +49,6 @@ export default {
     VIcon
   },
   computed: {
-    noVehicle () {
-      if (this.vehicle.id === null) {
-        return true
-      } else {
-        return false
-      }
-    },
     componentColor () {
       return this.$vuetify.theme.dark ? '' : 'white'
     }

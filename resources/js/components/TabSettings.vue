@@ -50,22 +50,22 @@
             <p class="mb-2">{{ $vuetify.lang.t('$vuetify.settings.otherChanges') }}</p>
             <div class="settings-row d-flex">
               <div class="settings-label flex-grow-1">
-                <span class="body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setRefreshLabel') }}</span><br>
-                <span class="caption">{{ $vuetify.lang.t('$vuetify.onboarding.setRefreshCaption') }}</span>
+                <span class="text-body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setRefreshLabel') }}</span><br>
+                <span class="text-caption">{{ $vuetify.lang.t('$vuetify.onboarding.setRefreshCaption') }}</span>
               </div>
               <v-switch v-model="settingsAutoRefresh" color="secondary"></v-switch>
             </div>
             <div class="settings-row d-flex">
               <div class="settings-label flex-grow-1">
-                <span class="body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setDarkLabel') }}</span><br>
-                <span class="caption">{{ $vuetify.lang.t('$vuetify.onboarding.setDarkCaption') }}</span>
+                <span class="text-body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setDarkLabel') }}</span><br>
+                <span class="text-caption">{{ $vuetify.lang.t('$vuetify.onboarding.setDarkCaption') }}</span>
               </div>
               <v-switch v-model="settingsDarkMode" color="secondary"></v-switch>
             </div>
             <div class="settings-row d-flex">
               <div class="settings-label flex-grow-1">
-                <span class="body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setPathLabel') }}</span><br>
-                <span class="caption">{{ $vuetify.lang.t('$vuetify.onboarding.setPathCaption') }}</span>
+                <span class="text-body-1">{{ $vuetify.lang.t('$vuetify.onboarding.setPathLabel') }}</span><br>
+                <span class="text-caption">{{ $vuetify.lang.t('$vuetify.onboarding.setPathCaption') }}</span>
               </div>
               <v-select :items="defaultPath" v-model="settingsDefaultPath" class="settings-select" color="secondary"
                         item-color="secondary darken-3">
@@ -73,14 +73,14 @@
             </div>
             <div class="settings-row d-flex">
               <div class="settings-label flex-grow-1">
-                <span class="body-1">{{ $vuetify.lang.t('$vuetify.settings.otherLanguageLabel') }}</span><br>
-                <span class="caption">{{ $vuetify.lang.t('$vuetify.settings.otherLanguageCaption') }}</span>
+                <span class="text-body-1">{{ $vuetify.lang.t('$vuetify.settings.otherLanguageLabel') }}</span><br>
+                <span class="text-caption">{{ $vuetify.lang.t('$vuetify.settings.otherLanguageCaption') }}</span>
               </div>
               <v-select :items="language" v-model="settingsLanguage" class="settings-select" color="secondary"
                         item-color="secondary darken-3">
               </v-select>
             </div>
-            <a :href="'/opt-out/' + settingsLanguage" class="subtitle-1">
+            <a :href="'/opt-out/' + settingsLanguage" class="text-subtitle-1 mt-4">
               {{ $vuetify.lang.t('$vuetify.settings.otherOptOut') }}
             </a>
           </v-card-text>
@@ -246,9 +246,6 @@ export default {
   }
   .v-list-item__title {
     white-space: normal;
-  }
-  .subtitle-1 {
-    margin-top: 16px;
   }
   .about a {
     color: #fafafa;

@@ -13,26 +13,32 @@
                     <v-icon>{{ mdiSvg.close }}</v-icon>
                 </v-btn>
             </div>
-            <div class="mx-4 mt-4 d-flex align-center" v-if="vehicle.links.length">
+            <div class="ml-2 mr-4 d-flex align-center" v-if="vehicle.links.length">
                 <div class="flex-grow-1 d-flex" id="links-list">
-                    <v-sheet v-for="link in stateLinks" :key="link.id" @click="openLink(link.url)" rounded
-                             color="secondary darken-3" class="pa-2 d-flex align-center mr-4 mb-2">
+                    <v-sheet v-for="link in stateLinks" :key="link.id" @click="openLink(link.url)" rounded elevation="2"
+                             :class="{'lighten-4': !settingsDarkMode, 'darken-3': settingsDarkMode}"
+                             class="pa-2 d-flex align-center ma-2 cursor-pointer grey" :light="!settingsDarkMode"
+                             :dark="settingsDarkMode">
                         <div>
                             <p class="subtitle-2 mb-1">{{ settingsLanguageEnglish ? link.title.en : link.title.fr }}</p>
-                            <p class="body-2 mb-0">{{ settingsLanguageEnglish ? link.description.en : link.description.fr
-                                }}</p>
+                            <p class="body-2 mb-0">
+                                {{ settingsLanguageEnglish ? link.description.en : link.description.fr }}
+                            </p>
                         </div>
                         <v-icon class="ml-4" size="20px">{{ mdiSvg.openInNew }}</v-icon>
                     </v-sheet>
                 </div>
-                <v-icon id="links-chevron" v-if="showChevron">{{ mdiSvg.chevronRight }}</v-icon>
+                <v-icon id="links-chevron" v-if="showChevron" class="ml-2">{{ mdiSvg.chevronRight }}</v-icon>
             </div>
             <v-list-item v-if="vehicle.route">
                 <v-list-item-icon>
                     <v-icon>{{ mdiSvg.mapMarkerPath }}</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title><b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.route') }}</b>
-                    <span v-if="vehicle.trip.long_name">{{ vehicle.trip.route_short_name}} {{ vehicle.trip.long_name}} (<code>{{ vehicle.route }}</code>)</span>
+                    <span v-if="vehicle.trip.long_name">
+                        {{ vehicle.trip.route_short_name}} {{ vehicle.trip.long_name}}
+                        (<code>{{ vehicle.route }}</code>)
+                    </span>
                     <span v-else>{{ vehicle.route }}</span>
                 </v-list-item-title>
             </v-list-item>
@@ -154,7 +160,6 @@ export default {
   },
   data: () => ({
     persistent: false,
-    showChevron: false,
     mdiSvg: {
       pinOff: mdiPinOff,
       pin: mdiPin,
@@ -180,6 +185,17 @@ export default {
     sheetOpen: Boolean
   },
   computed: {
+    componentColor () {
+      return this.$vuetify.theme.dark
+        ? 'white'
+        : 'primary'
+    },
+    settingsDarkMode () {
+      return this.$store.state.settings.darkMode
+    },
+    settingsLanguageEnglish () {
+      return this.$store.state.settings.language === 'en'
+    },
     sheetModel: {
       get () {
         return this.sheetOpen
@@ -188,22 +204,18 @@ export default {
         !this.persistent && this.$emit('close-sheet')
       }
     },
-    componentColor () {
-      return this.$vuetify.theme.dark
-        ? 'white'
-        : 'primary'
-    },
-    settingsLanguageEnglish () {
-      return this.$store.state.settings.language === 'en'
+    showChevron () {
+      const div = document.getElementById('links-list')
+      if (!div || !this.vehicle.links.length) {
+        return false
+      }
+      return div.scrollWidth > div.clientWidth
     },
     stateLinks () {
       return collect(this.$store.state.links.data).whereIn('id', this.vehicle.links).all()
     }
   },
   methods: {
-    togglePersistent () {
-      this.persistent ? this.persistent = false : this.persistent = true
-    },
     clickOutsideSheet () {
       if (!this.persistent) {
         this.$emit('close-sheet')
@@ -214,20 +226,20 @@ export default {
         url.replace(':id', this.vehicle.id).replace(':ref', this.vehicle.ref).replace(':trip', this.vehicle.gtfs_trip)
         , '_blank')
       tab.focus()
-    }
-  },
-  mounted () {
-    if (this.vehicle.links.length) {
-      const div = document.getElementById('links-list')
-      this.showChevron = div.scrollWidth > div.scrollHeight
+    },
+    togglePersistent () {
+      this.persistent ? this.persistent = false : this.persistent = true
     }
   }
 }
 </script>
 
 <style scoped>
+    .cursor-pointer {
+        cursor: pointer;
+    }
     #links-list {
-        overflow-x: scroll;
+        overflow-x: auto;
     }
     #links-list > div {
         white-space: nowrap;

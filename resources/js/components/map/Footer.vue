@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-footer fixed :color="componentColor">
+        <v-footer fixed :color="componentColor" height="80px">
             <v-row justify="center" v-if="vehicle.id">
                 <v-col class="agency">
                     <span class="d-none d-md-block">{{ agency.name }}</span>
@@ -16,7 +16,10 @@
                     {{ vehicle.speed }} km/h
                 </v-col>
                 <v-col class="trip">
-                    <div class="route" :style="{ backgroundColor: vehicle.trip.color, color: vehicle.trip.text_color }">
+                    <div class="route" :style="{
+                      backgroundColor: vehicle.trip.color,
+                      color: vehicle.trip.text_color,
+                      borderColor: vehicle.trip.id ? vehicle.trip.color : agency.color }">
                         {{ vehicle.trip.route_short_name === null ? vehicle.route : vehicle.trip.route_short_name }}
                         <span class="d-none d-md-block">{{ vehicle.trip.long_name }}</span>
                     </div>
@@ -91,6 +94,8 @@ export default {
         border-radius: 3px;
         font-size: 14px;
         text-align: center;
+        border-width: 3px;
+        border-style: solid;
     }
 
     .trip .second-line {

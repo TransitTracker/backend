@@ -13,13 +13,8 @@ const router = new VueRouter({
     {
       path: '/map',
       name: 'Map / Carte',
-      component: () => import(/* webpackChunkName: 'map' */ './components/TabMap2.vue')
+      component: () => import(/* webpackChunkName: 'map' */ './components/TabMap.vue')
     },
-    // {
-    //   path: '/map-2',
-    //   name: 'Map / Carte',
-    //   component: () => import(/* webpackChunkName: 'map-2' */ './components/TabMap2.vue')
-    // },
     {
       path: '/table',
       name: 'Table / Liste',
@@ -29,11 +24,6 @@ const router = new VueRouter({
       path: '/settings',
       name: 'Settings / Réglages',
       component: () => import(/* webpackChunkName: 'settings' */ './components/TabSettings.vue')
-    },
-    {
-      path: '/icons',
-      name: 'Settings / Réglages',
-      component: () => import(/* webpackChunkName: 'icons' */ './components/map/GenerateIcons.vue')
     }
   ]
 })

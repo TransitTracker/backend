@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-map">
+    <div>
         <div id="map"></div>
         <map-footer v-on:open-sheet="sheetOpen = true" :agency="selectedAgency" :vehicle="selectedVehicle"></map-footer>
         <map-bottom-sheet v-if="sheetOpen" v-on:close-sheet="sheetOpen = false" :agency="selectedAgency"
@@ -8,17 +8,10 @@
 </template>
 
 <script>
+import collect from 'collect.js'
+import Mapbox from 'mapbox-gl'
 import MapFooter from './map/Footer'
 import MapBottomSheet from './map/BottomSheet'
-import 'mapbox-gl/dist/mapbox-gl.css'
-import mapboxgl from 'mapbox-gl/dist/mapbox-gl'
-import collect from 'collect.js'
-import color from 'color'
-
-const markerIcon = 'M 12,2 C 8.13,2 5,5.13 5,9 c 0,5.25 7,13 7,13 0,0 7,-7.75 7,-13 0,-3.87 -3.13,-7 -7,-7 z'
-const busIcon = 'M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z'
-const trainIcon = 'M12 2c-4.42 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-3.58-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-6H6V6h5v5zm5.5 6c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6h-5V6h5v5z'
-const tramIcon = 'M9 1L5 4L7.5 6H5C5 6 2 6 2 9V19H7C7 19 7 17 9 17H22V14H18V8H22V6H10.5L13 4L9 1M4 8H9V14H4V8M11 8H16V14H11V8M4 16H5V18H4V16M9 19V19.5C9 20.88 10.12 22 11.5 22C12.5 22 13.39 21.41 13.79 20.5H15.21C15.61 21.41 16.5 22 17.5 22C18.88 22 20 20.88 20 19.5V19H9Z'
 
 export default {
   name: 'TabMap',
@@ -27,189 +20,141 @@ export default {
     MapBottomSheet
   },
   computed: {
-    activeRegion () {
+    mapStyle () {
+      return this.$store.state.settings.darkMode
+        ? 'mapbox://styles/felixinx/ckbi97znr1b5m1in3k4u8kf7a/draft'
+        : 'mapbox://styles/felixinx/ckad3l5j203do1jno01b7oq0w/draft'
+    },
+    stateActiveRegion () {
       return this.$store.state.regions.active
     },
-    vehicles () {
-      return this.$store.state.vehicles.data
+    stateActiveRegionSlug () {
+      return this.stateActiveRegion.slug
     },
-    agencies () {
-      return this.$store.state.agencies.data
+    stateActiveAgencies () {
+      // Filter active agencies according to selected region
+      const collection = collect(this.$store.state.regions.active.agencies)
+      const agencies = collection.whereIn('slug', this.$store.state.settings.activeAgencies)
+      return agencies.all()
     },
-    selectedVehicle () {
+    stateGeojsonData () {
+      return this.$store.state.vehicles.geojson
+    },
+    stateSelectedVehicle () {
       return this.$store.state.vehicles.selection
     },
-    selectedAgency () {
-      const agencies = collect(this.agencies)
-      return agencies.firstWhere('id', this.selectedVehicle.agency_id)
-    },
-    markers () {
-      // The following code was inspired by remyvhw from SurLesRails. Thank you!
-      return collect(this.vehicles).map(vehicle => {
-        // Find agency
-        const agency = collect(this.agencies).firstWhere('id', vehicle.agency_id)
-
-        // Check if selected vehicle is this one
-        let isSelected = false
-        this.selectedVehicle.id === vehicle.id ? isSelected = true : isSelected = false
-
-        // Enclosing div
-        const enclosingDiv = document.createElement('div')
-
-        // Enclosing div (circle)
-        const enclosingCircle = document.createElement('div')
-        enclosingCircle.className = 'circle'
-        enclosingDiv.appendChild(enclosingCircle)
-
-        // SVG element (circle)
-        const svgCircle = document.createElement('svg')
-        svgCircle.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
-        svgCircle.setAttribute('viewBox', '0 0 10 10')
-
-        // Create circle
-        const circleElement = document.createElement('circle')
-        circleElement.setAttribute('cx', '5')
-        circleElement.setAttribute('cy', '5')
-        circleElement.setAttribute('r', '5')
-        circleElement.setAttribute('fill', agency.color)
-        circleElement.setAttribute('stroke', agency.text_color)
-        circleElement.setAttribute('stroke-width', '0.5')
-        svgCircle.appendChild(circleElement)
-
-        // Enclosing div (full marker)
-        const enclosingFull = document.createElement('div')
-        enclosingFull.className = isSelected ? 'marker-selected' : 'marker'
-        enclosingDiv.appendChild(enclosingFull)
-
-        // SVG element (full marker)
-        const svgFull = document.createElement('svg')
-        svgFull.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
-        svgFull.setAttribute('viewBox', '0 0 24 24')
-
-        // Create path (full marker)
-        const pathElement = document.createElement('path')
-        pathElement.setAttribute('d', markerIcon)
-        pathElement.setAttribute('fill', isSelected ? color(agency.color).darken(0.3).hsl() : agency.color)
-        pathElement.setAttribute('stroke', agency.text_color)
-        pathElement.setAttribute('stroke-width', '0.5')
-        svgFull.appendChild(pathElement)
-
-        // Create icon (full marker)
-        const iconElement = document.createElement('path')
-        iconElement.setAttribute('d', vehicle.icon === 'tram' ? tramIcon : vehicle.icon === 'train' ? trainIcon : busIcon)
-        iconElement.setAttribute('fill', agency.text_color)
-        iconElement.setAttribute('transform', 'translate(7.25 4) scale(0.4 0.4)')
-        svgFull.appendChild(iconElement)
-
-        // Put together and add a click event
-        enclosingCircle.innerHTML = svgCircle.outerHTML
-        enclosingFull.innerHTML = svgFull.outerHTML
-        enclosingFull.addEventListener('click', () => {
-          this.map.flyTo({ center: [vehicle.lon, vehicle.lat] })
-          this.$store.commit('vehicles/setSelection', vehicle)
-        })
-
-        // Create the marker and return it
-        const marker = new mapboxgl.Marker(enclosingDiv).setLngLat([vehicle.lon, vehicle.lat])
-        marker.setOffset([0, isSelected ? -25 : -16])
-        return marker
-      }).toArray()
-    },
-    mapStyle () {
-      if (this.$store.state.settings.darkMode) {
-        return 'mapbox://styles/mapbox/dark-v10?optimize=true'
-      } else {
-        return 'mapbox://styles/mapbox/streets-v11?optimize=true'
-      }
+    stateVehicles () {
+      return this.$store.state.vehicles.data
     }
   },
   data: () => ({
-    map: null,
-    sheetOpen: false
+    sheetOpen: false,
+    selectedAgency: {},
+    selectedVehicle: {}
   }),
   methods: {
-    putMarkersOnMap (newMarkers, oldMarkers) {
-      // Remove old markers
-      if (oldMarkers) {
-        collect(oldMarkers).each(marker => {
-          marker.remove()
+    loadMapLayers () {
+      // Add layers for all active agencies
+      this.stateActiveAgencies.forEach(agency => {
+        // Add map source
+        this.map.addSource(`source-${agency.slug}`, {
+          type: 'geojson',
+          data: this.stateGeojsonData[agency.slug]
         })
-      }
-      collect(newMarkers).each(marker => {
-        marker.addTo(this.map)
+        // Add map layers
+        this.map.addLayer({
+          id: `layer-${agency.slug}`,
+          type: 'symbol',
+          source: `source-${agency.slug}`,
+          minzoom: 11,
+          layout: {
+            'icon-allow-overlap': true,
+            'icon-anchor': 'bottom',
+            'icon-image': `tt-${agency.slug}-{marker-symbol}`
+          }
+        })
+        this.map.addLayer({
+          id: `circles-${agency.slug}`,
+          type: 'circle',
+          source: `source-${agency.slug}`,
+          maxzoom: 11,
+          paint: {
+            'circle-radius': 5,
+            'circle-stroke-color': agency.text_color,
+            'circle-stroke-width': 0.5,
+            'circle-color': agency.color
+          }
+        })
+        // Add map events
+        this.map.on('click', `layer-${agency.slug}`, e => {
+          this.selectMarker(e.features[0], agency)
+        })
+        this.map.on('mouseenter', `layer-${agency.slug}`, e => {
+          this.map.getCanvas().style.cursor = 'pointer'
+        })
+        this.map.on('mouseleave', `layer-${agency.slug}`, e => {
+          this.map.getCanvas().style.cursor = ''
+        })
       })
     },
-    toggleSheet () {
-      if (this.sheetOpen) {
-        this.sheetOpen = false
-      } else {
-        this.sheetOpen = true
-      }
+    selectMarker (markerData, agency, zoom = this.map.getZoom()) {
+      this.map.flyTo({ center: markerData.geometry.coordinates, zoom: zoom })
+      this.selectedAgency = agency
+      this.selectedVehicle = collect(this.stateVehicles).firstWhere('id', markerData.properties.id)
+      new this.mapbox.Popup({ offset: [0, -35], closeButton: false })
+        .setLngLat(markerData.geometry.coordinates)
+        .setHTML(`<p class="text-caption black--text mb-0">${this.selectedVehicle.ref}</p>`)
+        .addTo(this.map)
     }
   },
   mounted () {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZmVsaXhpbngiLCJhIjoiY2lqYzJoMW9vMDA1dnZsa3F3cmZzcWVsciJ9.ZWBQm52vI7RFRwGuoAzwMg'
+    this.mapbox = Mapbox
+    this.mapbox.accessToken = 'pk.eyJ1IjoiZmVsaXhpbngiLCJhIjoiY2lqYzJoMW9vMDA1dnZsa3F3cmZzcWVsciJ9.ZWBQm52vI7RFRwGuoAzwMg'
 
-    this.map = new mapboxgl.Map({
+    this.map = new this.mapbox.Map({
       container: 'map',
       style: this.mapStyle,
-      center: this.activeRegion.map_box,
-      zoom: this.activeRegion.map_zoom,
-      attributionControl: false
+      center: this.stateActiveRegion.map_box,
+      zoom: this.stateActiveRegion.map_zoom,
+      attributionControl: false,
+      maxPitch: 0
     })
 
-    this.map.addControl(new mapboxgl.AttributionControl(), 'top-right')
-    this.map.addControl(new mapboxgl.GeolocateControl({
+    this.map.addControl(new this.mapbox.AttributionControl(), 'top-right')
+    this.map.addControl(new this.mapbox.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true
       },
       trackUserLocation: true
     }), 'top-left')
-    this.map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left')
+    this.map.addControl(new this.mapbox.NavigationControl({ showCompass: false }), 'top-left')
 
-    this.putMarkersOnMap(this.markers)
-
-    if (this.selectedVehicle.lat) {
-      this.map.flyTo({
-        center: [this.selectedVehicle.lon, this.selectedVehicle.lat],
-        zoom: 13
-      })
-    }
-
-    this.map.on('zoom', () => {
-      if (this.map.getZoom() < 11) {
-        const markers = document.getElementsByClassName('marker')
-        for (let i = 0; i < markers.length; i++) {
-          markers[i].style.display = 'none'
-        }
-        const circles = document.getElementsByClassName('circle')
-        for (let i = 0; i < circles.length; i++) {
-          circles[i].style.display = 'block'
-        }
-      } else {
-        const markers = document.getElementsByClassName('marker')
-        for (let i = 0; i < markers.length; i++) {
-          markers[i].style.display = 'block'
-        }
-        const circles = document.getElementsByClassName('circle')
-        for (let i = 0; i < circles.length; i++) {
-          circles[i].style.display = 'none'
-        }
+    this.map.on('load', () => {
+      this.loadMapLayers()
+      if (this.stateSelectedVehicle.id) {
+        this.selectMarker({
+          geometry: { coordinates: this.stateSelectedVehicle.coordinates },
+          properties: { id: this.stateSelectedVehicle.id }
+        }, this.stateSelectedVehicle.agency, 13)
       }
     })
   },
-  props: ['vehiclesPendingRequest'],
+  props: ['refreshEvent'],
   watch: {
-    markers: {
+    refreshEvent: {
       deep: true,
       handler (val, oldVal) {
-        this.putMarkersOnMap(val, oldVal)
+        // Updating map source when auto refresh sends event
+        console.log(`Updating map source for ${val.slug}`)
+        this.map.getSource(`source-${val.slug}`).setData(this.stateGeojsonData[val.slug])
       }
     },
-    activeRegion: {
+    stateActiveRegionSlug: {
       deep: true,
       handler (val, oldVal) {
-        this.$forceUpdate()
+        // Refresh router when region changes
+        // TODO: find a better way to handle this use case
+        this.$router.go(0)
       }
     }
   }
@@ -217,45 +162,13 @@ export default {
 </script>
 
 <style scoped>
-#map {
-    height: calc(100vh - 180px);
-    z-index: 1;
-}
-</style>
-
-<style>
-.md-app-content {
-    padding: 0;
-}
-.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {
-    margin: 0 0 30px 10px;
-}
-.circle {
-    transform: translate(10px, 10px);
-}
-.circle svg {
-    height: 10px;
-    width: 10px;
-}
-.marker {
-    display: none;
-}
-.marker svg {
-    height: 40px;
-    width: 40px;
-}
-.marker-selected svg {
-    height: 60px;
-    width: 60px;
-}
-.marker-selected {
-    z-index: 2;
-}
-.marker svg {
-    cursor: pointer;
-}
-.fab-refresh {
-    bottom: 92px;
-    z-index: 2;
-}
+    #map {
+        height: calc(100vh - 192px);
+        z-index: 1;
+    }
+    @media only screen and (max-width: 960px) {
+        #map {
+            height: calc(100vh - 184px);
+        }
+    }
 </style>

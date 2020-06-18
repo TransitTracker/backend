@@ -41,8 +41,9 @@
                 </alert-banner>
                 <dialog-configuration v-if="!settings.configurationDone"
                                       v-on:configurationDone="setConfigurationAsDone"></dialog-configuration>
-                <router-view :vehicles-pending-request="vehiclesRequestPending" v-if="settings.configurationDone"
-                             v-on:refresh-vehicles="refreshVehicles()" v-on:change-region="changeActiveRegion">
+                <router-view :vehicles-pending-request="vehiclesRequestPending" :refresh-event="refreshEvent"
+                             v-if="settings.configurationDone" v-on:refresh-vehicles="refreshVehicles()"
+                             v-on:change-region="changeActiveRegion">
                 </router-view>
                 <v-snackbar v-model="oldAgenciesSnackbarVisible" :timeout="oldAgenciesSnackbarTimeout">
                     <b>{{ $vuetify.lang.t('$vuetify.app.snackbarBold') }}</b>
@@ -118,6 +119,7 @@ export default {
     echo: null,
     alertDialogVisible: false,
     vehiclesRequestPending: 0,
+    refreshEvent: {},
     mdiSvg: {
       map: mdiMap,
       check: mdiCheck
@@ -252,29 +254,31 @@ export default {
           this.$store.commit('links/setData', response.data.data)
         })
 
-      // If enabled, listen to auto refresh
-      if (this.settings.autoRefresh) {
-        console.log('Listening')
-        // Connect to Pusher with Laravel Echo
-        if (!this.echo) {
-          this.echo = new Echo({
-            broadcaster: 'pusher',
-            key: process.env.MIX_PUSHER_APP_KEY,
-            cluster: 'us2',
-            forceTLS: true
-          })
-        }
+      // Always listen to pusher
+      console.log('Listening')
+      // Connect to Pusher with Laravel Echo
+      if (!this.echo) {
+        this.echo = new Echo({
+          broadcaster: 'pusher',
+          key: process.env.MIX_PUSHER_APP_KEY,
+          cluster: 'us2',
+          forceTLS: true
+        })
+      }
 
-        // Listen to events
-        this.echo.channel('updates')
-          .listen('VehiclesUpdated', (event) => {
+      // Listen to events
+      this.echo.channel('updates')
+        .listen('VehiclesUpdated', (event) => {
+          // Check if user has auto refresh enabled
+          if (this.settings.autoRefresh) {
             const newTimestamp = Math.floor(Date.now() / 1000)
             // Check if agency is selected by user
-            if (collect(this.settings.activeAgencies).contains(event.slug)) {
+            if (collect(this.settings.activeAgencies).contains(event.slug) && event.region === this.settings.activeRegion) {
               this.loadVehiclesFromAgency(event.slug, newTimestamp)
+              this.refreshEvent = event
             }
-          })
-      }
+          }
+        })
 
       // Send statistics
       window._paq.push(
@@ -311,14 +315,20 @@ export default {
               timeDiff > 300 && this.showSnackbar()
             })
             .catch((error) => {
-              if (error.response.status === 403 || error.response.status === 404) {
-                // Agency is either invalid or dosen't exist
+              if (error.response.status === 404) {
+                // Agency dosen't exist
                 this.removeAgency(agencySlug)
               }
             })
+
+          axios.get(`/geojson/${agencySlug}`)
+            .then((response) => {
+              this.$store.commit('vehicles/setGeojson', {
+                data: response.data,
+                agency: agency.slug
+              })
+            })
         }
-      } else {
-        this.removeAgency(agencySlug)
       }
     },
     showSnackbar () {

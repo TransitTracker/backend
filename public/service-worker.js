@@ -1,1 +1,147 @@
-if(!self.define){const e=e=>{"require"!==e&&(e+=".js");let s=Promise.resolve();return r[e]||(s=new Promise(async s=>{if("document"in self){const r=document.createElement("script");r.src=e,document.head.appendChild(r),r.onload=s}else importScripts(e),s()})),s.then(()=>{if(!r[e])throw new Error(`Module ${e} didn’t register its module`);return r[e]})},s=(s,r)=>{Promise.all(s.map(e)).then(e=>r(1===e.length?e[0]:e))},r={require:Promise.resolve(s)};self.define=(s,i,a)=>{r[s]||(r[s]=Promise.resolve().then(()=>{let r={};const c={uri:location.origin+s.slice(1)};return Promise.all(i.map(s=>{switch(s){case"exports":return r;case"module":return c;default:return e(s)}})).then(e=>{const s=a(...e);return r.default||(r.default=s),r})}))}}define("./service-worker.js",["./workbox-1bbb3e0e"],(function(e){"use strict";self.addEventListener("message",e=>{e.data&&"SKIP_WAITING"===e.data.type&&self.skipWaiting()}),e.precacheAndRoute([{url:"/css/app.css",revision:"d41d8cd98f00b204e9800998ecf8427e"},{url:"/js/app.js",revision:"78450cbee9ec56a7350b4585a27809a9"},{url:"/js/app.js.LICENSE.txt",revision:"473d5006637e3eeb0c40b04d2277a922"},{url:"/js/manifest.js",revision:"7c61e4a24669452a3b29dae1466cc2dc"},{url:"/js/vendor.js",revision:"84ddbc8f9afaad7ed56a88aebe7c3464"},{url:"/js/vendor.js.LICENSE.txt",revision:"4d6f560a9eb9a3ae2630e3dafdf493e7"},{url:"alert.js",revision:"a8bb285db509bf9f69c3648623ad7388"},{url:"configuration.js",revision:"da8e5e296370b44ec5067c5c56a19a0a"},{url:"home.js",revision:"e50c50e722d9d44b2f0092f3bb62ad1a"},{url:"icons.js",revision:"186e1371628e13d234cc095e86e08cc4"},{url:"map.js",revision:"36ca60ab5a7b58f7a5164e59342b85b8"},{url:"settings.js",revision:"d7058b2608f28e812c2a9ce8ec9a0a17"},{url:"table.js",revision:"5e1bc18fb5ffec7edbb8978e4c99b114"},{url:"vendors~home.js",revision:"29f1f8aceb29dc3dfe9aa9c984174f5a"},{url:"vendors~home~map~table.js",revision:"0ce23a2183d714f4ae269848ca3c3d5f"},{url:"vendors~icons.js",revision:"e84ffc6363b3aea0d9839ab723b25bc0"},{url:"vendors~map.js",revision:"155654b43ab5cfb258de5a97eda758eb"},{url:"vendors~table.js",revision:"4a35fc7e11c9b5079825f3eefaa16bb0"}],{})}));
+/**
+ * Copyright 2018 Google Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// If the loader is already loaded, just stop.
+if (!self.define) {
+  const singleRequire = name => {
+    if (name !== 'require') {
+      name = name + '.js';
+    }
+    let promise = Promise.resolve();
+    if (!registry[name]) {
+      
+        promise = new Promise(async resolve => {
+          if ("document" in self) {
+            const script = document.createElement("script");
+            script.src = name;
+            document.head.appendChild(script);
+            script.onload = resolve;
+          } else {
+            importScripts(name);
+            resolve();
+          }
+        });
+      
+    }
+    return promise.then(() => {
+      if (!registry[name]) {
+        throw new Error(`Module ${name} didn’t register its module`);
+      }
+      return registry[name];
+    });
+  };
+
+  const require = (names, resolve) => {
+    Promise.all(names.map(singleRequire))
+      .then(modules => resolve(modules.length === 1 ? modules[0] : modules));
+  };
+  
+  const registry = {
+    require: Promise.resolve(require)
+  };
+
+  self.define = (moduleName, depsNames, factory) => {
+    if (registry[moduleName]) {
+      // Module is already loading or loaded.
+      return;
+    }
+    registry[moduleName] = Promise.resolve().then(() => {
+      let exports = {};
+      const module = {
+        uri: location.origin + moduleName.slice(1)
+      };
+      return Promise.all(
+        depsNames.map(depName => {
+          switch(depName) {
+            case "exports":
+              return exports;
+            case "module":
+              return module;
+            default:
+              return singleRequire(depName);
+          }
+        })
+      ).then(deps => {
+        const facValue = factory(...deps);
+        if(!exports.default) {
+          exports.default = facValue;
+        }
+        return exports;
+      });
+    });
+  };
+}
+define("./service-worker.js",['./workbox-64f1e998'], function (workbox) { 'use strict';
+
+  /**
+  * Welcome to your Workbox-powered service worker!
+  *
+  * You'll need to register this file in your web app.
+  * See https://goo.gl/nhQhGp
+  *
+  * The rest of the code is auto-generated. Please don't update this file
+  * directly; instead, make changes to your Workbox build configuration
+  * and re-run your build process.
+  * See https://goo.gl/2aRDsh
+  */
+
+  self.addEventListener('message', event => {
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+      self.skipWaiting();
+    }
+  });
+  /**
+   * The precacheAndRoute() method efficiently caches and responds to
+   * requests for URLs in the manifest.
+   * See https://goo.gl/S9QRab
+   */
+
+  workbox.precacheAndRoute([{
+    "url": "/css/app.css",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  }, {
+    "url": "/js/manifest.js",
+    "revision": "3c22ec977d52c291f0ee8d21c20ecbe6"
+  }, {
+    "url": "alert.js",
+    "revision": "b495b78342f2a8bcda425ca7fe8a5f77"
+  }, {
+    "url": "configuration.js",
+    "revision": "12da307104da7ec701924391b5c803a9"
+  }, {
+    "url": "home.js",
+    "revision": "789733af9b02953afedeb18112c4ed33"
+  }, {
+    "url": "map.js",
+    "revision": "0d893b13362f4340d3ff77825c33f5d0"
+  }, {
+    "url": "settings.js",
+    "revision": "09acbf6f249aa2f57c98edf45091306d"
+  }, {
+    "url": "table.js",
+    "revision": "db7a7a930a8de2a611ba1eac88b37af8"
+  }, {
+    "url": "vendors~home.js",
+    "revision": "a8ee184fa6c853344c7e814d1b27e79b"
+  }, {
+    "url": "vendors~home~map~table.js",
+    "revision": "e5ce7cd8279bd8e5b9f609905b19ee67"
+  }, {
+    "url": "vendors~map.js",
+    "revision": "4c1800a7f5cc2652a41a0f2ec76bfcb3"
+  }, {
+    "url": "vendors~table.js",
+    "revision": "ecef772b0add5bafbe4ef0d09cff11d4"
+  }], {});
+
+});

@@ -50,7 +50,8 @@ class VehiclesUpdated implements ShouldBroadcast
     {
         return [
             'id' => $this->agency->id,
-            'slug' => $this->agency->slug
+            'slug' => $this->agency->slug,
+            'region' => $this->agency->region->slug,
         ];
     }
 }

@@ -2,6 +2,7 @@ import collect from 'collect.js/src/index.js'
 
 const state = {
   data: [],
+  geojson: [],
   selection: {
     id: null,
     coordinates: {},
@@ -12,6 +13,9 @@ const state = {
 const mutations = {
   setData (state, vehicles) {
     state.data = state.data.concat(vehicles)
+  },
+  setGeojson (state, data) {
+    state.geojson[data.agency] = data.data
   },
   setSelection (state, selection) {
     state.selection = selection

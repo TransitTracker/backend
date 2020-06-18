@@ -151,13 +151,8 @@ export default {
     // Change language
     this.$vuetify.lang.current = this.settings.language
 
-    // Check that service workers are supported
-    if ('serviceWorker' in navigator) {
-      // Use the window load event to keep the page load performant
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-      })
-    }
+    // Service worker will be disabled for this version (check app.blade.php)
+    // TODO: bring back service worker
   },
   computed: {
     activeRegion () {

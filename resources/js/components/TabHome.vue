@@ -4,7 +4,7 @@
             <v-container class="d-flex align-center pa-6">
                 <div class="flex-grow-1">
                     <h1 class="text-h5 font-weight-medium">{{ $vuetify.lang.t('$vuetify.home.welcome') }} Transit&nbsp;Tracker</h1>
-                    <h2 class="text-subtitle-1">{{ $vuetify.lang.t('$vuetify.home.version') }} 2.2.0-beta.3+001</h2>
+                    <h2 class="text-subtitle-1">{{ $vuetify.lang.t('$vuetify.home.version') }} 2.2.0</h2>
                     <v-btn icon color="black" href="https://twitter.com/ttrackerca">
                         <v-icon>{{ mdiSvg.twitter }}</v-icon>
                     </v-btn>

@@ -83,7 +83,7 @@
             "@php artisan key:generate --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --provider=\"Backpack\\CRUD\\BackpackServiceProvider\" --tag=public --force",
+            "@php artisan vendor:publish --provider='Backpack\\CRUD\\BackpackServiceProvider' --tag=public --force",
             "@php artisan ide-helper:generate"
         ],
         "app-install": [

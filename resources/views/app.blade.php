@@ -33,6 +33,9 @@
         <meta name="apple-mobile-web-app-title" content="T Tracker">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="theme-color" content="#303633">
+
+        <link rel="preconnect" href="{{ env('MIX_MATOMO_HOST') }}">
+        <link rel="dns-prefetch" href="{{ env('MIX_MATOMO_HOST') }}">
     </head>
     <body>
         <noscript>
@@ -41,16 +44,6 @@
         <div id="app"></div>
 
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-
-        <script>
-            if (navigator.serviceWorker) {
-              navigator.serviceWorker.getRegistrations().then(function (registrations) {
-                for (let registration of registrations) {
-                  registration.unregister()
-                }
-              })
-            }
-        </script>
 
         <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
         <script src="{{ mix('js/vendor.js') }}" type="text/javascript"></script>

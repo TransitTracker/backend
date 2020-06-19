@@ -1,9 +1,8 @@
-// TODO: Change when ready for production
 const state = {
   activeAgencies: ['stm', 'ttc'],
   autoRefresh: false,
-  defaultPath: '/map',
-  configurationDone: true,
+  defaultPath: '/',
+  configurationDone: false,
   language: 'en',
   alertRead: 0,
   activeRegion: 'mtl',

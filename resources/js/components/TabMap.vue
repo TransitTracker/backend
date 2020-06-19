@@ -22,8 +22,8 @@ export default {
   computed: {
     mapStyle () {
       return this.$store.state.settings.darkMode
-        ? 'mapbox://styles/felixinx/ckbi97znr1b5m1in3k4u8kf7a'
-        : 'mapbox://styles/felixinx/ckad3l5j203do1jno01b7oq0w'
+        ? 'mapbox://styles/felixinx/ckbmbgwoa19851inl6ifakq1s'
+        : 'mapbox://styles/felixinx/ckbmbifk40jwn1ipdubgvsfy3'
     },
     stateActiveRegion () {
       return this.$store.state.regions.active

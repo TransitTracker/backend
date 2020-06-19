@@ -16,11 +16,11 @@
                         <div class="d-flex card-0-text align-center justify-center">
                             <div class="text-center d-lg-none">
                                 <h1 class="text-h5">{{ $vuetify.lang.t('$vuetify.onboarding.welcome') }}</h1>
-                                <h2 class="text-subtitle-1">{{ $vuetify.lang.t('$vuetify.onboarding.Headline') }}</h2>
+                                <h2 class="text-subtitle-1">{{ $vuetify.lang.t('$vuetify.onboarding.headline') }}</h2>
                             </div>
                             <div class="text-center d-none d-lg-block">
                                 <h1 class="text-h2">{{ $vuetify.lang.t('$vuetify.onboarding.welcome') }}</h1>
-                                <h2 class="text-h5">{{ $vuetify.lang.t('$vuetify.onboarding.Headline') }}</h2>
+                                <h2 class="text-h5">{{ $vuetify.lang.t('$vuetify.onboarding.headline') }}</h2>
                             </div>
                         </div>
                     </v-card>

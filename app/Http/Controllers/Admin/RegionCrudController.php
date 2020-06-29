@@ -11,8 +11,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 
 /**
- * Class RegionCrudController
- * @package App\Http\Controllers\Admin
+ * Class RegionCrudController.
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class RegionCrudController extends CrudController
@@ -26,7 +25,7 @@ class RegionCrudController extends CrudController
     public function setup()
     {
         $this->crud->setModel('App\Region');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/region');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/region');
         $this->crud->setEntityNameStrings('region', 'regions');
     }
 
@@ -43,34 +42,34 @@ class RegionCrudController extends CrudController
             [
                 'name' => 'name',
                 'type' => 'text',
-                'label' => 'Name'
+                'label' => 'Name',
             ],
             [
                 'name' => 'slug',
                 'type' => 'text',
-                'label' => 'Slug'
+                'label' => 'Slug',
             ],
             [
                 'name' => 'info_title',
                 'type' => 'text',
-                'label' => 'Info card title'
+                'label' => 'Info card title',
             ],
             [
                 'name' => 'info_body',
                 'type' => 'wysiwyg',
-                'label' => 'Info card body'
+                'label' => 'Info card body',
             ],
             [
                 'name' => 'map_zoom',
                 'type' => 'text',
-                'label' => 'Map zoom'
+                'label' => 'Map zoom',
 
             ],
             [
                 'name' => 'conditions',
                 'type' => 'wysiwyg',
                 'label' => 'Conditions card body',
-                'hint' => 'Not used.'
+                'hint' => 'Not used.',
             ],
             [
                 'name' => 'credits',
@@ -81,8 +80,8 @@ class RegionCrudController extends CrudController
                 'name' => 'map',
                 'type' => 'textarea',
                 'label' => 'Icon',
-                'hint' => 'Must be a valid SVG file'
-            ]
+                'hint' => 'Must be a valid SVG file',
+            ],
         ]);
     }
 

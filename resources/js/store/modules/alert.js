@@ -7,9 +7,9 @@ const state = {
     icon: null,
     id: null,
     title_en: null,
-    title_fr: null
+    title_fr: null,
   },
-  isVisible: false
+  isVisible: false,
 }
 
 const mutations = {
@@ -18,11 +18,11 @@ const mutations = {
   },
   setVisibility (state, newSetting) {
     state.isVisible = newSetting
-  }
+  },
 }
 
 export default {
   namespaced: true,
   state,
-  mutations
+  mutations,
 }

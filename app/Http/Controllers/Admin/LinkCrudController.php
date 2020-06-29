@@ -11,8 +11,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 
 /**
- * Class LinkCrudController
- * @package App\Http\Controllers\Admin
+ * Class LinkCrudController.
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class LinkCrudController extends CrudController
@@ -26,7 +25,7 @@ class LinkCrudController extends CrudController
     public function setup()
     {
         $this->crud->setModel('App\Link');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/link');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/link');
         $this->crud->setEntityNameStrings('link', 'links');
     }
 
@@ -36,18 +35,18 @@ class LinkCrudController extends CrudController
             [
                 'name' => 'id',
                 'label' => 'ID',
-                'type' => 'text'
+                'type' => 'text',
             ],
             [
                 'name' => 'internal_title',
                 'label' => 'Title',
-                'type' => 'text'
+                'type' => 'text',
             ],
             [
                 'name' => 'link',
                 'label' => 'Link',
-                'type' => 'test'
-            ]
+                'type' => 'test',
+            ],
         ]);
     }
 
@@ -59,23 +58,23 @@ class LinkCrudController extends CrudController
             [
                 'name' => 'internal_title',
                 'type' => 'text',
-                'label' => 'Internal title'
+                'label' => 'Internal title',
             ],
             [
                 'name' => 'title',
                 'type' => 'text',
-                'label' => 'Title'
+                'label' => 'Title',
             ],
             [
                 'name' => 'description',
                 'type' => 'text',
-                'label' => 'Description'
+                'label' => 'Description',
             ],
             [
                 'name' => 'link',
                 'type' => 'text',
                 'label' => 'Link',
-                'hint' => 'You can use the following varibles: <code>:id</code>, <code>:ref</code>, <code>:trip</code>.'
+                'hint' => 'You can use the following varibles: <code>:id</code>, <code>:ref</code>, <code>:trip</code>.',
             ],
             [
                 'name' => 'vehicles',
@@ -83,15 +82,15 @@ class LinkCrudController extends CrudController
                 'label' => 'Applies to vehicles',
                 'entity' => 'vehicles',
                 'attribute' => 'vehicle',
-                'hint' => 'Select the right ref, not the id.'
+                'hint' => 'Select the right ref, not the id.',
             ],
             [
                 'name' => 'agencies',
                 'type' => 'select2_multiple',
                 'label' => 'Automatically apply to vehicles from these agencies',
                 'entity' => 'agencies',
-                'attribute' => 'name'
-            ]
+                'attribute' => 'name',
+            ],
         ]);
     }
 

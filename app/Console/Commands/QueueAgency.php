@@ -4,11 +4,7 @@ namespace App\Console\Commands;
 
 use App\Agency;
 use App\Jobs\DispatchAgencies;
-use App\Jobs\RefreshForGTFS;
-use App\Jobs\RefreshForNextbus;
-use GuzzleHttp\Client;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 
 class QueueAgency extends Command
 {

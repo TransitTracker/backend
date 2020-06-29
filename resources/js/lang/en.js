@@ -7,7 +7,7 @@ export default {
     snackbarBold: 'Warning!',
     snackbarText: 'Data from some agencies are outdated and should be used with caution.',
     snackbarBtn: 'Close',
-    regionAriaLabel: 'Change region'
+    regionAriaLabel: 'Change region',
   },
   home: {
     welcome: 'Welcome to ',
@@ -22,10 +22,10 @@ export default {
     emptyBody: 'You didn\'t select any agencies for this region. Head over to the settings tab to add some agencies or change region using the top-right button.',
     emptyButton: 'Add agencies',
     creditsTitle: 'Credits',
-    refreshAriaLabel: 'Refresh'
+    refreshAriaLabel: 'Refresh',
   },
   mapFooter: {
-    select: 'Please select a vehicle to see more information'
+    select: 'Please select a vehicle to see more information',
   },
   mapBottomSheet: {
     close: 'Close',
@@ -40,7 +40,7 @@ export default {
     stopSequence: 'Stop sequence:',
     bearing: 'Bearing:',
     speed: 'Speed:',
-    departureNumber: 'Departure number:'
+    departureNumber: 'Departure number:',
   },
   table: {
     empty: 'No vehicles!',
@@ -49,7 +49,7 @@ export default {
     dataHeadsign: 'Headsign',
     dataTripId: 'Trip ID',
     dataStartTime: 'Start time',
-    action: 'View on map'
+    action: 'View on map',
   },
   settings: {
     agenciesTitle: 'Agencies',
@@ -67,12 +67,12 @@ export default {
     aboutBody: 'This application is made by FelixINX. Data is available through open data programs.' +
       'A problem, a comment or a suggestion? <a href="https://forms.gle/3qGEuNKs7pGKMijs9" class="white--text">Contact me</a>',
     aboutSource: 'Source code',
-    aboutContributions: 'Transit Tracker would not be possible without many open source projects and free products, including: <a class="white--text" href="https://vuetifyjs.com">Vuetify</a>, <a class="white--text" href="https://laravel.com">Laravel</a>, <a class="white--text" href="https://ploi.io">Ploi</a> and <a class="white--text" href="https://backpackforlaravel.com/">Backpack</a>.'
+    aboutContributions: 'Transit Tracker would not be possible without many open source projects and free products, including: <a class="white--text" href="https://vuetifyjs.com">Vuetify</a>, <a class="white--text" href="https://laravel.com">Laravel</a>, <a class="white--text" href="https://ploi.io">Ploi</a> and <a class="white--text" href="https://backpackforlaravel.com/">Backpack</a>.',
   },
   alert: {
     readMore: 'Read more',
     markAsRead: 'Mark as read',
-    close: 'Close'
+    close: 'Close',
   },
   download: {
     cardTitle: 'Download data',
@@ -81,7 +81,7 @@ export default {
     allTitle: 'Download all vehicles',
     allDescription: 'This file is generated each hour and is available only in CSV format.',
     agencySelect: 'Agency',
-    downloadButton: 'Download'
+    downloadButton: 'Download',
   },
   onboarding: {
     changeLang: 'En français?',
@@ -117,6 +117,6 @@ export default {
     addHomeCaption: 'Optional. The app will be much easier to find!',
     addHomeButtonInstall: 'Install',
     addHomeButtonSuccess: 'Success',
-    addHomeButtonError: 'Error'
-  }
+    addHomeButtonError: 'Error',
+  },
 }

@@ -2,15 +2,15 @@
 
 namespace App\Jobs;
 
+use App\Agency;
+use App\Events\VehiclesUpdated;
 use App\FailedJobsHistory;
 use App\Mail\RefreshFailed;
 use App\Stat;
+use App\Vehicle;
 use Carbon\Carbon;
 use Exception;
-use App\Agency;
-use App\Vehicle;
 use Illuminate\Bus\Queueable;
-use App\Events\VehiclesUpdated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -52,7 +52,7 @@ class RefreshForNextbus implements ShouldQueue
         // Put all previously active vehicle as inactive
         Vehicle::where([
             ['active', true],
-            ['agency_id', $this->agency->id]
+            ['agency_id', $this->agency->id],
         ])->update(
             ['active' => false]
         );
@@ -118,10 +118,10 @@ class RefreshForNextbus implements ShouldQueue
         // Add statistics
         $stat = new Stat();
         $stat->type = 'vehicleTotal';
-        $stat->data = (object)[
+        $stat->data = (object) [
             'count' => count($xml->vehicle),
             'agency' => $this->agency->slug,
-            'time' => $this->time
+            'time' => $this->time,
         ];
         $stat->save();
 
@@ -142,7 +142,7 @@ class RefreshForNextbus implements ShouldQueue
         $lastFailedJob = FailedJobsHistory::firstWhere([
             'name' => $className,
             'exception' => $exception->getMessage(),
-            'agency_id' => $this->agency->id
+            'agency_id' => $this->agency->id,
         ]);
 
         if ($lastFailedJob) {
@@ -151,7 +151,7 @@ class RefreshForNextbus implements ShouldQueue
                 // last failed job is more than 30 minutes ago
                 Mail::to(env('MAIL_TO'))->send(new RefreshFailed($exception, $this->agency->slug, $className));
                 $lastFailedJob->update([
-                    'last_failed' => Carbon::now()
+                    'last_failed' => Carbon::now(),
                 ]);
             }
         } else {
@@ -161,7 +161,7 @@ class RefreshForNextbus implements ShouldQueue
                 'name' => $className,
                 'exception' => $exception->getMessage(),
                 'agency_id' => $this->agency->id,
-                'last_failed' => Carbon::now()
+                'last_failed' => Carbon::now(),
             ]);
         }
 

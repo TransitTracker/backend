@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\VehicleResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class VehiclesCollection extends ResourceCollection
@@ -18,7 +17,7 @@ class VehiclesCollection extends ResourceCollection
         return [
             'data' => VehicleResource::collection($this->collection),
             'count' => $this->collection->count(),
-            'message' => 'OK'
+            'message' => 'OK',
         ];
     }
 }

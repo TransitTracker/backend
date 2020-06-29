@@ -41,23 +41,23 @@ class ExtractAndDispatchGtfs implements ShouldQueue
 
         if ($file) {
             // Set extract folder
-            $extractFolder = getcwd() . '/storage/app/gtfs/' . $this->agency->slug . '-' . time();
+            $extractFolder = getcwd().'/storage/app/gtfs/'.$this->agency->slug.'-'.time();
             mkdir($extractFolder);
 
             // Extract and dispatch services
             $services = $zip->getFromName('calendar.txt');
-            file_put_contents($extractFolder . '/calendar.txt', $services);
-            ProcessGtfsServices::dispatch($this->agency, $extractFolder . '/calendar.txt')->onQueue('gtfs');
+            file_put_contents($extractFolder.'/calendar.txt', $services);
+            ProcessGtfsServices::dispatch($this->agency, $extractFolder.'/calendar.txt')->onQueue('gtfs');
 
             // Open and dispatch routes
             $routes = $zip->getFromName('routes.txt');
-            file_put_contents($extractFolder . '/routes.txt', $routes);
-            ProcessGtfsRoutes::dispatch($this->agency, $extractFolder . '/routes.txt')->onQueue('gtfs');
+            file_put_contents($extractFolder.'/routes.txt', $routes);
+            ProcessGtfsRoutes::dispatch($this->agency, $extractFolder.'/routes.txt')->onQueue('gtfs');
 
             // Open and dispatch trips
             $trips = $zip->getFromName('trips.txt');
-            file_put_contents($extractFolder . '/trips.txt', $trips);
-            ProcessGtfsTrips::dispatch($this->agency, $extractFolder . '/trips.txt')->onQueue('gtfs');
+            file_put_contents($extractFolder.'/trips.txt', $trips);
+            ProcessGtfsTrips::dispatch($this->agency, $extractFolder.'/trips.txt')->onQueue('gtfs');
 
             $zip->close();
         }

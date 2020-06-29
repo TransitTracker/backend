@@ -6,7 +6,7 @@ const state = {
   language: 'en',
   alertRead: 0,
   activeRegion: 'mtl',
-  darkMode: false
+  darkMode: false,
 }
 
 const mutations = {
@@ -33,11 +33,11 @@ const mutations = {
   },
   setDarkMode (state, newSetting) {
     state.darkMode = newSetting
-  }
+  },
 }
 
 export default {
   namespaced: true,
   state,
-  mutations
+  mutations,
 }

@@ -12,7 +12,7 @@ Vue.use(Vuex)
 
 const vuexlocal = new VuexPersistence({
   storage: window.localStorage,
-  reducer: (state) => ({ settings: state.settings })
+  reducer: (state) => ({ settings: state.settings }),
 })
 
 export default new Vuex.Store({
@@ -22,7 +22,7 @@ export default new Vuex.Store({
     links,
     regions,
     settings,
-    vehicles
+    vehicles,
   },
-  plugins: [vuexlocal.plugin]
+  plugins: [vuexlocal.plugin],
 })

@@ -11,8 +11,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 
 /**
- * Class VehicleCrudController
- * @package App\Http\Controllers\Admin
+ * Class VehicleCrudController.
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class VehicleCrudController extends CrudController
@@ -25,7 +24,7 @@ class VehicleCrudController extends CrudController
     public function setup()
     {
         $this->crud->setModel('App\Vehicle');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/vehicle');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/vehicle');
         $this->crud->setEntityNameStrings('vehicle', 'vehicles');
     }
 
@@ -38,35 +37,37 @@ class VehicleCrudController extends CrudController
             [
                 'name' => 'id',
                 'label' => 'ID',
-                'type' => 'text'
+                'type' => 'text',
             ],
             [
                 'name' => 'vehicle',
                 'label' => 'Fleet number',
-                'type' => 'text'
+                'type' => 'text',
             ],
             [
                 'name' => 'agency',
                 'label' => 'Agency',
                 'type' => 'relationship',
-                'attribute' => 'slug'
+                'attribute' => 'slug',
             ],
             [
                 'name' => 'icon',
                 'label' => 'Icon',
-                'type' => 'text'
+                'type' => 'text',
             ],
         ]);
 
         $this->crud->addFilter(
             ['type' => 'simple', 'name' => 'is_active', 'label' => 'Is active'],
             false,
-            function() { $this->crud->addClause('active'); }
+            function () {
+                $this->crud->addClause('active');
+            }
         );
         $this->crud->addFilter(
             ['type' => 'dropdown', 'name' => 'icon', 'label' => 'Icon'],
             ['bus' => 'Bus', 'tram' => 'Tram', 'train' => 'Train'],
-            function($value) {
+            function ($value) {
                 $this->crud->addClause('where', 'icon', $value);
             }
         );

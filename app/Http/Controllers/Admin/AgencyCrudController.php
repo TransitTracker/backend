@@ -12,8 +12,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 
 /**
- * Class AgencyCrudController
- * @package App\Http\Controllers\Admin
+ * Class AgencyCrudController.
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class AgencyCrudController extends CrudController
@@ -28,7 +27,7 @@ class AgencyCrudController extends CrudController
     public function setup()
     {
         $this->crud->setModel('App\Agency');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/agency');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/agency');
         $this->crud->setEntityNameStrings('agency', 'agencies');
     }
 
@@ -45,18 +44,18 @@ class AgencyCrudController extends CrudController
             [
                 'name' => 'name',
                 'type' => 'text',
-                'label' => 'Name'
+                'label' => 'Name',
             ],
             [
                 'name' => 'slug',
                 'type' => 'text',
-                'label' => 'Slug'
+                'label' => 'Slug',
             ],
             [
                 'name' => 'is_active',
                 'type' => 'checkbox',
                 'label' => 'Active',
-                'tab' => 'General'
+                'tab' => 'General',
             ],
             [
                 'name' => 'region_id',
@@ -65,19 +64,19 @@ class AgencyCrudController extends CrudController
                 'entity' => 'region',
                 'attribute' => 'name',
                 'allows_null' => false,
-                'tab' => 'General'
+                'tab' => 'General',
             ],
             [
                 'name' => 'color',
                 'type' => 'color_picker',
                 'label' => 'Color',
-                'tab' => 'General'
+                'tab' => 'General',
             ],
             [
                 'name' => 'text_color',
                 'type' => 'color_picker',
                 'label' => 'Text color',
-                'tab' => 'General'
+                'tab' => 'General',
             ],
             [
                 'name' => 'vehicles_type',
@@ -86,7 +85,7 @@ class AgencyCrudController extends CrudController
                 'tab' => 'General',
                 'options' => ['bus' => 'Bus', 'train' => 'Train', 'tram' => 'Tram'],
                 'allows_null' => false,
-                'default' => 'bus'
+                'default' => 'bus',
             ],
             [
                 'name' => 'links',
@@ -94,13 +93,13 @@ class AgencyCrudController extends CrudController
                 'label' => 'Automatically applied links',
                 'entity' => 'links',
                 'attribute' => 'title',
-                'tab' => 'General'
+                'tab' => 'General',
             ],
             [
                 'name' => 'static_gtfs_url',
                 'type' => 'text',
                 'label' => 'Static GTFS URL',
-                'tab' => 'Feed'
+                'tab' => 'Feed',
             ],
             [
                 'name' => 'realtime_method',
@@ -111,13 +110,13 @@ class AgencyCrudController extends CrudController
                 'allows_null' => false,
                 'default' => 'GET',
                 'fake' => true,
-                'store_in' => 'realtime_options'
+                'store_in' => 'realtime_options',
             ],
             [
                 'name' => 'realtime_url',
                 'type' => 'text',
                 'label' => 'Realtime URL',
-                'tab' => 'Feed'
+                'tab' => 'Feed',
             ],
             [
                 'name' => 'realtime_type',
@@ -126,7 +125,7 @@ class AgencyCrudController extends CrudController
                 'options' => ['gtfsrt' => 'GTFSRT Vehicle Position', 'nextbus' => 'Nextbus'],
                 'tab' => 'Feed',
                 'allows_null' => false,
-                'default' => 'gtfsrt'
+                'default' => 'gtfsrt',
             ],
             [
                 'name' => 'header_name',
@@ -134,7 +133,7 @@ class AgencyCrudController extends CrudController
                 'label' => 'Header name',
                 'tab' => 'Feed',
                 'fake' => true,
-                'store_in' => 'realtime_options'
+                'store_in' => 'realtime_options',
             ],
             [
                 'name' => 'header_value',
@@ -142,7 +141,7 @@ class AgencyCrudController extends CrudController
                 'label' => 'Header value',
                 'tab' => 'Feed',
                 'fake' => true,
-                'store_in' => 'realtime_options'
+                'store_in' => 'realtime_options',
             ],
             [
                 'name' => 'param_name',
@@ -150,7 +149,7 @@ class AgencyCrudController extends CrudController
                 'label' => 'Param name',
                 'tab' => 'Feed',
                 'fake' => true,
-                'store_in' => 'realtime_options'
+                'store_in' => 'realtime_options',
             ],
             [
                 'name' => 'param_value',
@@ -158,7 +157,7 @@ class AgencyCrudController extends CrudController
                 'label' => 'Param value',
                 'tab' => 'Feed',
                 'fake' => true,
-                'store_in' => 'realtime_options'
+                'store_in' => 'realtime_options',
             ],
         ]);
     }

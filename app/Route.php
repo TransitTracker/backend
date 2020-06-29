@@ -14,7 +14,7 @@ class Route extends Model
     protected $fillable = ['agency_id', 'route_id', 'short_name', 'long_name', 'color', 'text_color'];
 
     /**
-     * Get the agency from this vehicle
+     * Get the agency from this vehicle.
      */
     public function agency()
     {

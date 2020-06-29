@@ -4,9 +4,9 @@ namespace App\Events;
 
 use App\Agency;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
 
 class VehiclesUpdated implements ShouldBroadcast
 {

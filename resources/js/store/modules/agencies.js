@@ -2,7 +2,7 @@ import collect from 'collect.js/src/index.js'
 
 const state = {
   data: [],
-  counts: []
+  counts: [],
 }
 
 const mutations = {
@@ -19,11 +19,11 @@ const mutations = {
       const counts = collect(state.counts)
       state.counts = counts.reject(count => count.agency === agencySlug).items
     }
-  }
+  },
 }
 
 export default {
   namespaced: true,
   state,
-  mutations
+  mutations,
 }

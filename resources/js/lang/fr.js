@@ -7,7 +7,7 @@ export default {
     snackbarBold: 'Attention!',
     snackbarText: 'Les données de certaines agences ne sont pas à jour et doivent être utilisées avec prudence.',
     snackbarBtn: 'Fermer',
-    regionAriaLabel: 'Changer de région'
+    regionAriaLabel: 'Changer de région',
   },
   home: {
     welcome: 'Bienvenue dans ',
@@ -22,10 +22,10 @@ export default {
     emptyBody: 'Vous n\'avez pas sélectionné d\'agence pour cette région. Rendez-vous dans les réglages pour ajouter des agences ou changez de région en utilisant le bouton du coin supérieur droit.',
     emptyButton: 'Ajouter des agences',
     creditsTitle: 'Crédits',
-    refreshAriaLabel: 'Rafraîchir'
+    refreshAriaLabel: 'Rafraîchir',
   },
   mapFooter: {
-    select: 'Veuillez sélectionner un véhicule pour y consulter toutes les informations'
+    select: 'Veuillez sélectionner un véhicule pour y consulter toutes les informations',
   },
   mapBottomSheet: {
     close: 'Fermer',
@@ -40,7 +40,7 @@ export default {
     stopSequence: 'Séquence d\'arrêt :',
     bearing: 'Direction :',
     speed: 'Vitesse :',
-    departureNumber: 'Numéro du départ :'
+    departureNumber: 'Numéro du départ :',
   },
   table: {
     empty: 'Aucun véhicules !',
@@ -49,7 +49,7 @@ export default {
     dataHeadsign: 'Destination',
     dataTripId: 'Trip ID',
     dataStartTime: 'Heure de départ',
-    action: 'Voir sur la carte'
+    action: 'Voir sur la carte',
   },
   settings: {
     agenciesTitle: 'Agences',
@@ -66,12 +66,12 @@ export default {
     aboutBody: 'Cette application est conçue par FelixINX. Les données sont disponibles grâce aux programmes de données ouvertes. ' +
       'Un problème, un commentaire ou une suggestion? <a href="https://forms.gle/3qGEuNKs7pGKMijs9" class="white--text">Contactez-moi</a>',
     aboutSource: 'Code source',
-    aboutContributions: 'L\'application Transit Tracker ne serait pas possible sans de nombreux projets open-source et produits gratuits, dont : <a class="white--text" href="https://vuetifyjs.com">Vuetify</a>, <a class="white--text" href="https://laravel.com">Laravel</a>, <a class="white--text" href="https://ploi.io">Ploi</a> et <a class="white--text" href="https://backpackforlaravel.com/">Backpack</a>.'
+    aboutContributions: 'L\'application Transit Tracker ne serait pas possible sans de nombreux projets open-source et produits gratuits, dont : <a class="white--text" href="https://vuetifyjs.com">Vuetify</a>, <a class="white--text" href="https://laravel.com">Laravel</a>, <a class="white--text" href="https://ploi.io">Ploi</a> et <a class="white--text" href="https://backpackforlaravel.com/">Backpack</a>.',
   },
   alert: {
     readMore: 'Lire plus',
     markAsRead: 'Marquer comme lu',
-    close: 'Fermer'
+    close: 'Fermer',
   },
   download: {
     cardTitle: 'Télécharger des données',
@@ -80,7 +80,7 @@ export default {
     allTitle: 'Télécharger tous les véhicules',
     allDescription: 'Ce fichier est généré toutes les heures et n\'est disponible qu\'au format CSV.',
     agencySelect: 'Agence',
-    downloadButton: 'Télécharger'
+    downloadButton: 'Télécharger',
   },
   onboarding: {
     changeLang: 'In English?',
@@ -116,6 +116,6 @@ export default {
     addHomeCaption: 'Optionel. Beaucoup plus facile à trouver!',
     addHomeButtonInstall: 'Installer',
     addHomeButtonSuccess: 'Succès',
-    addHomeButtonError: 'Erreur'
-  }
+    addHomeButtonError: 'Erreur',
+  },
 }

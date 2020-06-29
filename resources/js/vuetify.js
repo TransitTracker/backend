@@ -8,8 +8,8 @@ import fr from './lang/fr'
 
 Vue.use(Vuetify, {
   directives: {
-    Ripple
-  }
+    Ripple,
+  },
 })
 
 export default new Vuetify({
@@ -18,21 +18,21 @@ export default new Vuetify({
       light: {
         primary: '#2374AB',
         secondary: '#4DCCBD',
-        accent: '#303633'
+        accent: '#303633',
       },
       dark: {
         primary: '#00497B',
         secondary: '#009A8D',
         accent: '#303633',
-        anchor: '#FFFFFF'
-      }
-    }
+        anchor: '#FFFFFF',
+      },
+    },
   },
   icons: {
-    iconfont: 'mdiSvg'
+    iconfont: 'mdiSvg',
   },
   lang: {
     locales: { en, fr },
-    current: 'en'
-  }
+    current: 'en',
+  },
 })

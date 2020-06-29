@@ -23,7 +23,7 @@ class AlertResource extends JsonResource
             'color' => $this->color,
             'icon' => $this->icon,
             'can_be_closed' => $this->can_be_closed,
-            'regions' => $this->regions
+            'regions' => $this->regions,
         ];
     }
 

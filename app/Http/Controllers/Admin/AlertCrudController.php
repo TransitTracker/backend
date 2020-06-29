@@ -12,8 +12,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 
 /**
- * Class AlertCrudController
- * @package App\Http\Controllers\Admin
+ * Class AlertCrudController.
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class AlertCrudController extends CrudController
@@ -28,7 +27,7 @@ class AlertCrudController extends CrudController
     public function setup()
     {
         $this->crud->setModel('App\Alert');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/alert');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/alert');
         $this->crud->setEntityNameStrings('alert', 'alerts');
     }
 
@@ -45,12 +44,12 @@ class AlertCrudController extends CrudController
             [
                 'name' => 'title',
                 'type' => 'text',
-                'label' => 'Title'
+                'label' => 'Title',
             ],
             [
                 'name' => 'can_be_closed',
                 'type' => 'checkbox',
-                'label' => 'Can be closed'
+                'label' => 'Can be closed',
             ],
             [
                 'name' => 'regions',
@@ -58,12 +57,12 @@ class AlertCrudController extends CrudController
                 'label' => 'Regions',
                 'entity' => 'regions',
                 'attribute' => 'name',
-                'pivot' => true
+                'pivot' => true,
             ],
             [
                 'name' => 'body',
                 'type' => 'wysiwyg',
-                'label' => 'Body'
+                'label' => 'Body',
             ],
             [
                 'name' => 'color',
@@ -75,8 +74,8 @@ class AlertCrudController extends CrudController
                     'error' => 'Error',
                     'info' => 'Info',
                     'success' => 'Success',
-                    'warning' => 'Warning'
-                ]
+                    'warning' => 'Warning',
+                ],
             ],
             [
                 'name' => 'icon',
@@ -88,8 +87,8 @@ class AlertCrudController extends CrudController
                     'serverNetworkOff' => 'Server off',
                     'check' => 'Check',
                     'update' => 'Update',
-                    'information' => 'Information'
-                ]
+                    'information' => 'Information',
+                ],
             ],
         ]);
     }

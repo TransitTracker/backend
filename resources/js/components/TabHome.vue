@@ -1,202 +1,296 @@
 <template>
-    <div id="home">
-        <div class="welcome secondary black--text">
-            <v-container class="d-flex align-center pa-6">
-                <div class="flex-grow-1">
-                    <h1 class="text-h5 font-weight-medium">{{ $vuetify.lang.t('$vuetify.home.welcome') }} Transit&nbsp;Tracker</h1>
-                    <h2 class="text-subtitle-1">{{ $vuetify.lang.t('$vuetify.home.version') }} 2.2.0</h2>
-                    <v-btn icon color="black" href="https://twitter.com/ttrackerca">
-                        <v-icon>{{ mdiSvg.twitter }}</v-icon>
-                    </v-btn>
-                    <v-btn icon color="black" href="http://github.com/felixinx/transit-tracker">
-                        <v-icon>{{ mdiSvg.github}}</v-icon>
-                    </v-btn>
-                </div>
-                <img src="/svg/logo.svg" alt="Logo Transit Tracker" class="welcome-logo ml-4">
-            </v-container>
+  <div id="home">
+    <div class="welcome secondary black--text">
+      <v-container class="d-flex align-center pa-6">
+        <div class="flex-grow-1">
+          <h1 class="text-h5 font-weight-medium">
+            {{ $vuetify.lang.t('$vuetify.home.welcome') }} Transit&nbsp;Tracker
+          </h1>
+          <h2 class="text-subtitle-1">
+            {{ $vuetify.lang.t('$vuetify.home.version') }} 2.2.0
+          </h2>
+          <v-btn
+            icon
+            color="black"
+            href="https://twitter.com/ttrackerca"
+          >
+            <v-icon>{{ mdiSvg.twitter }}</v-icon>
+          </v-btn>
+          <v-btn
+            icon
+            color="black"
+            href="http://github.com/felixinx/transit-tracker"
+          >
+            <v-icon>{{ mdiSvg.github }}</v-icon>
+          </v-btn>
         </div>
-        <v-container>
-            <v-row>
-                <v-col cols="12">
-                    <v-card v-if="counts.length > 0">
-                        <v-card-title>
-                            <span class="flex-grow-1">{{ totalCount }} {{ $vuetify.lang.t('$vuetify.home.vehicleTotal') }}</span>
-                            <v-btn @click="dialogDownloadOpen = true" :loading="vehiclesPendingRequest > 0"
-                                   color="primary">
-                                <v-icon left>{{ mdiSvg.download }}</v-icon>
-                                {{ $vuetify.lang.t('$vuetify.home.download') }}
-                            </v-btn>
-                        </v-card-title>
-                        <v-card-text>
-                            <v-row>
-                                <v-col v-for="vehicle in vehiclesPendingRequest" :key="vehicle" cols="12" md="4">
-                                    <v-skeleton-loader width="100%" type="list-item-avatar-two-line"></v-skeleton-loader>
-                                </v-col>
-                                <v-col v-for="count in counts" :key="count.name" cols="12" md="4">
-                                    <v-sheet :color="count.backgroundColor" width="100%" height="100%"
-                                             class="d-flex pa-1" rounded>
-                                        <v-avatar size="36" class="ml-1 mr-2 align-self-center avatar" color="white">
-                                            {{ count.count }}
-                                        </v-avatar>
-                                        <div class="flex-grow-1 align-self-center" :style="{ color: count.textColor }">
-                                            <b>{{ count.name }}</b><br>
-                                            <span v-if="!isEnglish">Il y a </span>
-                                            <span v-if="count.secondsAgo < 60">
-                                            {{ count.secondsAgo }} {{ $vuetify.lang.t('$vuetify.home.secondsAgo') }}
-                                        </span>
-                                            <span v-else>
-                                            {{ Math.floor(count.secondsAgo / 60) }} {{ $vuetify.lang.t('$vuetify.home.minutesAgo') }}
-                                        </span>
-                                            <div v-if="count.secondsAgo > 300">
-                                                <v-chip label x-small>
-                                                    <v-icon left>{{ mdiSvg.close }}</v-icon>
-                                                    {{ $vuetify.lang.t('$vuetify.home.outdated') }}
-                                                </v-chip>
-                                            </div>
-                                        </div>
-                                    </v-sheet>
-                                </v-col>
-                            </v-row>
-                        </v-card-text>
-                    </v-card>
-                    <v-card v-else>
-                        <v-card-text class="d-flex flex-column align-center">
-                            <v-icon size="100" color="primary">{{ mdiSvg.mapPlus }}</v-icon>
-                            <h2 class="text-h6 text-center my-2">{{ $vuetify.lang.t('$vuetify.home.emptyTitle') }}</h2>
-                            <p class="text-subtitle-1 text-center">{{ $vuetify.lang.t('$vuetify.home.emptyBody') }}</p>
-                            <v-btn large color="primary" to="/settings">
-                                {{ $vuetify.lang.t('$vuetify.home.emptyButton') }}
-                            </v-btn>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-                <v-col cols="12" md="6">
-                    <v-card v-if="isEnglish" dark>
-                        <v-card-title v-html="stateActiveRegion.info_title.en"></v-card-title>
-                        <v-card-text v-html="stateActiveRegion.info_body.en"></v-card-text>
-                    </v-card>
-                    <v-card v-else dark>
-                        <v-card-title v-html="stateActiveRegion.info_title.fr"></v-card-title>
-                        <v-card-text v-html="stateActiveRegion.info_body.fr"></v-card-text>
-                    </v-card>
-                </v-col>
-                <v-col cols="12" md="6">
-                    <v-card>
-                        <v-card-title>{{ $vuetify.lang.t('$vuetify.home.creditsTitle') }}</v-card-title>
-                        <v-card-text v-html="stateActiveRegion.credits.en" v-if="isEnglish"></v-card-text>
-                        <v-card-text v-html="stateActiveRegion.credits.fr" v-else></v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row>
-            <v-btn fab class="fab-refresh" @click="refreshVehicles()" color="secondary"
-                   :aria-label="$vuetify.lang.t('$vuetify.home.refreshAriaLabel')">
-                <v-icon color="black">{{ mdiSvg.refresh }}</v-icon>
-            </v-btn>
-        </v-container>
-
-        <dialog-download v-if="dialogDownloadOpen" v-on:close-dialog="dialogDownloadOpen = false"
-                         :dialog-open="dialogDownloadOpen"></dialog-download>
+        <img
+          src="/svg/logo.svg"
+          alt="Logo Transit Tracker"
+          class="welcome-logo ml-4"
+        >
+      </v-container>
     </div>
+    <v-container>
+      <v-row>
+        <v-col cols="12">
+          <v-card v-if="counts.length > 0">
+            <v-card-title>
+              <span class="flex-grow-1">{{ totalCount }} {{ $vuetify.lang.t('$vuetify.home.vehicleTotal') }}</span>
+              <v-btn
+                :loading="vehiclesPendingRequest > 0"
+                color="primary"
+                @click="dialogDownloadOpen = true"
+              >
+                <v-icon left>
+                  {{ mdiSvg.download }}
+                </v-icon>
+                {{ $vuetify.lang.t('$vuetify.home.download') }}
+              </v-btn>
+            </v-card-title>
+            <v-card-text>
+              <v-row>
+                <v-col
+                  v-for="vehicle in vehiclesPendingRequest"
+                  :key="vehicle"
+                  cols="12"
+                  md="4"
+                >
+                  <v-skeleton-loader
+                    width="100%"
+                    type="list-item-avatar-two-line"
+                  />
+                </v-col>
+                <v-col
+                  v-for="count in counts"
+                  :key="count.name"
+                  cols="12"
+                  md="4"
+                >
+                  <v-sheet
+                    :color="count.backgroundColor"
+                    width="100%"
+                    height="100%"
+                    class="d-flex pa-1"
+                    rounded
+                  >
+                    <v-avatar
+                      size="36"
+                      class="ml-1 mr-2 align-self-center avatar"
+                      color="white"
+                    >
+                      {{ count.count }}
+                    </v-avatar>
+                    <div
+                      class="flex-grow-1 align-self-center"
+                      :style="{ color: count.textColor }"
+                    >
+                      <b>{{ count.name }}</b><br>
+                      <span v-if="!isEnglish">Il y a </span>
+                      <span v-if="count.secondsAgo < 60">
+                        {{ count.secondsAgo }} {{ $vuetify.lang.t('$vuetify.home.secondsAgo') }}
+                      </span>
+                      <span v-else>
+                        {{ Math.floor(count.secondsAgo / 60) }} {{ $vuetify.lang.t('$vuetify.home.minutesAgo') }}
+                      </span>
+                      <div v-if="count.secondsAgo > 300">
+                        <v-chip
+                          label
+                          x-small
+                        >
+                          <v-icon left>
+                            {{ mdiSvg.close }}
+                          </v-icon>
+                          {{ $vuetify.lang.t('$vuetify.home.outdated') }}
+                        </v-chip>
+                      </div>
+                    </div>
+                  </v-sheet>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+          <v-card v-else>
+            <v-card-text class="d-flex flex-column align-center">
+              <v-icon
+                size="100"
+                color="primary"
+              >
+                {{ mdiSvg.mapPlus }}
+              </v-icon>
+              <h2 class="text-h6 text-center my-2">
+                {{ $vuetify.lang.t('$vuetify.home.emptyTitle') }}
+              </h2>
+              <p class="text-subtitle-1 text-center">
+                {{ $vuetify.lang.t('$vuetify.home.emptyBody') }}
+              </p>
+              <v-btn
+                large
+                color="primary"
+                to="/settings"
+              >
+                {{ $vuetify.lang.t('$vuetify.home.emptyButton') }}
+              </v-btn>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <v-card
+            v-if="isEnglish"
+            dark
+          >
+            <v-card-title v-html="stateActiveRegion.info_title.en" />
+            <v-card-text v-html="stateActiveRegion.info_body.en" />
+          </v-card>
+          <v-card
+            v-else
+            dark
+          >
+            <v-card-title v-html="stateActiveRegion.info_title.fr" />
+            <v-card-text v-html="stateActiveRegion.info_body.fr" />
+          </v-card>
+        </v-col>
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <v-card>
+            <v-card-title>{{ $vuetify.lang.t('$vuetify.home.creditsTitle') }}</v-card-title>
+            <v-card-text
+              v-if="isEnglish"
+              v-html="stateActiveRegion.credits.en"
+            />
+            <v-card-text
+              v-else
+              v-html="stateActiveRegion.credits.fr"
+            />
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-btn
+        fab
+        class="fab-refresh"
+        color="secondary"
+        :aria-label="$vuetify.lang.t('$vuetify.home.refreshAriaLabel')"
+        @click="refreshVehicles()"
+      >
+        <v-icon color="black">
+          {{ mdiSvg.refresh }}
+        </v-icon>
+      </v-btn>
+    </v-container>
+
+    <dialog-download
+      v-if="dialogDownloadOpen"
+      :dialog-open="dialogDownloadOpen"
+      @close-dialog="dialogDownloadOpen = false"
+    />
+  </div>
 </template>
 
 <script>
-import collect from 'collect.js'
-import DialogDownload from './home/DialogDownload'
-import {
-  VAvatar, VBtn, VCard, VCardText, VCardTitle, VChip, VCol, VContainer, VIcon, VRow, VSheet, VSkeletonLoader
-} from 'vuetify/lib'
-import { mdiTwitter, mdiGithub, mdiDownload, mdiClose, mdiRefresh, mdiMapPlus } from '@mdi/js'
+  import collect from 'collect.js'
+  import DialogDownload from './home/DialogDownload'
+  import {
+    VAvatar, VBtn, VCard, VCardText, VCardTitle, VChip, VCol, VContainer, VIcon, VRow, VSheet, VSkeletonLoader,
+  } from 'vuetify/lib'
+  import { mdiTwitter, mdiGithub, mdiDownload, mdiClose, mdiRefresh, mdiMapPlus } from '@mdi/js'
 
-export default {
-  name: 'TabHome',
-  components: {
-    VContainer,
-    VRow,
-    VCol,
-    VCard,
-    VCardTitle,
-    VCardText,
-    VSkeletonLoader,
-    VSheet,
-    VAvatar,
-    VChip,
-    VIcon,
-    VBtn,
-    DialogDownload
-  },
-  computed: {
-    stateActiveRegion () {
-      return this.$store.state.regions.active
+  export default {
+    name: 'TabHome',
+    components: {
+      VContainer,
+      VRow,
+      VCol,
+      VCard,
+      VCardTitle,
+      VCardText,
+      VSkeletonLoader,
+      VSheet,
+      VAvatar,
+      VChip,
+      VIcon,
+      VBtn,
+      DialogDownload,
     },
-    stateAgencies () {
-      return collect(this.$store.state.agencies.data)
+    props: {
+      vehiclesPendingRequest: Number,
     },
-    stateAlert () {
-      return this.$store.state.alert
-    },
-    stateCounts () {
-      return this.$store.state.agencies.counts
-    },
-    stateVehicles () {
-      return this.$store.state.vehicles.data
-    },
-    counts () {
-      const stateCounts = collect(this.stateCounts)
-      const count = stateCounts.map(item => {
-        const agency = this.stateAgencies.firstWhere('slug', item.agency)
+    data: () => ({
+      dialogDownloadOpen: false,
+      mdiSvg: {
+        twitter: mdiTwitter,
+        github: mdiGithub,
+        download: mdiDownload,
+        close: mdiClose,
+        refresh: mdiRefresh,
+        mapPlus: mdiMapPlus,
+      },
+    }),
+    computed: {
+      stateActiveRegion () {
+        return this.$store.state.regions.active
+      },
+      stateAgencies () {
+        return collect(this.$store.state.agencies.data)
+      },
+      stateAlert () {
+        return this.$store.state.alert
+      },
+      stateCounts () {
+        return this.$store.state.agencies.counts
+      },
+      stateVehicles () {
+        return this.$store.state.vehicles.data
+      },
+      counts () {
+        const stateCounts = collect(this.stateCounts)
+        const count = stateCounts.map(item => {
+          const agency = this.stateAgencies.firstWhere('slug', item.agency)
 
-        const count = {}
-        count.name = agency.name
-        count.backgroundColor = agency.color
-        count.textColor = agency.text_color
-        count.count = item.count
-        count.secondsAgo = item.diff
+          const count = {}
+          count.name = agency.name
+          count.backgroundColor = agency.color
+          count.textColor = agency.text_color
+          count.count = item.count
+          count.secondsAgo = item.diff
+
+          return count
+        })
+
+        return count.all()
+      },
+      totalCount () {
+        let count = 0
+
+        const stateCounts = collect(this.stateCounts)
+        stateCounts.each((item) => {
+          count += item.count
+        })
 
         return count
-      })
-
-      return count.all()
+      },
+      isEnglish () {
+        return this.$store.state.settings.language === 'en'
+      },
     },
-    totalCount () {
-      let count = 0
-
-      const stateCounts = collect(this.stateCounts)
-      stateCounts.each((item) => {
-        count += item.count
-      })
-
-      return count
+    watch: {
+      stateCounts: {
+        deep: true,
+        handler () {
+          this.$forceUpdate()
+        },
+      },
     },
-    isEnglish () {
-      return this.$store.state.settings.language === 'en'
-    }
-  },
-  data: () => ({
-    dialogDownloadOpen: false,
-    mdiSvg: {
-      twitter: mdiTwitter,
-      github: mdiGithub,
-      download: mdiDownload,
-      close: mdiClose,
-      refresh: mdiRefresh,
-      mapPlus: mdiMapPlus
-    }
-  }),
-  methods: {
-    refreshVehicles () {
-      this.$emit('refresh-vehicles')
-    }
-  },
-  props: ['vehiclesPendingRequest'],
-  watch: {
-    stateCounts: {
-      deep: true,
-      handler () {
-        this.$forceUpdate()
-      }
-    }
+    methods: {
+      refreshVehicles () {
+        this.$emit('refresh-vehicles')
+      },
+    },
   }
-}
 </script>
 
 <style lang="scss" scoped>

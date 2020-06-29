@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Watson\Rememberable\Rememberable;
 use Illuminate\Database\Eloquent\Model;
 
 class Trip extends Model
@@ -10,7 +9,7 @@ class Trip extends Model
     protected $fillable = ['agency_id', 'trip_id', 'trip_headsign', 'trip_short_name', 'route_color', 'route_text_color', 'route_short_name', 'route_long_name', 'service_id'];
 
     /**
-     * Get the agency from this vehicle
+     * Get the agency from this vehicle.
      */
     public function agency()
     {
@@ -18,7 +17,7 @@ class Trip extends Model
     }
 
     /**
-     * Get all vehicles associated with this trip
+     * Get all vehicles associated with this trip.
      */
     public function vehicles()
     {
@@ -26,7 +25,7 @@ class Trip extends Model
     }
 
     /**
-     * Get the service for this trip
+     * Get the service for this trip.
      */
     public function service()
     {

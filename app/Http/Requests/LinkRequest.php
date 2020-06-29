@@ -30,7 +30,7 @@ class LinkRequest extends FormRequest
             'description' => 'required',
             'link' => 'required',
             'vehicles' => '',
-            'agencies' => ''
+            'agencies' => '',
         ];
     }
 

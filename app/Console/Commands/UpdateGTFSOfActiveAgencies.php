@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Agency;
-use App\Jobs\CleanGtfsData;
 use App\Jobs\DownloadGTFS;
 use Illuminate\Console\Command;
 

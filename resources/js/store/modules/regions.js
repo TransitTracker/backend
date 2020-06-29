@@ -4,26 +4,26 @@ const state = {
     agencies: [],
     contributions: {
       en: '',
-      fr: ''
+      fr: '',
     },
     credits: {
       en: '',
-      fr: ''
+      fr: '',
     },
     info_body: {
       en: '',
-      fr: ''
+      fr: '',
     },
     info_title: {
       en: '',
-      fr: ''
+      fr: '',
     },
     map: '',
     map_box: [],
     map_zoom: 10,
     name: '',
-    slug: ''
-  }
+    slug: '',
+  },
 }
 
 const mutations = {
@@ -32,11 +32,11 @@ const mutations = {
   },
   setActive (state, newRegion) {
     state.active = newRegion
-  }
+  },
 }
 
 export default {
   namespaced: true,
   state,
-  mutations
+  mutations,
 }

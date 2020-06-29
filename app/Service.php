@@ -21,7 +21,7 @@ class Service extends Model
     protected $dateFormat = 'Ymd';
 
     /**
-     * Get the agency of this trip
+     * Get the agency of this trip.
      */
     public function agency()
     {
@@ -29,7 +29,7 @@ class Service extends Model
     }
 
     /**
-     * Get all trips with this service
+     * Get all trips with this service.
      */
     public function trips()
     {

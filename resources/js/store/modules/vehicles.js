@@ -6,8 +6,8 @@ const state = {
   selection: {
     id: null,
     coordinates: {},
-    agency: {}
-  }
+    agency: {},
+  },
 }
 
 const mutations = {
@@ -28,11 +28,11 @@ const mutations = {
       state.data = vehicles.filter((vehicle, key) => vehicle.agency_id !== agencyId).items
       state.selection = { id: null }
     }
-  }
+  },
 }
 
 export default {
   namespaced: true,
   state,
-  mutations
+  mutations,
 }

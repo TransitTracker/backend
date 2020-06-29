@@ -23,7 +23,7 @@ class GeojsonVehiclesCollection extends ResourceCollection
     {
         return [
             'type' => 'FeatureCollection',
-            'features' => GeojsonVehicleResource::collection($this->collection)
+            'features' => GeojsonVehicleResource::collection($this->collection),
         ];
     }
 }

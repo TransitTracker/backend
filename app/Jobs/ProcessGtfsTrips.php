@@ -39,9 +39,9 @@ class ProcessGtfsTrips implements ShouldQueue
      */
     public function handle()
     {
-        var_dump("[Trips-StartRead]");
+        var_dump('[Trips-StartRead]');
         $tripsReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
-        var_dump("[Trips-Foreach]");
+        var_dump('[Trips-Foreach]');
 
         $count = count($tripsReader);
         $position = 0;
@@ -83,6 +83,6 @@ class ProcessGtfsTrips implements ShouldQueue
             }
         }
         $tripsReader = null;
-        var_dump("[Trips-End]");
+        var_dump('[Trips-End]');
     }
 }

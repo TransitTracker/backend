@@ -24,7 +24,7 @@ class RegionResource extends JsonResource
             'map_zoom' => $this->map_zoom,
             'name' => $this->name,
             'slug' => $this->slug,
-            'agencies' => AgencyResource::collection($this->activeAgencies)
+            'agencies' => AgencyResource::collection($this->activeAgencies),
         ];
     }
 }

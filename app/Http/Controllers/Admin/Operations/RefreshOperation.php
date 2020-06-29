@@ -32,7 +32,7 @@ trait RefreshOperation
         $this->crud->allowAccess('refresh');
 
         $this->crud->operation(['list', 'show'], function () {
-             $this->crud->addButton('line', 'refresh', 'view', 'crud::buttons.refresh', 'beginning');
+            $this->crud->addButton('line', 'refresh', 'view', 'crud::buttons.refresh', 'beginning');
         });
     }
 
@@ -48,6 +48,6 @@ trait RefreshOperation
         DispatchAgencies::dispatch(Agency::where('id', $id)->select('id')->get())->onQueue('vehicles');
 
         // load the view
-        return response()->json([ $id => true ]);
+        return response()->json([$id => true]);
     }
 }

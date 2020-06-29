@@ -31,7 +31,7 @@ trait MakeActiveOperation
         $this->crud->allowAccess('makeActive');
 
         $this->crud->operation(['list', 'show'], function () {
-             $this->crud->addButton('line', 'makeActive', 'view', 'crud::buttons.make_active', 'beginning');
+            $this->crud->addButton('line', 'makeActive', 'view', 'crud::buttons.make_active', 'beginning');
         });
     }
 
@@ -49,11 +49,11 @@ trait MakeActiveOperation
         $originalState = $alert->is_active;
 
         Alert::where('is_active', true)->update([
-            'is_active' => false
+            'is_active' => false,
         ]);
 
-        $alert->is_active = !$originalState;
+        $alert->is_active = ! $originalState;
 
-        return response()->json([ $alert->id => $alert->is_active ]);
+        return response()->json([$alert->id => $alert->is_active]);
     }
 }

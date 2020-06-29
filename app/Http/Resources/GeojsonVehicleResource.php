@@ -16,14 +16,14 @@ class GeojsonVehicleResource extends JsonResource
     {
         return [
             'type' => 'Feature',
-            'properties' => (object)[
+            'properties' => (object) [
                 'id' => $this->id,
-                'marker-symbol' => $this->icon
+                'marker-symbol' => $this->icon,
             ],
-            'geometry' => (object)[
+            'geometry' => (object) [
                 'type' => 'Point',
-                'coordinates' => [$this->lon, $this->lat]
-            ]
+                'coordinates' => [$this->lon, $this->lat],
+            ],
         ];
     }
 }

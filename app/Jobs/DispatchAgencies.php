@@ -58,7 +58,7 @@ class DispatchAgencies implements ShouldQueue
                 // Add header to options (if one)
                 if ($agency->header_name) {
                     $headerArray = [
-                        $agency->header_name => $agency->header_value
+                        $agency->header_name => $agency->header_value,
                     ];
                     $requestOptions['headers'] = $headerArray;
                 }
@@ -66,14 +66,14 @@ class DispatchAgencies implements ShouldQueue
                 // Add query parameters to options (if one)
                 if ($agency->param_name) {
                     $headerQuery = [
-                        $agency->param_name => $agency->param_value
+                        $agency->param_name => $agency->param_value,
                     ];
                     $requestOptions['query'] = $headerQuery;
                 }
 
                 $response = $client->request($agency->realtime_method, $agency->realtime_url, $requestOptions);
 
-                $fileName = 'downloads/' . $agency->slug . '-' . $time . '.pb';
+                $fileName = 'downloads/'.$agency->slug.'-'.$time.'.pb';
                 Storage::put($fileName, (string) $response->getBody());
 
                 if ($agency->realtime_type === 'gtfsrt') {
@@ -98,7 +98,7 @@ class DispatchAgencies implements ShouldQueue
                         // last failed job is more than 30 minutes ago
                         Mail::to(env('MAIL_TO'))->send(new DispatchFailed($e, $agency->slug));
                         $lastFailedJob->update([
-                            'last_failed' => Carbon::now()
+                            'last_failed' => Carbon::now(),
                         ]);
                     }
                 } else {
@@ -108,7 +108,7 @@ class DispatchAgencies implements ShouldQueue
                         'name' => $className,
                         'exception' => $e->getCode(),
                         'agency_id' => $agency->id,
-                        'last_failed' => Carbon::now()
+                        'last_failed' => Carbon::now(),
                     ]);
                 }
             }
@@ -130,7 +130,7 @@ class DispatchAgencies implements ShouldQueue
 
         $lastFailedJob = FailedJobsHistory::firstWhere([
             'name' => $className,
-            'exception' => $exception->getMessage()
+            'exception' => $exception->getMessage(),
         ]);
 
         if ($lastFailedJob) {
@@ -139,7 +139,7 @@ class DispatchAgencies implements ShouldQueue
                 // last failed job is more than 30 minutes ago
                 Mail::to(env('MAIL_TO'))->send(new JobFailed($className, $exception));
                 $lastFailedJob->update([
-                    'last_failed' => Carbon::now()
+                    'last_failed' => Carbon::now(),
                 ]);
             }
         } else {
@@ -148,7 +148,7 @@ class DispatchAgencies implements ShouldQueue
             FailedJobsHistory::create([
                 'name' => $className,
                 'exception' => $exception->getMessage(),
-                'last_failed' => Carbon::now()
+                'last_failed' => Carbon::now(),
             ]);
         }
     }

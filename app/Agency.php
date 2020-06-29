@@ -16,8 +16,8 @@ class Agency extends Model
      *
      * @var array
      */
-    protected $fillable = [ 'name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type', 'realtime_options',
-                            'color', 'text_color', 'vehicles_type', 'is_active', 'region_id' ];
+    protected $fillable = ['name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type', 'realtime_options',
+        'color', 'text_color', 'vehicles_type', 'is_active', 'region_id', ];
 
     /**
      * The attributes that should be cast to native types.
@@ -25,11 +25,11 @@ class Agency extends Model
      * @var array
      */
     protected $casts = [
-        'tags' => 'array'
+        'tags' => 'array',
     ];
 
     /**
-     * Get all vehicles from this agency
+     * Get all vehicles from this agency.
      */
     public function vehicles()
     {
@@ -37,7 +37,7 @@ class Agency extends Model
     }
 
     /**
-     * Get all trips from this agency
+     * Get all trips from this agency.
      */
     public function trips()
     {
@@ -45,7 +45,7 @@ class Agency extends Model
     }
 
     /**
-     * Get all routes from this agency
+     * Get all routes from this agency.
      */
     public function routes()
     {
@@ -53,7 +53,7 @@ class Agency extends Model
     }
 
     /**
-     * Get all routes from this agency
+     * Get all routes from this agency.
      */
     public function services()
     {
@@ -61,7 +61,7 @@ class Agency extends Model
     }
 
     /**
-     * Get the region of this agency
+     * Get the region of this agency.
      */
     public function region()
     {
@@ -84,7 +84,7 @@ class Agency extends Model
     }
 
     /**
-     * Get the realtime method
+     * Get the realtime method.
      *
      * @return string
      */
@@ -94,7 +94,7 @@ class Agency extends Model
     }
 
     /**
-     * Get the realtime options header key
+     * Get the realtime options header key.
      *
      * @return string
      */
@@ -104,7 +104,7 @@ class Agency extends Model
     }
 
     /**
-     * Get the realtime options header key
+     * Get the realtime options header key.
      *
      * @return string
      */
@@ -114,7 +114,7 @@ class Agency extends Model
     }
 
     /**
-     * Get the realtime options header key
+     * Get the realtime options header key.
      *
      * @return string
      */
@@ -124,7 +124,7 @@ class Agency extends Model
     }
 
     /**
-     * Get the realtime options header key
+     * Get the realtime options header key.
      *
      * @return string
      */

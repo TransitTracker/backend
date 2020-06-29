@@ -167,7 +167,7 @@ return [
 
     'locales' => [
         'en' => 'English',
-        'fr' => 'French'
+        'fr' => 'French',
     ],
 
 ];

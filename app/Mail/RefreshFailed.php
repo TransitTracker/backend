@@ -2,12 +2,8 @@
 
 namespace App\Mail;
 
-use App\Agency;
-use Exception;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Queue\Events\JobFailed as EventJobFailed;
 use Illuminate\Queue\SerializesModels;
 
 class RefreshFailed extends Mailable
@@ -48,12 +44,12 @@ class RefreshFailed extends Mailable
     public function build()
     {
         return $this->markdown('emails.failed.refresh')
-                    ->subject('Refresh Failed for ' . $this->agencySlug)
+                    ->subject('Refresh Failed for '.$this->agencySlug)
                     ->with([
                         'jobName' => $this->jobName,
                         'agencySlug' => $this->agencySlug,
                         'jobException' => $this->exception->getMessage(),
-                        'jobTrace' => $this->exception->getTraceAsString()
+                        'jobTrace' => $this->exception->getTraceAsString(),
                     ]);
     }
 }

@@ -3,8 +3,8 @@
 namespace App;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Region extends Model
@@ -17,8 +17,8 @@ class Region extends Model
      *
      * @var array
      */
-    protected $fillable = [ 'name', 'slug', 'info_title', 'info_body', 'map_box', 'map_zoom', 'conditions', 'credits',
-                            'map' ];
+    protected $fillable = ['name', 'slug', 'info_title', 'info_body', 'map_box', 'map_zoom', 'conditions', 'credits',
+        'map', ];
 
     /**
      * The attributes that should be cast to native types.
@@ -27,13 +27,13 @@ class Region extends Model
      */
     protected $casts = [
         'map_box' => 'array',
-        'map_zoom' => 'integer'
+        'map_zoom' => 'integer',
     ];
 
     public $translatable = ['info_title', 'info_body', 'conditions', 'credits'];
 
     /**
-     * Get all agencies from this region
+     * Get all agencies from this region.
      */
     public function agencies()
     {
@@ -41,7 +41,7 @@ class Region extends Model
     }
 
     /**
-     * Get all active agencies from this region
+     * Get all active agencies from this region.
      */
     public function activeAgencies()
     {
@@ -49,7 +49,7 @@ class Region extends Model
     }
 
     /**
-     * Get all alerts from this region
+     * Get all alerts from this region.
      */
     public function alerts()
     {
@@ -57,7 +57,7 @@ class Region extends Model
     }
 
     /**
-     * Get all stats from this region
+     * Get all stats from this region.
      */
     public function stats()
     {
@@ -70,5 +70,4 @@ class Region extends Model
             ResponseCache::forget('/api/regions');
         });
     }
-
 }

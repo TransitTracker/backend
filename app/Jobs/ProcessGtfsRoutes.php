@@ -47,12 +47,12 @@ class ProcessGtfsRoutes implements ShouldQueue
             $newRoute['short_name'] = $route['route_short_name'];
             $newRoute['long_name'] = $route['route_long_name'];
             if (array_key_exists('route_color', $route)) {
-                $newRoute['color'] = '#' . $route['route_color'];
+                $newRoute['color'] = '#'.$route['route_color'];
             } else {
                 $newRoute['color'] = '#FFFFFF';
             }
             if (array_key_exists('route_text_color', $route)) {
-                $newRoute['text_color'] = '#' . $route['route_text_color'];
+                $newRoute['text_color'] = '#'.$route['route_text_color'];
             } else {
                 $newRoute['text_color'] = '#000000';
             }

@@ -15,8 +15,8 @@ class Vehicle extends Model
      *
      * @var array
      */
-    protected $fillable = [ 'agency_id', 'active', 'agency', 'gtfs_trip', 'route', 'start', 'vehicle', 'lat', 'lon',
-                            'trip_id', 'bearing', 'speed', 'stop_sequence', 'status', 'headsign', 'short_name', 'icon' ];
+    protected $fillable = ['agency_id', 'active', 'agency', 'gtfs_trip', 'route', 'start', 'vehicle', 'lat', 'lon',
+        'trip_id', 'bearing', 'speed', 'stop_sequence', 'status', 'headsign', 'short_name', 'icon', ];
 
     /**
      * The attributes that should be cast to native types.
@@ -24,11 +24,11 @@ class Vehicle extends Model
      * @var array
      */
     protected $casts = [
-        'coordinates' => 'array'
+        'coordinates' => 'array',
     ];
 
     /**
-     * Get the agency from this vehicle
+     * Get the agency from this vehicle.
      */
     public function agency()
     {
@@ -36,7 +36,7 @@ class Vehicle extends Model
     }
 
     /**
-     * Get the trip from this vehicle
+     * Get the trip from this vehicle.
      */
     public function trip()
     {
@@ -67,5 +67,4 @@ class Vehicle extends Model
             $vehicle->save();
         });
     }
-
 }

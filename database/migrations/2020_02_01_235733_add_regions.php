@@ -13,7 +13,7 @@ class AddRegions extends Migration
      */
     public function up()
     {
-        Schema::create('regions', function(Blueprint $table) {
+        Schema::create('regions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('slug')->unique();
@@ -27,15 +27,15 @@ class AddRegions extends Migration
             $table->timestamps();
         });
 
-        Schema::table('agencies', function(Blueprint $table) {
+        Schema::table('agencies', function (Blueprint $table) {
             $table->unsignedInteger('region_id')->nullable();
         });
 
-        Schema::table('alerts', function(Blueprint $table) {
+        Schema::table('alerts', function (Blueprint $table) {
             $table->unsignedInteger('region_id')->nullable();
         });
 
-        Schema::table('stats', function(Blueprint $table) {
+        Schema::table('stats', function (Blueprint $table) {
             $table->unsignedInteger('region_id')->nullable();
         });
     }
@@ -48,8 +48,14 @@ class AddRegions extends Migration
     public function down()
     {
         Schema::drop('regions');
-        Schema::table('agencies', function(Blueprint $table) { $table->dropColumn('region_id'); });
-        Schema::table('alerts', function(Blueprint $table) { $table->dropColumn('region_id'); });
-        Schema::table('stats', function(Blueprint $table) { $table->dropColumn('region_id'); });
+        Schema::table('agencies', function (Blueprint $table) {
+            $table->dropColumn('region_id');
+        });
+        Schema::table('alerts', function (Blueprint $table) {
+            $table->dropColumn('region_id');
+        });
+        Schema::table('stats', function (Blueprint $table) {
+            $table->dropColumn('region_id');
+        });
     }
 }

@@ -20,7 +20,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Monolog\Logger;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 class RefreshForGTFS implements ShouldQueue
@@ -56,7 +55,7 @@ class RefreshForGTFS implements ShouldQueue
         // Put all previously active vehicle as inactive
         Vehicle::where([
             ['active', true],
-            ['agency_id', $this->agency->id]
+            ['agency_id', $this->agency->id],
         ])->update(
             ['active' => false]
         );
@@ -146,7 +145,7 @@ class RefreshForGTFS implements ShouldQueue
             } catch (Exception $e) {
                 Log::error('Vehicle in the refresh failed', [
                     'agency' => $this->agency->slug,
-                    'exception' => $e->getMessage()
+                    'exception' => $e->getMessage(),
                 ]);
             }
         }
@@ -162,10 +161,10 @@ class RefreshForGTFS implements ShouldQueue
         // Add statistics
         $stat = new Stat();
         $stat->type = 'vehicleTotal';
-        $stat->data = (object)[
+        $stat->data = (object) [
             'count' => count($feed->getEntity()),
             'agency' => $this->agency->slug,
-            'time' => $this->time
+            'time' => $this->time,
         ];
         $stat->save();
 
@@ -195,7 +194,7 @@ class RefreshForGTFS implements ShouldQueue
                 // last failed job is more than 30 minutes ago
                 Mail::to(env('MAIL_TO'))->send(new RefreshFailed($exception, $this->agency->slug, $className));
                 $lastFailedJob->update([
-                    'last_failed' => Carbon::now()
+                    'last_failed' => Carbon::now(),
                 ]);
             }
         } else {
@@ -205,7 +204,7 @@ class RefreshForGTFS implements ShouldQueue
                 'name' => $className,
                 'exception' => substr($exception->getMessage(), 0, 250),
                 'agency_id' => $this->agency->id,
-                'last_failed' => Carbon::now()
+                'last_failed' => Carbon::now(),
             ]);
         }
 

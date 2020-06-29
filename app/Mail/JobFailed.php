@@ -2,12 +2,9 @@
 
 namespace App\Mail;
 
-use Exception;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\Events\JobFailed as EventJobFailed;
 
 class JobFailed extends Mailable
 {
@@ -43,7 +40,7 @@ class JobFailed extends Mailable
                     ->with([
                         'jobName' => $this->className,
                         'jobException' => $this->exception->getMessage(),
-                        'jobTrace' => $this->exception->getTraceAsString()
+                        'jobTrace' => $this->exception->getTraceAsString(),
                     ]);
     }
 }

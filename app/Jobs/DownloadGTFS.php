@@ -5,10 +5,10 @@ namespace App\Jobs;
 use App\Agency;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class DownloadGTFS implements ShouldQueue
 {
@@ -34,9 +34,9 @@ class DownloadGTFS implements ShouldQueue
      */
     public function handle()
     {
-        var_dump("[Download-Start]");
+        var_dump('[Download-Start]');
         // Set path
-        $fileName = getcwd() . '/storage/app/gtfs/' . $this->agency->slug . '-' . time() . '.zip';
+        $fileName = getcwd().'/storage/app/gtfs/'.$this->agency->slug.'-'.time().'.zip';
 
         // Download GTFS
         $client = new Client();
@@ -45,6 +45,6 @@ class DownloadGTFS implements ShouldQueue
         ExtractAndDispatchGtfs::dispatch($this->agency, $fileName)->onQueue('gtfs');
         $client = null;
 
-        var_dump("[Download-Finish]");
+        var_dump('[Download-Finish]');
     }
 }

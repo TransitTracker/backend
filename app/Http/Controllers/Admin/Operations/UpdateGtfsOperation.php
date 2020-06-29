@@ -33,7 +33,7 @@ trait UpdateGtfsOperation
         $this->crud->allowAccess('updateGtfs');
 
         $this->crud->operation('list', function () {
-             $this->crud->addButton('line', 'updateGtfs', 'view', 'crud::buttons.update_gtfs', 'beginning');
+            $this->crud->addButton('line', 'updateGtfs', 'view', 'crud::buttons.update_gtfs', 'beginning');
         });
     }
 
@@ -50,7 +50,6 @@ trait UpdateGtfsOperation
         CleanGtfsData::dispatch($agency)->onQueue('gtfs');
         DownloadGTFS::dispatch($agency)->onQueue('gtfs');
 
-        return response()->json([ $id => true ]);
-
+        return response()->json([$id => true]);
     }
 }

@@ -19,11 +19,11 @@ class Stat extends Model
      * @var array
      */
     protected $casts = [
-        'data' => 'object'
+        'data' => 'object',
     ];
 
     /**
-     * Get the region of this agency
+     * Get the region of this agency.
      */
     public function region()
     {

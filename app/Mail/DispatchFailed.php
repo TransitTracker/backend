@@ -2,14 +2,11 @@
 
 namespace App\Mail;
 
-use App\Agency;
-use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Throwable;
-use GuzzleHttp\Psr7;
 
 class DispatchFailed extends Mailable
 {
@@ -45,10 +42,10 @@ class DispatchFailed extends Mailable
     public function build()
     {
         return $this->markdown('emails.failed.dispatch')
-                    ->subject('Dispatch Failed for ' . $this->agencySlug)
+                    ->subject('Dispatch Failed for '.$this->agencySlug)
                     ->with([
                         'agencySlug' => $this->agencySlug,
-                        'responseString' => Psr7\str($this->exception->getResponse())
+                        'responseString' => Psr7\str($this->exception->getResponse()),
                     ]);
     }
 }

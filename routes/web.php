@@ -12,14 +12,14 @@
 */
 
 /**
- * Base Vue app
+ * Base Vue app.
  */
 Route::get('/', function () {
     return view('app');
 })->name('tt.app');
 
 /**
- * Opt-out from statistics
+ * Opt-out from statistics.
  */
 Route::get('/opt-out/{lang?}', function ($lang = 'en') {
     return view('opt-out', compact('lang'));

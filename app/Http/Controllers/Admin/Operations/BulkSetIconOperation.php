@@ -18,7 +18,7 @@ trait BulkSetIconOperation
         Route::post($segment.'/bulk-set-icon', [
             'as'        => $routeName.'.bulkSetIcon',
             'uses'      => $controller.'@bulkSetIcon',
-            'operation' => 'bulkSetIcon'
+            'operation' => 'bulkSetIcon',
         ]);
     }
 
@@ -50,7 +50,7 @@ trait BulkSetIconOperation
         foreach ($entries as $key => $id) {
             if ($entry = $this->crud->model->find($id)) {
                 $entry->update([
-                    'icon' => $icon
+                    'icon' => $icon,
                 ]);
             }
         }

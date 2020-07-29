@@ -64,6 +64,13 @@ class ExtractAndDispatchGtfs implements ShouldQueue
             file_put_contents($extractFolder.'/trips.txt', $trips);
             ProcessGtfsTrips::dispatch($this->agency, $extractFolder.'/trips.txt')->onQueue('gtfs');
 
+            // Open and dispatch shapes (if any)
+            $shapes = $zip->getFromName('shapes.txt');
+            if ($shapes) {
+                file_put_contents("{$extractFolder}/shapes.txt", $shapes);
+                ProcessGtfsShapes::dispatch($this->agency, "{$extractFolder}/shapes.txt")->onQueue('gtfs');
+            }
+
             $zip->close();
         }
 

@@ -22,6 +22,7 @@ class TripResource extends JsonResource
             'text_color' => $this->route_text_color,
             'route_short_name' => $this->route_short_name,
             'long_name' => $this->route_long_name,
+            'shape' => $this->shape,
         ];
     }
 }

@@ -82,6 +82,11 @@ class ProcessGtfsTrips implements ShouldQueue
                 // Fill optional service attribute
                 $newTrip['service_id'] = $service->id;
 
+                // Fill optional shape attribute
+                if (array_key_exists('shape_id', $trip)) {
+                    $newTrip['shape'] = $trip['shape_id'];
+                }
+
                 // Create or update the trip model
                 Trip::updateOrCreate(['trip_id' => $trip['trip_id'], 'agency_id' => $this->agency->id], $newTrip);
             }

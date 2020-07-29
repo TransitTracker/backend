@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Trip extends Model
 {
-    protected $fillable = ['agency_id', 'trip_id', 'trip_headsign', 'trip_short_name', 'route_color', 'route_text_color', 'route_short_name', 'route_long_name', 'service_id'];
+    protected $fillable = ['agency_id', 'trip_id', 'trip_headsign', 'trip_short_name', 'route_color',
+                            'route_text_color', 'route_short_name', 'route_long_name', 'service_id', 'shape', ];
 
     /**
      * Get the agency from this vehicle.

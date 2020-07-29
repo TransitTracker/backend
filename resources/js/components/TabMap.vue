@@ -22,6 +22,12 @@
   import MapFooter from './map/Footer'
   import MapBottomSheet from './map/BottomSheet'
 
+  const defaultGeojsonShapeData = {
+    type: 'Feature',
+    properties: {},
+    geometry: { type: 'LineString', coordinates: [] },
+  }
+
   export default {
     name: 'TabMap',
     components: {
@@ -93,6 +99,9 @@
         zoom: this.stateActiveRegion.map_zoom,
         attributionControl: false,
         maxPitch: 0,
+        pitchWithRotate: false,
+        dragRotate: false,
+        touchZoomRotate: false,
       })
 
       this.map.addControl(new this.mapbox.AttributionControl(), 'top-right')
@@ -105,6 +114,24 @@
       this.map.addControl(new this.mapbox.NavigationControl({ showCompass: false }), 'top-left')
 
       this.map.on('load', () => {
+        // Add route shape source and layer
+        this.map.addSource('shape-source', {
+          type: 'geojson',
+          data: defaultGeojsonShapeData,
+        })
+        this.map.addLayer({
+          id: 'shape-layer',
+          type: 'line',
+          source: 'shape-source',
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round',
+          },
+          paint: {
+            'line-color': '#000000',
+            'line-width': 3,
+          },
+        })
         this.loadMapLayers()
         if (this.stateSelectedVehicle.id) {
           this.selectMarker({
@@ -162,7 +189,13 @@
       selectMarker (markerData, agency, zoom = this.map.getZoom()) {
         this.map.flyTo({ center: markerData.geometry.coordinates, zoom: zoom })
         this.selectedAgency = agency
-        this.selectedVehicle = collect(this.stateVehicles).firstWhere('id', markerData.properties.id)
+        this.selectedVehicle = collect(this.stateVehicles[agency.slug]).firstWhere('id', markerData.properties.id)
+        if (this.selectedVehicle.trip.shape) {
+          this.map.getSource('shape-source').setData(`/shapes/${agency.slug}/${this.selectedVehicle.trip.shape}.json`)
+          this.map.setPaintProperty('shape-layer', 'line-color', this.selectedVehicle.trip.color ? this.selectedVehicle.trip.color : agency.color)
+        } else {
+          this.map.getSource('shape-source').setData(defaultGeojsonShapeData)
+        }
         new this.mapbox.Popup({ offset: [0, -35], closeButton: false })
           .setLngLat(markerData.geometry.coordinates)
           .setHTML(`<p class="text-caption black--text mb-0">${this.selectedVehicle.label ? this.selectedVehicle.label : this.selectedVehicle.ref}</p>`)

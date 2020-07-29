@@ -55,6 +55,7 @@
                   :key="vehicle"
                   cols="12"
                   md="4"
+                  lg="3"
                 >
                   <v-skeleton-loader
                     width="100%"

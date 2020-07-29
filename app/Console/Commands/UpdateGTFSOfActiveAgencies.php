@@ -39,8 +39,9 @@ class UpdateGTFSOfActiveAgencies extends Command
      */
     public function handle()
     {
-        // Get all agencies
-        $agencies = Agency::where('is_active', 1)->get();
+        // Get only some agencies, loop each 10 days
+        $endingWith = (int) substr(now()->day, -1);
+        $agencies = Agency::where([['is_active', true], ['id', 'like', "%{$endingWith}"]])->get();
 
         // Clean each agency
         foreach ($agencies as $agency) {

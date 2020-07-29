@@ -208,7 +208,7 @@ return [
                 'connection' => 'redis',
                 'queue' => ['vehicles', 'notifications', 'gtfs'],
                 'balance' => 'simple',
-                'processes' => 3,
+                'processes' => 5,
                 'tries' => 1,
                 'timeout' => 600,
             ],

@@ -120,7 +120,6 @@ class RefreshForNextbus implements ShouldQueue
         $this->agency->save();
 
         // Send a new event to alert browser that vehicles have been refresh
-        ResponseCache::clear();
         event(new VehiclesUpdated($this->agency));
 
         // Add statistics

@@ -102,7 +102,7 @@
 
 <style lang="scss" scoped>
     .v-footer {
-        padding: 0px 16px;
+        padding: 0 16px;
         min-height: 76px;
     }
 

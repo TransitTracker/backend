@@ -1,5 +1,4 @@
 const mix = require('laravel-mix')
-require('laravel-mix-workbox')
 
 /*
  |--------------------------------------------------------------------------
@@ -48,7 +47,6 @@ mix.js('resources/js/app.js', 'public/js')
   .sass('resources/sass/app.scss', 'public/css')
   .extract(['vue', 'vuetify'])
   .version()
-  // .generateSW()
 
 if (mix.inProduction()) {
   mix.disableNotifications()

@@ -16,7 +16,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Spatie\ResponseCache\Facades\ResponseCache;
 
 class RefreshForGTFS implements ShouldQueue
 {
@@ -58,7 +57,7 @@ class RefreshForGTFS implements ShouldQueue
 
         $data = Storage::get($this->dataFile);
 
-        // Convert protobuff to PHP object
+        // Convert protobuf to PHP object
         $feed = new FeedMessage();
         $feed->mergeFromString($data);
 

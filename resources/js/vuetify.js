@@ -27,6 +27,9 @@ export default new Vuetify({
         anchor: '#FFFFFF',
       },
     },
+    options: {
+      customProperties: true,
+    },
   },
   icons: {
     iconfont: 'mdiSvg',

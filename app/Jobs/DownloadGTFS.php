@@ -34,7 +34,6 @@ class DownloadGTFS implements ShouldQueue
      */
     public function handle()
     {
-        var_dump('[Download-Start]');
         // Set path
         $fileName = getcwd().'/storage/app/gtfs/'.$this->agency->slug.'-'.time().'.zip';
 
@@ -44,7 +43,5 @@ class DownloadGTFS implements ShouldQueue
 
         ExtractAndDispatchGtfs::dispatch($this->agency, $fileName)->onQueue('gtfs');
         $client = null;
-
-        var_dump('[Download-Finish]');
     }
 }

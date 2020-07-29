@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Agency;
 use App\Service;
 use App\Trip;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -36,21 +35,12 @@ class CleanGtfsData implements ShouldQueue
     public function handle()
     {
         // Find expired services
-        $oldServices = Service::where([['agency_id', $this->agency->id], ['end_date', '<', Carbon::now()]])->get();
+        $oldServices = Service::where([['agency_id', $this->agency->id], ['end_date', '<', now()]])->get();
 
         // Delete all expired trips
         foreach ($oldServices as $oldService) {
             Trip::where('service_id', $oldService->id)->delete();
             $oldService->delete();
-        }
-
-        // Find upcoming services
-        $upcomingServices = Service::where([['agency_id', $this->agency->id], ['start_date', '>', Carbon::now()->add('week', 1)]])->get();
-
-        // Delete all upcoming trips
-        foreach ($upcomingServices as $upcomingService) {
-            Trip::where('service_id', $upcomingService->id)->delete();
-            $upcomingService->delete();
         }
     }
 }

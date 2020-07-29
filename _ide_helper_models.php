@@ -89,6 +89,7 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $service_id
+ * @property string|null $shape
  * @property-read \App\Agency|null $agency
  * @property-read \App\Service|null $service
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Vehicle[] $vehicles
@@ -105,6 +106,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereRouteShortName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereRouteTextColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereShape($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereTripHeadsign($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereTripId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereTripShortName($value)
@@ -199,6 +201,32 @@ namespace App{
 
 namespace App{
 /**
+ * App\FailedJob
+ *
+ * @property int $id
+ * @property string $name
+ * @property int|null $agency_id
+ * @property string $exception
+ * @property string $last_failed
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Agency|null $agency
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereAgencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereException($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereLastFailed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereUpdatedAt($value)
+ */
+	class FailedJob extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\Link
  *
  * @property int $id
@@ -225,31 +253,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Link whereUpdatedAt($value)
  */
 	class Link extends \Eloquent {}
-}
-
-namespace App{
-/**
- * App\FailedJobsHistory
- *
- * @property int $id
- * @property string $name
- * @property int|null $agency_id
- * @property string $exception
- * @property string $last_failed
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJobsHistory newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJobsHistory newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJobsHistory query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJobsHistory whereAgencyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJobsHistory whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJobsHistory whereException($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJobsHistory whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJobsHistory whereLastFailed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJobsHistory whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJobsHistory whereUpdatedAt($value)
- */
-	class FailedJobsHistory extends \Eloquent {}
 }
 
 namespace App{
@@ -296,11 +299,18 @@ namespace App{
  * @property float|null $bearing
  * @property float|null $speed
  * @property int|null $stop_sequence
- * @property string|null $status
+ * @property int|null $status
  * @property int|null $trip_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $icon
+ * @property int|null $relationship
+ * @property string|null $label
+ * @property string|null $plate
+ * @property string|null $odometer
+ * @property string|null $timestamp
+ * @property int|null $congestion
+ * @property int|null $occupancy
  * @property-read \App\Agency|null $agency
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Link[] $links
  * @property-read int|null $links_count
@@ -312,17 +322,24 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereAgencyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereBearing($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereCongestion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereGtfsTrip($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereIcon($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereLat($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereLon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereOccupancy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereOdometer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle wherePlate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereRelationship($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereRoute($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereSpeed($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereStart($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereStopSequence($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereTimestamp($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereTripId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Vehicle whereVehicle($value)

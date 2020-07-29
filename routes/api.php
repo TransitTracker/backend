@@ -22,6 +22,9 @@ use Laracsv\Export;
 |
 */
 
+$totalAgencies = env('TOTAL_AGENCIES', count(Agency::select('id')->get()));
+$totalAgencies3 = $totalAgencies * 3;
+
 /*
  * Vehicles
  */
@@ -36,17 +39,7 @@ Route::get('/vehicles/{agency}', function (Agency $agency) {
     } else {
         return response()->json(['message' => 'AGENCY_INACTIVE'], 403);
     }
-})->middleware('cacheResponse:300')->name('tt.api.vehicles');
-
-Route::get('/geojson/{agency}', function (Agency $agency) {
-    if ($agency->is_active) {
-        $vehicles = Vehicle::where(['active' => true, 'agency_id' => $agency->id])->select('id', 'active', 'icon', 'lat', 'lon')->get();
-
-        return new GeojsonVehiclesCollection($vehicles);
-    } else {
-        return response()->json(['message' => 'AGENCY_INACTIVE'], 403);
-    }
-})->middleware('cacheResponse:300')->name('tt.api.vehicles');
+})->middleware("throttle:{$totalAgencies3},1,vehicles", 'cacheResponse:300')->name('tt.api.vehicles');
 
 /*
  * Alerts
@@ -59,14 +52,14 @@ Route::get('/alert', function () {
     } else {
         return response()->json(['message' => 'NO_ACTIVE_ALERT'], 200);
     }
-})->middleware('cacheResponse:10000')->name('tt.api.alert');
+})->middleware('throttle:3,1,alert', 'cacheResponse:10000')->name('tt.api.alert');
 
 /*
  * Regions
  */
 Route::get('/regions', function () {
-    return RegionResource::collection(Region::with('agencies')->get());
-})->middleware('cacheResponse:10080')->name('tt.api.regions');
+    return RegionResource::collection(Region::with('activeAgencies', 'activeAgencies.region:id,slug')->get());
+})->middleware('throttle:3,1,regions', 'cacheResponse:10080')->name('tt.api.regions');
 
 /*
  * Dump
@@ -85,14 +78,14 @@ Route::get('/dump/{agency}', function (Agency $agency) {
     $csvExporter = new Export();
 
     return $csvExporter->build($vehicles, $fields)->download($fileName);
-})->middleware('cacheResponse:3600')->name('tt.api.dump');
+})->middleware("throttle:{$totalAgencies},60,dump", 'cacheResponse:3600')->name('tt.api.dump');
 
 /*
  * Links
  */
 Route::get('/links', function () {
     return LinkResource::collection(Link::all());
-})->middleware('cacheResponse:10080')->name('tt.api.links');
+})->middleware('throttle:3,1,links', 'cacheResponse:10080')->name('tt.api.links');
 
 /*
  * Fallback (404)

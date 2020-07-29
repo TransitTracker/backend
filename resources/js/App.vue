@@ -321,7 +321,6 @@
               // Check if agency is selected by user
               if (collect(this.settings.activeAgencies).contains(event.slug) && event.region === this.settings.activeRegion) {
                 this.loadVehiclesFromAgency(event.slug, newTimestamp)
-                this.refreshEvent = event
               }
             }
           })
@@ -344,13 +343,19 @@
             console.log('Loading vehicles from ' + agencySlug)
             axios.get('/vehicles/' + agencySlug)
               .then((response) => {
-                // Empty vehicles and count only if request is successful
-                this.$store.commit('vehicles/emptyData', agency.id)
+                // Empty count only if request is successful
                 this.$store.commit('agencies/emptyCount', agencySlug)
 
                 // Calculate time difference and set data
                 const timeDiff = timestamp - response.data.timestamp
-                this.$store.commit('vehicles/setData', response.data.data)
+                this.$store.commit('vehicles/setData', {
+                  data: response.data.data,
+                  agencySlug: agency.slug,
+                })
+                this.$store.commit('vehicles/setGeojson', {
+                  data: response.data.geojson,
+                  agencySlug: agency.slug,
+                })
                 this.$store.commit('agencies/setCount', {
                   agency: agencySlug,
                   count: response.data.count,
@@ -359,6 +364,12 @@
 
                 // If time difference is too high, show the snackbar
                 timeDiff > 300 && this.showSnackbar()
+
+                // Send refresh event
+                this.refreshEvent = {
+                  slug: agencySlug,
+                  timestamp: timestamp,
+                }
               })
               .catch((error) => {
                 if (error.response.status === 404) {

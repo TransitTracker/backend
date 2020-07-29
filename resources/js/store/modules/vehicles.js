@@ -1,33 +1,32 @@
-import collect from 'collect.js/src/index.js'
-
 const state = {
-  data: [],
-  geojson: [],
+  data: {},
+  geojson: {},
   selection: {
     id: null,
-    coordinates: {},
+    coordinates: [],
     agency: {},
   },
 }
 
 const mutations = {
-  setData (state, vehicles) {
-    state.data = state.data.concat(vehicles)
+  setData (state, payload) {
+    state.data[payload.agencySlug] = payload.data
   },
-  setGeojson (state, data) {
-    state.geojson[data.agency] = data.data
+  setGeojson (state, payload) {
+    state.geojson[payload.agencySlug] = payload.data
   },
   setSelection (state, selection) {
     state.selection = selection
   },
-  emptyData (state, agencyId) {
-    if (agencyId === 'all') {
-      state.data = []
+  emptyData (state, agencySlug) {
+    if (agencySlug === 'all') {
+      state.data = {}
+      state.geojson = {}
     } else {
-      const vehicles = collect(state.data)
-      state.data = vehicles.filter((vehicle, key) => vehicle.agency_id !== agencyId).items
-      state.selection = { id: null }
+      state.data[agencySlug] = []
+      state.geojson[agencySlug] = {}
     }
+    state.selection = { agency: {}, coordinates: [], id: null }
   },
 }
 

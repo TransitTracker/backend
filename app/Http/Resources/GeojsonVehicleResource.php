@@ -18,6 +18,7 @@ class GeojsonVehicleResource extends JsonResource
             'type' => 'Feature',
             'properties' => (object) [
                 'id' => $this->id,
+                'label' => $this->label,
                 'marker-symbol' => $this->icon,
             ],
             'geometry' => (object) [

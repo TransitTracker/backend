@@ -16,6 +16,7 @@ class VehiclesCollection extends ResourceCollection
     {
         return [
             'data' => VehicleResource::collection($this->collection),
+            'geojson' => GeojsonVehiclesCollection::make($this->collection),
             'count' => $this->collection->count(),
             'message' => 'OK',
         ];

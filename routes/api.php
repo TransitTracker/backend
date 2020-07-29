@@ -3,7 +3,6 @@
 use App\Agency;
 use App\Alert;
 use App\Http\Resources\AlertResource;
-use App\Http\Resources\GeojsonVehiclesCollection;
 use App\Http\Resources\LinkResource;
 use App\Http\Resources\RegionResource;
 use App\Http\Resources\VehiclesCollection;

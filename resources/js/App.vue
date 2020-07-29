@@ -281,6 +281,10 @@
               }
             }
           })
+          .catch(error => {
+            console.log(error)
+            this.vehiclesRequestPending--
+          })
 
         // Load links
         axios
@@ -290,6 +294,10 @@
               return
             }
             this.$store.commit('links/setData', response.data.data)
+          })
+          .catch(error => {
+            console.log(error)
+            this.vehiclesRequestPending--
           })
 
         // Always listen to pusher
@@ -357,14 +365,7 @@
                   // Agency dosen't exist
                   this.removeAgency(agencySlug)
                 }
-              })
-
-            axios.get(`/geojson/${agencySlug}`)
-              .then((response) => {
-                this.$store.commit('vehicles/setGeojson', {
-                  data: response.data,
-                  agency: agency.slug,
-                })
+                this.vehiclesRequestPending--
               })
           }
         }

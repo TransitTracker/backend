@@ -14,7 +14,7 @@
           <span class="d-md-none">{{ agency.slug | uppercase }}</span>
         </v-col>
         <v-col class="ref">
-          {{ vehicle.ref }}
+          {{ vehicle.label ? vehicle.label : vehicle.ref }}
         </v-col>
         <v-col
           v-if="vehicle.bearing"
@@ -115,6 +115,11 @@
         text-align: left;
     }
 
+    .trip {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
     .trip .route {
         padding: 5px;
         border-radius: 3px;
@@ -122,6 +127,11 @@
         text-align: center;
         border-width: 3px;
         border-style: solid;
+    }
+
+    .trip .route span, .trip .route {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .trip .second-line {

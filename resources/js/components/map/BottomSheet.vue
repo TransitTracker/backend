@@ -3,11 +3,19 @@
     v-model="sheetModel"
     hide-overlay
     :persistent="persistent"
+    class="map-bottom-sheet"
   >
-    <v-list>
-      <div class="d-flex align-center">
-        <v-subheader>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.moreInfo') }} {{ vehicle.ref }}</v-subheader>
-        <v-spacer />
+    <v-sheet>
+      <div
+        class="d-flex align-center pa-4 grey"
+        :class="{'lighten-4': !settingsDarkMode, 'darken-4': settingsDarkMode}"
+      >
+        <div class="flex-grow-1">
+          <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.vehicle') }} {{ vehicle.label ? vehicle.label : vehicle.ref }}</b><br>
+          <span v-if="vehicle.timestamp">
+            {{ $vuetify.lang.t('$vuetify.mapBottomSheet.seenAt') }} {{ vehicle.timestamp | timestampToTime }}
+          </span>
+        </div>
         <v-btn
           icon
           :color="componentColor"
@@ -24,144 +32,104 @@
         <v-btn
           outlined
           :color="componentColor"
-          class="mr-4"
           @click="$emit('close-sheet')"
         >
           <span class="d-none d-md-block">{{ $vuetify.lang.t('$vuetify.mapBottomSheet.close') }}</span>
           <v-icon>{{ mdiSvg.close }}</v-icon>
         </v-btn>
       </div>
-      <div
-        v-if="vehicle.links.length"
-        class="ml-2 mr-4 d-flex align-center"
-      >
-        <div
-          id="links-list"
-          class="flex-grow-1 d-flex"
+      <div class="bottom-sheet-overflow">
+        <v-slide-group
+          v-if="vehicle.links.length"
+          class="px-4 py-2 grey"
+          :class="{'lighten-3': !settingsDarkMode, 'darken-3': settingsDarkMode}"
+          show-arrows
         >
-          <v-sheet
+          <v-slide-item
             v-for="link in stateLinks"
             :key="link.id"
-            rounded
-            elevation="2"
-            :class="{'lighten-4': !settingsDarkMode, 'darken-3': settingsDarkMode}"
-            class="pa-2 d-flex align-center ma-2 cursor-pointer grey"
-            :light="!settingsDarkMode"
-            :dark="settingsDarkMode"
-            @click="openLink(link.url)"
           >
-            <div>
-              <p class="subtitle-2 mb-1">
-                {{ settingsLanguageEnglish ? link.title.en : link.title.fr }}
-              </p>
-              <p class="body-2 mb-0">
-                {{ settingsLanguageEnglish ? link.description.en : link.description.fr }}
-              </p>
-            </div>
-            <v-icon
-              class="ml-4"
-              size="20px"
+            <v-sheet
+              rounded
+              elevation="2"
+              :class="{'white': !settingsDarkMode, 'dark': settingsDarkMode}"
+              class="pa-2 d-flex align-center mr-4 my-2 cursor-pointer"
+              :light="!settingsDarkMode"
+              :dark="settingsDarkMode"
+              @click="openLink(link.url)"
             >
-              {{ mdiSvg.openInNew }}
-            </v-icon>
-          </v-sheet>
-        </div>
-        <v-icon
-          v-if="showChevron"
-          id="links-chevron"
-          class="ml-2"
-        >
-          {{ mdiSvg.chevronRight }}
-        </v-icon>
+              <div>
+                <p class="subtitle-2 mb-1">
+                  {{ settingsLanguageEnglish ? link.title.en : link.title.fr }}
+                </p>
+                <p class="body-2 mb-0">
+                  {{ settingsLanguageEnglish ? link.description.en : link.description.fr }}
+                </p>
+              </div>
+              <v-icon
+                class="ml-4"
+                size="20px"
+              >
+                {{ mdiSvg.openInNew }}
+              </v-icon>
+            </v-sheet>
+          </v-slide-item>
+        </v-slide-group>
+
+        <v-list :dense="$vuetify.breakpoint.lgAndDown">
+          <div
+            v-for="property in properties"
+            :key="property.name"
+          >
+            <v-list-item
+              v-if="property.parent ? vehicle[property.parent][property.name] : vehicle[property.name]"
+            >
+              <v-list-item-icon>
+                <v-icon v-text="property.icon" />
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title class="d-flex align-center justify-space-between">
+                  <p class="mb-0 white-space--normal">
+                    <b>{{ $vuetify.lang.t(`$vuetify.mapBottomSheet.properties.${property.name}`) }}</b>
+                    <span :class="property.css">
+                      {{ property.content ? vehicle[property.content] : property.parent ? vehicle[property.parent][property.name] : vehicle[property.name] }}
+                    </span>
+                    <span v-if="property.name === 'route' && vehicle.trip.long_name">
+                      {{ vehicle.trip.route_short_name === vehicle.route ? '' : vehicle.trip.route_short_name }} {{ vehicle.trip.long_name }}
+                    </span>
+                    <span v-if="property.name === 'odometer'">km</span>
+                    <span v-if="property.name === 'bearing'">
+                      &deg;
+                      <v-icon :style="{ transform: 'rotate(' + vehicle.bearing + 'deg)' }">
+                        {{ mdiSvg.navigation }}
+                      </v-icon>
+                    </span>
+                    <span v-if="property.name === 'speed'">km/h</span>
+                  </p>
+                  <v-btn
+                    v-if="property.help"
+                    icon
+                    small
+                    class="float-right"
+                    @click="helpToggle[property.name] = !helpToggle[property.name]"
+                  >
+                    <v-icon color="secondary">
+                      {{ helpToggle[property.name] ? mdiSvg.close : mdiSvg.helpCircle }}
+                    </v-icon>
+                  </v-btn>
+                </v-list-item-title>
+                <v-list-item-subtitle
+                  v-if="helpToggle[property.name]"
+                  class="pa-2 secondary darken-3 white--text rounded white-space--normal"
+                >
+                  {{ $vuetify.lang.t(`$vuetify.mapBottomSheet.help.${property.name}`) }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </div>
+        </v-list>
       </div>
-      <v-list-item v-if="vehicle.route">
-        <v-list-item-icon>
-          <v-icon>{{ mdiSvg.mapMarkerPath }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.route') }}</b>
-          <span v-if="vehicle.trip.long_name">
-            {{ vehicle.trip.route_short_name }} {{ vehicle.trip.long_name }}
-            (<code>{{ vehicle.route }}</code>)
-          </span>
-          <span v-else>{{ vehicle.route }}</span>
-        </v-list-item-title>
-      </v-list-item>
-      <v-list-item v-if="vehicle.trip.headsign">
-        <v-list-item-icon>
-          <v-icon>{{ mdiSvg.signDirection }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.headsign') }}</b> {{
-            vehicle.trip.headsign }}
-        </v-list-item-title>
-      </v-list-item>
-      <v-list-item v-if="vehicle.gtfs_trip">
-        <v-list-item-icon>
-          <v-icon>{{ mdiSvg.identifier }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.tripId') }}</b> {{ vehicle.gtfs_trip
-          }}
-        </v-list-item-title>
-      </v-list-item>
-      <v-list-item v-if="vehicle.start">
-        <v-list-item-icon>
-          <v-icon>{{ mdiSvg.busClock }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.startTime') }}</b> {{ vehicle.start }}
-        </v-list-item-title>
-      </v-list-item>
-      <v-list-item v-if="vehicle.status">
-        <v-list-item-icon>
-          <v-icon>{{ mdiSvg.busStop }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.status') }}</b> {{ vehicle.status ===
-            1 ? 'STOPPED_AT' : 'IN_TRANSIT_TO' }}
-        </v-list-item-title>
-      </v-list-item>
-      <v-list-item v-if="vehicle.stop_sequence">
-        <v-list-item-icon>
-          <v-icon>{{ mdiSvg.timetable }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.stopSequence') }}</b> {{
-            vehicle.stop_sequence }}
-        </v-list-item-title>
-      </v-list-item>
-      <v-list-item v-if="vehicle.bearing">
-        <v-list-item-icon>
-          <v-icon>{{ mdiSvg.compass }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.bearing') }}</b>
-          {{ vehicle.bearing }}&deg;
-          <v-icon :style="{ transform: 'rotate(' + vehicle.bearing + 'deg)' }">
-            {{ mdiSvg.navigation }}
-          </v-icon>
-        </v-list-item-title>
-      </v-list-item>
-      <v-list-item v-if="vehicle.speed">
-        <v-list-item-icon>
-          <v-icon>{{ mdiSvg.speedometer }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.speed') }}</b> {{ vehicle.speed }}
-          km/h
-        </v-list-item-title>
-      </v-list-item>
-      <v-list-item v-if="vehicle.trip.trip_short_name">
-        <v-list-item-icon>
-          <v-icon>{{ mdiSvg.ticketConfirmation }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          <b>{{ $vuetify.lang.t('$vuetify.mapBottomSheet.departureNumber') }}</b> {{
-            vehicle.trip.trip_short_name }}
-        </v-list-item-title>
-      </v-list-item>
-    </v-list>
+    </v-sheet>
   </v-bottom-sheet>
 </template>
 
@@ -173,16 +141,17 @@
     VList,
     VListItem,
     VListItemIcon,
+    VListItemContent,
     VListItemTitle,
+    VListItemSubtitle,
+    VSlideGroup,
+    VSlideItem,
     VSheet,
-    VSpacer,
-    VSubheader,
   } from 'vuetify/lib'
   import {
     mdiBusClock,
     mdiBusStop,
     mdiClose,
-    mdiChevronRight,
     mdiCompass,
     mdiIdentifier,
     mdiMapMarkerPath,
@@ -192,9 +161,14 @@
     mdiPinOff,
     mdiSignDirection,
     mdiSpeedometer,
-    mdiTableSearch,
     mdiTicketConfirmation,
     mdiTimetable,
+    mdiFormatLetterStartsWith,
+    mdiCounter,
+    mdiTrafficLight,
+    mdiSeatPassenger,
+    mdiTimelinePlus,
+    mdiHelpCircle,
   } from '@mdi/js'
   import collect from 'collect.js'
 
@@ -205,11 +179,19 @@
       VIcon,
       VList,
       VSheet,
-      VSubheader,
       VListItem,
       VListItemIcon,
+      VListItemContent,
       VListItemTitle,
-      VSpacer,
+      VListItemSubtitle,
+      VSlideGroup,
+      VSlideItem,
+    },
+    filters: {
+      timestampToTime (timestamp) {
+        const date = new Date(timestamp * 1000)
+        return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+      },
     },
     props: {
       agency: Object,
@@ -222,19 +204,86 @@
         pinOff: mdiPinOff,
         pin: mdiPin,
         close: mdiClose,
-        chevronRight: mdiChevronRight,
         openInNew: mdiOpenInNew,
-        mapMarkerPath: mdiMapMarkerPath,
-        signDirection: mdiSignDirection,
-        identifier: mdiIdentifier,
-        tableSearch: mdiTableSearch,
-        busClock: mdiBusClock,
-        busStop: mdiBusStop,
-        timetable: mdiTimetable,
-        compass: mdiCompass,
         navigation: mdiNavigation,
-        speedometer: mdiSpeedometer,
-        ticketConfirmation: mdiTicketConfirmation,
+        helpCircle: mdiHelpCircle,
+      },
+      properties: [
+        {
+          name: 'label',
+          content: 'ref',
+          icon: mdiIdentifier,
+          help: true,
+        },
+        {
+          name: 'plate',
+          icon: mdiFormatLetterStartsWith,
+        },
+        {
+          name: 'gtfs_trip',
+          icon: mdiIdentifier,
+          help: true,
+        },
+        {
+          name: 'route',
+          icon: mdiMapMarkerPath,
+        },
+        {
+          name: 'headsign',
+          parent: 'trip',
+          icon: mdiSignDirection,
+        },
+        {
+          name: 'trip_short_name',
+          parent: 'trip',
+          icon: mdiTicketConfirmation,
+        },
+        {
+          name: 'start',
+          icon: mdiBusClock,
+        },
+        {
+          name: 'relationship',
+          icon: mdiTimelinePlus,
+          help: true,
+        },
+        {
+          name: 'odometer',
+          icon: mdiCounter,
+        },
+        {
+          name: 'bearing',
+          icon: mdiCompass,
+        },
+        {
+          name: 'speed',
+          icon: mdiSpeedometer,
+        },
+        {
+          name: 'status',
+          icon: mdiBusStop,
+          help: true,
+        },
+        {
+          name: 'stop_sequence',
+          icon: mdiTimetable,
+          help: true,
+        },
+        {
+          name: 'congestion',
+          icon: mdiTrafficLight,
+        },
+        {
+          name: 'occupancy',
+          icon: mdiSeatPassenger,
+        },
+      ],
+      helpToggle: {
+        label: false,
+        gtfs_trip: false,
+        relationship: false,
+        status: false,
+        stop_sequence: false,
       },
     }),
     computed: {
@@ -288,6 +337,10 @@
 </script>
 
 <style scoped>
+    .bottom-sheet-overflow {
+      max-height: calc(50vh - 80px);
+      overflow: auto;
+    }
     .cursor-pointer {
         cursor: pointer;
     }
@@ -296,5 +349,11 @@
     }
     #links-list > div {
         white-space: nowrap;
+    }
+    .dark {
+      background-color: #1e1e1e;
+    }
+    .white-space--normal {
+      white-space: normal;
     }
 </style>

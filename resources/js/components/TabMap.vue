@@ -165,7 +165,7 @@
         this.selectedVehicle = collect(this.stateVehicles).firstWhere('id', markerData.properties.id)
         new this.mapbox.Popup({ offset: [0, -35], closeButton: false })
           .setLngLat(markerData.geometry.coordinates)
-          .setHTML(`<p class="text-caption black--text mb-0">${this.selectedVehicle.ref}</p>`)
+          .setHTML(`<p class="text-caption black--text mb-0">${this.selectedVehicle.label ? this.selectedVehicle.label : this.selectedVehicle.ref}</p>`)
           .addTo(this.map)
       },
     },

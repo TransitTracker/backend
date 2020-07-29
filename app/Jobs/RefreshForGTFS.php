@@ -65,9 +65,17 @@ class RefreshForGTFS implements ShouldQueue
         // Go trough each vehicle
         foreach ($feed->getEntity() as $entity) {
             /*
+             * Check if entity has vehiclePosition
+             */
+            $vehicle = $entity->getVehicle();
+            if (! $vehicle) {
+                continue;
+            }
+
+            /*
              * Check if trip is in database
              */
-            $trip = Trip::where([['agency_id', '=', $this->agency->id], ['trip_id', '=', $entity->getVehicle()->getTrip()->getTripId()]])
+            $trip = Trip::where([['agency_id', '=', $this->agency->id], ['trip_id', '=', $vehicle->getTrip()->getTripId()]])
                 ->select('id')
                 ->first();
 
@@ -81,49 +89,115 @@ class RefreshForGTFS implements ShouldQueue
              * Try each GTFS RT attribute
              */
 
-            // Latitude
-            if ($entity->getVehicle()->getPosition()->getLatitude()) {
-                $newVehicle['lat'] = round($entity->getVehicle()->getPosition()->getLatitude(), 5);
+            // trip->trip_id
+            if ($gtfs_trip = $vehicle->getTrip()->getTripId()) {
+                $newVehicle['gtfs_trip'] = $gtfs_trip;
+            } else {
+                $newVehicle['gtfs_trip'] = null;
             }
 
-            // Longitude
-            if ($entity->getVehicle()->getPosition()->getLongitude()) {
-                $newVehicle['lon'] = round($entity->getVehicle()->getPosition()->getLongitude(), 5);
+            // trip->route_id
+            if ($route = $vehicle->getTrip()->getRouteId()) {
+                $newVehicle['route'] = $route;
+            } else {
+                $newVehicle['route'] = null;
             }
 
-            // Route
-            if ($entity->getVehicle()->getTrip()->getRouteId()) {
-                $newVehicle['route'] = $entity->getVehicle()->getTrip()->getRouteId();
+            // trip->start_time
+            if ($start = $vehicle->getTrip()->getStartTime()) {
+                $newVehicle['start'] = $start;
+            } else {
+                $newVehicle['start'] = null;
             }
 
-            // Status
-            if ($entity->getVehicle()->getCurrentStatus()) {
-                $newVehicle['status'] = $entity->getVehicle()->getCurrentStatus();
+            // trip->schedule_relationship
+            if ($relationship = $vehicle->getTrip()->getScheduleRelationship()) {
+                $newVehicle['relationship'] = $relationship;
+            } else {
+                $newVehicle['relationship'] = null;
             }
 
-            // Stop sequence
-            if ($entity->getVehicle()->getCurrentStopSequence()) {
-                $newVehicle['stop_sequence'] = $entity->getVehicle()->getCurrentStopSequence();
+            // vehicle->label
+            if ($label = $vehicle->getVehicle()->getLabel()) {
+                $newVehicle['label'] = $label;
+            } else {
+                $newVehicle['label'] = null;
             }
 
-            // Start time
-            if ($entity->getVehicle()->getTrip()->getStartTime()) {
-                $newVehicle['start'] = $entity->getVehicle()->getTrip()->getStartTime();
+            // vehicle->plate
+            if ($plate = $vehicle->getVehicle()->getLicensePlate()) {
+                $newVehicle['plate'] = $plate;
+            } else {
+                $newVehicle['plate'] = null;
             }
 
-            // Bearing
-            if ($entity->getVehicle()->getPosition()->getBearing()) {
-                $newVehicle['bearing'] = $entity->getVehicle()->getPosition()->getBearing();
+            // position->latitude
+            if ($lat = $vehicle->getPosition()->getLatitude()) {
+                $newVehicle['lat'] = round($lat, 5);
+            } else {
+                $newVehicle['lat'] = null;
             }
 
-            // Speed
-            if ($entity->getVehicle()->getPosition()->getSpeed()) {
-                $newVehicle['speed'] = round($entity->getVehicle()->getPosition()->getSpeed() * 3.6, 0);
+            // position->longitude
+            if ($lon = $vehicle->getPosition()->getLongitude()) {
+                $newVehicle['lon'] = round($lon, 5);
+            } else {
+                $newVehicle['lon'] = null;
             }
 
-            // Trip ID (from GTFS-RT)
-            if ($entity->getVehicle()->getTrip()->getTripId()) {
-                $newVehicle['gtfs_trip'] = $entity->getVehicle()->getTrip()->getTripId();
+            // position->bearing
+            if ($bearing = $vehicle->getPosition()->getBearing()) {
+                $newVehicle['bearing'] = $bearing;
+            } else {
+                $newVehicle['bearing'] = null;
+            }
+
+            // position->odometer
+            if ($odometer = $vehicle->getPosition()->getOdometer()) {
+                $newVehicle['odometer'] = round($odometer / 1000, 0);
+            } else {
+                $newVehicle['odometer'] = null;
+            }
+
+            // position->speed
+            if ($speed = $vehicle->getPosition()->getSpeed()) {
+                $newVehicle['speed'] = round($speed * 3.6, 0);
+            } else {
+                $newVehicle['speed'] = null;
+            }
+
+            // current_stop_sequence
+            if ($stop_sequence = $vehicle->getCurrentStopSequence()) {
+                $newVehicle['stop_sequence'] = $stop_sequence;
+            } else {
+                $newVehicle['stop_sequence'] = null;
+            }
+            // current_status
+            if ($status = $vehicle->getCurrentStatus()) {
+                $newVehicle['status'] = $status;
+            } else {
+                $newVehicle['status'] = null;
+            }
+
+            // timestamp
+            if ($timestamp = $vehicle->getTimestamp()) {
+                $newVehicle['timestamp'] = $timestamp;
+            } else {
+                $newVehicle['timestamp'] = null;
+            }
+
+            // congestion_level
+            if ($congestion = $vehicle->getCongestionLevel()) {
+                $newVehicle['congestion'] = $congestion;
+            } else {
+                $newVehicle['congestion'] = null;
+            }
+
+            // occupancy_status
+            if ($occupancy = $vehicle->getOccupancyStatus()) {
+                $newVehicle['occupancy'] = $occupancy;
+            } else {
+                $newVehicle['occupancy'] = null;
             }
 
             // Trip ID (from model)
@@ -151,7 +225,6 @@ class RefreshForGTFS implements ShouldQueue
         $this->agency->save();
 
         // Send a new event to alert browser that vehicles have been refresh
-        ResponseCache::clear();
         event(new VehiclesUpdated($this->agency));
 
         // Add statistics

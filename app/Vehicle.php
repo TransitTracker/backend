@@ -16,7 +16,8 @@ class Vehicle extends Model
      * @var array
      */
     protected $fillable = ['agency_id', 'active', 'agency', 'gtfs_trip', 'route', 'start', 'vehicle', 'lat', 'lon',
-                            'trip_id', 'bearing', 'speed', 'stop_sequence', 'status', 'headsign', 'short_name', 'icon', ];
+                            'trip_id', 'bearing', 'speed', 'stop_sequence', 'status', 'headsign', 'short_name', 'icon',
+                            'relationship', 'label', 'plate', 'odometer', 'timestamp', 'congestion', 'occupancy', ];
 
     /**
      * The attributes that should be cast to native types.

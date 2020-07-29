@@ -2,20 +2,19 @@
 
 namespace App\Mail;
 
-use GuzzleHttp\Psr7;
+use App\FailedJob;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Throwable;
 
 class DispatchFailed extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
-     * @var Throwable
+     * @var string
      */
-    protected Throwable $exception;
+    protected string $exception;
 
     /**
      * @var string
@@ -23,15 +22,22 @@ class DispatchFailed extends Mailable
     protected string $agencySlug;
 
     /**
+     * @var FailedJob
+     */
+    protected FailedJob $failedJob;
+
+    /**
      * Create a new message instance.
      *
-     * @param Throwable $exception
+     * @param string $exception
      * @param string $agencySlug
+     * @param FailedJob $failedJob
      */
-    public function __construct(Throwable $exception, string $agencySlug)
+    public function __construct(string $exception, string $agencySlug, FailedJob $failedJob)
     {
         $this->exception = $exception;
         $this->agencySlug = strtoupper($agencySlug);
+        $this->failedJob = $failedJob;
     }
 
     /**
@@ -45,7 +51,8 @@ class DispatchFailed extends Mailable
                     ->subject('Dispatch Failed for '.$this->agencySlug)
                     ->with([
                         'agencySlug' => $this->agencySlug,
-                        'responseString' => Psr7\str($this->exception->getResponse()),
+                        'responseString' => $this->exception,
+                        'failedJob' => $this->failedJob,
                     ]);
     }
 }

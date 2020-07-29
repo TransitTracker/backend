@@ -4,12 +4,9 @@ namespace App\Jobs;
 
 use App\Agency;
 use App\Events\VehiclesUpdated;
-use App\FailedJobsHistory;
-use App\Mail\RefreshFailed;
 use App\Stat;
 use App\Trip;
 use App\Vehicle;
-use Carbon\Carbon;
 use Exception;
 use FelixINX\TransitRealtime\FeedMessage;
 use Illuminate\Bus\Queueable;
@@ -18,7 +15,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
@@ -167,46 +163,6 @@ class RefreshForGTFS implements ShouldQueue
             'time' => $this->time,
         ];
         $stat->save();
-
-        // Delete the file
-        Storage::delete($this->dataFile);
-    }
-
-    /**
-     * The job failed to process.
-     *
-     * @param $exception
-     * @return void
-     */
-    public function failed($exception)
-    {
-        $className = get_class($this);
-
-        $lastFailedJob = FailedJobsHistory::firstWhere([
-            'name' => $className,
-            'exception' => substr($exception->getMessage(), 0, 250),
-            'agency_id' => $this->agency->id,
-        ]);
-
-        if ($lastFailedJob) {
-            // last failed job exists in database
-            if (Carbon::now()->diffInMinutes($lastFailedJob->last_failed) > 30) {
-                // last failed job is more than 30 minutes ago
-                Mail::to(env('MAIL_TO'))->send(new RefreshFailed($exception, $this->agency->slug, $className));
-                $lastFailedJob->update([
-                    'last_failed' => Carbon::now(),
-                ]);
-            }
-        } else {
-            // no last failed job
-            Mail::to(env('MAIL_TO'))->send(new RefreshFailed($exception, $this->agency->slug, $className));
-            FailedJobsHistory::create([
-                'name' => $className,
-                'exception' => substr($exception->getMessage(), 0, 250),
-                'agency_id' => $this->agency->id,
-                'last_failed' => Carbon::now(),
-            ]);
-        }
 
         // Delete the file
         Storage::delete($this->dataFile);

@@ -3,12 +3,14 @@
 
 <div class="code">{{ $responseString }}</div>
 
-@component('mail::button', ['url' => env('APP_URL') . '/horizon'])
-    Launch Horizon
-@endcomponent
+Snooze notifications for this error:
+- [for 2 hours]({{ $failedJob->signedSnoozeUrl(2) }})
+- [for a day]({{ $failedJob->signedSnoozeUrl(24) }})
+- [for 1 year]({{ $failedJob->signedSnoozeUrl(24 * 365) }})
+
 
 @component('mail::button', ['url' => env('APP_URL') . '/admin'])
-    Launch the admin panel
+    Launch admin panel
 @endcomponent
 
 <style>

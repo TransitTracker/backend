@@ -38,26 +38,47 @@ class ProcessGtfsServices implements ShouldQueue
      */
     public function handle()
     {
-        $servicesReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
-        foreach ($servicesReader->getRecords() as $service) {
-            // If the service is already finish, don't add it
-            if (Carbon::create($service['end_date'])->isPast()) {
-                break;
-            }
-
-            // Prepare a new array to update or create the service model
-            $newService = [];
-
-            // Fill each required attribute
-            $newService['service_id'] = $service['service_id'];
-            $startDate = new Carbon($service['start_date']);
-            $newService['start_date'] = $startDate;
-            $endDate = new Carbon($service['end_date']);
-            $newService['end_date'] = $endDate;
-
-            // Create or update the service model
-            Service::updateOrCreate(['service_id' => $service['service_id'], 'agency_id' => $this->agency->id], $newService);
+        if ($this->file) {
+            $servicesReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
+        } else {
+            $servicesReader = null;
         }
+
+        // Check if there is some services. If not, just add a fallback service for all trips.
+        if ($servicesReader && count($servicesReader) >= 1) {
+            foreach ($servicesReader->getRecords() as $service) {
+                // If the service is already finish, don't add it
+                if (Carbon::parse($service['end_date'])->isPast()) {
+                    break;
+                }
+
+                // Prepare a new array to update or create the service model
+                $newService = [];
+
+                // Fill each required attribute
+                $newService['service_id'] = $service['service_id'];
+                $newService['start_date'] = new Carbon($service['start_date']);
+                $newService['end_date'] = new Carbon($service['end_date']);
+
+                // Create or update the service model
+                Service::updateOrCreate([
+                    'service_id' => $service['service_id'],
+                    'agency_id' => $this->agency->id,
+                ], $newService);
+            }
+        } else {
+            $serviceId = "FALLBACK-{$this->agency->slug}";
+
+            Service::updateOrCreate([
+                'service_id' => $serviceId,
+                'agency_id' => $this->agency->id,
+            ], [
+                'service_id' => $serviceId,
+                'start_date' => now(),
+                'end_date' => now()->addMonth(),
+            ]);
+        }
+
         $servicesReader = null;
     }
 }

@@ -6,11 +6,13 @@ use App\Agency;
 use App\Route;
 use App\Service;
 use App\Trip;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 use League\Csv\Reader;
 
 class ProcessGtfsTrips implements ShouldQueue
@@ -39,22 +41,26 @@ class ProcessGtfsTrips implements ShouldQueue
      */
     public function handle()
     {
-        var_dump('[Trips-StartRead]');
         $tripsReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
-        var_dump('[Trips-Foreach]');
 
-        $count = count($tripsReader);
-        $position = 0;
+        // Check if there is a fallback trip
+        $fallbackService = DB::table('services')
+            ->where('agency_id', $this->agency->id)
+            ->where('service_id', "FALLBACK-{$this->agency->slug}")
+            ->whereDate('end_date', '>=', Carbon::now())
+            ->first();
+
         foreach ($tripsReader->getRecords() as $trip) {
             // Find the route and service matching this trip
-            $route = Route::where([['agency_id', $this->agency->id], ['route_id', $trip['route_id']]])->first();
-            $service = Service::where([['agency_id', $this->agency->id], ['service_id', $trip['service_id']]])->first();
-
-            $position += 1;
+            $route = Route::firstWhere([['agency_id', $this->agency->id], ['route_id', $trip['route_id']]]);
+            if ($fallbackService) {
+                $service = $fallbackService;
+            } else {
+                $service = Service::firstWhere([['agency_id', $this->agency->id], ['service_id', $trip['service_id']]]);
+            }
 
             // If there is no service, don't add it
             if ($service) {
-                var_dump("[Trips-Continue {$position}/{$count}]");
                 // Prepare a new array to update or create the trip model
                 $newTrip = [];
 
@@ -78,11 +84,8 @@ class ProcessGtfsTrips implements ShouldQueue
 
                 // Create or update the trip model
                 Trip::updateOrCreate(['trip_id' => $trip['trip_id'], 'agency_id' => $this->agency->id], $newTrip);
-            } else {
-                var_dump("[Trips-Skip {$position}/{$count}]");
             }
         }
         $tripsReader = null;
-        var_dump('[Trips-End]');
     }
 }

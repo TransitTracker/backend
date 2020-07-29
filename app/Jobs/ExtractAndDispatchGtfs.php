@@ -45,9 +45,14 @@ class ExtractAndDispatchGtfs implements ShouldQueue
             mkdir($extractFolder);
 
             // Extract and dispatch services
+            // If there is no calendar file, create an empty file.
             $services = $zip->getFromName('calendar.txt');
-            file_put_contents($extractFolder.'/calendar.txt', $services);
-            ProcessGtfsServices::dispatch($this->agency, $extractFolder.'/calendar.txt')->onQueue('gtfs');
+            if ($services) {
+                file_put_contents($extractFolder.'/calendar.txt', "$services");
+                ProcessGtfsServices::dispatch($this->agency, $extractFolder.'/calendar.txt')->onQueue('gtfs');
+            } else {
+                ProcessGtfsServices::dispatch($this->agency, false)->onQueue('gtfs');
+            }
 
             // Open and dispatch routes
             $routes = $zip->getFromName('routes.txt');

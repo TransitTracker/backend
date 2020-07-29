@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Agency;
 use App\Events\VehiclesUpdated;
 use App\Stat;
+use App\Trip;
 use App\Vehicle;
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -66,17 +67,29 @@ class RefreshForNextbus implements ShouldQueue
             $newVehicle['active'] = 1;
 
             /*
-             * Try each GTFS RT attribute
+             * Find a (fake) trip for this route
              */
+            $trip = Trip::where([['agency_id', '=', $this->agency->id], ['trip_id', '=', $vehicle['routeTag']]])
+                ->select('id')
+                ->first();
+
+            /*
+             * Try each attribute
+             */
+
+            // Trip
+            if ($trip) {
+                $newVehicle['trip_id'] = $trip->id;
+            }
 
             // Latitude
             if ($vehicle['lat']) {
-                $newVehicle['lat'] = round($vehicle['lat'], 5);
+                $newVehicle['lat'] = round((float) $vehicle['lat'], 5);
             }
 
             // Longitude
             if ($vehicle['lon']) {
-                $newVehicle['lon'] = round($vehicle['lon'], 5);
+                $newVehicle['lon'] = round((float) $vehicle['lon'], 5);
             }
 
             // Route

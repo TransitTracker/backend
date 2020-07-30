@@ -145,7 +145,7 @@
         return this.$store.state.vehicles.data
       },
       downloadUrl () {
-        return process.env.MIX_APIENDPOINT + '/dump/' + this.selectedAgency
+        return process.env.MIX_API_ENDPOINT + '/dump/' + this.selectedAgency
       },
     },
   }

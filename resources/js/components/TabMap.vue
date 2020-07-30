@@ -191,7 +191,7 @@
         this.selectedAgency = agency
         this.selectedVehicle = collect(this.stateVehicles[agency.slug]).firstWhere('id', markerData.properties.id)
         if (this.selectedVehicle.trip.shape) {
-          this.map.getSource('shape-source').setData(`/shapes/${agency.slug}/${this.selectedVehicle.trip.shape}.json`)
+          this.map.getSource('shape-source').setData(`${process.env.MIX_SHAPES_ENDPOINT}/${agency.slug}/${this.selectedVehicle.trip.shape}.json`)
           this.map.setPaintProperty('shape-layer', 'line-color', this.selectedVehicle.trip.color ? this.selectedVehicle.trip.color : agency.color)
         } else {
           this.map.getSource('shape-source').setData(defaultGeojsonShapeData)

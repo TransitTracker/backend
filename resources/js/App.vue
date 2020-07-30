@@ -131,7 +131,7 @@
   const DialogConfiguration = () => import(/* webpackChunkName: 'configuration' */'./components/app/DialogConfiguration')
 
   // Define default axios base URL
-  axios.defaults.baseURL = process.env.MIX_APIENDPOINT
+  axios.defaults.baseURL = process.env.MIX_API_ENDPOINT
 
   export default {
     name: 'App',

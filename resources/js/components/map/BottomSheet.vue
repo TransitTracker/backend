@@ -190,7 +190,9 @@
     filters: {
       timestampToTime (timestamp) {
         const date = new Date(timestamp * 1000)
-        return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+        const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+        const seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+        return `${date.getHours()}:${minutes}:${seconds}`
       },
     },
     props: {

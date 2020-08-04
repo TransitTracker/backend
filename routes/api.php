@@ -65,11 +65,14 @@ Route::get('/regions', function () {
  * Dump
  */
 Route::get('/dump/{agency}', function (Agency $agency) {
-    app('debugbar')->disable();
+    if (App::environment('local')) {
+        app('debugbar')->disable();
+    }
 
     $fields = ['agency.slug', 'vehicle', 'route', 'gtfs_trip', 'lat', 'lon', 'trip.trip_headsign',
         'trip.trip_short_name', 'trip.route_long_name', 'trip.service.service_id', 'bearing', 'speed', 'start',
-        'status', 'current_stop_sequence', 'created_at', 'updated_at', ];
+        'status', 'current_stop_sequence', 'created_at', 'updated_at', 'relationship', 'label', 'plate', 'odometer',
+        'timestamp', 'congestion', 'occupancy', ];
 
     $vehicles = Vehicle::where('agency_id', $agency->id)->get();
 

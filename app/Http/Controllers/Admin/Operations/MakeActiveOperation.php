@@ -53,6 +53,7 @@ trait MakeActiveOperation
         ]);
 
         $alert->is_active = ! $originalState;
+        $alert->save();
 
         return response()->json([$alert->id => $alert->is_active]);
     }

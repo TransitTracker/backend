@@ -67,6 +67,7 @@
                   :key="count.name"
                   cols="12"
                   md="4"
+                  lg="3"
                 >
                   <v-sheet
                     :color="count.backgroundColor"

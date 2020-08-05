@@ -76,7 +76,7 @@
           </v-slide-item>
         </v-slide-group>
 
-        <v-list :dense="$vuetify.breakpoint.lgAndDown">
+        <v-list :dense="$vuetify.breakpoint.mdAndDown">
           <div
             v-for="property in properties"
             :key="property.name"
@@ -91,11 +91,15 @@
                 <v-list-item-title class="d-flex align-center justify-space-between">
                   <p class="mb-0 white-space--normal">
                     <b>{{ $vuetify.lang.t(`$vuetify.mapBottomSheet.properties.${property.name}`) }}</b>
-                    <span :class="property.css">
-                      {{ property.content ? vehicle[property.content] : property.parent ? vehicle[property.parent][property.name] : vehicle[property.name] }}
-                    </span>
                     <span v-if="property.name === 'route' && vehicle.trip.long_name">
-                      {{ vehicle.trip.route_short_name === vehicle.route ? '' : vehicle.trip.route_short_name }} {{ vehicle.trip.long_name }}
+                      {{ vehicle.trip.route_short_name }} {{ vehicle.trip.long_name }}
+                      <code v-if="vehicle.trip.route_short_name !== vehicle.route">{{ vehicle.route }}</code>
+                    </span>
+                    <span
+                      v-else
+                      :class="property.css"
+                    >
+                      {{ property.content ? vehicle[property.content] : property.parent ? vehicle[property.parent][property.name] : vehicle[property.name] }}
                     </span>
                     <span v-if="property.name === 'odometer'">km</span>
                     <span v-if="property.name === 'bearing'">

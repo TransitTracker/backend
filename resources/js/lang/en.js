@@ -97,6 +97,7 @@ export default {
     allDescription: 'This file is generated each hour and is available only in CSV format.',
     agencySelect: 'Agency',
     downloadButton: 'Download',
+    loadedNotAvailable: 'Not available at the moment, will be back soon.',
   },
   onboarding: {
     changeLang: 'En français?',

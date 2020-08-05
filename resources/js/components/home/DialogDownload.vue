@@ -17,19 +17,24 @@
               <p>{{ $vuetify.lang.t('$vuetify.download.loadedDescription') }}</p>
             </div>
 
-            <json-excel
-              :data="stateVehicles"
-              :fields="downloadFields"
-              type="csv"
-              :name="downloadName"
-            >
-              <v-btn color="primary">
-                <v-icon left>
-                  {{ mdiSvg.download }}
-                </v-icon>
-                {{ $vuetify.lang.t('$vuetify.download.downloadButton') }}
-              </v-btn>
-            </json-excel>
+            <div
+              class="pa-2 warning body-2 rounded"
+              v-text="$vuetify.lang.t('$vuetify.download.loadedNotAvailable')"
+            />
+
+            <!--            <json-excel-->
+            <!--              :data="stateVehicles"-->
+            <!--              :fields="downloadFields"-->
+            <!--              type="csv"-->
+            <!--              :name="downloadName"-->
+            <!--            >-->
+            <!--              <v-btn color="primary">-->
+            <!--                <v-icon left>-->
+            <!--                  {{ mdiSvg.download }}-->
+            <!--                </v-icon>-->
+            <!--                {{ $vuetify.lang.t('$vuetify.download.downloadButton') }}-->
+            <!--              </v-btn>-->
+            <!--            </json-excel>-->
           </v-col>
           <v-col
             cols="12"
@@ -68,7 +73,7 @@
 
 <script>
   import collect from 'collect.js'
-  import JsonExcel from 'vue-json-excel'
+  // import JsonExcel from 'vue-json-excel'
   import { VDialog, VCard, VCardTitle, VCardText, VRow, VCol, VBtn, VIcon, VSelect } from 'vuetify/lib'
   import { mdiDownload } from '@mdi/js'
 
@@ -83,7 +88,7 @@
       VBtn,
       VIcon,
       VSelect,
-      JsonExcel,
+      // JsonExcel,
     },
     props: {
       dialogOpen: Boolean,

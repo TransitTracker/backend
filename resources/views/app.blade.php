@@ -36,6 +36,13 @@
 
         <link rel="preconnect" href="{{ env('MIX_MATOMO_HOST') }}">
         <link rel="dns-prefetch" href="{{ env('MIX_MATOMO_HOST') }}">
+
+        <link rel="prefetch" href="{{ mix('js/home.js') }}" as="script">
+        <link rel="prefetch" href="{{ mix('js/map.js') }}" as="script">
+        <link rel="prefetch" href="{{ mix('js/table.js') }}" as="script">
+        <link rel="prefetch" href="{{ mix('js/settings.js') }}" as="script">
+        <link rel="prefetch" href="{{ mix('js/alert.js') }}" as="script">
+        <link rel="prefetch" href="{{ mix('js/configuration.js') }}" as="script">
     </head>
     <body>
         <noscript>

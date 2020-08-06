@@ -126,9 +126,9 @@
   import Echo from 'laravel-echo'
   // eslint-disable-next-line no-unused-vars
   import Pusher from 'pusher-js'
-  const AlertBanner = () => import(/* webpackChunkName: 'alert' */ './components/app/AlertBanner')
-  const AlertDialog = () => import(/* webpackChunkName: 'alert' */'./components/app/AlertDialog')
-  const DialogConfiguration = () => import(/* webpackChunkName: 'configuration' */'./components/app/DialogConfiguration')
+  const AlertBanner = () => import(/* webpackChunkName: 'js/alert' */ './components/app/AlertBanner')
+  const AlertDialog = () => import(/* webpackChunkName: 'js/alert' */'./components/app/AlertDialog')
+  const DialogConfiguration = () => import(/* webpackChunkName: 'js/configuration' */'./components/app/DialogConfiguration')
 
   // Define default axios base URL
   axios.defaults.baseURL = process.env.MIX_API_ENDPOINT

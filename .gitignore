@@ -21,5 +21,6 @@ yarn-error.log
 /public/fonts/vendor
 /public/vendor
 /public/packages
+/public/vendors~js
 /public/mix-manifest.json
 .php_cs.cache

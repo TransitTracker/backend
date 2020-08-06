@@ -17,11 +17,11 @@ mix.extend('i18n', new class {
       {
         resourceQuery: /blockType=i18n/,
         type: 'javascript/auto',
-        loader: '@kazupon/vue-i18n-loader'
-      }
+        loader: '@kazupon/vue-i18n-loader',
+      },
     ]
   }
-})
+}())
 
 mix.webpackConfig({
   module: {
@@ -30,17 +30,19 @@ mix.webpackConfig({
         enforce: 'pre',
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
-        exclude: /node_modules/
-      }
-    ]
+        exclude: /node_modules/,
+      },
+    ],
   },
   output: {
-    publicPath: ''
-  }
+    publicPath: '',
+    // publicPath: 'js',
+    chunkFilename: '[name].js?id=[chunkhash]',
+  },
 })
 
 mix.babelConfig({
-  plugins: ['@babel/plugin-syntax-dynamic-import']
+  plugins: ['@babel/plugin-syntax-dynamic-import'],
 })
 
 mix.js('resources/js/app.js', 'public/js')

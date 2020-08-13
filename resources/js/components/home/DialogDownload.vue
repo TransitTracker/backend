@@ -173,7 +173,7 @@
                 <v-icon left>
                   {{ mdiSvg.download }}
                 </v-icon>
-                {{ $vuetify.lang.t('$vuetify.download.downloadButton') }}
+                {{ $vuetify.lang.t('$vuetify.download.downloadBtn') }}
               </v-btn>
             </json-excel>
           </div>

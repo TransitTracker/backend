@@ -41,6 +41,9 @@ class AgencyRequest extends FormRequest
             'header_value' => '',
             'param_name' => '',
             'param_value' => '',
+            'license_title' => 'required',
+            'license_url' => '',
+            'is_downloadable' => '',
         ];
     }
 

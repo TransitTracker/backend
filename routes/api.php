@@ -69,6 +69,10 @@ Route::get('/dump/{agency}', function (Agency $agency) {
         app('debugbar')->disable();
     }
 
+    if ((bool) ! $agency->license['is_downloadable']) {
+        return response()->json(['message' => 'Download not allowed for this agency.'], 403);
+    }
+
     $fields = ['agency.slug', 'vehicle', 'route', 'gtfs_trip', 'lat', 'lon', 'trip.trip_headsign',
         'trip.trip_short_name', 'trip.route_long_name', 'trip.service.service_id', 'bearing', 'speed', 'start',
         'status', 'current_stop_sequence', 'created_at', 'updated_at', 'relationship', 'label', 'plate', 'odometer',

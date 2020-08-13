@@ -159,6 +159,30 @@ class AgencyCrudController extends CrudController
                 'fake' => true,
                 'store_in' => 'realtime_options',
             ],
+            [
+                'name' => 'license_title',
+                'type' => 'text',
+                'label' => 'License title',
+                'tab' => 'License',
+                'fake' => true,
+                'store_in' => 'license',
+            ],
+            [
+                'name' => 'license_url',
+                'type' => 'text',
+                'label' => 'License URL',
+                'tab' => 'License',
+                'fake' => true,
+                'store_in' => 'license',
+            ],
+            [
+                'name' => 'is_downloadable',
+                'type' => 'checkbox',
+                'label' => 'Downloadble',
+                'tab' => 'License',
+                'fake' => true,
+                'store_in' => 'license',
+            ],
         ]);
     }
 

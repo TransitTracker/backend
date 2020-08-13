@@ -23,6 +23,7 @@ class AgencyResource extends JsonResource
             'slug' => $this->slug,
             'is_active' => $this->is_active,
             'region' => $this->region->slug,
+            'license' => $this->license,
         ];
     }
 }

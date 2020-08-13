@@ -17,7 +17,9 @@ class Agency extends Model
      * @var array
      */
     protected $fillable = ['name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type', 'realtime_options',
-                            'color', 'text_color', 'vehicles_type', 'is_active', 'region_id', ];
+                            'color', 'text_color', 'vehicles_type', 'is_active', 'region_id', 'license', ];
+
+    protected $fakeColumns = ['license'];
 
     /**
      * The attributes that should be cast to native types.
@@ -26,6 +28,7 @@ class Agency extends Model
      */
     protected $casts = [
         'tags' => 'array',
+        'license' => 'array',
     ];
 
     /**

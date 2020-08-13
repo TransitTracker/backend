@@ -74,13 +74,14 @@ Route::get('/dump/{agency}', function (Agency $agency) {
     }
 
     $fields = ['agency.slug', 'vehicle', 'route', 'gtfs_trip', 'lat', 'lon', 'trip.trip_headsign',
-        'trip.trip_short_name', 'trip.route_long_name', 'trip.service.service_id', 'bearing', 'speed', 'start',
-        'status', 'current_stop_sequence', 'created_at', 'updated_at', 'relationship', 'label', 'plate', 'odometer',
-        'timestamp', 'congestion', 'occupancy', ];
+        'trip.trip_short_name', 'trip.route_short_name', 'trip.route_long_name', 'trip.service.service_id', 'bearing',
+        'speed', 'start', 'status', 'current_stop_sequence', 'created_at', 'updated_at', 'relationship', 'label',
+        'plate', 'odometer', 'timestamp', 'congestion', 'occupancy', ];
 
     $vehicles = Vehicle::where('agency_id', $agency->id)->get();
 
-    $fileName = 'mtltt-dump-'.$agency->slug.'-'.date('Ymd_Hi').'.csv';
+    $date = date('Ymd_Hi');
+    $fileName = "tt-dump-{$agency->slug}-{$date}.csv";
 
     $csvExporter = new Export();
 

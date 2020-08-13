@@ -1,7 +1,7 @@
 <template>
   <v-banner
     v-if="stateAlert.isVisible"
-    :color="stateAlert.data.color"
+    :color="alertColor"
     :icon="mdiSvg[stateAlert.data.icon]"
     :dark="isDark"
     single-line
@@ -51,6 +51,13 @@
       },
     }),
     computed: {
+      alertColor () {
+        return this.isDark && this.$vuetify.theme.dark
+          ? ''
+          : this.isDark
+            ? 'grey darken-4'
+            : this.stateAlert.data.color
+      },
       stateAlert () {
         return this.$store.state.alert
       },

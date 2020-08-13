@@ -117,7 +117,8 @@ class RefreshForGTFS implements ShouldQueue
             }
 
             // vehicle->label
-            if ($label = $vehicle->getVehicle()->getLabel()) {
+            // Don't use the label feed for GO Transit vehicles
+            if ($label = $vehicle->getVehicle()->getLabel() && $this->agency->slug !== 'go') {
                 $newVehicle['label'] = $label;
             } else {
                 $newVehicle['label'] = null;
@@ -210,7 +211,7 @@ class RefreshForGTFS implements ShouldQueue
              * Create or update the vehicle model
              */
             try {
-                Vehicle::updateOrCreate(['vehicle' => $entity->getId(), 'agency_id' => $this->agency->id], $newVehicle);
+                Vehicle::updateOrCreate(['vehicle' => $vehicle->getVehicle()->getId(), 'agency_id' => $this->agency->id], $newVehicle);
             } catch (Exception $e) {
                 Log::error('Vehicle in the refresh failed', [
                     'agency' => $this->agency->slug,

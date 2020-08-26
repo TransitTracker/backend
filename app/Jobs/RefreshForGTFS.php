@@ -117,8 +117,8 @@ class RefreshForGTFS implements ShouldQueue
             }
 
             // vehicle->label
-            // Don't use the label feed for GO Transit, Hamilton, Burlington or Brampton vehicles
-            if ($label = $vehicle->getVehicle()->getLabel() && ! in_array($this->agency->slug, ['go', 'hsr', 'bur', 'bra'])) {
+            // Don't use the label feed for GO Transit, Hamilton, Burlington, Brampton, Barrie or Guelph vehicles
+            if ($label = $vehicle->getVehicle()->getLabel() && ! in_array($this->agency->slug, ['go', 'hsr', 'bur', 'bra', 'bt', 'gt'])) {
                 $newVehicle['label'] = $label;
             } else {
                 $newVehicle['label'] = null;

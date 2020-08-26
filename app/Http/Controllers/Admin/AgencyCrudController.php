@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Operations\RefreshOperation;
 use App\Http\Controllers\Admin\Operations\UpdateGtfsOperation;
+use App\Http\Controllers\Admin\Operations\UpdateIconsOperation;
 use App\Http\Requests\AgencyRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -21,6 +22,7 @@ class AgencyCrudController extends CrudController
     use CreateOperation;
     use UpdateOperation;
     use DeleteOperation;
+    use UpdateIconsOperation;
     use UpdateGtfsOperation;
     use RefreshOperation;
 

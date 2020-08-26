@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Jobs\UpdateMapboxIcons;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -152,7 +153,10 @@ class Agency extends Model
         static::updated(function ($agency) {
             ResponseCache::forget('/api/regions');
             ResponseCache::forget('/api/vehicles/'.$agency->slug);
-            ResponseCache::forget('/api/geojson/'.$agency->slug);
+        });
+
+        static::created(function ($agency) {
+            UpdateMapboxIcons::dispatch($agency)->onQueue('gtfs');
         });
     }
 }

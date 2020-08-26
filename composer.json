@@ -28,6 +28,7 @@
         "league/csv": "^9.6",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^4.1",
+        "readme/metrics": "^2.0",
         "sentry/sentry-laravel": "^1.7",
         "spatie/flysystem-dropbox": "^1.2",
         "spatie/laravel-backup": "^6.10",

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use League\Csv\Reader;
 use ZipArchive;
 
 class ExtractAndDispatchGtfs implements ShouldQueue
@@ -62,7 +63,12 @@ class ExtractAndDispatchGtfs implements ShouldQueue
             // Open and dispatch trips
             $trips = $zip->getFromName('trips.txt');
             file_put_contents($extractFolder.'/trips.txt', $trips);
-            ProcessGtfsTrips::dispatch($this->agency, $extractFolder.'/trips.txt')->onQueue('gtfs');
+            $tripsReader = Reader::createFromPath($extractFolder.'/trips.txt')->setHeaderOffset(0);
+            // Make sure there is never more than 50000 trips per job
+            $numberOfTripsStatement = ceil(count($tripsReader) / 50000);
+            for ($i = 0; $i <= $numberOfTripsStatement - 1; $i++) {
+                ProcessGtfsTrips::dispatch($this->agency, $extractFolder.'/trips.txt', $i * 50000)->onQueue('gtfs');
+            }
 
             // Open and dispatch shapes (if any)
             $shapes = $zip->getFromName('shapes.txt');

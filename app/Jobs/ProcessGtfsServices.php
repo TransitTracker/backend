@@ -49,7 +49,7 @@ class ProcessGtfsServices implements ShouldQueue
             foreach ($servicesReader->getRecords() as $service) {
                 // If the service is already finish, don't add it
                 if (Carbon::parse($service['end_date'])->isPast()) {
-                    break;
+                    continue;
                 }
 
                 // Prepare a new array to update or create the service model

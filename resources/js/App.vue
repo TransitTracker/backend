@@ -307,11 +307,10 @@
           this.echo = new Echo({
             broadcaster: 'pusher',
             key: process.env.MIX_PUSHER_APP_KEY,
-            cluster: 'us2',
-            // wsHost: process.env.MIX_LARAVEL_WEBSOCKETS_HOST,
-            // wsPort: 6001,
-            // disableStats: true,
-            forceTLS: true,
+            wsHost: process.env.MIX_LARAVEL_WEBSOCKETS_HOST,
+            wsPort: 6001,
+            disableStats: true,
+            forceTLS: false,
           })
         }
 

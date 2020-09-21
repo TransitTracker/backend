@@ -15,6 +15,7 @@
         "backpack/crud": "^4.1",
         "backpack/logmanager": "^4.0",
         "bensampo/laravel-enum": "^2.1",
+        "beyondcode/laravel-websockets": "^1.8",
         "doctrine/dbal": "^2.10",
         "felixinx/gtfs-realtime-protobuf-php": "@dev",
         "fideloper/proxy": "^4.4",

@@ -7,7 +7,7 @@
             {{ $vuetify.lang.t('$vuetify.home.welcome') }} Transit&nbsp;Tracker
           </h1>
           <h2 class="text-subtitle-1">
-            {{ $vuetify.lang.t('$vuetify.home.version') }} 2.3.4
+            {{ $vuetify.lang.t('$vuetify.home.version') }} 2.3.5+001
           </h2>
           <v-btn
             icon

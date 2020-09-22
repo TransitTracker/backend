@@ -74,9 +74,14 @@
       refreshEvent: {
         deep: true,
         handler (val, oldVal) {
-          // Updating map source when auto refresh sends event
-          console.log(`Updating map source for ${val.slug}`)
-          this.map.getSource(`source-${val.slug}`).setData(this.stateGeojsonData[val.slug])
+          // If there is no val, do not update map
+          if (typeof val === 'object' && this.map.getSource(`source-${val.slug}`)) {
+            // Updating map source when auto refresh sends event
+            console.log(`Updating map source for ${val.slug}`)
+            this.map.getSource(`source-${val.slug}`).setData(this.stateGeojsonData[val.slug])
+          } else if (typeof val === 'object') {
+            // TODO: addAgencyLayers
+          }
         },
       },
       stateActiveRegionSlug: {
@@ -91,7 +96,8 @@
     mounted () {
       this.mapbox = Mapbox
       this.mapbox.accessToken = 'pk.eyJ1IjoiZmVsaXhpbngiLCJhIjoiY2lqYzJoMW9vMDA1dnZsa3F3cmZzcWVsciJ9.ZWBQm52vI7RFRwGuoAzwMg'
-
+      // Sometimes the component is mounted before having an active region. In that case, just zoom to a default place.
+      // TODO: improve with standalone version
       this.map = new this.mapbox.Map({
         container: 'map',
         style: this.mapStyle,
@@ -132,7 +138,11 @@
             'line-width': 3,
           },
         })
-        this.loadMapLayers()
+
+        // Add layers for all active agencies
+        this.stateActiveAgencies.forEach(agency => {
+          this.addAgencyLayers(agency)
+        })
         if (this.stateSelectedVehicle.id) {
           this.selectMarker({
             geometry: { coordinates: this.stateSelectedVehicle.coordinates },
@@ -142,48 +152,45 @@
       })
     },
     methods: {
-      loadMapLayers () {
-        // Add layers for all active agencies
-        this.stateActiveAgencies.forEach(agency => {
-          // Add map source
-          this.map.addSource(`source-${agency.slug}`, {
-            type: 'geojson',
-            data: this.stateGeojsonData[agency.slug],
-          })
-          // Add map layers
-          this.map.addLayer({
-            id: `layer-${agency.slug}`,
-            type: 'symbol',
-            source: `source-${agency.slug}`,
-            minzoom: 11,
-            layout: {
-              'icon-allow-overlap': true,
-              'icon-anchor': 'bottom',
-              'icon-image': `tt-${agency.slug}-{marker-symbol}`,
-            },
-          })
-          this.map.addLayer({
-            id: `circles-${agency.slug}`,
-            type: 'circle',
-            source: `source-${agency.slug}`,
-            maxzoom: 11,
-            paint: {
-              'circle-radius': 5,
-              'circle-stroke-color': agency.text_color,
-              'circle-stroke-width': 0.5,
-              'circle-color': agency.color,
-            },
-          })
-          // Add map events
-          this.map.on('click', `layer-${agency.slug}`, e => {
-            this.selectMarker(e.features[0], agency)
-          })
-          this.map.on('mouseenter', `layer-${agency.slug}`, e => {
-            this.map.getCanvas().style.cursor = 'pointer'
-          })
-          this.map.on('mouseleave', `layer-${agency.slug}`, e => {
-            this.map.getCanvas().style.cursor = ''
-          })
+      addAgencyLayers (agency) {
+        // Add map source
+        this.map.addSource(`source-${agency.slug}`, {
+          type: 'geojson',
+          data: this.stateGeojsonData[agency.slug],
+        })
+        // Add map layers
+        this.map.addLayer({
+          id: `layer-${agency.slug}`,
+          type: 'symbol',
+          source: `source-${agency.slug}`,
+          minzoom: 11,
+          layout: {
+            'icon-allow-overlap': true,
+            'icon-anchor': 'bottom',
+            'icon-image': `tt-${agency.slug}-{marker-symbol}`,
+          },
+        })
+        this.map.addLayer({
+          id: `circles-${agency.slug}`,
+          type: 'circle',
+          source: `source-${agency.slug}`,
+          maxzoom: 11,
+          paint: {
+            'circle-radius': 5,
+            'circle-stroke-color': agency.text_color,
+            'circle-stroke-width': 0.5,
+            'circle-color': agency.color,
+          },
+        })
+        // Add map events
+        this.map.on('click', `layer-${agency.slug}`, e => {
+          this.selectMarker(e.features[0], agency)
+        })
+        this.map.on('mouseenter', `layer-${agency.slug}`, e => {
+          this.map.getCanvas().style.cursor = 'pointer'
+        })
+        this.map.on('mouseleave', `layer-${agency.slug}`, e => {
+          this.map.getCanvas().style.cursor = ''
         })
       },
       selectMarker (markerData, agency, zoom = this.map.getZoom()) {

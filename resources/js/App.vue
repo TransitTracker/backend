@@ -239,9 +239,6 @@
         const timestamp = Math.floor(Date.now() / 1000)
         console.log('Loading at ' + timestamp)
 
-        // Redirect user to default path
-        this.$router.push(this.$store.state.settings.defaultPath)
-
         // Load regions and agencies
         axios
           .get('/regions')
@@ -310,7 +307,8 @@
             wsHost: process.env.MIX_LARAVEL_WEBSOCKETS_HOST,
             wsPort: 6001,
             disableStats: true,
-            forceTLS: false,
+            forceTLS: true,
+            enabledTransports: ['ws', 'wss'],
           })
         }
 
@@ -336,6 +334,9 @@
           ['setCustomDimension', 5, this.settings.activeAgencies],
           ['setCustomDimension', 6, this.settings.language],
         )
+
+        // Redirect user to default path
+        this.$router.push(this.$store.state.settings.defaultPath)
       },
       loadVehiclesFromAgency (agencySlug, timestamp) {
         const agency = collect(this.agencies).firstWhere('slug', agencySlug)
@@ -374,7 +375,7 @@
                 }
               })
               .catch((error) => {
-                if (error.response.status === 404) {
+                if (error.response?.status === 404) {
                   // Agency dosen't exist
                   this.removeAgency(agencySlug)
                 }

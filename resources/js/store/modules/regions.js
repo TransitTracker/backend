@@ -22,7 +22,7 @@ const state = {
     map_box: [77.0724, 45.5544],
     map_zoom: 15,
     name: '',
-    slug: '',
+    slug: null,
   },
 }
 

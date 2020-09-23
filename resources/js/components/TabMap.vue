@@ -77,7 +77,6 @@
           // If there is no val, do not update map
           if (typeof val === 'object' && this.map.getSource(`source-${val.slug}`)) {
             // Updating map source when auto refresh sends event
-            console.log(`Updating map source for ${val.slug}`)
             this.map.getSource(`source-${val.slug}`).setData(this.stateGeojsonData[val.slug])
           } else if (typeof val === 'object') {
             // TODO: addAgencyLayers
@@ -87,9 +86,16 @@
       stateActiveRegionSlug: {
         deep: true,
         handler (val, oldVal) {
-          // Refresh router when region changes
-          // TODO: find a better way to handle this use case
-          this.$router.go(0)
+          // When the stateActiveRegion just got added
+          // Fix reloading for when default tab is map
+          if (oldVal === null && val !== null && this.map) {
+            this.stateActiveAgencies.forEach(agency => {
+              this.addAgencyLayers(agency)
+            })
+          // When region changes, zoom to new vehicle
+          } else if (oldVal !== null && val !== null && this.map) {
+            this.$router.push('home')
+          }
         },
       },
     },
@@ -139,10 +145,13 @@
           },
         })
 
-        // Add layers for all active agencies
-        this.stateActiveAgencies.forEach(agency => {
-          this.addAgencyLayers(agency)
-        })
+        // Add layers for all active agencies only if there is an active region
+        if (this.stateActiveRegionSlug !== null) {
+          this.stateActiveAgencies.forEach(agency => {
+            this.addAgencyLayers(agency)
+          })
+        }
+
         if (this.stateSelectedVehicle.id) {
           this.selectMarker({
             geometry: { coordinates: this.stateSelectedVehicle.coordinates },
@@ -153,6 +162,11 @@
     },
     methods: {
       addAgencyLayers (agency) {
+        // Check if there is geojson data
+        if (this.stateGeojsonData[agency.slug] === undefined) {
+          return
+        }
+
         // Add map source
         this.map.addSource(`source-${agency.slug}`, {
           type: 'geojson',

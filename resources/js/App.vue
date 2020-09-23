@@ -226,6 +226,16 @@
       // Change language
       this.$vuetify.lang.current = this.settings.language
 
+      // Redirect user to default path
+      // DO NOT redirect if default path is home
+      // TODO: fix the map issue
+      const defaultPath = this.$store.state.settings.defaultPath
+      if (defaultPath !== '/map') {
+        this.$router.push(defaultPath)
+      } else {
+        this.$router.push('/')
+      }
+
     // Service worker will be disabled for this version (check app.blade.php)
     // TODO: bring back service worker
     },
@@ -334,9 +344,6 @@
           ['setCustomDimension', 5, this.settings.activeAgencies],
           ['setCustomDimension', 6, this.settings.language],
         )
-
-        // Redirect user to default path
-        this.$router.push(this.$store.state.settings.defaultPath)
       },
       loadVehiclesFromAgency (agencySlug, timestamp) {
         const agency = collect(this.agencies).firstWhere('slug', agencySlug)

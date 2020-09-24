@@ -1,7 +1,7 @@
 {
     "name": "transit-tracker",
     "author": "Félix Desjardins",
-    "version": "2.3.5+002",
+    "version": "2.3.5",
     "private": true,
     "scripts": {
         "dev": "npm run development",

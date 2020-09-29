@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +18,6 @@ class Route extends Model
      */
     public function agency()
     {
-        return $this->belongsTo('App\Agency');
+        return $this->belongsTo(Agency::class);
     }
 }

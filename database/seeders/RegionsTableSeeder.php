@@ -1,6 +1,8 @@
 <?php
 
-use App\Region;
+namespace Database\Seeders;
+
+use App\Models\Region;
 use Illuminate\Database\Seeder;
 
 class RegionsTableSeeder extends Seeder

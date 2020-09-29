@@ -2,10 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Agency;
-use App\Route;
-use App\Service;
-use App\Trip;
+use App\Models\Agency;
+use App\Models\Route;
+use App\Models\Service;
+use App\Models\Trip;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

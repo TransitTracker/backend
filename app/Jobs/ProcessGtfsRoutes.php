@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Agency;
-use App\Route;
+use App\Models\Agency;
+use App\Models\Route;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

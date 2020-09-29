@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Operations;
 
-use App\Alert;
+use App\Models\Alert;
 use Illuminate\Support\Facades\Route;
 
 trait MakeActiveOperation

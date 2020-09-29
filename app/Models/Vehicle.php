@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,7 +33,7 @@ class Vehicle extends Model
      */
     public function agency()
     {
-        return $this->belongsTo('App\Agency');
+        return $this->belongsTo(Agency::class);
     }
 
     /**
@@ -41,12 +41,12 @@ class Vehicle extends Model
      */
     public function trip()
     {
-        return $this->belongsTo('App\Trip')->withDefault();
+        return $this->belongsTo(Trip::class)->withDefault();
     }
 
     public function links()
     {
-        return $this->belongsToMany('App\Link');
+        return $this->belongsToMany(Link::class);
     }
 
     /**

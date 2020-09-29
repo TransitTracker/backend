@@ -24,7 +24,7 @@ class RegionCrudController extends CrudController
 
     public function setup()
     {
-        $this->crud->setModel('App\Region');
+        $this->crud->setModel('App\Models\Region');
         $this->crud->setRoute(config('backpack.base.route_prefix').'/region');
         $this->crud->setEntityNameStrings('region', 'regions');
     }

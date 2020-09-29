@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Agency;
-use App\Service;
+use App\Models\Agency;
+use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

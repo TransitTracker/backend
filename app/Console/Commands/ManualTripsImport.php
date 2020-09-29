@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Route;
-use App\Service;
-use App\Trip;
+use App\Models\Route;
+use App\Models\Service;
+use App\Models\Trip;
 use Illuminate\Console\Command;
 use League\Csv\Reader;
 

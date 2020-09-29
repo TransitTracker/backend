@@ -1,6 +1,6 @@
 <?php
 
-use App\Agency;
+use App\Models\Agency;
 use Illuminate\Database\Migrations\Migration;
 
 class ChangeRegionRealtimeOptions extends Migration

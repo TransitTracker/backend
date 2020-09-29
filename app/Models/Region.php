@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
@@ -37,7 +37,7 @@ class Region extends Model
      */
     public function agencies()
     {
-        return $this->hasMany('App\Agency');
+        return $this->hasMany(Agency::class);
     }
 
     /**
@@ -45,7 +45,7 @@ class Region extends Model
      */
     public function activeAgencies()
     {
-        return $this->hasMany('App\Agency')->active();
+        return $this->hasMany(Agency::class)->active();
     }
 
     /**
@@ -53,7 +53,7 @@ class Region extends Model
      */
     public function alerts()
     {
-        return $this->belongsToMany('App\Alert');
+        return $this->belongsToMany(Alert::class);
     }
 
     /**
@@ -61,7 +61,7 @@ class Region extends Model
      */
     public function stats()
     {
-        return $this->hasMany('App\Stat');
+        return $this->hasMany(Stat::class);
     }
 
     protected static function booted()

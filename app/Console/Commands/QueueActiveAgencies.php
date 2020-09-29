@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Agency;
+use App\Models\Agency;
 use App\Jobs\DispatchAgencies;
 use Illuminate\Console\Command;
 

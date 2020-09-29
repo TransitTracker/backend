@@ -26,7 +26,7 @@ class AlertCrudController extends CrudController
 
     public function setup()
     {
-        $this->crud->setModel('App\Alert');
+        $this->crud->setModel('App\Models\Alert');
         $this->crud->setRoute(config('backpack.base.route_prefix').'/alert');
         $this->crud->setEntityNameStrings('alert', 'alerts');
     }

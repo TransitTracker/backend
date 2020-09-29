@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +25,7 @@ class Service extends Model
      */
     public function agency()
     {
-        return $this->belongsTo('App\Agency');
+        return $this->belongsTo(Agency::class);
     }
 
     /**
@@ -33,6 +33,6 @@ class Service extends Model
      */
     public function trips()
     {
-        return $this->hasMany('App\Trip');
+        return $this->hasMany(Trip::class);
     }
 }

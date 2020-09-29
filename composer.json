@@ -14,23 +14,23 @@
         "ext-zip": "*",
         "backpack/crud": "^4.1",
         "backpack/logmanager": "^4.0",
-        "bensampo/laravel-enum": "^2.1",
+        "bensampo/laravel-enum": "^3.0",
         "beyondcode/laravel-websockets": "^1.8",
         "doctrine/dbal": "^2.10",
         "felixinx/gtfs-realtime-protobuf-php": "@dev",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^6.5",
-        "laravel/framework": "^7.22",
-        "laravel/horizon": "^4.3",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "laravel/framework": "^8.0",
+        "laravel/horizon": "^5.0",
         "laravel/slack-notification-channel": "^2.1",
         "laravel/tinker": "^2.4",
-        "laravel/ui": "^2.1",
+        "laravel/ui": "^3.0",
         "league/csv": "^9.6",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^4.1",
-        "readme/metrics": "^2.0",
-        "sentry/sentry-laravel": "^1.7",
+        "readme/metrics": "^4.0",
+        "sentry/sentry-laravel": "^2.0",
         "spatie/flysystem-dropbox": "^1.2",
         "spatie/laravel-backup": "^6.10",
         "spatie/laravel-responsecache": "^6.6",
@@ -44,9 +44,9 @@
         "barryvdh/laravel-ide-helper": "^2.7",
         "facade/ignition": "^2.3",
         "fzaninotto/faker": "^1.9",
-        "matt-allan/laravel-code-style": "^0.5.1",
+        "matt-allan/laravel-code-style": "^0.6",
         "mockery/mockery": "^1.4",
-        "nunomaduro/collision": "^4.2",
+        "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.2"
     },
     "config": {
@@ -62,12 +62,10 @@
     "autoload": {
         "psr-4": {
             "FelixINX\\TransitRealtime\\": "packages/felixinx/gtfs-realtime-protobuf-src/src",
-            "App\\": "app/"
-        },
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ]
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
     },
     "autoload-dev": {
         "psr-4": {

@@ -24,7 +24,7 @@ class LinkCrudController extends CrudController
 
     public function setup()
     {
-        $this->crud->setModel('App\Link');
+        $this->crud->setModel('App\Models\Link');
         $this->crud->setRoute(config('backpack.base.route_prefix').'/link');
         $this->crud->setEntityNameStrings('link', 'links');
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\FailedJob;
+use App\Models\FailedJob;
 
 class SnoozeFailedJobController extends Controller
 {

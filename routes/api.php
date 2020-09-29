@@ -1,14 +1,14 @@
 <?php
 
-use App\Agency;
-use App\Alert;
+use App\Models\Agency;
+use App\Models\Alert;
 use App\Http\Resources\AlertResource;
 use App\Http\Resources\LinkResource;
 use App\Http\Resources\RegionResource;
 use App\Http\Resources\VehiclesCollection;
-use App\Link;
-use App\Region;
-use App\Vehicle;
+use App\Models\Link;
+use App\Models\Region;
+use App\Models\Vehicle;
 use Laracsv\Export;
 
 /*

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
@@ -18,7 +18,7 @@ class Alert extends Model
 
     public function regions()
     {
-        return $this->belongsToMany('App\Region');
+        return $this->belongsToMany(Region::class);
     }
 
     protected static function booted()

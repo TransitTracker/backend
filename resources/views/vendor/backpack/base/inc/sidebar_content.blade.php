@@ -6,3 +6,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('vehicle') }}'><i class='nav-icon la la-bus'></i> Vehicles</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('link') }}'><i class='nav-icon la la-link'></i> Links</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('log') }}'><i class='nav-icon la la-terminal'></i> Logs</a></li>
+<li class='nav-item bg-secondary'><a class='nav-link d-flex align-center' href='/horizon' target="_blank"><i class='nav-icon la la-microchip'></i> <span class="flex-grow-1">Horizon</span> <i class="nav-icon la la-external-link-alt"></i></a></li>

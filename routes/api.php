@@ -86,7 +86,7 @@ Route::get('/dump/{agency}', function (Agency $agency) {
     $csvExporter = new Export();
 
     return $csvExporter->build($vehicles, $fields)->download($fileName);
-})->middleware("throttle:{$totalAgencies},60,dump", 'cacheResponse:3600')->name('tt.api.dump');
+})->middleware("throttle:{$totalAgencies},60,dump")->name('tt.api.dump');
 
 /*
  * Links

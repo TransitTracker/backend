@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\FailedJob;
+use App\Models\FailedJob;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;

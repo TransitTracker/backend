@@ -33,7 +33,7 @@
                 'wrapper' => ['class' => 'col-12'],
                 'color' => 'dark',
                 'icon' => 'la la-exclamation-triangle',
-                'total' => strval(count(\App\Alert::select('id')->get())),
+                'total' => strval(count(\App\Models\Alert::select('id')->get())),
                 'description' => 'Alerts',
                 'link' => backpack_url('alert')
             ],
@@ -42,7 +42,7 @@
                 'wrapper' => ['class' => 'col-md-6 col-sm-4'],
                 'color' => 'primary',
                 'icon' => 'la la-map-signs',
-                'total' => strval(count(\App\Region::select('id')->get())),
+                'total' => strval(count(\App\Models\Region::select('id')->get())),
                 'description' => 'Regions',
                 'link' => backpack_url('region')
             ],
@@ -52,8 +52,8 @@
                 'color' => 'primary',
                 'text-color' => 'muted',
                 'icon' => 'la la-warehouse',
-                'progress' => strval(count(\App\Agency::where('is_active', true)->select('id')->get())),
-                'total' => strval(count(\App\Agency::select('id')->get())),
+                'progress' => strval(count(\App\Models\Agency::where('is_active', true)->select('id')->get())),
+                'total' => strval(count(\App\Models\Agency::select('id')->get())),
                 'description' => 'Agencies',
                 'link' => backpack_url('agency')
             ],
@@ -63,8 +63,8 @@
                 'color' => 'primary',
                 'text-color' => 'muted',
                 'icon' => 'la la-bus',
-                'progress' => strval(count(\App\Vehicle::where('active', true)->select('id')->get())),
-                'total' => strval(count(\App\Vehicle::select('id')->get())),
+                'progress' => strval(count(\App\Models\Vehicle::where('active', true)->select('id')->get())),
+                'total' => strval(count(\App\Models\Vehicle::select('id')->get())),
                 'description' => 'Vehicles',
                 'link' => backpack_url('vehicle')
             ],
@@ -73,7 +73,7 @@
                 'wrapper' => ['class' => 'col-md-6 col-sm-4'],
                 'color' => 'primary',
                 'icon' => 'la la-link',
-                'total' => strval(count(\App\Link::select('id')->get())),
+                'total' => strval(count(\App\Models\Link::select('id')->get())),
                 'description' => 'Links',
                 'link' => backpack_url('link')
             ]

@@ -2,11 +2,11 @@
 
 namespace App\Jobs;
 
-use App\Agency;
+use App\Models\Agency;
 use App\Events\VehiclesUpdated;
-use App\Stat;
-use App\Trip;
-use App\Vehicle;
+use App\Models\Stat;
+use App\Models\Trip;
+use App\Models\Vehicle;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

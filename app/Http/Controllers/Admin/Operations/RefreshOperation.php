@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Operations;
 
-use App\Agency;
+use App\Models\Agency;
 use App\Jobs\DispatchAgencies;
 use Illuminate\Support\Facades\Route;
 

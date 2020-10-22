@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Agency;
+use App\Models\Agency;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

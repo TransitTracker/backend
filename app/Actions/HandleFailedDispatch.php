@@ -2,8 +2,8 @@
 
 namespace App\Actions;
 
-use App\Agency;
-use App\FailedJob;
+use App\Models\Agency;
+use App\Models\FailedJob;
 use App\Mail\DispatchFailed;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\RequestException;

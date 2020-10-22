@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Agency;
+use App\Models\Agency;
 use App\Jobs\DispatchAgencies;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;

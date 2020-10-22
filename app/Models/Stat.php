@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +27,6 @@ class Stat extends Model
      */
     public function region()
     {
-        return $this->belongsTo('App\Region');
+        return $this->belongsTo(Region::class);
     }
 }

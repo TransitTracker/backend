@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Models\Vehicle;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
@@ -18,12 +19,12 @@ class Link extends Model
 
     public function agencies()
     {
-        return $this->belongsToMany('App\Agency');
+        return $this->belongsToMany(Agency::class);
     }
 
     public function vehicles()
     {
-        return $this->belongsToMany('App\Vehicle');
+        return $this->belongsToMany(Vehicle::class);
     }
 
     protected static function booted()

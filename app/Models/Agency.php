@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Jobs\UpdateMapboxIcons;
+use App\Models\Vehicle;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -37,7 +38,7 @@ class Agency extends Model
      */
     public function vehicles()
     {
-        return $this->hasMany('App\Vehicle');
+        return $this->hasMany(Vehicle::class);
     }
 
     /**
@@ -45,7 +46,7 @@ class Agency extends Model
      */
     public function trips()
     {
-        return $this->hasMany('App\Trip');
+        return $this->hasMany(Trip::class);
     }
 
     /**
@@ -53,7 +54,7 @@ class Agency extends Model
      */
     public function routes()
     {
-        return $this->hasMany('App\Route');
+        return $this->hasMany(Route::class);
     }
 
     /**
@@ -61,7 +62,7 @@ class Agency extends Model
      */
     public function services()
     {
-        return $this->hasMany('App\Service');
+        return $this->hasMany(Service::class);
     }
 
     /**
@@ -69,12 +70,12 @@ class Agency extends Model
      */
     public function region()
     {
-        return $this->belongsTo('App\Region');
+        return $this->belongsTo(Region::class);
     }
 
     public function links()
     {
-        return $this->belongsToMany('App\Link');
+        return $this->belongsToMany(Link::class);
     }
 
     /**

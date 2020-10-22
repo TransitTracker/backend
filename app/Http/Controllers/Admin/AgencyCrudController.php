@@ -28,14 +28,14 @@ class AgencyCrudController extends CrudController
 
     public function setup()
     {
-        $this->crud->setModel('App\Agency');
+        $this->crud->setModel('App\Models\Agency');
         $this->crud->setRoute(config('backpack.base.route_prefix').'/agency');
         $this->crud->setEntityNameStrings('agency', 'agencies');
     }
 
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['id', 'name', 'slug', 'region.slug']);
+        $this->crud->setColumns(['id', 'name', 'slug', 'region.slug', 'is_active']);
     }
 
     protected function setupCreateOperation()

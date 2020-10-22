@@ -1,77 +1,80 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   style="isolation:isolate"
-   viewBox="0 0 295.012 403.72198"
-   width="295.01199pt"
-   height="403.72198pt"
-   version="1.1"
-   id="svg2980"
-   sodipodi:docname="logo.svg"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
-  <metadata
-     id="metadata2986">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <defs
-     id="defs2984" />
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1044"
-     id="namedview2982"
-     showgrid="false"
-     inkscape:zoom="1.251579"
-     inkscape:cx="282.07076"
-     inkscape:cy="277.73596"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg2980"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0" />
-  <g
-     id="g2978"
-     transform="translate(1.875,1.875)">
-    <g
-       id="g2972">
-      <path
-         d="M 291.262,145.631 C 291.262,65.291 225.971,0 145.631,0 65.291,0 0,65.291 0,145.631 c 0,84.709 87.864,198.786 126.942,245.631 9.708,11.651 27.427,11.651 37.136,0 39.32,-46.845 127.184,-160.922 127.184,-245.631 z"
-         id="path2970"
-         style="fill:#2374ab;stroke:#2374ab;stroke-width:3.75;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-         inkscape:connector-curvature="0" />
-    </g>
-    <g
-       id="g2976"
-       style="fill:#ffffff;fill-opacity:1">
-      <path
-         d="m 82.473,181.157 c 0,6.948 3.079,13.185 7.895,17.527 v 10.105 c 0,6.553 5.289,11.842 11.842,11.842 6.553,0 11.842,-5.289 11.842,-11.842 v -3.947 h 63.158 v 3.947 c 0,6.474 5.289,11.842 11.842,11.842 6.474,0 11.842,-5.289 11.842,-11.842 v -10.105 c 4.816,-4.342 7.895,-10.579 7.895,-17.527 V 102.21 c 0,-27.632 -28.263,-31.579 -63.158,-31.579 -34.895,0 -63.158,3.947 -63.158,31.579 z m 27.632,7.895 c -6.553,0 -11.842,-5.289 -11.842,-11.842 0,-6.553 5.289,-11.842 11.842,-11.842 6.552,0 11.842,5.289 11.842,11.842 0,6.553 -5.29,11.842 -11.842,11.842 z m 71.052,0 c -6.552,0 -11.842,-5.289 -11.842,-11.842 0,-6.553 5.29,-11.842 11.842,-11.842 6.553,0 11.842,5.289 11.842,11.842 0,6.553 -5.289,11.842 -11.842,11.842 z m 11.842,-47.368 H 98.263 V 102.21 h 94.736 z"
-         id="path2974"
-         inkscape:connector-curvature="0"
-         style="fill:#ffffff;fill-opacity:1" />
-    </g>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" viewBox="0 0 295.012 403.722">
+    <style>
+        /* <![CDATA[ */
+        /* initial state */
+        @keyframes logo-halloween-bus {
+            0% {
+              fill: #000000;
+            }
+            1% {
+              fill: #000000;
+            }
+            2% {
+              fill: #cf7b20;
+            }
+            19% {
+              fill: #cf7b20;
+            }
+            20% {
+              fill: #33110e;
+            }
+            21% {
+              fill: #cf7b20;
+            }
+            74% {
+              fill: #cf7b20;
+            }
+            75% {
+              fill: #000000;
+            }
+            76% {
+              fill: #cf7b20;
+            }
+            100% {
+              fill: #cf7b20;
+            }
+          }
+          @keyframes logo-halloween-pin {
+            0% {
+              fill: #000000;
+            }
+            1% {
+              fill: #000000;
+            }
+            2% {
+              fill: #8d3312;
+            }
+            74% {
+              fill: #8d3312;
+            }
+            75% {
+              fill: #000000;
+            }
+            76% {
+              fill: #8d3312;
+            }
+            100% {
+              fill: #8d3312;
+            }
+          }
+          .bus {
+            animation-name: logo-halloween-bus;
+            animation-duration: 20s;
+            animation-delay: 5s;
+            animation-direction: alternate;
+            animation-iteration-count: 3;
+          }
+          .pin {
+            animation-name: logo-halloween-pin;
+            animation-duration: 20s;
+            animation-delay: 5s;
+            animation-direction: alternate;
+            animation-iteration-count: 3;
+          }
+        /* ]]> */
+    </style>
+    <path fill="#2374ab" class="pin"
+          d="M293.137 147.506c0-80.34-65.291-145.631-145.631-145.631S1.875 67.166 1.875 147.506c0 84.709 87.864 198.786 126.942 245.631 9.708 11.651 27.427 11.651 37.136 0 39.32-46.845 127.184-160.922 127.184-245.631z"/>
+    <path fill="#fff" class="bus"
+          d="M84.348 183.032c0 6.948 3.079 13.185 7.895 17.527v10.105a11.826 11.826 0 0011.842 11.842 11.826 11.826 0 0011.842-11.842v-3.947h63.158v3.947c0 6.474 5.289 11.842 11.842 11.842 6.474 0 11.842-5.289 11.842-11.842v-10.105c4.816-4.342 7.895-10.579 7.895-17.527v-78.947c0-27.632-28.263-31.579-63.158-31.579-34.895 0-63.158 3.947-63.158 31.579zm27.632 7.895a11.826 11.826 0 01-11.842-11.842 11.826 11.826 0 0111.842-11.842 11.826 11.826 0 0111.842 11.842c0 6.553-5.29 11.842-11.842 11.842zm71.052 0a11.826 11.826 0 01-11.842-11.842c0-6.553 5.29-11.842 11.842-11.842a11.826 11.826 0 0111.842 11.842 11.826 11.826 0 01-11.842 11.842zm11.842-47.368h-94.736v-39.474h94.736z"/>
 </svg>

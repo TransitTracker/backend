@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Agency;
-use App\Service;
-use App\Trip;
+use App\Models\Agency;
+use App\Models\Service;
+use App\Models\Trip;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

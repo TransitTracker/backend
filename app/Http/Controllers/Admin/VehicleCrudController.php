@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Agency;
+use App\Models\Agency;
 use App\Http\Controllers\Admin\Operations\BulkSetIconOperation;
 use App\Http\Controllers\Admin\Operations\BulkSetLinkOperation;
-use App\Vehicle;
+use App\Models\Vehicle;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -23,7 +23,7 @@ class VehicleCrudController extends CrudController
 
     public function setup()
     {
-        $this->crud->setModel('App\Vehicle');
+        $this->crud->setModel('App\Models\Vehicle');
         $this->crud->setRoute(config('backpack.base.route_prefix').'/vehicle');
         $this->crud->setEntityNameStrings('vehicle', 'vehicles');
     }

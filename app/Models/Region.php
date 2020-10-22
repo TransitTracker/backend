@@ -68,6 +68,7 @@ class Region extends Model
     {
         static::updated(function ($region) {
             ResponseCache::forget('/api/regions');
+            ResponseCache::forget('/v1/regions');
         });
     }
 }

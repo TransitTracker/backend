@@ -153,7 +153,9 @@ class Agency extends Model
     {
         static::updated(function ($agency) {
             ResponseCache::forget('/api/regions');
+            ResponseCache::forget('/v1/regions');
             ResponseCache::forget('/api/vehicles/'.$agency->slug);
+            ResponseCache::forget('/v1/vehicles/'.$agency->slug);
         });
 
         static::created(function ($agency) {

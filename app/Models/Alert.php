@@ -25,6 +25,7 @@ class Alert extends Model
     {
         static::updated(function ($alert) {
             ResponseCache::forget('/api/alert');
+            ResponseCache::forget('/v1/alert');
         });
     }
 }

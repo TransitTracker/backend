@@ -31,6 +31,7 @@ class Link extends Model
     {
         static::updated(function ($link) {
             ResponseCache::forget('/api/links');
+            ResponseCache::forget('/v1/links');
         });
     }
 }

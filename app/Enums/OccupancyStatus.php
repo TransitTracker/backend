@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
@@ -13,7 +14,7 @@ use BenSampo\Enum\Enum;
  * @method static static FULL()
  * @method static static NOT_ACCEPTING_PASSENGERS()
  */
-final class OccupancyStatus extends Enum
+final class OccupancyStatus extends Enum implements LocalizedEnum
 {
     const EMPTY = 0;
     const MANY_SEATS_AVAILABLE = 1;

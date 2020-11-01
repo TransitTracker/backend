@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
@@ -10,7 +11,7 @@ use BenSampo\Enum\Enum;
  * @method static static UNSCHEDULED()
  * @method static static CANCELED()
  */
-final class ScheduleRelationship extends Enum
+final class ScheduleRelationship extends Enum implements LocalizedEnum
 {
     const SCHEDULED = 0;
     const ADDED = 1;

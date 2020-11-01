@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
@@ -9,7 +10,7 @@ use BenSampo\Enum\Enum;
  * @method static static STOPPED_AT()
  * @method static static IN_TRANSIT_TO()
  */
-final class VehicleStopStatus extends Enum
+final class VehicleStopStatus extends Enum implements LocalizedEnum
 {
     const INCOMING_AT = 0;
     const STOPPED_AT = 1;

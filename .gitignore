@@ -24,3 +24,7 @@ yarn-error.log
 /public/vendors~js
 /public/mix-manifest.json
 .php_cs.cache
+.php_cs
+_ide_helper.php
+_ide_helper_models.php
+.editorconfig

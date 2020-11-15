@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Vehicle;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
@@ -32,6 +31,9 @@ class Link extends Model
         static::updated(function ($link) {
             ResponseCache::forget('/api/links');
             ResponseCache::forget('/v1/links');
+
+            ResponseCache::forget('/v2/links');
+            ResponseCache::forget("/v2/links/{$link->id}");
         });
     }
 }

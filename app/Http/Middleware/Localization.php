@@ -31,10 +31,14 @@ class Localization
 
         if (!$locale) {
             $locale = $this->app->config->get('app.locale');
+        } elseif ($locale === 'fr-CA') {
+            $locale = 'fr';
+        } elseif ($locale === 'en-CA') {
+            $locale = 'en';
         }
 
         if (!array_key_exists($locale, $this->app->config->get('app.supported_languages'))) {
-            return abort(403, 'Language not supported. Try with en-CA or fr-CA.');
+            return abort(403, 'Language not supported. Try with en or fr.');
         }
 
         $this->app->setLocale($locale);

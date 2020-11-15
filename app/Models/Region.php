@@ -73,9 +73,13 @@ class Region extends Model
 
     protected static function booted()
     {
-        static::updated(function () {
+        static::updated(function (Region $region) {
             ResponseCache::forget('/api/regions');
             ResponseCache::forget('/v1/regions');
+
+            ResponseCache::forget('/v2/regions');
+            ResponseCache::forget("/v2/regions/{$region->slug}");
+            ResponseCache::forget("/v2/regions/{$region->slug}/alerts");
         });
     }
 

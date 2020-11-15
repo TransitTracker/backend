@@ -5,6 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Vehicle extends Model
 {
@@ -25,6 +26,7 @@ class Vehicle extends Model
      * @var array
      */
     protected $casts = [
+        'active' => 'boolean',
         'coordinates' => 'array',
     ];
 
@@ -62,10 +64,14 @@ class Vehicle extends Model
 
     protected static function booted()
     {
-        static::created(function ($vehicle) {
+        static::created(function (Vehicle $vehicle) {
             $vehicle->icon = $vehicle->agency->vehicles_type;
             $vehicle->links()->attach($vehicle->agency->links->pluck('id'));
             $vehicle->save();
+        });
+
+        static::updated(function (Vehicle $vehicle) {
+            ResponseCache::forget("/v2/vehicles/{$vehicle->id}");
         });
     }
 }

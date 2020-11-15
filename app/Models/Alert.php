@@ -22,9 +22,12 @@ class Alert extends Model
 
     protected static function booted()
     {
-        static::updated(function () {
+        static::updated(function (Alert $alert) {
             ResponseCache::forget('/api/alert');
             ResponseCache::forget('/v1/alert');
+
+            ResponseCache::forget('/v2/alerts');
+            ResponseCache::forget("/v2/alerts/{$alert->id}");
         });
     }
 

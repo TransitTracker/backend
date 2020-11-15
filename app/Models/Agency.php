@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Jobs\UpdateMapboxIcons;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -151,15 +150,19 @@ class Agency extends Model
 
     protected static function booted()
     {
-        static::updated(function ($agency) {
+        static::updated(function (Agency $agency) {
             ResponseCache::forget('/api/regions');
             ResponseCache::forget('/v1/regions');
-            ResponseCache::forget('/api/vehicles/'.$agency->slug);
-            ResponseCache::forget('/v1/vehicles/'.$agency->slug);
+            ResponseCache::forget("/api/vehicles/{$agency->slug}");
+            ResponseCache::forget("/v1/vehicles/{$agency->slug}");
+
+            ResponseCache::forget('/v2/agencies');
+            ResponseCache::forget("/v2/agencies/{$agency->slug}");
+            ResponseCache::forget("/v2/agencies/{$agency->slug}/vehicles");
         });
 
-        static::created(function ($agency) {
-            UpdateMapboxIcons::dispatch($agency)->onQueue('gtfs');
+        static::created(function (Agency $agency) {
+//            UpdateMapboxIcons::dispatch($agency)->onQueue('gtfs');
         });
     }
 }

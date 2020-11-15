@@ -15,11 +15,14 @@ class RegionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'conditions' => $this->getTranslations('conditions'),
+            'conditions' => [
+                'en' => '',
+                'fr' => '',
+            ],
             'credits' => $this->getTranslations('credits'),
             'info_body' => $this->getTranslations('info_body'),
             'info_title' => $this->getTranslations('info_title'),
-            'map' => $this->map,
+            'map' => '<svg></svg>',
             'map_box' => $this->map_box,
             'map_zoom' => $this->map_zoom,
             'name' => $this->name,

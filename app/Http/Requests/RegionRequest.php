@@ -30,9 +30,8 @@ class RegionRequest extends FormRequest
             'info_title' => 'required',
             'info_body' => 'required',
             'map_zoom' => 'required',
-            'conditions' => '',
+            'description' => 'required',
             'credits' => 'required',
-            'map' => '',
         ];
     }
 

@@ -17,8 +17,7 @@ class Region extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'info_title', 'info_body', 'map_box', 'map_zoom', 'conditions', 'credits',
-                            'map', ];
+    protected $fillable = ['name', 'slug', 'info_title', 'info_body', 'map_box', 'map_zoom', 'credits', 'description'];
 
     /**
      * The attributes that should be cast to native types.
@@ -30,14 +29,14 @@ class Region extends Model
         'map_zoom' => 'integer',
     ];
 
-    public $translatable = ['info_title', 'info_body', 'conditions', 'credits'];
+    public $translatable = ['info_title', 'info_body', 'credits', 'description'];
 
     /**
      * Get all agencies from this region.
      */
     public function agencies()
     {
-        return $this->hasMany(Agency::class);
+        return $this->belongsToMany(Agency::class);
     }
 
     /**
@@ -45,7 +44,7 @@ class Region extends Model
      */
     public function activeAgencies()
     {
-        return $this->hasMany(Agency::class)->active();
+        return $this->belongsToMany(Agency::class)->active();
     }
 
     /**
@@ -54,6 +53,14 @@ class Region extends Model
     public function alerts()
     {
         return $this->belongsToMany(Alert::class);
+    }
+
+    /**
+     * Get all active alerts from this region.
+     */
+    public function activeAlerts()
+    {
+        return $this->belongsToMany(Alert::class)->active();
     }
 
     /**
@@ -66,9 +73,19 @@ class Region extends Model
 
     protected static function booted()
     {
-        static::updated(function ($region) {
+        static::updated(function () {
             ResponseCache::forget('/api/regions');
             ResponseCache::forget('/v1/regions');
         });
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

@@ -66,21 +66,14 @@ class RegionCrudController extends CrudController
 
             ],
             [
-                'name' => 'conditions',
-                'type' => 'wysiwyg',
-                'label' => 'Conditions card body',
-                'hint' => 'Not used.',
+                'name' => 'description',
+                'type' => 'textarea',
+                'label' => 'Description',
             ],
             [
                 'name' => 'credits',
                 'type' => 'wysiwyg',
                 'label' => 'Credits card body',
-            ],
-            [
-                'name' => 'map',
-                'type' => 'textarea',
-                'label' => 'Icon',
-                'hint' => 'Must be a valid SVG file',
             ],
         ]);
     }

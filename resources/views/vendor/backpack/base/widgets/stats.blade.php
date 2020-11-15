@@ -15,7 +15,7 @@
                         <b class="text-{{ $widget['color'] }}">{{ $widget['progress'] }}</b>/{{ $widget['total'] }}</div>
                 @endif
                 <div class="progress progress-{{ $widget['color'] }} progress-xs my-2">
-                    <div class="progress-bar" role="progressbar" style="width: {{ ($widget['progress']/$widget['total'])*100  }}%"
+                    <div class="progress-bar" role="progressbar" style="width: {{ $widget['total'] ? ($widget['progress']/$widget['total'])*100 : 0 }}%"
                          aria-valuenow="{{ $widget['progress']  }}" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             @elseif(isset($widget['total']))

@@ -35,7 +35,7 @@ class AgencyCrudController extends CrudController
 
     protected function setupListOperation()
     {
-        $this->crud->setColumns(['id', 'name', 'slug', 'region.slug', 'is_active']);
+        $this->crud->setColumns(['id', 'name', 'slug', 'is_active']);
     }
 
     protected function setupCreateOperation()
@@ -49,6 +49,11 @@ class AgencyCrudController extends CrudController
                 'label' => 'Name',
             ],
             [
+                'name' => 'short_name',
+                'type' => 'text',
+                'label' => 'Short name',
+            ],
+            [
                 'name' => 'slug',
                 'type' => 'text',
                 'label' => 'Slug',
@@ -60,12 +65,18 @@ class AgencyCrudController extends CrudController
                 'tab' => 'General',
             ],
             [
-                'name' => 'region_id',
-                'type' => 'select',
-                'label' => 'Region',
-                'entity' => 'region',
+                'name' => 'refresh_is_active',
+                'type' => 'checkbox',
+                'label' => 'Refresh active?',
+                'tab' => 'General',
+            ],
+            [
+                'name' => 'regions',
+                'type' => 'select2_multiple',
+                'label' => 'Regions',
+                'entity' => 'regions',
                 'attribute' => 'name',
-                'allows_null' => false,
+                'pivot' => true,
                 'tab' => 'General',
             ],
             [
@@ -102,6 +113,14 @@ class AgencyCrudController extends CrudController
                 'type' => 'text',
                 'label' => 'Static GTFS URL',
                 'tab' => 'Feed',
+            ],
+            [
+                'name' => 'cron_schedule',
+                'type' => 'text',
+                'label' => 'Cron schedule',
+                'tab' => 'Feed',
+                'default' => '* * * * *',
+                'hint' => 'Format: min hour dayOfMonth month dayOfWeek'
             ],
             [
                 'name' => 'realtime_method',

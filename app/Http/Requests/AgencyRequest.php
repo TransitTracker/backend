@@ -26,14 +26,16 @@ class AgencyRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
+            'short_name' => 'required|max:255',
             'slug' => 'required|max:255',
             'is_active' => 'required',
-            'region_id' => 'required',
+            'refresh_is_active' => 'required',
             'color' => 'required|size:7',
             'text_color' => 'required|size:7',
             'vehicles_type' => 'required',
             'links' => '',
             'static_gtfs_url' => 'required',
+            'cron_schedule' => 'required',
             'realtime_method' => 'required',
             'realtime_url' => 'required',
             'realtime_type' => 'required',

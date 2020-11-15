@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Jobs\UpdateMapboxIcons;
-use App\Models\Vehicle;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -18,8 +17,9 @@ class Agency extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type', 'realtime_options',
-                            'color', 'text_color', 'vehicles_type', 'is_active', 'region_id', 'license', ];
+    protected $fillable = ['name', 'short_name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type',
+                            'realtime_options', 'color', 'text_color', 'vehicles_type', 'is_active', 'license',
+                            'short_name', 'refresh_is_active', 'cron_schedule' ];
 
     protected $fakeColumns = ['license'];
 
@@ -66,11 +66,11 @@ class Agency extends Model
     }
 
     /**
-     * Get the region of this agency.
+     * Get the regions of this agency.
      */
-    public function region()
+    public function regions()
     {
-        return $this->belongsTo(Region::class);
+        return $this->belongsToMany(Region::class);
     }
 
     public function links()

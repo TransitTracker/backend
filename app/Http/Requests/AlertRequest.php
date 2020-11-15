@@ -28,9 +28,13 @@ class AlertRequest extends FormRequest
             'title' => 'required|max:255',
             'can_be_closed' => 'required',
             'regions' => '',
+            'expiration' => 'required',
             'body' => 'required',
+            'image' => 'nullable|image',
             'color' => 'required',
             'icon' => 'required',
+            'action' => '',
+            'action_parameters' => 'nullable|json',
         ];
     }
 

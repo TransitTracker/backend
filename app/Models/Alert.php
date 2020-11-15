@@ -12,20 +12,34 @@ class Alert extends Model
     use CrudTrait;
     use HasTranslations;
 
-    protected $fillable = ['title', 'body', 'color', 'icon', 'is_active', 'can_be_closed'];
+    protected $fillable = ['title', 'body', 'color', 'icon', 'is_active', 'can_be_closed', 'action',
+                            'action_parameters', 'expiration', 'image', ];
+    public $translatable = ['title', 'body', 'action_parameters'];
+    protected $casts = [
+        'action_parameters' => 'object',
+        'can_be_closed' => 'boolean',
+    ];
 
-    public $translatable = ['title', 'body'];
+    protected static function booted()
+    {
+        static::updated(function () {
+            ResponseCache::forget('/api/alert');
+            ResponseCache::forget('/v1/alert');
+        });
+    }
+
+    public function setImageAttribute($value)
+    {
+        $this->uploadFileToDisk($value, 'image', 'public', 'alerts');
+    }
 
     public function regions()
     {
         return $this->belongsToMany(Region::class);
     }
 
-    protected static function booted()
+    public function scopeActive($query)
     {
-        static::updated(function ($alert) {
-            ResponseCache::forget('/api/alert');
-            ResponseCache::forget('/v1/alert');
-        });
+        return $query->whereIsActive(true)->whereDate('expiration', '>', now());
     }
 }

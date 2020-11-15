@@ -47,6 +47,11 @@ class AlertCrudController extends CrudController
                 'label' => 'Title',
             ],
             [
+                'name' => 'is_active',
+                'type' => 'checkbox',
+                'label' => 'Active',
+            ],
+            [
                 'name' => 'can_be_closed',
                 'type' => 'checkbox',
                 'label' => 'Can be closed',
@@ -60,9 +65,20 @@ class AlertCrudController extends CrudController
                 'pivot' => true,
             ],
             [
+                'name' => 'expiration',
+                'type' => 'datetime',
+                'label' => 'Expiration',
+            ],
+            [
                 'name' => 'body',
                 'type' => 'wysiwyg',
                 'label' => 'Body',
+            ],
+            [
+                'name' => 'image',
+                'type' => 'upload',
+                'label' => 'Image',
+                'upload' => true,
             ],
             [
                 'name' => 'color',
@@ -89,6 +105,22 @@ class AlertCrudController extends CrudController
                     'update' => 'Update',
                     'information' => 'Information',
                 ],
+            ],
+            [
+                'name' => 'action',
+                'type' => 'select_from_array',
+                'label' => 'Action',
+                'options' => [
+                    null => 'None',
+                    'addRegion' => 'Add region',
+                    'addAgency' => 'Add agency',
+                    'openUrl' => 'Open URL',
+                ],
+            ],
+            [
+                'name' => 'action_parameters',
+                'type' => 'textarea',
+                'label' => 'Action parameters',
             ],
         ]);
     }

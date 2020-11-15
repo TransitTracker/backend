@@ -25,6 +25,7 @@ yarn-error.log
 /public/mix-manifest.json
 .php_cs.cache
 .php_cs
+.phpstorm.meta.php
 _ide_helper.php
 _ide_helper_models.php
 .editorconfig

@@ -43,7 +43,7 @@
     "dependencies": {
         "@bugsnag/js": "^7.3.0",
         "@bugsnag/plugin-vue": "^7.3.0",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "babel-polyfill": "^6.26.0",
         "collect.js": "^4.28.2",
         "cross-env": "^7.0.2",

@@ -67,7 +67,22 @@ class DispatchAgencies implements ShouldQueue
                     $requestOptions['query'] = $headerQuery;
                 }
 
-                $response = $client->request($agency->realtime_method, $agency->realtime_url, $requestOptions);
+                // TODO: Improve custom download calls, maybe using manager?
+                // Realtime url for STO
+                $downloadUrl = $agency->realtime_url;
+                if ($agency->download_method === 'sto') {
+                    // Remove the parameters
+                    $requestOptions = [];
+                    $stoSecret = $agency->header_value;
+
+                    $dateUtc = now()->setTimezone('UTC');
+                    $dateIso = "{$dateUtc->format('Ymd')}T{$dateUtc->format('Hi')}Z";
+                    $stoHash  = strtoupper(hash('sha256', "{$stoSecret}{$dateIso}"));
+                    $downloadUrl = "{$agency->realtime_url}&hash={$stoHash}";
+                    info($downloadUrl);
+                }
+
+                $response = $client->request($agency->realtime_method, $downloadUrl, $requestOptions);
 
                 $fileName = 'downloads/'.$agency->slug.'-'.$time.'.pb';
                 Storage::put($fileName, (string) $response->getBody());
@@ -80,8 +95,9 @@ class DispatchAgencies implements ShouldQueue
                     RefreshForNextbus::dispatch($agency, $fileName, $time)->onQueue('vehicles');
                 }
             } catch (RequestException $e) {
-                $action = new HandleFailedDispatch($e, $agency);
-                $action->execute();
+//                $action = new HandleFailedDispatch($e, $agency);
+//                $action->execute();
+                \Log::error($e);
             }
         }
 

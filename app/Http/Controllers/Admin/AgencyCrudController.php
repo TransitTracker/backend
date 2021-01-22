@@ -149,6 +149,14 @@ class AgencyCrudController extends CrudController
                 'default' => 'gtfsrt',
             ],
             [
+                'name' => 'download_method',
+                'type' => 'text',
+                'label' => 'Download method',
+                'tab' => 'Feed',
+                'fake' => true,
+                'store_in' => 'realtime_options',
+            ],
+            [
                 'name' => 'header_name',
                 'type' => 'text',
                 'label' => 'Header name',

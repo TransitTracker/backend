@@ -12,8 +12,6 @@
         "ext-json": "*",
         "ext-simplexml": "*",
         "ext-zip": "*",
-        "backpack/crud": "^4.1",
-        "backpack/logmanager": "^4.0",
         "bensampo/laravel-enum": "^3.3",
         "beyondcode/laravel-websockets": "^1.11",
         "doctrine/dbal": "^2.10",
@@ -37,7 +35,6 @@
         "usmanhalalit/laracsv": "^2.1"
     },
     "require-dev": {
-        "backpack/generators": "^3.1",
         "barryvdh/laravel-debugbar": "^3.5",
         "barryvdh/laravel-ide-helper": "^2.9",
         "facade/ignition": "^2.5",
@@ -86,7 +83,6 @@
             "@php artisan key:generate --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --provider='Backpack\\CRUD\\BackpackServiceProvider' --tag=public --force",
             "@php artisan ide-helper:generate"
         ],
         "app-install": [

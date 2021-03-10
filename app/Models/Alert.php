@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
+use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Alert extends Model
 {
-    use CrudTrait;
     use HasTranslations;
 
     protected $fillable = ['title', 'body', 'color', 'icon', 'is_active', 'can_be_closed', 'action',

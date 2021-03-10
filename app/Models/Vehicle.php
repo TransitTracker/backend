@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Vehicle extends Model
 {
-    use CrudTrait;
-
     /**
      * The attributes that are mass assignable.
      *

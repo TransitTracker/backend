@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
+use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Link extends Model
 {
-    use CrudTrait;
     use HasTranslations;
 
     protected $fillable = ['internal_title', 'title', 'description', 'link'];

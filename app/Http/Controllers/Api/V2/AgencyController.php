@@ -9,6 +9,7 @@ use App\Http\Resources\V2\VehicleResource;
 use App\Models\Agency;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class AgencyController extends Controller
 {
@@ -21,7 +22,9 @@ class AgencyController extends Controller
     {
         $totalAgencies = 3 * count(Agency::pluck('id'));
 
-        $this->middleware("throttle:{$totalAgencies},1,v2-agencies");
+        if (!App::environment('local')) {
+            $this->middleware("throttle:{$totalAgencies},1,v2-agencies");
+        }
 
         $this->middleware('cacheResponse')->except('vehicles');
         $this->middleware('cacheResponse:300')->only('vehicles');
@@ -34,7 +37,7 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        $agencies = Agency::all();
+        $agencies = Agency::active()->get();
 
         return AgencyResource::collection($agencies);
     }
@@ -47,6 +50,10 @@ class AgencyController extends Controller
      */
     public function show(Agency $agency)
     {
+        if (!$agency->is_active) {
+            return response()->json(['message' => 'Agency is inactive.'], 403);
+        }
+
         return AgencyResource::make($agency);
     }
 

@@ -46,6 +46,7 @@ class ProcessGtfsServices implements ShouldQueue
 
         // Check if there is some services. If not, just add a fallback service for all trips.
         if ($servicesReader && count($servicesReader) >= 1) {
+            $services = [];
             foreach ($servicesReader->getRecords() as $service) {
                 // If the service is already finish, don't add it
                 if (Carbon::parse($service['end_date'])->isPast()) {
@@ -56,6 +57,7 @@ class ProcessGtfsServices implements ShouldQueue
                 $newService = [];
 
                 // Fill each required attribute
+                $newService['agency_id'] = $this->agency->id;
                 $newService['service_id'] = $service['service_id'];
                 $newService['start_date'] = new Carbon($service['start_date']);
                 $newService['end_date'] = new Carbon($service['end_date']);
@@ -65,7 +67,11 @@ class ProcessGtfsServices implements ShouldQueue
                     'service_id' => $service['service_id'],
                     'agency_id' => $this->agency->id,
                 ], $newService);
+                // Add the service to array
+                array_push($services, $newService);
             }
+
+            Service::upsert($services, ['agency_id', 'service_id'], ['start_date', 'end_date']);
         } else {
             $serviceId = "FALLBACK-{$this->agency->slug}";
 

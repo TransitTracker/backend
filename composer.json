@@ -44,6 +44,7 @@
         "barryvdh/laravel-ide-helper": "^2.7",
         "facade/ignition": "^2.3",
         "fzaninotto/faker": "^1.9",
+        "laravel/sail": "^1.3",
         "matt-allan/laravel-code-style": "^0.6",
         "mockery/mockery": "^1.4",
         "nunomaduro/collision": "^5.0",

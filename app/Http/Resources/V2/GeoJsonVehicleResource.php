@@ -23,10 +23,7 @@ class GeoJsonVehicleResource extends JsonResource
             ],
             'geometry' => [
                 'type' => 'Point',
-                'coordinates' => [
-                    'lat' => $this->lat,
-                    'lon' => $this->lon,
-                ],
+                'coordinates' => [$this->lon, $this->lat],
             ],
         ];
     }

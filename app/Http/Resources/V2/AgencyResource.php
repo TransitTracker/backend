@@ -24,9 +24,9 @@ class AgencyResource extends JsonResource
             'textColor' => $this->text_color,
             'regions' => RegionSimpleResource::collection($this->regions),
             'license' => [
-                'url' => $this->license['license_url'],
-                'title' => $this->license['license_title'],
-                'isDownloadable' => $this->license['is_downloadable'],
+                'url' => array_key_exists('license_url', $this->license) ? $this->license['license_url'] : null,
+                'title' => array_key_exists('license_title', $this->license) ? $this->license['license_title'] : null,
+                'isDownloadable' => array_key_exists('is_downloadable', $this->license) ? boolval($this->license['is_downloadable']) : null,
             ],
         ];
     }

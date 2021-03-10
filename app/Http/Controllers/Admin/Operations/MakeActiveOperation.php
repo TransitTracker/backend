@@ -48,10 +48,6 @@ trait MakeActiveOperation
         $alert = $this->crud->model->findOrFail($id);
         $originalState = $alert->is_active;
 
-        Alert::where('is_active', true)->update([
-            'is_active' => false,
-        ]);
-
         $alert->is_active = ! $originalState;
         $alert->save();
 

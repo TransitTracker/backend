@@ -28,7 +28,14 @@ class Link extends Model
 
     protected static function booted()
     {
-        static::updated(function ($link) {
+        static::updated(function (Link $link) {
+//            $vehicles = Vehicle::whereIn('agency_id', $link->agencies->pluck('id'))->get();
+//            foreach ($vehicles as $vehicle) {
+//                dd($link);
+//                echo $vehicle->id;
+//                $vehicle->links()->syncWithoutDetaching($link->id);
+//            }
+
             ResponseCache::forget('/api/links');
             ResponseCache::forget('/v1/links');
 

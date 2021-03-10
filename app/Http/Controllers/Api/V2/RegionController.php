@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\AlertResource;
 use App\Http\Resources\V2\RegionResource;
 use App\Models\Region;
+use Illuminate\Support\Facades\App;
 
 class RegionController extends Controller
 {
@@ -18,7 +19,9 @@ class RegionController extends Controller
     {
         $totalRegions = 2 * count(Region::pluck('id'));
 
-        $this->middleware("throttle:{$totalRegions},1,v2-regions");
+        if (!App::environment('local')) {
+            $this->middleware("throttle:{$totalRegions},1,v2-regions");
+        }
 
         $this->middleware('cacheResponse');
     }

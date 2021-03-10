@@ -138,6 +138,16 @@ class Agency extends Model
     }
 
     /**
+     * Get the custom download method.
+     *
+     * @return string
+     */
+    public function getDownloadMethodAttribute()
+    {
+        return json_decode($this->realtime_options)->download_method ?? '';
+    }
+
+    /**
      * Scope a query to only include active agencies.
      *
      * @param Builder $query

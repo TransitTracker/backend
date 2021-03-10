@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\VehicleResource;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\App;
 
 class VehicleController extends Controller
 {
@@ -15,7 +16,9 @@ class VehicleController extends Controller
      */
     public function __construct()
     {
-        $this->middleware("throttle:30,1,v2-vehicles");
+        if (!App::environment('local')) {
+            $this->middleware("throttle:30,1,v2-vehicles");
+        }
 
         $this->middleware('cacheResponse:300');
     }

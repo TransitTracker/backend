@@ -22,7 +22,7 @@ class AlertResource extends JsonResource
             'color' => $this->color,
             'icon' => $this->icon,
             'action' => $this->action,
-            'actionParameters' => $this->getTranslation('action_parameters', App::getLocale()),
+            'actionParameters' => $this->action_parameters,
             'image' => url("storage/{$this->image}"),
             'canBeClosed' => $this->can_be_closed,
         ];

@@ -70,7 +70,7 @@ class AgencyController extends Controller
 
         $vehicles = Vehicle::whereActive($request->include ? $request->include !== 'all' : true)
             ->whereAgencyId($agency->id)
-            ->with(['trip', 'links:link_id', 'agency:id,slug'])
+            ->with(['trip', 'links:id', 'agency:id,slug'])
             ->get();
 
         return VehicleResource::collection($vehicles)->additional([

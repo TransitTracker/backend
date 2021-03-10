@@ -19,6 +19,7 @@ class AgencyResource extends JsonResource
             'name' => $this->name,
             'shortName' => $this->short_name,
             'slug' => $this->slug,
+            'cities' => [],
             'defaultVehicleType' => $this->vehicles_type,
             'color' => $this->color,
             'textColor' => $this->text_color,
@@ -28,6 +29,7 @@ class AgencyResource extends JsonResource
                 'title' => array_key_exists('license_title', $this->license) ? $this->license['license_title'] : null,
                 'isDownloadable' => array_key_exists('is_downloadable', $this->license) ? boolval($this->license['is_downloadable']) : null,
             ],
+            'meta' => (object)[],
         ];
     }
 }

@@ -14,9 +14,6 @@ class RegionSimpleResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'slug' => $this->slug,
-            'name' => $this->name,
-        ];
+        return $this->slug;
     }
 }

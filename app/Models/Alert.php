@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
@@ -14,9 +15,9 @@ class Alert extends Model
 
     protected $fillable = ['title', 'body', 'color', 'icon', 'is_active', 'can_be_closed', 'action',
                             'action_parameters', 'expiration', 'image', ];
-    public $translatable = ['title', 'body', 'action_parameters'];
+    public $translatable = ['title', 'body'];
     protected $casts = [
-        'action_parameters' => 'object',
+        'action_parameters' => AsArrayObject::class,
         'can_be_closed' => 'boolean',
     ];
 

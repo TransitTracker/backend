@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\LinkResource;
 use App\Models\Link;
+use Illuminate\Support\Facades\App;
 
 class LinkController extends Controller
 {
@@ -17,7 +18,9 @@ class LinkController extends Controller
     {
         $totalLinks = ceil(1.5 * count(Link::pluck('id')));
 
-        $this->middleware("throttle:{$totalLinks},1,v2-links");
+        if (!App::environment('local')) {
+            $this->middleware("throttle:{$totalLinks},1,v2-links");
+        }
 
         $this->middleware('cacheResponse');
     }

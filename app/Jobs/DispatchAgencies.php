@@ -95,9 +95,8 @@ class DispatchAgencies implements ShouldQueue
                     RefreshForNextbus::dispatch($agency, $fileName, $time)->onQueue('vehicles');
                 }
             } catch (RequestException $e) {
-//                $action = new HandleFailedDispatch($e, $agency);
-//                $action->execute();
-                \Log::error($e);
+               $action = new HandleFailedDispatch($e, $agency);
+               $action->execute();
             }
         }
 

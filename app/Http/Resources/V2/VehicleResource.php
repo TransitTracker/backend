@@ -53,12 +53,10 @@ class VehicleResource extends JsonResource
                 'data' => $this->occupancy,
                 'label' => OccupancyStatus::getDescription($this->occupancy),
             ],
-            'agency' => [
-                'id' => $this->agency->id,
-                'slug' => $this->agency->slug,
-            ],
+            'agency' => $this->agency->slug,
             'links' => LinkSimpleResource::collection($this->links),
             'trip' => TripResource::make($this->trip),
+            'meta' => (object)[],
         ];
     }
 }

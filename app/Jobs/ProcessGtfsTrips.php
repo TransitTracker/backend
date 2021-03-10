@@ -75,7 +75,7 @@ class ProcessGtfsTrips implements ShouldQueue
                 // Fill each required attribute
                 $newTrip['trip_id'] = $trip['trip_id'];
                 if (array_key_exists('trip_direction_headsign', $trip)) {
-                    $newTrip['trip_headsign'] = "{$trip['trip_headsign']} - {$trip['trip_direction_headsign']}";
+                    $newTrip['trip_headsign'] = "{$trip['trip_direction_headsign']} ({$trip['trip_headsign']})";
                 } else {
                     $newTrip['trip_headsign'] = $trip['trip_headsign'];
                 }

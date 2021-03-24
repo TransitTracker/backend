@@ -224,9 +224,6 @@ class RefreshForGTFS implements ShouldQueue
         $this->agency->timestamp = $feed->getHeader()->getTimestamp();
         $this->agency->save();
 
-        // Send a new event to alert browser that vehicles have been refresh
-        event(new VehiclesUpdated($this->agency));
-
         // Add statistics
         $stat = new Stat();
         $stat->type = 'vehicleTotal';

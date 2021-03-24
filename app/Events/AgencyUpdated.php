@@ -8,7 +8,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 
-class VehiclesUpdated implements ShouldBroadcast
+class AgencyUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets;
 
@@ -26,7 +26,7 @@ class VehiclesUpdated implements ShouldBroadcast
      *
      * @param Agency $agency
      */
-    public function __construct($agency)
+    public function __construct(Agency $agency)
     {
         $this->agency = $agency;
     }
@@ -38,7 +38,12 @@ class VehiclesUpdated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('updates');
+        $channels = [new Channel('updates')];
+        foreach ($this->agency->regions as $region) {
+            array_push($channels, new Channel($region->slug));
+        }
+
+        return $channels;
     }
 
     /**
@@ -49,9 +54,8 @@ class VehiclesUpdated implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'id' => $this->agency->id,
             'slug' => $this->agency->slug,
-            'region' => $this->agency->region->slug,
+            'region' => $this->agency->regions[0]->slug,
         ];
     }
 }

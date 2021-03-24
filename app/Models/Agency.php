@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\AgencyUpdated;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
@@ -15,9 +16,13 @@ class Agency extends Model
      */
     protected $fillable = ['name', 'short_name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type',
                             'realtime_options', 'color', 'text_color', 'vehicles_type', 'is_active', 'license',
-                            'short_name', 'refresh_is_active', 'cron_schedule' ];
+                            'short_name', 'refresh_is_active', 'cron_schedule', ];
 
     protected $fakeColumns = ['license'];
+
+    protected $dispatchesEvents = [
+        'updated' => AgencyUpdated::class,
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -157,7 +162,7 @@ class Agency extends Model
 
     protected static function booted()
     {
-        static::updated(function (Agency $agency) {
+        static::updated(function (self $agency) {
             ResponseCache::forget('/api/regions');
             ResponseCache::forget('/v1/regions');
             ResponseCache::forget("/api/vehicles/{$agency->slug}");
@@ -168,7 +173,7 @@ class Agency extends Model
             ResponseCache::forget("/v2/agencies/{$agency->slug}/vehicles");
         });
 
-        static::created(function (Agency $agency) {
+        static::created(function (self $agency) {
 //            UpdateMapboxIcons::dispatch($agency)->onQueue('gtfs');
         });
     }

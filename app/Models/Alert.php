@@ -30,11 +30,6 @@ class Alert extends Model
         });
     }
 
-    public function setImageAttribute($value)
-    {
-        $this->uploadFileToDisk($value, 'image', 'public', 'alerts');
-    }
-
     public function regions()
     {
         return $this->belongsToMany(Region::class);

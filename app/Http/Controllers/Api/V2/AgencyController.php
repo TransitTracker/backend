@@ -10,6 +10,7 @@ use App\Models\Agency;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Storage;
 
 class AgencyController extends Controller
 {
@@ -22,7 +23,7 @@ class AgencyController extends Controller
     {
         $totalAgencies = 3 * count(Agency::pluck('id'));
 
-        if (!App::environment('local')) {
+        if (! App::environment('local')) {
             $this->middleware("throttle:{$totalAgencies},1,v2-agencies");
         }
 
@@ -50,7 +51,7 @@ class AgencyController extends Controller
      */
     public function show(Agency $agency)
     {
-        if (!$agency->is_active) {
+        if (! $agency->is_active) {
             return response()->json(['message' => 'Agency is inactive.'], 403);
         }
 
@@ -64,7 +65,7 @@ class AgencyController extends Controller
      */
     public function vehicles(Request $request, Agency $agency)
     {
-        if (!$agency->is_active) {
+        if (! $agency->is_active) {
             return response()->json(['message' => 'Agency is inactive.'], 403);
         }
 
@@ -76,7 +77,22 @@ class AgencyController extends Controller
         return VehicleResource::collection($vehicles)->additional([
             'geojson' => GeoJsonVehiclesCollection::make($vehicles),
             'timestamp' => $agency->timestamp,
-            'count' => count($vehicles)
+            'count' => count($vehicles),
         ]);
+    }
+
+    /**
+     * Display the agency realtime feed (when special API key is provided).
+     *
+     * @param  \App\Models\Agency  $agency
+     * @return LinkResource
+     */
+    public function feed(Request $request, Agency $agency)
+    {
+        if ($request->input('key') !== config('transittracker.api_key')) {
+            return response()->json(['message' => 'Wrong API key!'], 401);
+        }
+
+        return Storage::download("feeds/{$agency->slug}");
     }
 }

@@ -77,15 +77,16 @@ class DispatchAgencies implements ShouldQueue
 
                     $dateUtc = now()->setTimezone('UTC');
                     $dateIso = "{$dateUtc->format('Ymd')}T{$dateUtc->format('Hi')}Z";
-                    $stoHash  = strtoupper(hash('sha256', "{$stoSecret}{$dateIso}"));
+                    $stoHash = strtoupper(hash('sha256', "{$stoSecret}{$dateIso}"));
                     $downloadUrl = "{$agency->realtime_url}&hash={$stoHash}";
                     info($downloadUrl);
                 }
 
                 $response = $client->request($agency->realtime_method, $downloadUrl, $requestOptions);
 
-                $fileName = 'downloads/'.$agency->slug.'-'.$time.'.pb';
+                $fileName = "downloads/{$agency->slug}-{$time}";
                 Storage::put($fileName, (string) $response->getBody());
+                Storage::put("feeds/{$agency->slug}", (string) $response->getBody());
 
                 if ($agency->realtime_type === 'gtfsrt') {
                     RefreshForGTFS::dispatch($agency, $fileName, $time)->onQueue('vehicles');
@@ -95,8 +96,8 @@ class DispatchAgencies implements ShouldQueue
                     RefreshForNextbus::dispatch($agency, $fileName, $time)->onQueue('vehicles');
                 }
             } catch (RequestException $e) {
-               $action = new HandleFailedDispatch($e, $agency);
-               $action->execute();
+                $action = new HandleFailedDispatch($e, $agency);
+                $action->execute();
             }
         }
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\V1RegionController;
 use App\Http\Controllers\Api\V1\V1VehicleController;
 use App\Http\Controllers\Api\V2\AgencyController;
 use App\Http\Controllers\Api\V2\AlertController;
+use App\Http\Controllers\Api\V2\LandingController;
 use App\Http\Controllers\Api\V2\LinkController;
 use App\Http\Controllers\Api\V2\RegionController;
 use App\Http\Controllers\Api\V2\VehicleController;
@@ -68,6 +69,7 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::get('agencies/{agency}/feed', [AgencyController::class, 'feed']);
     Route::get('alerts', [AlertController::class, 'index']);
     Route::get('alerts/{alert}', [AlertController::class, 'show']);
+    Route::get('landing', [LandingController::class, 'index']);
     Route::get('links', [LinkController::class, 'index']);
     Route::get('links/{link}', [LinkController::class, 'show']);
     Route::get('regions', [RegionController::class, 'index']);

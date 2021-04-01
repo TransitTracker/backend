@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
+use Spatie\Translatable\HasTranslations;
 
 class Region extends Model
 {
@@ -62,6 +62,14 @@ class Region extends Model
     }
 
     /**
+     * Get all active vehicles from this region agencies.
+     */
+    public function vehicles()
+    {
+        return Vehicle::active()->whereIn('agency_id', $this->activeAgencies->modelKeys());
+    }
+
+    /**
      * Get all stats from this region.
      */
     public function stats()
@@ -71,10 +79,11 @@ class Region extends Model
 
     protected static function booted()
     {
-        static::updated(function (Region $region) {
+        static::updated(function (self $region) {
             ResponseCache::forget('/api/regions');
             ResponseCache::forget('/v1/regions');
 
+            ResponseCache::forget('/v2/landing');
             ResponseCache::forget('/v2/regions');
             ResponseCache::forget("/v2/regions/{$region->slug}");
             ResponseCache::forget("/v2/regions/{$region->slug}/alerts");

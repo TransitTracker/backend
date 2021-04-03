@@ -83,7 +83,7 @@ return [
          *
          * If you do not want any compressor at all, set it to null.
          */
-        'database_dump_compressor' => null,
+        'database_dump_compressor' => Spatie\DbDumper\Compressors\GzipCompressor::class,
 
         'destination' => [
 
@@ -121,7 +121,7 @@ return [
             \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound::class => ['mail'],
             \Spatie\Backup\Notifications\Notifications\CleanupHasFailed::class => ['mail'],
             \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class => ['slack'],
-            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class => ['slack'],
             \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class => ['slack'],
         ],
 
@@ -142,7 +142,7 @@ return [
 
         'slack' => [
             'webhook_url' => env('SLACK_WEBHOOK_URL'),
-        ]
+        ],
     ],
 
     /*
@@ -194,22 +194,22 @@ return [
             /*
              * The number of days for which daily backups must be kept.
              */
-            'keep_daily_backups_for_days' => 16,
+            'keep_daily_backups_for_days' => 0,
 
             /*
              * The number of weeks for which one weekly backup must be kept.
              */
-            'keep_weekly_backups_for_weeks' => 8,
+            'keep_weekly_backups_for_weeks' => 0,
 
             /*
              * The number of months for which one monthly backup must be kept.
              */
-            'keep_monthly_backups_for_months' => 4,
+            'keep_monthly_backups_for_months' => 12,
 
             /*
              * The number of years for which one yearly backup must be kept.
              */
-            'keep_yearly_backups_for_years' => 2,
+            'keep_yearly_backups_for_years' => 5,
 
             /*
              * After cleaning up the backups remove the oldest backup until

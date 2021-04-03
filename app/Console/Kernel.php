@@ -2,8 +2,8 @@
 
 namespace App\Console;
 
-use App\Models\Agency;
 use App\Jobs\DispatchAgencies;
+use App\Models\Agency;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -28,8 +28,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->job(new DispatchAgencies(Agency::active()->get()), 'vehicles')->everyMinute()->unlessBetween('03:54', '03:56');
         $schedule->command('download:clean')->dailyAt('03:55');
-        $schedule->command('backup:clean')->dailyAt('01:00');
-        $schedule->command('backup:run')->dailyAt('02:00');
+        $schedule->command('backup:clean')->dailyAt('02:00');
+        $schedule->command('backup:run')->dailyAt('02:15');
+        $schedule->command('backup:monitor')->dailyAt('02:30');
         $schedule->command('agency:update-actives')->dailyAt('03:00');
     }
 

@@ -174,6 +174,9 @@ return [
                 'balance' => 'auto',
                 'processes' => 5,
                 'tries' => 1,
+                'maxJobs' => 1000,
+                'maxTime' => 3600,
+                'nice' => 5,
             ],
             'supervisor-gtfs' => [
                 'connection' => 'redis',
@@ -182,6 +185,8 @@ return [
                 'processes' => 1,
                 'tries' => 1,
                 'timeout' => 600,
+                'maxTime' => 3600,
+                'nice' => 10,
             ],
         ],
 

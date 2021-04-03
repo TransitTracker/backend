@@ -19,8 +19,9 @@ class GeoJsonLandingResource extends JsonResource
             'properties' => [
                 'slug' => $this->slug,
                 'name' => $this->name,
-                'agencies' => $this->agencies_count,
+                'agencies' => $this->active_agencies_count,
                 'vehicles' => $this->vehicles()->count(),
+                'cities' => $this->cities,
             ],
             'geometry' => [
                 'type' => 'Point',

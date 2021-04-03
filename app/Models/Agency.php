@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\AgencyUpdated;
+use Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
@@ -16,7 +17,7 @@ class Agency extends Model
      */
     protected $fillable = ['name', 'short_name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type',
                             'realtime_options', 'color', 'text_color', 'vehicles_type', 'is_active', 'license',
-                            'short_name', 'refresh_is_active', 'cron_schedule', ];
+                            'short_name', 'refresh_is_active', 'cron_schedule', 'cities', ];
 
     protected $fakeColumns = ['license'];
 
@@ -32,6 +33,7 @@ class Agency extends Model
     protected $casts = [
         'tags' => 'array',
         'license' => 'array',
+        'cities' => 'array',
     ];
 
     /**
@@ -147,6 +149,20 @@ class Agency extends Model
     public function getDownloadMethodAttribute()
     {
         return json_decode($this->realtime_options)->download_method ?? '';
+    }
+
+    public function getRandomCitiesAttribute()
+    {
+        $cities = $this->cities;
+        if (! $cities) {
+            return [];
+        }
+
+        if (count($cities) < 5) {
+            return $cities;
+        }
+
+        return Arr::random($cities, 5);
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Arr;
+use Cache;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
@@ -77,6 +79,18 @@ class Region extends Model
     public function stats()
     {
         return $this->hasMany(Stat::class);
+    }
+
+    public function getCitiesAttribute()
+    {
+        return Cache::remember("tt-region-{$this->slug}-cities", 60 * 60 * 24 * 7, function () {
+            $allCities = [];
+            foreach ($this->activeAgencies as $agency) {
+                array_push($allCities, Arr::random($agency->cities));
+            }
+
+            return $allCities;
+        });
     }
 
     protected static function booted()

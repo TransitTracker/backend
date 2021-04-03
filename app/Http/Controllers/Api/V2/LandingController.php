@@ -36,7 +36,7 @@ class LandingController extends Controller
      */
     public function index()
     {
-        $regions = Region::with(['activeAgencies:id'])->withCount('agencies')->get();
+        $regions = Region::with(['activeAgencies:id,cities'])->withCount('activeAgencies')->get();
 
         return GeoJsonLandingCollection::make($regions);
     }

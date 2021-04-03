@@ -21,10 +21,8 @@ class RegionResource extends JsonResource
             'infoTitle' => $this->info_title,
             'infoBody' => $this->info_body,
             'description' => $this->description,
-            'mapCenter' => [
-                'lat' => $this->map_box[0],
-                'lon' => $this->map_box[1],
-            ],
+            'mapBox' => $this->map_box,
+            'mapCenter' => $this->map_center,
             'mapZoom' => $this->map_zoom,
             'agencies' => AgencyResource::collection($this->agencies),
         ];

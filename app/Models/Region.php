@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
 use Spatie\Translatable\HasTranslations;
@@ -15,7 +16,7 @@ class Region extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'info_title', 'info_body', 'map_box', 'map_zoom', 'credits', 'description'];
+    protected $fillable = ['name', 'slug', 'info_title', 'info_body', 'map_box', 'map_center', 'map_zoom', 'credits', 'description'];
 
     /**
      * The attributes that should be cast to native types.
@@ -24,6 +25,7 @@ class Region extends Model
      */
     protected $casts = [
         'map_box' => 'array',
+        'map_center' => AsArrayObject::class,
         'map_zoom' => 'integer',
     ];
 

@@ -23,7 +23,7 @@ class RegionResource extends JsonResource
             'info_body' => $this->getTranslations('info_body'),
             'info_title' => $this->getTranslations('info_title'),
             'map' => '<svg></svg>',
-            'map_box' => $this->map_box,
+            'map_box' => [$this->map_center['lon'], $this->map_center['lat']],
             'map_zoom' => $this->map_zoom,
             'name' => $this->name,
             'slug' => $this->slug,

@@ -24,7 +24,7 @@ class GeoJsonLandingResource extends JsonResource
             ],
             'geometry' => [
                 'type' => 'Point',
-                'coordinates' => [$this->map_box[1], $this->map_box[0]],
+                'coordinates' => $this->map_center,
             ],
         ];
     }

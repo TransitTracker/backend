@@ -21,6 +21,7 @@ class RegionResource extends JsonResource
             'infoTitle' => $this->info_title,
             'infoBody' => $this->info_body,
             'description' => $this->description,
+            'metaDescription' => $this->meta_description,
             'cities' => $this->cities,
             'image' => $this->image,
             'mapBox' => $this->map_box,

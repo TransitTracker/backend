@@ -18,7 +18,7 @@ class Region extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'info_title', 'info_body', 'map_box', 'map_center', 'map_zoom', 'credits', 'description', 'image'];
+    protected $fillable = ['name', 'slug', 'info_title', 'info_body', 'map_box', 'map_center', 'map_zoom', 'credits', 'description', 'meta_description', 'image'];
 
     /**
      * The attributes that should be cast to native types.
@@ -31,7 +31,7 @@ class Region extends Model
         'map_zoom' => 'integer',
     ];
 
-    public $translatable = ['info_title', 'info_body', 'credits', 'description'];
+    public $translatable = ['info_title', 'info_body', 'credits', 'description', 'meta_description'];
 
     /**
      * Get all agencies from this region.

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\V2;
 
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\AlertResource;
 use App\Models\Alert;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
 
 class AlertController extends Controller
 {
@@ -17,9 +17,9 @@ class AlertController extends Controller
      */
     public function __construct()
     {
-        $totalAlerts = ceil(1.5 * count(Alert::active()->pluck('id')));
+        $totalAlerts = ceil(1.5 * Alert::active()->count());
 
-        if (!App::environment('local')) {
+        if (! App::environment('local')) {
             $this->middleware("throttle:{$totalAlerts},1,v2-alerts");
         }
 
@@ -46,7 +46,7 @@ class AlertController extends Controller
      */
     public function show(Alert $alert)
     {
-        if (!$alert->is_active or Carbon::parse($alert->expiration)->isPast()) {
+        if (! $alert->is_active or Carbon::parse($alert->expiration)->isPast()) {
             return response()->json(['message' => 'Alert is inactive or expired.'], 403);
         }
 

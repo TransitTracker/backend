@@ -17,9 +17,9 @@ class RegionController extends Controller
      */
     public function __construct()
     {
-        $totalRegions = 2 * count(Region::pluck('id'));
+        $totalRegions = 2 * Region::count();
 
-        if (!App::environment('local')) {
+        if (! App::environment('local')) {
             $this->middleware("throttle:{$totalRegions},1,v2-regions");
         }
 

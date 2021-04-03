@@ -8,6 +8,7 @@ use App\Http\Resources\V2\GeoJsonVehiclesCollection;
 use App\Http\Resources\V2\VehicleResource;
 use App\Models\Agency;
 use App\Models\Vehicle;
+use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Storage;
@@ -21,7 +22,7 @@ class AgencyController extends Controller
      */
     public function __construct()
     {
-        $totalAgencies = 3 * count(Agency::pluck('id'));
+        $totalAgencies = 3 * Agency::active()->count();
 
         if (! App::environment('local')) {
             $this->middleware("throttle:{$totalAgencies},1,v2-agencies");
@@ -38,7 +39,7 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        $agencies = Agency::active()->get();
+        $agencies = Agency::active()->with('regions:slug')->get();
 
         return AgencyResource::collection($agencies);
     }
@@ -69,9 +70,10 @@ class AgencyController extends Controller
             return response()->json(['message' => 'Agency is inactive.'], 403);
         }
 
+        // TODO: Further optimize query
         $vehicles = Vehicle::whereActive($request->include ? $request->include !== 'all' : true)
             ->whereAgencyId($agency->id)
-            ->with(['trip', 'links:id', 'agency:id,slug'])
+            ->with(['trip', 'links:id', 'agency:id,slug', 'trip.service:service_id'])
             ->get();
 
         return VehicleResource::collection($vehicles)->additional([

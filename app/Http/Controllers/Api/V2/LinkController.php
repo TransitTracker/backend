@@ -16,9 +16,9 @@ class LinkController extends Controller
      */
     public function __construct()
     {
-        $totalLinks = ceil(1.5 * count(Link::pluck('id')));
+        $totalLinks = ceil(1.5 * Link::count());
 
-        if (!App::environment('local')) {
+        if (! App::environment('local')) {
             $this->middleware("throttle:{$totalLinks},1,v2-links");
         }
 

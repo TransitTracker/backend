@@ -55,8 +55,8 @@ class VehicleResource extends JsonResource
             ],
             'agency' => $this->agency->slug,
             'links' => LinkSimpleResource::collection($this->links),
-            'trip' => TripResource::make($this->trip),
-            'meta' => (object)[],
+            'trip' => TripResource::make($this->trip)->additional(['agencySlug' => $this->agency->slug]),
+            'meta' => (object) [],
         ];
     }
 }

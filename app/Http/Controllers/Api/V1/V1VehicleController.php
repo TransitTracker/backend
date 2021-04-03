@@ -21,7 +21,7 @@ class V1VehicleController extends Controller
     public function show(Agency $agency)
     {
         if ($agency->is_active) {
-            $vehicles = Vehicle::where([['active', true], ['agency_id', $agency->id]])->with(['trip', 'links:link_id'])->get();
+            $vehicles = Vehicle::active()->whereAgencyId($agency->id)->with(['trip', 'links:id'])->get();
 
             return (new VehiclesCollection($vehicles))
                 ->additional([
@@ -44,14 +44,14 @@ class V1VehicleController extends Controller
             app('debugbar')->disable();
         }
 
-        if ((bool)!$agency->license['is_downloadable']) {
+        if ((bool) ! $agency->license['is_downloadable']) {
             return response()->json(['message' => 'Download not allowed for this agency.'], 403);
         }
 
         $fields = ['agency.slug', 'vehicle', 'route', 'gtfs_trip', 'lat', 'lon', 'trip.trip_headsign',
             'trip.trip_short_name', 'trip.route_short_name', 'trip.route_long_name', 'trip.service.service_id', 'bearing',
             'speed', 'start', 'status', 'current_stop_sequence', 'created_at', 'updated_at', 'relationship', 'label',
-            'plate', 'odometer', 'timestamp', 'congestion', 'occupancy',];
+            'plate', 'odometer', 'timestamp', 'congestion', 'occupancy', ];
 
         $vehicles = Vehicle::where('agency_id', $agency->id)->get();
 

@@ -23,7 +23,7 @@ class TripResource extends JsonResource
             'routeTextColor' => $this->route_text_color,
             'routeShortName' => $this->route_short_name,
             'routeLongName' => $this->route_long_name,
-            'shapeLink' => $this->shape ? Storage::url("shapes/{$this->agency->slug}/{$this->shape}.json") : null,
+            'shapeLink' => $this->shape ? Storage::url("shapes/{$this->additional['agencySlug']}/{$this->shape}.json") : null,
             'serviceId' => $this->service->service_id,
         ];
     }

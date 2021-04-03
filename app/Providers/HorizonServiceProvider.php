@@ -17,7 +17,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     {
         parent::boot();
 
-        Horizon::routeMailNotificationsTo(env('HORIZON_EMAIL'));
+        Horizon::routeMailNotificationsTo(config('transittracker.admin_email'));
     }
 
     /**
@@ -31,7 +31,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     {
         Gate::define('viewHorizon', function ($user) {
             return in_array($user->email, [
-                env('HORIZON_EMAIL'),
+                config('transittracker.admin_email'),
             ]);
         });
     }

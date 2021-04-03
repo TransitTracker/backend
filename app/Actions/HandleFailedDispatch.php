@@ -2,9 +2,9 @@
 
 namespace App\Actions;
 
+use App\Mail\DispatchFailed;
 use App\Models\Agency;
 use App\Models\FailedJob;
-use App\Mail\DispatchFailed;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
@@ -66,6 +66,6 @@ class HandleFailedDispatch
     private function sendNotification(FailedJob $failedJob)
     {
         $exception = $this->exception->hasResponse() ? $this->exception->getResponse() : $this->exception->getRequest();
-        Mail::to(env('MAIL_TO'))->send(new DispatchFailed(Psr7\str($exception), $this->agency->slug, $failedJob));
+        Mail::to(config('transittracker.admin_email'))->send(new DispatchFailed(Psr7\str($exception), $this->agency->slug, $failedJob));
     }
 }

@@ -172,9 +172,5 @@ class Agency extends Model
             ResponseCache::forget("/v2/agencies/{$agency->slug}");
             ResponseCache::forget("/v2/agencies/{$agency->slug}/vehicles");
         });
-
-        static::created(function (self $agency) {
-//            UpdateMapboxIcons::dispatch($agency)->onQueue('gtfs');
-        });
     }
 }

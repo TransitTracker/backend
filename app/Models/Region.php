@@ -16,7 +16,7 @@ class Region extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'info_title', 'info_body', 'map_box', 'map_center', 'map_zoom', 'credits', 'description'];
+    protected $fillable = ['name', 'slug', 'info_title', 'info_body', 'map_box', 'map_center', 'map_zoom', 'credits', 'description', 'image'];
 
     /**
      * The attributes that should be cast to native types.

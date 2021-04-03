@@ -1,4 +1,6 @@
 *
-!alerts
+!content
+!content/alerts
+!content/regions
 !shapes
 !.gitignore

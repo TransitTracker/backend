@@ -32,6 +32,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('backup:run')->dailyAt('02:15');
         $schedule->command('backup:monitor')->dailyAt('02:30');
         $schedule->command('agency:update-actives')->dailyAt('03:00');
+        $schedule->command('schedule-monitor:sync')->dailyAt('02:45');
+        $schedule->command('schedule-monitor:clean')->dailyAt('02:50');
     }
 
     /**

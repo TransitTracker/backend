@@ -23,6 +23,7 @@
         "laravel/horizon": "^5.7",
         "laravel/slack-notification-channel": "^2.1",
         "league/csv": "^9.6",
+        "ohdearapp/ohdear-php-sdk": "^3.1",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^5.0",
         "readme/metrics": "^5.0",
@@ -30,6 +31,7 @@
         "spatie/flysystem-dropbox": "^1.2",
         "spatie/laravel-backup": "^7.3",
         "spatie/laravel-responsecache": "^6.6",
+        "spatie/laravel-schedule-monitor": "^2.2",
         "spatie/laravel-translatable": "^4.6",
         "symfony/psr-http-message-bridge": "^2.1",
         "usmanhalalit/laracsv": "^2.1"

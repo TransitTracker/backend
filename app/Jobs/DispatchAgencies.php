@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Actions\HandleFailedDispatch;
+use Cron\CronExpression;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Bus\Queueable;
@@ -12,6 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
+use Log;
 
 class DispatchAgencies implements ShouldQueue
 {
@@ -48,6 +50,12 @@ class DispatchAgencies implements ShouldQueue
         // Run through each agency id
         foreach ($this->agencies as $agency) {
             try {
+                // Check if this agency should run now
+                $cron = new CronExpression($agency->cron_schedule);
+                if (! $cron->isDue()) {
+                    continue;
+                }
+
                 $requestOptions = [];
                 $requestOptions['timeout'] = 10;
 
@@ -79,7 +87,6 @@ class DispatchAgencies implements ShouldQueue
                     $dateIso = "{$dateUtc->format('Ymd')}T{$dateUtc->format('Hi')}Z";
                     $stoHash = strtoupper(hash('sha256', "{$stoSecret}{$dateIso}"));
                     $downloadUrl = "{$agency->realtime_url}&hash={$stoHash}";
-                    info($downloadUrl);
                 }
 
                 $response = $client->request($agency->realtime_method, $downloadUrl, $requestOptions);

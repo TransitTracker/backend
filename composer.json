@@ -15,6 +15,7 @@
         "bensampo/laravel-enum": "^3.3",
         "beyondcode/laravel-websockets": "^1.11",
         "doctrine/dbal": "^2.10",
+        "dragonmantank/cron-expression": "^3.1",
         "felixinx/gtfs-realtime-protobuf-php": "@dev",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",

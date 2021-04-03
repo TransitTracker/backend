@@ -14,7 +14,7 @@ class AddCronScheduleFieldToAgenciesTable extends Migration
     public function up()
     {
         Schema::table('agencies', function (Blueprint $table) {
-            $table->string('cron_schedule');
+            $table->string('cron_schedule')->default('* * * * *');
         });
     }
 

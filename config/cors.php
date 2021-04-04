@@ -31,7 +31,7 @@ return [
     /*
      * Matches the request origin. `[*]` allows all origins.
      */
-    'allowed_origins' => ['*.transittracker.ca', 'https://transittracker.ca', 'http://localhost:300'],
+    'allowed_origins' => ['*.transittracker.ca', 'https://transittracker.ca', 'http://localhost:3000'],
 
     /*
      * Matches the request origin with, similar to `Request::is()`

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\AgencyUpdated;
+use App\Events\VehiclesUpdated;
 use Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +22,7 @@ class Agency extends Model
     protected $fakeColumns = ['license'];
 
     protected $dispatchesEvents = [
-        'updated' => AgencyUpdated::class,
+        'updated' => VehiclesUpdated::class,
     ];
 
     /**

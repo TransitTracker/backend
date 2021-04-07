@@ -8,7 +8,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 
-class AgencyUpdated implements ShouldBroadcast
+class VehiclesUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets;
 

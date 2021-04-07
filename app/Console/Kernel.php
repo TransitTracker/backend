@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\CleanFolders;
 use App\Jobs\DispatchAgencies;
 use App\Models\Agency;
 use Illuminate\Console\Scheduling\Schedule;
@@ -27,13 +28,14 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job(new DispatchAgencies(Agency::active()->get()), 'vehicles')->everyMinute()->unlessBetween('03:54', '03:56');
-        $schedule->command('download:clean')->dailyAt('03:55');
         $schedule->command('backup:clean')->dailyAt('02:00');
         $schedule->command('backup:run')->dailyAt('02:15');
         $schedule->command('backup:monitor')->dailyAt('02:30');
-        $schedule->command('agency:update-actives')->dailyAt('03:00');
         $schedule->command('schedule-monitor:sync')->dailyAt('02:45');
         $schedule->command('schedule-monitor:clean')->dailyAt('02:50');
+        $schedule->command('agency:update-actives')->dailyAt('03:00');
+        $schedule->command('download:clean')->dailyAt('03:55');
+        $schedule->job(new CleanFolders(), 'gtfs')->dailyAt('03:55');
     }
 
     /**

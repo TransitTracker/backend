@@ -7,8 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Storage;
 
-class DeleteGtfsData implements ShouldQueue
+class CleanFolders implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -29,6 +30,13 @@ class DeleteGtfsData implements ShouldQueue
      */
     public function handle()
     {
-        //
+        Storage::delete([
+            ...Storage::files('downloads'),
+            ...Storage::allFiles('gtfs'),
+        ]);
+
+        collect(Storage::directories('gtfs'))->each(function ($directory) {
+            Storage::deleteDirectory($directory);
+        });
     }
 }

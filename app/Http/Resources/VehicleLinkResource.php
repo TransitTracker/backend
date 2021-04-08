@@ -14,6 +14,6 @@ class VehicleLinkResource extends JsonResource
      */
     public function toArray($request)
     {
-        return $this->link_id;
+        return $this->id;
     }
 }

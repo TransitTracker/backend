@@ -22,6 +22,7 @@ class GeoJsonLandingResource extends JsonResource
                 'agencies' => $this->active_agencies_count,
                 'vehicles' => $this->vehicles()->count(),
                 'cities' => $this->cities,
+                'range' => 15 - $this->map_zoom,
             ],
             'geometry' => [
                 'type' => 'Point',

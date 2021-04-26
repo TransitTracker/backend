@@ -15,7 +15,9 @@ class V1AlertController extends Controller
      */
     public function index()
     {
-        $alert = Alert::active()->first();
+        $alert = Alert::active()->get()->filter(function ($anAlert) {
+            return ! array_key_exists('only-v2', $anAlert->action_parameters->toArray());
+        })->first();
 
         if ($alert) {
             return new AlertResource($alert);

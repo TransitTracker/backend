@@ -35,7 +35,9 @@ class AlertController extends Controller
     {
         $alerts = Alert::active()->get();
 
-        return AlertResource::collection($alerts);
+        return AlertResource::collection($alerts->filter(function ($alert) {
+            return ! array_key_exists('only-v1', $alert->action_parameters->toArray());
+        }));
     }
 
     /**

@@ -15,7 +15,7 @@ class Vehicle extends Model
      */
     protected $fillable = ['agency_id', 'active', 'agency', 'gtfs_trip', 'route', 'start', 'vehicle', 'lat', 'lon',
                             'trip_id', 'bearing', 'speed', 'stop_sequence', 'status', 'headsign', 'short_name', 'icon',
-                            'relationship', 'label', 'plate', 'odometer', 'timestamp', 'congestion', 'occupancy', ];
+                            'relationship', 'label', 'force_label', 'plate', 'odometer', 'timestamp', 'congestion', 'occupancy', ];
 
     /**
      * The attributes that should be cast to native types.
@@ -61,13 +61,13 @@ class Vehicle extends Model
 
     protected static function booted()
     {
-        static::created(function (Vehicle $vehicle) {
+        static::created(function (self $vehicle) {
             $vehicle->icon = $vehicle->agency->vehicles_type;
             $vehicle->links()->attach($vehicle->agency->links->pluck('id'));
             $vehicle->save();
         });
 
-        static::updated(function (Vehicle $vehicle) {
+        static::updated(function (self $vehicle) {
             ResponseCache::forget("/v2/vehicles/{$vehicle->id}");
         });
     }

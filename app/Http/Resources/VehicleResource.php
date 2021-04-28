@@ -26,7 +26,7 @@ class VehicleResource extends JsonResource
             'route' => $this->route,
             'start' => $this->start,
             'relationship' => ScheduleRelationship::getDescription($this->relationship),
-            'label' => $this->label,
+            'label' => $this->force_label ?? $this->label,
             'plate' => $this->plate,
             'lat' => $this->lat,
             'lon' => $this->lon,

@@ -22,7 +22,7 @@ class VehicleResource extends JsonResource
             'id' => $this->id,
             'ref' => $this->vehicle,
             'isActive' => $this->active,
-            'label' => $this->label,
+            'label' => $this->force_label ?? $this->label,
             'timestamp' => $this->timestamp,
             'tripId' => $this->gtfs_trip,
             'routeId' => $this->route,

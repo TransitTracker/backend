@@ -39,6 +39,7 @@ class ProcessGtfsShapes implements ShouldQueue
      */
     public function handle()
     {
+        // Remove old shapes
         Storage::disk('public')->delete(Storage::disk('public')->files("shapes/{$this->agency->slug}"));
 
         $shapesReader = Reader::createFromPath($this->file)->setHeaderOffset(0);

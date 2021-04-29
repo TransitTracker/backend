@@ -38,6 +38,9 @@ class ProcessGtfsServices implements ShouldQueue
      */
     public function handle()
     {
+        // Remove old services
+        Service::whereAgencyId($this->agency->id)->delete();
+
         if ($this->file) {
             $servicesReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
         } else {

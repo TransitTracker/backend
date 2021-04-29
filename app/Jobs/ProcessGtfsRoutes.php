@@ -37,6 +37,9 @@ class ProcessGtfsRoutes implements ShouldQueue
      */
     public function handle()
     {
+        // Remove old routes
+        Route::whereAgencyId($this->agency->id)->delete();
+
         $routesReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
         foreach ($routesReader->getRecords() as $route) {
             // Prepare a new array to update or create the route model

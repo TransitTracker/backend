@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Actions\HandleFailedDispatch;
 use Cron\CronExpression;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,6 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Log;
+use Request;
 
 class DispatchAgencies implements ShouldQueue
 {
@@ -45,7 +47,11 @@ class DispatchAgencies implements ShouldQueue
         $time = time();
 
         // Create client
-        $client = new Client();
+        $client = new Client([
+            'connect_timeout' => 3,
+            'read_timeout' => 10,
+            'timeout' => 10,
+        ]);
 
         // Run through each agency id
         foreach ($this->agencies as $agency) {
@@ -57,7 +63,6 @@ class DispatchAgencies implements ShouldQueue
                 }
 
                 $requestOptions = [];
-                $requestOptions['timeout'] = 10;
 
                 // Add header to options (if one)
                 if ($agency->header_name) {
@@ -105,6 +110,7 @@ class DispatchAgencies implements ShouldQueue
             } catch (RequestException $e) {
                 $action = new HandleFailedDispatch($e, $agency);
                 $action->execute();
+            } catch (ConnectException $e) {
             }
         }
 

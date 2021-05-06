@@ -78,7 +78,7 @@
             url.append('la', settings.language)
             url.append('re', settings.activeRegion)
     
-            // window.location = 'https://dev.transittracker.ca/migrate?' + url.toString()
+            window.location = 'https://dev.transittracker.ca/migrate?' + url.toString()
         }
 
     </script>

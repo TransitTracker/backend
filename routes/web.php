@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\SnoozeFailedJobController;
+use Illuminate\Support\Facades\App;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,9 +17,6 @@
 /*
  * Base Vue app
  */
-
-use App\Http\Controllers\SnoozeFailedJobController;
-
 Route::get('/', function () {
     return view('app');
 })->name('tt.app');
@@ -27,6 +27,19 @@ Route::get('/', function () {
 Route::get('/opt-out/{lang?}', function ($lang = 'en') {
     return view('opt-out', compact('lang'));
 })->name('tt.opt-out');
+
+/*
+ * Beta redirect route
+ */
+Route::get('/beta/{lang?}', function ($lang = 'en') {
+    if (! in_array($lang, ['en', 'fr'])) {
+        abort(400);
+    }
+
+    App::setLocale($lang);
+
+    return view('beta');
+})->name('tt.beta');
 
 /*
  * Signed route to snooze failed job notification

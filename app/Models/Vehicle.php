@@ -68,7 +68,14 @@ class Vehicle extends Model
         });
 
         static::updated(function (self $vehicle) {
-            ResponseCache::forget("/v2/vehicles/{$vehicle->id}");
+            ResponseCache::selectCachedItems()
+                ->usingSuffix('en')
+                ->forUrls("/v2/vehicles/{$vehicle->id}")
+                ->forget();
+            ResponseCache::selectCachedItems()
+                ->usingSuffix('fr')
+                ->forUrls("/v2/vehicles/{$vehicle->id}")
+                ->forget();
         });
     }
 }

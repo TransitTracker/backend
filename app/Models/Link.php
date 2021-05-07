@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
+use Spatie\Translatable\HasTranslations;
 
 class Link extends Model
 {
@@ -26,7 +26,7 @@ class Link extends Model
 
     protected static function booted()
     {
-        static::updated(function (Link $link) {
+        static::updated(function (self $link) {
 //            $vehicles = Vehicle::whereIn('agency_id', $link->agencies->pluck('id'))->get();
 //            foreach ($vehicles as $vehicle) {
 //                dd($link);
@@ -37,8 +37,14 @@ class Link extends Model
             ResponseCache::forget('/api/links');
             ResponseCache::forget('/v1/links');
 
-            ResponseCache::forget('/v2/links');
-            ResponseCache::forget("/v2/links/{$link->id}");
+            ResponseCache::selectCachedItems()
+                ->usingSuffix('en')
+                ->forUrls('/v2/links', "/v2/links/{$link->id}")
+                ->forget();
+            ResponseCache::selectCachedItems()
+                ->usingSuffix('fr')
+                ->forUrls('/v2/links', "/v2/links/{$link->id}")
+                ->forget();
         });
     }
 }

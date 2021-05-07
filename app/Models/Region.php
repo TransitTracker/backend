@@ -99,10 +99,14 @@ class Region extends Model
             ResponseCache::forget('/api/regions');
             ResponseCache::forget('/v1/regions');
 
-            ResponseCache::forget('/v2/landing');
-            ResponseCache::forget('/v2/regions');
-            ResponseCache::forget("/v2/regions/{$region->slug}");
-            ResponseCache::forget("/v2/regions/{$region->slug}/alerts");
+            ResponseCache::selectCachedItems()
+                ->usingSuffix('en')
+                ->forUrls('/v2/landing', '/v2/regions', "/v2/regions/{$region->slug}", "/v2/regions/{$region->slug}/alerts")
+                ->forget();
+            ResponseCache::selectCachedItems()
+                ->usingSuffix('fr')
+                ->forUrls('/v2/landing', '/v2/regions', "/v2/regions/{$region->slug}", "/v2/regions/{$region->slug}/alerts")
+                ->forget();
         });
     }
 

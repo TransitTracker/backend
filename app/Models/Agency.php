@@ -184,9 +184,14 @@ class Agency extends Model
             ResponseCache::forget("/api/vehicles/{$agency->slug}");
             ResponseCache::forget("/v1/vehicles/{$agency->slug}");
 
-            ResponseCache::forget('/v2/agencies');
-            ResponseCache::forget("/v2/agencies/{$agency->slug}");
-            ResponseCache::forget("/v2/agencies/{$agency->slug}/vehicles");
+            ResponseCache::selectCachedItems()
+                ->usingSuffix('en')
+                ->forUrls('/v2/agencies', "/v2/agencies/{$agency->slug}", "/v2/agencies/{$agency->slug}/vehicles", '/v2/regions')
+                ->forget();
+            ResponseCache::selectCachedItems()
+                ->usingSuffix('fr')
+                ->forUrls('/v2/agencies', "/v2/agencies/{$agency->slug}", "/v2/agencies/{$agency->slug}/vehicles", '/v2/regions')
+                ->forget();
         });
     }
 }

@@ -24,9 +24,15 @@ class Alert extends Model
         static::updated(function (Alert $alert) {
             ResponseCache::forget('/api/alert');
             ResponseCache::forget('/v1/alert');
-
-            ResponseCache::forget('/v2/alerts');
-            ResponseCache::forget("/v2/alerts/{$alert->id}");
+            
+            ResponseCache::selectCachedItems()
+                ->usingSuffix('en')
+                ->forUrls('/v2/alerts', "/v2/alerts/{$alert->id}")
+                ->forget();
+            ResponseCache::selectCachedItems()
+                ->usingSuffix('fr')
+                ->forUrls('/v2/alerts', "/v2/alerts/{$alert->id}")
+                ->forget();
         });
     }
 

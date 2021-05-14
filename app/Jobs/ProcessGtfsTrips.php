@@ -61,6 +61,8 @@ class ProcessGtfsTrips implements ShouldQueue
             ->whereDate('end_date', '>=', Carbon::now())
             ->first();
 
+        $tripsToUpdate = [];
+
         foreach ($tripsRecords as $trip) {
             // Find the route and service matching this trip
             $route = Route::firstWhere([['agency_id', $this->agency->id], ['route_id', $trip['route_id']]]);
@@ -76,6 +78,7 @@ class ProcessGtfsTrips implements ShouldQueue
                 $newTrip = [];
 
                 // Fill each required attribute
+                $newTrip['agency_id'] = $this->agency->id;
                 $newTrip['trip_id'] = $trip['trip_id'];
                 if (array_key_exists('trip_direction_headsign', $trip)) {
                     $newTrip['trip_headsign'] = "{$trip['trip_direction_headsign']} ({$trip['trip_headsign']})";
@@ -102,10 +105,29 @@ class ProcessGtfsTrips implements ShouldQueue
                     $newTrip['shape'] = $trip['shape_id'];
                 }
 
-                // Create or update the trip model
-                Trip::updateOrCreate(['trip_id' => $trip['trip_id'], 'agency_id' => $this->agency->id], $newTrip);
+                // Insert the trip into the array
+                array_push($tripsToUpdate, $newTrip);
             }
         }
+
+        // STO route_long_name is not kept
+        if ($this->agency->slug === 'sto') {
+            $tripsToUpdate = collect($tripsToUpdate)->map(function ($trip) {
+                return array_merge($trip, ['route_long_name' => '']);
+            })->all();
+        }
+
+        Trip::upsert($tripsToUpdate, ['agency_id', 'trip_id'], [
+            'trip_headsign',
+            'trip_short_name',
+            'route_color',
+            'route_text_color',
+            'route_short_name',
+            'route_long_name',
+            'service_id',
+            'shape',
+        ]);
+
         $tripsReader = null;
     }
 }

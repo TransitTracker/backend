@@ -1,36 +1,31 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
 use App\Models\Route;
 use App\Models\Service;
 use App\Models\Trip;
 use Carbon\Carbon;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use League\Csv\Reader;
 use League\Csv\Statement;
 
 class ProcessGtfsTrips implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private Agency $agency;
     private string $file;
     private int $offset;
 
-    /**
-     * Create a new job instance.
-     *
-     * @param Agency $agency
-     * @param string $file
-     * @param int $offset
-     */
     public function __construct(Agency $agency, string $file, int $offset = 0)
     {
         $this->agency = $agency;
@@ -38,11 +33,6 @@ class ProcessGtfsTrips implements ShouldQueue
         $this->offset = $offset;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
         // Remove old trips

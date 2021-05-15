@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,18 +14,12 @@ use Storage;
 
 class ProcessGtfsShapes implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private Agency $agency;
     private string $file;
     private array $shapes;
 
-    /**
-     * Create a new job instance.
-     *
-     * @param Agency $agency
-     * @param string $file
-     */
     public function __construct(Agency $agency, string $file)
     {
         $this->agency = $agency;
@@ -32,11 +27,6 @@ class ProcessGtfsShapes implements ShouldQueue
         $this->shapes = [];
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
         // Remove old shapes

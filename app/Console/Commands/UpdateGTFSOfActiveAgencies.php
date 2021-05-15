@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Agency;
-use App\Jobs\DownloadGTFS;
+use App\Jobs\StaticData\DownloadStatic;
 use Illuminate\Console\Command;
 
 class UpdateGTFSOfActiveAgencies extends Command
@@ -45,7 +45,7 @@ class UpdateGTFSOfActiveAgencies extends Command
 
         // Clean each agency
         foreach ($agencies as $agency) {
-            DownloadGTFS::dispatch($agency)->onQueue('gtfs');
+            DownloadStatic::dispatch($agency)->onQueue('gtfs');
         }
     }
 }

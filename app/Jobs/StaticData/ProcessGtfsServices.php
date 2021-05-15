@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
 use App\Models\Service;
 use Carbon\Carbon;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -14,28 +15,17 @@ use League\Csv\Reader;
 
 class ProcessGtfsServices implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private Agency $agency;
     private string $file;
 
-    /**
-     * Create a new job instance.
-     *
-     * @param Agency $agency
-     * @param string $file
-     */
     public function __construct(Agency $agency, string $file)
     {
         $this->agency = $agency;
         $this->file = $file;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
         // Remove old services

@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\V2\LandingController;
 use App\Http\Controllers\Api\V2\LinkController;
 use App\Http\Controllers\Api\V2\RegionController;
 use App\Http\Controllers\Api\V2\VehicleController;
+use App\Http\Controllers\Api\V2\VinController;
 use App\Http\Middleware\Localization;
 
 /*
@@ -24,34 +25,36 @@ use App\Http\Middleware\Localization;
 */
 
 foreach (['api', 'v1'] as $apiGroup) {
-    Route::prefix($apiGroup)->group(function () {
+    Route::prefix($apiGroup)->group(function () use ($apiGroup) {
         $totalAgencies = env('TOTAL_AGENCIES', 30);
         $totalAgencies3 = $totalAgencies * 3;
+
+        $expansion = $apiGroup === 'v1' ? '' : '.old';
 
         /*
          * Vehicles
          */
-        Route::get('/vehicles/{agency}', [V1VehicleController::class, 'show'])->middleware("throttle:{$totalAgencies3},1,vehicles", 'cacheResponse:300')->name('tt.api.vehicles');
+        Route::get('/vehicles/{agency}', [V1VehicleController::class, 'show'])->middleware("throttle:{$totalAgencies3},1,vehicles", 'cacheResponse:300')->name("tt.api.vehicles{$expansion}");
 
         /*
          * Alerts
          */
-        Route::get('/alert', [V1AlertController::class, 'index'])->middleware('throttle:3,1,alert', 'cacheResponse:10000')->name('tt.api.alert');
+        Route::get('/alert', [V1AlertController::class, 'index'])->middleware('throttle:3,1,alert', 'cacheResponse:10000')->name("tt.api.alert{$expansion}");
 
         /*
          * Regions
          */
-        Route::get('/regions', [V1RegionController::class, 'index'])->middleware('throttle:3,1,regions', 'cacheResponse:10080')->name('tt.api.regions');
+        Route::get('/regions', [V1RegionController::class, 'index'])->middleware('throttle:3,1,regions', 'cacheResponse:10080')->name("tt.api.regions{$expansion}");
 
         /*
          * Dump
          */
-        Route::get('/dump/{agency}', [V1VehicleController::class, 'dump'])->middleware("throttle:{$totalAgencies},60,dump")->name('tt.api.dump');
+        Route::get('/dump/{agency}', [V1VehicleController::class, 'dump'])->middleware("throttle:{$totalAgencies},60,dump")->name("tt.api.dump{$expansion}");
 
         /*
          * Links
          */
-        Route::get('/links', [V1LinkController::class, 'index'])->middleware('throttle:3,1,links', 'cacheResponse:10080')->name('tt.api.links');
+        Route::get('/links', [V1LinkController::class, 'index'])->middleware('throttle:3,1,links', 'cacheResponse:10080')->name("tt.api.links{$expansion}");
 
         /*
          * Fallback (404)
@@ -76,6 +79,8 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::get('regions/{region}', [RegionController::class, 'show']);
     Route::get('regions/{region}/alerts', [RegionController::class, 'alerts']);
     Route::get('vehicles/{vehicle}', [VehicleController::class, 'show']);
+    Route::get('vins', [VinController::class, 'index']);
+    Route::get('vins/{vin}', [VinController::class, 'show']);
 
     Route::fallback(function () {
         return response()->json(['message' => 'Route not found.'], 404);

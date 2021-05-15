@@ -65,7 +65,7 @@ class ExtractAndDispatchGtfs implements ShouldQueue
             file_put_contents($extractFolder.'/trips.txt', $trips);
             $tripsReader = Reader::createFromPath($extractFolder.'/trips.txt')->setHeaderOffset(0);
             // Make sure there is never more than 50000 trips per job
-            $numberOfTripsStatement = ceil(count($tripsReader) / 4500);
+            $numberOfTripsStatement = ceil(count($tripsReader) / 50000);
             for ($i = 0; $i <= $numberOfTripsStatement - 1; $i++) {
                 ProcessGtfsTrips::dispatch($this->agency, $extractFolder.'/trips.txt', $i * 50000)->onQueue('gtfs');
             }

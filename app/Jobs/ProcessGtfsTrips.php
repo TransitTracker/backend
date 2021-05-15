@@ -117,16 +117,9 @@ class ProcessGtfsTrips implements ShouldQueue
             })->all();
         }
 
-        Trip::upsert($tripsToUpdate, ['agency_id', 'trip_id'], [
-            'trip_headsign',
-            'trip_short_name',
-            'route_color',
-            'route_text_color',
-            'route_short_name',
-            'route_long_name',
-            'service_id',
-            'shape',
-        ]);
+        collect($tripsToUpdate)->chunk(1000)->each(function (Collection $chunk) {
+            Trip::upsert($chunk->all(), ['agency_id', 'trip_id']);
+        });
 
         $tripsReader = null;
     }

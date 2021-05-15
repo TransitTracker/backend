@@ -8,6 +8,7 @@ use App\Models\FailedJob;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Support\Facades\Mail;
 
 class HandleFailedDispatch
@@ -27,9 +28,9 @@ class HandleFailedDispatch
         $thirty = now()->addMinutes(30);
 
         if ($this->exception->hasResponse()) {
-            $smallException = mb_substr((string) $this->exception->getResponse()->getStatusCode().Psr7\str($this->exception->getRequest()), 0, 250);
+            $smallException = mb_substr((string) $this->exception->getResponse()->getStatusCode().Message::toString($this->exception->getRequest()), 0, 250);
         } else {
-            $smallException = mb_substr(Psr7\str($this->exception->getRequest()), 0, 250);
+            $smallException = mb_substr(Message::toString($this->exception->getRequest()), 0, 250);
         }
 
         $failedJob = FailedJob::firstWhere([
@@ -40,14 +41,11 @@ class HandleFailedDispatch
 
         if ($failedJob && Carbon::parse($failedJob->snooze)->isAfter($thirty)) {
             // Do nothing
-            info('Nothing to do. Failed job is in the snooze period for at least 30 minutes.');
         } elseif ($failedJob && Carbon::parse($failedJob->snooze)->isAfter($now)) {
-            info('Do not send, but add 30 minutes to the snooze period.');
             // Update but do not send
             $failedJob->snooze = $thirty;
             $failedJob->save();
         } elseif ($failedJob) {
-            info('Send, snooze period is expired');
             // Update and send
             $failedJob->snooze = $thirty;
             $failedJob->save();

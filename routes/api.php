@@ -79,8 +79,6 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::get('regions/{region}', [RegionController::class, 'show']);
     Route::get('regions/{region}/alerts', [RegionController::class, 'alerts']);
     Route::get('vehicles/{vehicle}', [VehicleController::class, 'show']);
-    Route::get('vins', [VinController::class, 'index']);
-    Route::get('vins/{vin}', [VinController::class, 'show']);
 
     Route::fallback(function () {
         return response()->json(['message' => 'Route not found.'], 404);

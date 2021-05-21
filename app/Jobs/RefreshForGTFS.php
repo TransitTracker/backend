@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\Agency;
 use App\Events\VehiclesUpdated;
+use App\Models\Agency;
 use App\Models\Stat;
 use App\Models\Trip;
 use App\Models\Vehicle;
@@ -64,10 +64,10 @@ class RefreshForGTFS implements ShouldQueue
         // Go trough each vehicle
         foreach ($feed->getEntity() as $entity) {
             /*
-             * Check if entity has vehiclePosition
+             * Check if entity has vehiclePosition or if is not valid
              */
             $vehicle = $entity->getVehicle();
-            if (! $vehicle) {
+            if (! $vehicle || ! $vehicle->getTrip()) {
                 continue;
             }
 
@@ -118,7 +118,7 @@ class RefreshForGTFS implements ShouldQueue
 
             // vehicle->label
             // Don't use the label feed for GO Transit
-            if ($vehicle->getVehicle()->getLabel() && (!in_array($this->agency->slug, ['go', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc']))) {
+            if ($vehicle->getVehicle()->getLabel() && (! in_array($this->agency->slug, ['go', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc']))) {
                 $newVehicle['label'] = $vehicle->getVehicle()->getLabel();
             } else {
                 $newVehicle['label'] = null;

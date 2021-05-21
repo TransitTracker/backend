@@ -31,11 +31,11 @@ class CleanFolders implements ShouldQueue
     public function handle()
     {
         Storage::delete([
-            ...Storage::files('downloads'),
-            ...Storage::allFiles('gtfs'),
+            ...Storage::files('feeds'),
+            ...Storage::allFiles('static'),
         ]);
 
-        collect(Storage::directories('gtfs'))->each(function ($directory) {
+        collect(Storage::directories('static'))->each(function ($directory) {
             Storage::deleteDirectory($directory);
         });
     }

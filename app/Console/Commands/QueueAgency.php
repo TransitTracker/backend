@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\RealtimeData\DispatchAgencies;
 use App\Models\Agency;
-use App\Jobs\DispatchAgencies;
 use Illuminate\Console\Command;
 
 class QueueAgency extends Command

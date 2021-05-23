@@ -3,7 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\CleanFolders;
-use App\Jobs\DispatchAgencies;
+use App\Jobs\RealtimeData\DispatchAgencies;
 use App\Models\Agency;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;

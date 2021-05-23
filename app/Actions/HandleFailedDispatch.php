@@ -34,7 +34,7 @@ class HandleFailedDispatch
         }
 
         $failedJob = FailedJob::firstWhere([
-            'name' => 'App\\Jobs\\DispatchAgencies',
+            'name' => 'App\\Jobs\\RealtimeData\\DispatchAgencies',
             'agency_id' => $this->agency->id,
             'exception' => $smallException,
         ]);
@@ -52,7 +52,7 @@ class HandleFailedDispatch
             $this->sendNotification($failedJob);
         } else {
             $failedJob = FailedJob::create([
-                'name' => 'App\\Jobs\\DispatchAgencies',
+                'name' => 'App\\Jobs\\RealtimeData\\DispatchAgencies',
                 'agency_id' => $this->agency->id,
                 'exception' => $smallException,
                 'snooze' => $thirty,

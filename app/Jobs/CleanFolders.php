@@ -31,7 +31,7 @@ class CleanFolders implements ShouldQueue
     public function handle()
     {
         Storage::delete([
-            ...Storage::files('feeds'),
+            ...Storage::files('downloads'),
             ...Storage::allFiles('static'),
         ]);
 

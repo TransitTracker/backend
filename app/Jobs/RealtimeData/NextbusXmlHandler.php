@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\RealtimeData;
 
-use App\Models\Agency;
 use App\Events\VehiclesUpdated;
+use App\Models\Agency;
 use App\Models\Stat;
 use App\Models\Trip;
 use App\Models\Vehicle;
@@ -15,7 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 
-class RefreshForNextbus implements ShouldQueue
+class NextbusXmlHandler implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -118,9 +118,6 @@ class RefreshForNextbus implements ShouldQueue
         // Replace timestamp
         $this->agency->timestamp = (int) floor($xml->lastTime['time'] / 1000);
         $this->agency->save();
-
-        // Send a new event to alert browser that vehicles have been refresh
-        event(new VehiclesUpdated($this->agency));
 
         // Add statistics
         $stat = new Stat();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\RealtimeData;
 
 use App\Actions\HandleFailedDispatch;
 use Cron\CronExpression;
@@ -14,8 +14,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use Log;
-use Request;
 
 class DispatchAgencies implements ShouldQueue
 {
@@ -101,11 +99,15 @@ class DispatchAgencies implements ShouldQueue
                 Storage::put("feeds/{$agency->slug}", (string) $response->getBody());
 
                 if ($agency->realtime_type === 'gtfsrt') {
-                    RefreshForGTFS::dispatch($agency, $fileName, $time)->onQueue('vehicles');
+                    GtfsRtHandler::dispatch($agency, $fileName, $time)->onQueue('vehicles');
                 }
 
                 if ($agency->realtime_type === 'nextbus') {
-                    RefreshForNextbus::dispatch($agency, $fileName, $time)->onQueue('vehicles');
+                    NextbusXmlHandler::dispatch($agency, $fileName, $time)->onQueue('vehicles');
+                }
+
+                if ($agency->realtime_type === 'nextbus-json') {
+                    NextbusJsonHandler::dispatch($agency, $fileName, $time)->onQueue('vehicles');
                 }
             } catch (RequestException $e) {
                 $action = new HandleFailedDispatch($e, $agency);

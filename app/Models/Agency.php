@@ -17,7 +17,7 @@ class Agency extends Model
      */
     protected $fillable = ['name', 'short_name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type',
                             'realtime_options', 'color', 'text_color', 'vehicles_type', 'is_active', 'license',
-                            'short_name', 'refresh_is_active', 'cron_schedule', 'cities', ];
+                            'short_name', 'refresh_is_active', 'cron_schedule', 'cities', 'static_etag', ];
 
     protected $fakeColumns = ['license'];
 

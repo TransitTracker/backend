@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SnoozeFailedJobController;
 use Illuminate\Support\Facades\App;
 
@@ -45,3 +46,6 @@ Route::get('/beta/{lang?}', function ($lang = 'en') {
  * Signed route to snooze failed job notification
  */
 Route::get('/failed-job/{failedJob}/snooze/{hours}', [SnoozeFailedJobController::class, 'snooze'])->middleware('signed')->name('signed.snooze');
+
+Route::view('/login', 'auth.login');
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login');

@@ -26,7 +26,7 @@ class LandingController extends Controller
 
         $this->middleware('cache.headers:public,max-age=600');
 
-        $this->middleware('cacheResponse');
+        $this->middleware('cacheResponse:600');
     }
 
     /**

@@ -35,9 +35,6 @@ class ProcessGtfsTrips implements ShouldQueue
 
     public function handle()
     {
-        // Remove old trips
-        Trip::whereAgencyId($this->agency->id)->delete();
-
         $tripsReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
         $tripsStatement = (new Statement())
             ->offset($this->offset)

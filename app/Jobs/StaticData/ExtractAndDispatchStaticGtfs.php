@@ -3,13 +3,13 @@
 namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
+use App\Models\Trip;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
 use ZipArchive;
 
@@ -64,6 +64,9 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
         $this->batch()->add([
             new ProcessGtfsRoutes($this->agency, "{$extractFolder}/routes.txt"),
         ]);
+
+        // Remove old trips
+        Trip::whereAgencyId($this->agency->id)->delete();
 
         // Open and dispatch trips
         $trips = $zip->getFromName('trips.txt');

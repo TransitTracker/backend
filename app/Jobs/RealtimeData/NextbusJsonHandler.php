@@ -60,6 +60,11 @@ class NextbusJsonHandler implements ShouldQueue
 
         $timestamp = floor($json->lastTime->time / 1000);
 
+        // Return early if there is no vehicles
+        if (! $json->vehicle) {
+            return;
+        }
+
         // Go trough each vehicle
         foreach ($json->vehicle as $vehicle) {
             /*

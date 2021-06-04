@@ -6,6 +6,7 @@ use App\Enums\CongestionLevel;
 use App\Enums\OccupancyStatus;
 use App\Enums\ScheduleRelationship;
 use App\Enums\VehicleStopStatus;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class VehicleResource extends JsonResource
@@ -57,6 +58,10 @@ class VehicleResource extends JsonResource
             'links' => LinkSimpleResource::collection($this->links),
             'trip' => TripResource::make($this->trip)->additional(['agencySlug' => $this->agency->slug]),
             'meta' => (object) [],
+            $this->mergeWhen($request->include && $request->include === 'all', [
+                'updatedAt' => Carbon::parse($this->updated_at)->format('d-m-Y H:i'),
+                'createdAt' => Carbon::parse($this->created_at)->format('d-m-Y H:i'),
+            ]),
         ];
     }
 }

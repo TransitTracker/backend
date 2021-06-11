@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,5 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Model::preventLazyLoading(App::environment('local'));
     }
 }

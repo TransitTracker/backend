@@ -14,12 +14,14 @@ class GeoJsonVehicleResource extends JsonResource
      */
     public function toArray($request)
     {
+        $icon = ($this->agency->slug === 'stm' && $this->vehicle === '39037') ? 'habs' : $this->icon;
+
         return [
             'type' => 'Feature',
             'properties' => [
                 'id' => $this->id,
                 'label' => $this->label ? $this->label : $this->vehicle,
-                'marker-symbol' => "tt-{$this->agency->slug}-{$this->icon}",
+                'marker-symbol' => "tt-{$this->agency->slug}-{$icon}",
             ],
             'geometry' => [
                 'type' => 'Point',

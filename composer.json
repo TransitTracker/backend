@@ -14,6 +14,8 @@
         "ext-zip": "*",
         "bensampo/laravel-enum": "^3.3",
         "beyondcode/laravel-websockets": "^1.11",
+        "blade-ui-kit/blade-icons": "^1.0",
+        "codeat3/blade-google-material-design-icons": "^1.2",
         "doctrine/dbal": "^2.10",
         "dragonmantank/cron-expression": "^3.1",
         "felixinx/gtfs-realtime-protobuf-php": "@dev",

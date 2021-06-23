@@ -1,0 +1,16 @@
+{
+    "for developers": "for developers",
+    "FR": "FR",
+    "A project by": "A project by",
+    "Making realtime transit data acessible": "Making realtime transit data acessible",
+    "REST API for developers": "REST API for developers",
+    "Free!": "Free!",
+    "A simple JSON REST api to access realtime transit from multiple Canadians cities, like Toronto, Montréal, Gatineau and more!": "A simple JSON REST api to access realtime transit from multiple Canadians cities, like Toronto, Montréal, Gatineau and more!",
+    "Docs": "Docs",
+    "Status": "Status",
+    "Bring Your Own Data": "Bring Your Own Data",
+    "You can now locally import your GTFS-Realtime feeds into Transit Tracker. Along with the static feed, you can access all Transit Tracker features for any compatible cities!": "You can now locally import your GTFS-Realtime feeds into Transit Tracker. Along with the static feed, you can access all Transit Tracker features for any compatible cities!",
+    "Start now": "Start now",
+    "Looking for Transit Tracker?": "Looking for Transit Tracker?",
+    "If you are not a developer, you can always use Transit Tracker without any technical knowledge.": "If you are not a developer, you can always use Transit Tracker without any technical knowledge."
+}

@@ -17,9 +17,7 @@ yarn-error.log
 !/public/workbox*.js
 !/public/service-worker.js
 /public/js
-/public/css/app.css
-/public/fonts/vendor
-/public/vendor
+/public/css
 /public/packages
 /public/vendors~js
 /public/mix-manifest.json

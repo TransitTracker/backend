@@ -1,0 +1,16 @@
+{
+    "for developers": "pour les développeurs",
+    "FR": "EN",
+    "A project by": "Un projet par",
+    "Making realtime transit data accessible": "Rendre accessibles les données de transport en temps réel",
+    "REST API for developers": "API REST pour les développeurs",
+    "Free!": "Gratuit!",
+    "A simple JSON REST api to access realtime transit from multiple Canadians cities, like Toronto, Montréal, Gatineau and more!": "Une API simple pour accéder au transport en commun en temps réel depuis plusieurs villes canadiennes, comme Toronto, Montréal, Gatineau et plus encore!",
+    "Docs": "Documentation (anglais)",
+    "Status": "Status",
+    "Bring Your Own Data": "Apportez vos propres données",
+    "You can now locally import your GTFS-Realtime feeds into Transit Tracker. Along with the static feed, you can access all Transit Tracker features for any compatible cities!": "Vous pouvez désormais importer localement vos flux GTFS-Realtime dans Transit Tracker. Combiné avec l'horaire statique, vous pouvez accéder à toutes les fonctionnalités de Transit Tracker pour toutes les villes compatibles !",
+    "Start now": "Commencez maintenant",
+    "Looking for Transit Tracker?": "À la recherche de Transit Tracker?",
+    "If you are not a developer, you can always use Transit Tracker without any technical knowledge.": "Si vous n'êtes pas développeur, vous pouvez toujours utiliser Transit Tracker sans aucune connaissance technique."
+}

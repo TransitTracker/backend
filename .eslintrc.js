@@ -1,21 +1,19 @@
+/* eslint-disable */
 module.exports = {
+  root: true,
   env: {
     browser: true,
-    es6: true,
-  },
-  extends: [
-    'standard',
-    'plugin:vue/recommended',
-    'plugin:vue/essential',
-    'vuetify',
-  ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
+    node: true,
   },
   parserOptions: {
     parser: 'babel-eslint',
-    ecmaVersion: 2018,
-    sourceType: 'module',
   },
+  extends: [
+    'prettier',
+    'plugin:prettier/recommended',
+    'plugin:tailwind/recommended',
+  ],
+  plugins: ['prettier'],
+  // add your custom rules here
+  rules: {},
 }

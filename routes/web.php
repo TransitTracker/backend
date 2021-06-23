@@ -16,18 +16,17 @@ use Illuminate\Support\Facades\App;
 */
 
 /*
- * Base Vue app
+ * Developer site
  */
-Route::get('/', function () {
-    return view('app');
-})->name('tt.app');
+Route::get('/{lang?}', function ($lang = 'en') {
+    if (! in_array($lang, ['en', 'fr'])) {
+        abort(400);
+    }
 
-/*
- * Opt-out from statistics
- */
-Route::get('/opt-out/{lang?}', function ($lang = 'en') {
-    return view('opt-out', compact('lang'));
-})->name('tt.opt-out');
+    App::setLocale($lang);
+
+    return view('home');
+})->name('tt.dev.landing');
 
 /*
  * Beta redirect route

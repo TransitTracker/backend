@@ -30,7 +30,6 @@
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^5.0",
         "readme/metrics": "^5.0",
-        "sentry/sentry-laravel": "^2.6",
         "spatie/flysystem-dropbox": "^1.2",
         "spatie/laravel-backup": "^7.3",
         "spatie/laravel-responsecache": "^7.1",

@@ -46,12 +46,11 @@ class NextbusJsonHandler implements ShouldQueue
     public function handle()
     {
         // Put all previously active vehicle as inactive
-        Vehicle::where([
+        $inactiveArray = Vehicle::where([
             ['active', true],
             ['agency_id', $this->agency->id],
-        ])->update(
-            ['active' => false]
-        );
+        ])->select(['id', 'active'])->get();
+        $activeArray = [];
 
         $data = Storage::get($this->dataFile);
 
@@ -123,8 +122,15 @@ class NextbusJsonHandler implements ShouldQueue
              * Check if vehicle is recent, then create or update the vehicle model
              */
             if ($vehicle->secsSinceReport < 180) {
-                Vehicle::updateOrCreate(['vehicle' => $vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
+                $vehicle = Vehicle::updateOrCreate(['vehicle' => $vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
+
+                array_push($activeArray, $vehicle->id);
             }
+        }
+
+        // Update active information
+        if ($inactiveArray->except($activeArray)->count() > 0) {
+            $inactiveArray->except($activeArray)->toQuery()->update(['active' => false]);
         }
 
         // Replace timestamp

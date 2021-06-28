@@ -48,12 +48,11 @@ class GtfsRtHandler implements ShouldQueue
     public function handle()
     {
         // Put all previously active vehicle as inactive
-        Vehicle::where([
+        $inactiveArray = Vehicle::where([
             ['active', true],
             ['agency_id', $this->agency->id],
-        ])->update(
-            ['active' => false]
-        );
+        ])->select(['id', 'active'])->get();
+        $activeArray = [];
 
         $data = Storage::get($this->dataFile);
 
@@ -211,13 +210,20 @@ class GtfsRtHandler implements ShouldQueue
              * Create or update the vehicle model
              */
             try {
-                Vehicle::updateOrCreate(['vehicle' => $vehicle->getVehicle()->getId(), 'agency_id' => $this->agency->id], $newVehicle);
+                $vehicle = Vehicle::updateOrCreate(['vehicle' => $vehicle->getVehicle()->getId(), 'agency_id' => $this->agency->id], $newVehicle);
+
+                array_push($activeArray, $vehicle->id);
             } catch (Exception $e) {
                 Log::error('Vehicle in the refresh failed', [
                     'agency' => $this->agency->slug,
                     'exception' => $e->getMessage(),
                 ]);
             }
+        }
+
+        // Update active information
+        if ($inactiveArray->except($activeArray)->count() > 0) {
+            $inactiveArray->except($activeArray)->toQuery()->update(['active' => false]);
         }
 
         // Replace timestamp

@@ -27,7 +27,7 @@ class FailedJob extends Model
      */
     public function signedSnoozeUrl(int $hours)
     {
-        return URL::temporarySignedRoute('signed.snooze', now()->addHour(), [
+        return URL::temporarySignedRoute('signed.snooze', now()->addHours(5), [
             'failedJob' => $this,
             'hours' => $hours,
         ]);

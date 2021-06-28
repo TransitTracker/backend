@@ -2,14 +2,14 @@
 
 namespace App\Actions;
 
-use App\Mail\DispatchFailed;
 use App\Models\Agency;
 use App\Models\FailedJob;
+use App\Models\User;
+use App\Notifications\DispatchFailed;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Message;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class HandleFailedDispatch
 {
@@ -24,9 +24,6 @@ class HandleFailedDispatch
 
     public function execute()
     {
-        $now = now();
-        $thirty = now()->addMinutes(30);
-
         if ($this->exception->hasResponse()) {
             $smallException = mb_substr((string) $this->exception->getResponse()->getStatusCode().Message::toString($this->exception->getRequest()), 0, 250);
         } else {
@@ -39,15 +36,15 @@ class HandleFailedDispatch
             'exception' => $smallException,
         ]);
 
-        if ($failedJob && Carbon::parse($failedJob->snooze)->isAfter($thirty)) {
+        if ($failedJob && Carbon::parse($failedJob->snooze)->isAfter(now()->addMinutes(30))) {
             // Do nothing
-        } elseif ($failedJob && Carbon::parse($failedJob->snooze)->isAfter($now)) {
+        } elseif ($failedJob && Carbon::parse($failedJob->snooze)->isAfter(now())) {
             // Update but do not send
-            $failedJob->snooze = $thirty;
+            $failedJob->snooze = now()->addMinutes(30);
             $failedJob->save();
         } elseif ($failedJob) {
             // Update and send
-            $failedJob->snooze = $thirty;
+            $failedJob->snooze = now()->addMinutes(30);
             $failedJob->save();
             $this->sendNotification($failedJob);
         } else {
@@ -55,7 +52,7 @@ class HandleFailedDispatch
                 'name' => 'App\\Jobs\\RealtimeData\\DispatchAgencies',
                 'agency_id' => $this->agency->id,
                 'exception' => $smallException,
-                'snooze' => $thirty,
+                'snooze' => now()->addMinutes(30),
             ]);
             $this->sendNotification($failedJob);
         }
@@ -63,7 +60,6 @@ class HandleFailedDispatch
 
     private function sendNotification(FailedJob $failedJob)
     {
-        $exception = $this->exception->hasResponse() ? $this->exception->getResponse() : $this->exception->getRequest();
-        Mail::to(config('transittracker.admin_email'))->send(new DispatchFailed(Psr7\str($exception), $this->agency->slug, $failedJob));
+        Notification::send([User::first()], new DispatchFailed($failedJob));
     }
 }

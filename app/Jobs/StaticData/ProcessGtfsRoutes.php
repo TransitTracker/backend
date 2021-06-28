@@ -10,6 +10,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use League\Csv\Reader;
 
 class ProcessGtfsRoutes implements ShouldQueue
@@ -32,6 +34,8 @@ class ProcessGtfsRoutes implements ShouldQueue
 
         $routesReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
 
+        $routesToUpdate = [];
+
         foreach ($routesReader->getRecords() as $route) {
             // Prepare a new array to update or create the route model
             $newRoute = [];
@@ -41,6 +45,7 @@ class ProcessGtfsRoutes implements ShouldQueue
             }
 
             // Fill each required attribute
+            $newRoute['agency_id'] = $this->agency->id;
             $newRoute['route_id'] = $route['route_id'];
             $newRoute['short_name'] = $route['route_short_name'];
             $newRoute['long_name'] = $route['route_long_name'];
@@ -55,9 +60,13 @@ class ProcessGtfsRoutes implements ShouldQueue
                 $newRoute['text_color'] = '#000000';
             }
 
-            // Create or update the route model
-            Route::updateOrCreate(['route_id' => $route['route_id'], 'agency_id' => $this->agency->id], $newRoute);
+            array_push($routesToUpdate, $newRoute);
         }
+
+        collect($routesToUpdate)->chunk(1000)->each(function (Collection $chunk) {
+            Route::upsert($chunk->all(), ['agency_id', 'route_id']);
+        });
+
         $routesReader = null;
     }
 }

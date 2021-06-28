@@ -7,7 +7,7 @@
     "Free!": "Gratuit!",
     "A simple JSON REST api to access realtime transit from multiple Canadians cities, like Toronto, Montréal, Gatineau and more!": "Une API simple pour accéder au transport en commun en temps réel depuis plusieurs villes canadiennes, comme Toronto, Montréal, Gatineau et plus encore!",
     "Docs": "Documentation (anglais)",
-    "Status": "Status",
+    "Status": "Statut",
     "Bring Your Own Data": "Apportez vos propres données",
     "You can now locally import your GTFS-Realtime feeds into Transit Tracker. Along with the static feed, you can access all Transit Tracker features for any compatible cities!": "Vous pouvez désormais importer localement vos flux GTFS-Realtime dans Transit Tracker. Combiné avec l'horaire statique, vous pouvez accéder à toutes les fonctionnalités de Transit Tracker pour toutes les villes compatibles !",
     "Start now": "Commencez maintenant",

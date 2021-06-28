@@ -13,7 +13,7 @@
         <div class="bg-white rounded-lg shadow-sm p-4 grid">
             <div class="flex items-center mb-2">
                 <h3 class="text-lg font-semibold">{{ __('REST API for developers') }}</h3>
-                <span class="ml-2 py-1 px-2 rounded-2xl bg-secondary-700 text-white font-medium text-xs">Free!</span>
+                <span class="ml-2 mr-2 py-1 px-2 rounded-2xl bg-secondary-700 text-white font-medium text-xs">{{ __('Free!') }}</span>
                 <div class="flex-grow"></div>
                 <x-gmdi-code class="w-8 h-8 text-secondary-700" />
             </div>
@@ -23,7 +23,7 @@
                     {{ __('Docs') }}
                     <x-gmdi-open-in-new class="w-5 h-5 ml-2" />
                 </a>
-                <a target="_blank" href="https://status.transittracker.ca" class="rounded inline-flex items-center text-white font-medium shadow bg-primary-500 hover:bg-opacity-80 px-4 py-2 text-sm tracking-wider uppercase justify-self-start self-end">
+                <a target="_blank" href="https://{{ app()->getLocale() === 'en' ? 'status' : 'statut' }}.transittracker.ca" class="rounded inline-flex items-center text-white font-medium shadow bg-primary-500 hover:bg-opacity-80 px-4 py-2 text-sm tracking-wider uppercase justify-self-start self-end">
                     {{ __('Status') }}
                     <x-gmdi-open-in-new class="w-5 h-5 ml-2" />
                 </a>
@@ -36,7 +36,7 @@
                 <x-gmdi-upload-file class="w-8 h-8 text-secondary-700" />
             </div>
             <p class="mb-4">{{ __('You can now locally import your GTFS-Realtime feeds into Transit Tracker. Along with the static feed, you can access all Transit Tracker features for any compatible cities!') }}</p>
-            <a target="_blank" href="https://www.transittracker.ca/byod" class="rounded inline-flex items-center text-white font-medium shadow bg-primary-500 hover:bg-opacity-80 px-4 py-2 text-sm tracking-wider uppercase justify-self-start self-end">
+            <a target="_blank" href="https://www.transittracker.ca/{{ app()->getLocale() === 'en' ? '' : 'fr/' }}byod" class="rounded inline-flex items-center text-white font-medium shadow bg-primary-500 hover:bg-opacity-80 px-4 py-2 text-sm tracking-wider uppercase justify-self-start self-end">
                 {{ __('Start now') }}
                 <x-gmdi-open-in-new class="w-5 h-5 ml-2" />
             </a>

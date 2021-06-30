@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\AgencyController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\SnoozeFailedJobController;
@@ -39,9 +40,11 @@ Route::get('/beta/{lang?}', function ($lang = 'en') {
     return view('beta');
 })->name('tt.beta');
 
-/*
- * Signed route to snooze failed job notification
- */
+// Admin routes
+Route::prefix('admin')->group(function () {
+    Route::get('agencies/{agency}/update', [AgencyController::class, 'update'])->name('admin.agencies.update');
+});
+
 Route::get('/failed-job/{failedJob}/snooze/{hours}', [SnoozeFailedJobController::class, 'snooze'])->middleware('signed')->name('signed.snooze');
 
 Route::view('/login', 'auth.login');

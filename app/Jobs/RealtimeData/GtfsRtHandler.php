@@ -2,6 +2,7 @@
 
 namespace App\Jobs\RealtimeData;
 
+use App\Actions\HandleExpiredGtfs;
 use App\Events\VehiclesUpdated;
 use App\Models\Agency;
 use App\Models\Stat;
@@ -60,6 +61,8 @@ class GtfsRtHandler implements ShouldQueue
         $feed = new FeedMessage();
         $feed->mergeFromString($data);
 
+        $vehiclesWithoutTrip = 0;
+
         // Go trough each vehicle
         foreach ($feed->getEntity() as $entity) {
             /*
@@ -76,6 +79,10 @@ class GtfsRtHandler implements ShouldQueue
             $trip = Trip::where([['agency_id', '=', $this->agency->id], ['trip_id', '=', $vehicle->getTrip()->getTripId()]])
                 ->select('id')
                 ->first();
+
+            if (! $trip) {
+                $vehiclesWithoutTrip += 1;
+            }
 
             /*
              * Prepare a new array to update the vehicle model
@@ -239,6 +246,12 @@ class GtfsRtHandler implements ShouldQueue
             'time' => $this->time,
         ];
         $stat->save();
+
+        // Launch a notification if more than half of the vehicles don't have corresponding trip
+        if (($vehiclesWithoutTrip / count($feed->getEntity())) > 0.5) {
+            $action = new HandleExpiredGtfs($this->agency);
+            $action->execute();
+        }
 
         // Delete the file
         Storage::delete($this->dataFile);

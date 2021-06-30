@@ -7,6 +7,7 @@ use Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ResponseCache\Facades\ResponseCache;
+use URL;
 
 class Agency extends Model
 {
@@ -174,6 +175,13 @@ class Agency extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);
+    }
+
+    public function signedUpdateGtfsUrl()
+    {
+        return URL::temporarySignedRoute('admin.agencies.update', now()->addHours(12), [
+            'agency' => $this,
+        ]);
     }
 
     protected static function booted()

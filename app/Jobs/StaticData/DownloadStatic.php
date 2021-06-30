@@ -3,17 +3,22 @@
 namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
+use App\Models\User;
+use App\Notifications\StaticDataUpdated;
 use GuzzleHttp\Client;
+use Illuminate\Bus\Batch;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Notification;
 
 class DownloadStatic implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private Agency $agency;
 
@@ -46,13 +51,11 @@ class DownloadStatic implements ShouldQueue
 
             $client = null;
 
-            return;
+            return $this->batch()->cancel();
         }
 
         // Dispatch extraction
-        Bus::batch([
-            new ExtractAndDispatchStaticGtfs($this->agency, $fileName),
-        ])->onQueue('gtfs')->name("{$this->agency->slug} GTFS refresh {$time}")->dispatch();
+        $this->batch()->add(new ExtractAndDispatchStaticGtfs($this->agency, $fileName));
 
         // Erase client
         $client = null;

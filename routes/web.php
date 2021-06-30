@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\SnoozeFailedJobController;
 use Illuminate\Support\Facades\App;
 
@@ -18,15 +19,12 @@ use Illuminate\Support\Facades\App;
 /*
  * Developer site
  */
-Route::get('/{lang?}', function ($lang = 'en') {
-    if (! in_array($lang, ['en', 'fr'])) {
-        abort(400);
-    }
-
-    App::setLocale($lang);
+Route::view('/', 'home')->name('tt.dev.landing');
+Route::get('/fr', function () {
+    App::setLocale('fr');
 
     return view('home');
-})->name('tt.dev.landing');
+})->name('tt.dev.landing.fr');
 
 /*
  * Beta redirect route
@@ -48,3 +46,5 @@ Route::get('/failed-job/{failedJob}/snooze/{hours}', [SnoozeFailedJobController:
 
 Route::view('/login', 'auth.login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
+
+Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');

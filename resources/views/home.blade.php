@@ -1,7 +1,22 @@
-
 @extends('layouts.app')
 
 @section('body')
+@auth
+    <div class="bg-primary-700 text-white">
+        <div class="container mx-auto px-4 flex items-center gap-x-4 py-2">
+            <b class="font-medium text-sm tracking-wide">Admin panel:</b>
+            <a href="/horizon"
+                class="rounded inline-flex items-center font-medium bg-white bg-opacity-0 hover:bg-opacity-10 focus:bg-opacity-10 px-4 py-2 text-sm tracking-wider uppercase justify-self-start self-end">
+                Horizon
+            </a>
+            <div class="flex-grow"></div>
+            <a href="{{ route('logout') }}"
+                class="rounded inline-flex items-center font-medium bg-white bg-opacity-0 hover:bg-opacity-10 focus:bg-opacity-10 px-4 py-2 text-sm tracking-wider uppercase justify-self-start self-end">
+                Log out
+            </a>
+        </div>
+    </div> 
+@endauth
     <div class="bg-secondary-500 bg-tt-pattern bg-32 relative">
         <div class="bg-gradient-to-r from-secondary-500 to-transparent py-10">
             <div class="container mx-auto px-4">
@@ -18,7 +33,7 @@
                 <x-gmdi-code class="w-8 h-8 text-secondary-700" />
             </div>
             <p class="mb-4">{{ __('A simple JSON REST api to access realtime transit from multiple Canadians cities, like Toronto, Montréal, Gatineau and more!') }}</p>
-            <div class="flex gap-2">
+            <div class="flex flex-wrap gap-2">
                 <a target="_blank" href="https://felixinx.stoplight.io/docs/transit-tracker" class="rounded inline-flex items-center text-white font-medium shadow bg-primary-500 hover:bg-opacity-80 px-4 py-2 text-sm tracking-wider uppercase justify-self-start self-end">
                     {{ __('Docs') }}
                     <x-gmdi-open-in-new class="w-5 h-5 ml-2" />

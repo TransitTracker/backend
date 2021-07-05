@@ -31,7 +31,13 @@
             <a href="{{ app()->getLocale() === 'en' ? '/fr' : '/' }}" class=" min-w-[64px] h-9 px-4 flex items-center justify-center bg-white bg-opacity-0 hover:bg-opacity-10 text-sm font-medium tracking-wider rounded">{{ __('FR') }}</a>
         </div>
     </nav>
-
+    @if (session('status'))
+    <div class="bg-secondary-700 text-white">
+        <div class="container mx-auto p-4 font-medium text-sm tracking-wide">
+            {{ session('status') }}
+        </div>
+    </div>
+    @endif
     <div class="pb-24">@yield('body')</div>
 
     <footer class="mt-20 absolute bottom-0 w-full h-12">
@@ -49,6 +55,8 @@
         </div>
     </footer>
 
+    @production
     <script async defer data-website-id="577432c9-d486-4ba6-8d36-6407c6c618e8" src="https://stats.felixinx.me/umami.js"></script>
+    @endproduction
 </body>
 </html>

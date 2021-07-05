@@ -33,7 +33,7 @@ class RegionController extends Controller
      */
     public function index()
     {
-        $regions = Region::with(['agencies', 'agencies.regions:slug,name'])->get();
+        $regions = Region::with(['activeAgencies', 'activeAgencies.regions:slug,name'])->get();
 
         return RegionResource::collection($regions);
     }

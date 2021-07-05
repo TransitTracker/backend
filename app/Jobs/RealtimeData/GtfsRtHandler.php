@@ -60,6 +60,7 @@ class GtfsRtHandler implements ShouldQueue
         // Convert protobuf to PHP object
         $feed = new FeedMessage();
         $feed->mergeFromString($data);
+        $count = count($feed->getEntity());
 
         $vehiclesWithoutTrip = 0;
 
@@ -241,14 +242,14 @@ class GtfsRtHandler implements ShouldQueue
         $stat = new Stat();
         $stat->type = 'vehicleTotal';
         $stat->data = (object) [
-            'count' => count($feed->getEntity()),
+            'count' => $count,
             'agency' => $this->agency->slug,
             'time' => $this->time,
         ];
         $stat->save();
 
         // Launch a notification if more than half of the vehicles don't have corresponding trip
-        if (($vehiclesWithoutTrip / count($feed->getEntity())) > 0.5) {
+        if ($count > 0 && ($vehiclesWithoutTrip / $count) > 0.5) {
             $action = new HandleExpiredGtfs($this->agency);
             $action->execute();
         }

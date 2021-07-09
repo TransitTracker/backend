@@ -70,11 +70,15 @@ class AgencyController extends Controller
             return response()->json(['message' => 'Agency is inactive.'], 403);
         }
 
-        // TODO: Further optimize query
-        $vehicles = Vehicle::whereActive($request->include ? $request->include !== 'all' : true)
-            ->whereAgencyId($agency->id)
-            ->with(['trip', 'links:id', 'agency:id,slug', 'trip.service:service_id'])
-            ->get();
+        $query = Vehicle::query()
+            ->where('agency_id', $agency->id)
+            ->with(['trip', 'links:id', 'agency:id,slug', 'trip.service:service_id']);
+
+        if ($request->input('include', null) !== 'all') {
+            $query->where('active', true);
+        }
+
+        $vehicles = $query->get();
 
         return VehicleResource::collection($vehicles)->additional([
             'geojson' => GeoJsonVehiclesCollection::make($vehicles),

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Notification;
 
 class Update extends Command
 {
-    protected $signature = 'static:update {agency : The slug of the agency}';
+    protected $signature = 'static:update {agency? : The slug of the agency}';
 
     protected $description = 'Update the static data of all agencies or the specified agency';
 

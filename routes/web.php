@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Admin\AgencyController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\SnoozeFailedJobController;
+use App\Http\Controllers\VinController;
 use Illuminate\Support\Facades\App;
 
 /*
@@ -43,6 +44,17 @@ Route::get('/beta/{lang?}', function ($lang = 'en') {
 // Admin routes
 Route::prefix('admin')->group(function () {
     Route::get('agencies/{agency}/update', [AgencyController::class, 'update'])->name('admin.agencies.update');
+});
+
+// VIN routes
+Route::prefix('vin')->group(function () {
+    Route::redirect('', 'https://www.transittracker.ca/regions/mtl', 302)->name('vin.index');
+    // Route::get('', [VinController::class, 'index'])->name('vin.index');
+    Route::get('{vin}', [VinController::class, 'show'])->name('vin.show');
+    Route::post('{vin}', [VinController::class, 'store'])->name('vin.store');
+    Route::post('suggestions/{vinSuggestion}/vote', [VinController::class, 'vote'])->name('vin.vote');
+    Route::post('suggestions/{vinSuggestion}/approve', [VinController::class, 'approve'])->middleware('auth')->name('vin.approve');
+    Route::post('suggestions/{vinSuggestion}/delete', [VinController::class, 'delete'])->middleware('auth')->name('vin.delete');
 });
 
 Route::get('/failed-job/{failedJob}/snooze/{hours}', [SnoozeFailedJobController::class, 'snooze'])->middleware('signed')->name('signed.snooze');

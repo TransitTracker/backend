@@ -51,7 +51,9 @@ Route::prefix('vin')->group(function () {
     Route::redirect('', 'https://www.transittracker.ca/regions/mtl', 302)->name('vin.index');
     // Route::get('', [VinController::class, 'index'])->name('vin.index');
     Route::get('{vin}', [VinController::class, 'show'])->name('vin.show');
+    Route::get('{vin}/fr', [VinController::class, 'showFr'])->name('vin.show.fr');
     Route::post('{vin}', [VinController::class, 'store'])->name('vin.store');
+    Route::post('{vin}/fr', [VinController::class, 'storeFr'])->name('vin.store.fr');
     Route::post('suggestions/{vinSuggestion}/vote', [VinController::class, 'vote'])->name('vin.vote');
     Route::post('suggestions/{vinSuggestion}/approve', [VinController::class, 'approve'])->middleware('auth')->name('vin.approve');
     Route::post('suggestions/{vinSuggestion}/delete', [VinController::class, 'delete'])->middleware('auth')->name('vin.delete');

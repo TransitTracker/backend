@@ -12,5 +12,19 @@
     "You can now locally import your GTFS-Realtime feeds into Transit Tracker. Along with the static feed, you can access all Transit Tracker features for any compatible cities!": "Vous pouvez désormais importer localement vos flux GTFS-Realtime dans Transit Tracker. Combiné avec l'horaire statique, vous pouvez accéder à toutes les fonctionnalités de Transit Tracker pour toutes les villes compatibles !",
     "Start now": "Commencez maintenant",
     "Looking for Transit Tracker?": "À la recherche de Transit Tracker?",
-    "If you are not a developer, you can always use Transit Tracker without any technical knowledge.": "Si vous n'êtes pas développeur, vous pouvez toujours utiliser Transit Tracker sans aucune connaissance technique."
+    "If you are not a developer, you can always use Transit Tracker without any technical knowledge.": "Si vous n'êtes pas développeur, vous pouvez toujours utiliser Transit Tracker sans aucune connaissance technique.",
+    "A new home for exo VINs. You can now see other user's submissions and vote for the good ones.": "Une nouvelle interface pour les VIN d'exo. Vous pouvez maintenant voir les suggestions des autres utilisateurs et voter pour les bonnes suggestions.",
+    "Fleet label:": "Numéro de flotte :",
+    "Thanks for your suggestion!": "Merci pour votre suggestion!",
+    "Submit a new fleet number": "Suggérer un nouveau numéro de flotte",
+    "Fleet number": "Numéro de flotte",
+    "This field is required.": "Ce champ est requis.",
+    "Extra note": "Note supplémentaire",
+    "The reCAPTCHA validation has failed. Please try again.": "La validation reCAPTCHA a échoué. Veuillez réessayer.",
+    "Send": "Envoyer",
+    "Submitted suggestions": "Suggestions soumises",
+    "You have voted for this suggestion": "Vous avez voté pour cette suggestion",
+    "Your suggestion": "Votre suggestion",
+    "This website uses cookies to show you which suggestions you have made and which suggestions you have approved.": "Ce site Web utilise des témoins (cookies) pour vous montrer quelles suggestions vous avez faites et quelles suggestions vous avez approuvées.",
+    "Cookies": "Témoins"
 }

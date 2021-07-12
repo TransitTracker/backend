@@ -6,6 +6,7 @@ use App\Models\Vehicle;
 use App\Models\VinSuggestion;
 use App\Rules\Recaptcha;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class VinController extends Controller
 {
@@ -49,6 +50,13 @@ class VinController extends Controller
         ]);
     }
 
+    public function showFr(string $vin)
+    {
+        App::setLocale('fr');
+
+        return $this->show($vin);
+    }
+
     public function store(Request $request, string $vin)
     {
         abort_unless($vin === $request->input('vin'), 404, 'VIN do not match.');
@@ -65,6 +73,13 @@ class VinController extends Controller
         VinSuggestion::create($request->all());
 
         return back()->with('Thanks for your suggestion!');
+    }
+
+    public function storeFr(Request $request, string $vin)
+    {
+        App::setLocale('fr');
+
+        return $this->store($request, $vin);
     }
 
     public function vote(Request $request, VinSuggestion $vinSuggestion)

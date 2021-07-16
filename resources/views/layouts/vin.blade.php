@@ -11,8 +11,8 @@
 
     <link rel="stylesheet" href="/css/app.css">
 </head>
-<body class="relative min-h-screen font-sans bg-primary-100">
-    <nav class="w-full text-xl text-white bg-primary-500 drop-shadow">
+<body class="relative min-h-screen font-sans bg-primary-100 dark:bg-[#121212]">
+    <nav class="w-full text-xl text-white bg-primary-500 dark:bg-primary-700 drop-shadow">
         <div class="container flex items-center px-4 py-4 mx-auto md:px-0">
             <a href="https://www.transittracker.ca/" class="flex items-center px-2 py-1 -mx-2 -my-1 transition-colors bg-white bg-opacity-0 rounded hover:bg-opacity-10">
                 <svg viewBox="0 0 295.01 403.72" xmlns="http://www.w3.org/2000/svg" class="h-6 mr-2">
@@ -37,7 +37,7 @@
         </div>
     </div>
     @endif
-    <div class="text-black bg-[#facc15] pt-2.5 pb-2 pl-4 pr-2 flex items-center gap-x-4">
+    <div class="text-black bg-[#facc15] dark:bg-[#a16207] dark:text-white pt-2.5 pb-2 pl-4 pr-2 flex items-center gap-x-4">
         <div class="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white bg-black bg-opacity-25 rounded-full">
             <x-gmdi-new-releases class="w-6 h-6" />
         </div>        
@@ -45,8 +45,8 @@
     </div>    
     <div class="pb-24">@yield('body')</div>
 
-    <footer class="absolute bottom-0 w-full h-12 mt-20">
-        <div class="container flex items-center h-full px-4 mx-auto border-t-4 border-opacity-25 border-primary-500">
+    <footer class="absolute bottom-0 w-full h-12 mt-20 dark:text-white">
+        <div class="container flex items-center h-full px-4 mx-auto border-t-4 border-opacity-25 dark:border-opacity-50 border-primary-500">
             <div>
                 <img src="https://felixinx.me/favicon.svg" alt="FelixINX logo" class="inline w-8 h-8">
                 {{ __('A project by') }} <a href="https://felixinx.me/{{ app()->getLocale() === 'en' ? 'en' : '' }}" class="text-[#1f5784] font-bold">@felixinx</a>

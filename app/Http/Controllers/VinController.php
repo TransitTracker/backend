@@ -12,21 +12,15 @@ class VinController extends Controller
 {
     public function index()
     {
-        $totalVehicles = Vehicle::query()
-            ->where([['agency_id', '>=', 5], ['agency_id', '<=', 16]])
-            ->count();
+        $suggestions = VinSuggestion::latest()->limit(25)->get();
 
         $unlabelledVehicles = Vehicle::query()
             ->where([['force_label', '=', null], ['agency_id', '>=', 5], ['agency_id', '<=', 16]])
-            ->with(['agency:id,color', 'trip:id,route_short_name'])
-            ->limit(50)
+            ->with(['agency:id,name', 'trip:id,route_short_name'])
+            ->limit(25)
             ->get();
 
-        return view('vin.index', [
-            'totalVehicles' => $totalVehicles,
-            'unlabelledVehicles' => $unlabelledVehicles,
-            'labelledPercentage' => ($totalVehicles - $unlabelledVehicles->count() / $totalVehicles),
-        ]);
+        return view('vin.index', compact('suggestions', 'unlabelledVehicles'));
     }
 
     public function show(string $vin)

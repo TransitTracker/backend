@@ -48,7 +48,6 @@ Route::prefix('admin')->group(function () {
 
 // VIN routes
 Route::prefix('vin')->group(function () {
-    Route::redirect('', 'https://www.transittracker.ca/regions/mtl', 302)->name('vin.index');
     Route::get('', [VinController::class, 'index'])->middleware('auth')->name('vin.index');
     Route::get('{vin}', [VinController::class, 'show'])->name('vin.show');
     Route::get('{vin}/fr', [VinController::class, 'showFr'])->name('vin.show.fr');

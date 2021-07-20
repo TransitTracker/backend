@@ -42,7 +42,7 @@
                             <span class="w-4 h-4 border-4 rounded-full inline @if($vehicle->active) bg-green-500 border-green-100 @else bg-red-500 border-red-100 @endif"></span>
                             {{ $vehicle->vehicle }}
                         </p>
-                        <small class="text-sm leading-tight">{{ $vehicle->agency->name }} on route {{ $vehicle->trip->route_short_name }}</small>
+                        {{-- <small class="text-sm leading-tight">{{ $vehicle->agency->name }} on route {{ $vehicle->trip->route_short_name }}</small> --}}
                     </a>
                 </li>
                 @endforeach

@@ -72,7 +72,7 @@ class AgencyController extends Controller
 
         $query = Vehicle::query()
             ->where('agency_id', $agency->id)
-            ->with(['trip', 'links:id', 'agency:id,slug', 'trip.service:service_id']);
+            ->with(['trip', 'links:id', 'agency:id,slug,name', 'trip.service:service_id']);
 
         if ($request->input('include', null) !== 'all') {
             $query->where('active', true);

@@ -12,8 +12,11 @@ class VehicleController extends Controller
 {
     public function __construct()
     {
+        $vehiclesChunk = (Vehicle::count() / 500) + 5;
+
         if (! App::environment('local')) {
-            $this->middleware('throttle:30,1,v2-vehicles');
+            $this->middleware('throttle:30,1,v2-vehicles')->except('index');
+            $this->middleware("throttle:{$vehiclesChunk},1,v2-vehicles")->only('index');
         }
 
         $this->middleware('cacheResponse:300');

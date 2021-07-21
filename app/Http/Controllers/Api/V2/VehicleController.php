@@ -29,6 +29,7 @@ class VehicleController extends Controller
         $request->request->add(['include' => 'all']);
 
         $vehicles = Vehicle::query()
+            ->downloadable()
             ->with(['trip', 'links:id', 'agency:id,slug,name', 'trip.service:service_id'])
             ->paginate(500);
 

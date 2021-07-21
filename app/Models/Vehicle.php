@@ -59,6 +59,12 @@ class Vehicle extends Model
         return $query->where('active', 1);
     }
 
+    public function scopeDownloadable($query)
+    {
+        // Todo: make this function dynamic
+        return $query->whereNotIn('agency_id', [28]);
+    }
+
     protected static function booted()
     {
         static::created(function (self $vehicle) {

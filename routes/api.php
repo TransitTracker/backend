@@ -78,6 +78,7 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::get('regions', [RegionController::class, 'index']);
     Route::get('regions/{region}', [RegionController::class, 'show']);
     Route::get('regions/{region}/alerts', [RegionController::class, 'alerts']);
+    Route::get('vehicles', [VehicleController::class, 'index']);
     Route::get('vehicles/{vehicle}', [VehicleController::class, 'show']);
 
     Route::fallback(function () {

@@ -48,7 +48,7 @@ Route::prefix('admin')->group(function () {
 
 // VIN routes
 Route::prefix('vin')->group(function () {
-    Route::get('', [VinController::class, 'index'])->middleware('auth')->name('vin.index');
+    Route::get('', [VinController::class, 'index'])->name('vin.index');
     Route::get('{vin}', [VinController::class, 'show'])->name('vin.show');
     Route::get('{vin}/fr', [VinController::class, 'showFr'])->name('vin.show.fr');
     Route::post('{vin}', [VinController::class, 'store'])->name('vin.store');

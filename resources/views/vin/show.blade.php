@@ -90,14 +90,29 @@
                         @endguest
                         @auth
                         {{ $suggestion->upvotes }}
-                        <form action="{{ route('vin.approve', ['vinSuggestion' => $suggestion->id]) }}" method="POST">
-                            @csrf
+                        <div x-data="{showModal: false}">
                             <button
-                                type="submit"
+                                x-on:click="showModal = true"
                                 class="relative flex items-center justify-center w-9 h-9 before:rounded-full before:absolute before:inset-0 before:bg-black before:opacity-0 hover:before:opacity-5 focus:before:opacity-5 disabled:cursor-not-allowed group">
                                 <x-gmdi-check class="w-6 h-6 text-green-700 fill-current group-disabled:text-gray-300" />
                             </button>
-                        </form>
+                            <div class="absolute inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50" x-show="showModal">
+                                <div class="bg-white dark:bg-[#1e1e1e] dark:text-white rounded shadow-xl w-[280px]" x-on:click.away="showModal = false">
+                                    <div class="flex items-center h-16 pl-6 pr-2 text-xl font-medium tracking-wide shadow">Apply new VIN to</div>
+                                    <div class="pl-6 pr-2">
+                                        @foreach($vehicles as $vehicle)
+                                        <form action="{{ route('vin.approve', ['vinSuggestion' => $suggestion->id, 'agency' => $vehicle->agency->slug]) }}" method="POST">
+                                            @csrf
+                                            <button class="flex items-center h-12 gap-x-8" type="submit">
+                                                <input type="radio" id="{{ $vehicle->agency->slug }}" class="text-2xl text-secondary-500 dark:text-secondary-900">
+                                                <label for="{{ $vehicle->agency->slug }}" class="text-sm tracking-wide">{{ $vehicle->agency->short_name }}</label>
+                                            </button>
+                                        </form>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <form action="{{ route('vin.delete', ['vinSuggestion' => $suggestion->id]) }}" method="POST">
                             @csrf
                             <button

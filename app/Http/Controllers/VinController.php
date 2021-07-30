@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agency;
 use App\Models\Vehicle;
 use App\Models\VinSuggestion;
 use App\Rules\Recaptcha;
@@ -29,7 +30,7 @@ class VinController extends Controller
         $suggestions = VinSuggestion::where('vin', $vin)->get();
         $vehicles = Vehicle::query()
             ->where([['vehicle', '=', $vin], ['agency_id', '>=', 5], ['agency_id', '<=', 16]])
-            ->with('agency:id,short_name,color,text_color')
+            ->with('agency:id,slug,short_name,color,text_color')
             ->get();
 
         if (! $vehicles->count()) {
@@ -92,10 +93,14 @@ class VinController extends Controller
         return back();
     }
 
-    public function approve(VinSuggestion $vinSuggestion)
+    public function approve(VinSuggestion $vinSuggestion, Agency $agency = null)
     {
+        if (! $agency) {
+            return response()->json(['message' => 'Missing agency'], 400);
+        }
+
         Vehicle::query()
-            ->where([['vehicle', '=', $vinSuggestion->vin], ['agency_id', '>=', 5], ['agency_id', '<=', 16]])
+            ->where(['vehicle' => $vinSuggestion->vin, 'agency_id' => $agency->id])
             ->update(['force_label' => $vinSuggestion->label]);
 
         return back()->with('status', 'Suggestion approved.');

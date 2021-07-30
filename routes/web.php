@@ -54,7 +54,7 @@ Route::prefix('vin')->group(function () {
     Route::post('{vin}', [VinController::class, 'store'])->name('vin.store');
     Route::post('{vin}/fr', [VinController::class, 'storeFr'])->name('vin.store.fr');
     Route::post('suggestions/{vinSuggestion}/vote', [VinController::class, 'vote'])->name('vin.vote');
-    Route::post('suggestions/{vinSuggestion}/approve', [VinController::class, 'approve'])->middleware('auth')->name('vin.approve');
+    Route::post('suggestions/{vinSuggestion}/approve/{agency?}', [VinController::class, 'approve'])->middleware('auth')->name('vin.approve');
     Route::post('suggestions/{vinSuggestion}/delete', [VinController::class, 'delete'])->middleware('auth')->name('vin.delete');
 });
 

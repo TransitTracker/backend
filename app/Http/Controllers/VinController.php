@@ -29,7 +29,7 @@ class VinController extends Controller
         $suggestions = VinSuggestion::where('vin', $vin)->get();
         $vehicles = Vehicle::query()
             ->where([['vehicle', '=', $vin], ['agency_id', '>=', 5], ['agency_id', '<=', 16]])
-            ->with('agency:id,name,color,text_color')
+            ->with('agency:id,short_name,color,text_color')
             ->get();
 
         if (! $vehicles->count()) {

@@ -5,21 +5,25 @@
         <h1 class="text-2xl font-bold md:mb-4 md:text-4xl text-primary-700 dark:text-white col-span-full">VIN {{ $vin }}</h1>
         
         <div class="md:col-span-2">
-            <ul class="flex flex-wrap gap-x-4 gap-y-2">
+            <ul class="flex overflow-auto gap-x-4">
                 @foreach($vehicles as $vehicle)
-                    <li class="px-2 py-1 rounded-full" style="color: {{ $vehicle->agency->text_color }};background-color: {{ $vehicle->agency->color }};">
-                        {{ $vehicle->agency->name }} @if($vehicle->force_label)<small class="text-xs tracking-wide">{{ __('Fleet label:') }} {{ $vehicle->force_label }}</small>@endif
+                    <li class="px-4 py-2 space-y-2 bg-white dark:bg-[#1e1e1e] dark:text-white rounded text-sm flex-shrink-0 mb-2">
+                        <div class="inline px-2 py-1 rounded" style="color: {{ $vehicle->agency->text_color }};background-color: {{ $vehicle->agency->color }};">
+                            {{ $vehicle->agency->short_name }}
+                        </div>
+                        @if($vehicle->force_label)<small class="ml-2 text-xs tracking-wide">{{ __('Fleet label:') }} {{ $vehicle->force_label }}</small>@endif
+                        <div>Last seen: {{ now()->parse($vehicle->updated_at)->diffForHumans() }}</div>
                     </li>
                 @endforeach
             </ul>
 
             @if($sessionSuggestion)
-            <div class="flex flex-col items-center justify-center p-4 mt-8 bg-white dark:bg-[#1e1e1e] dark:text-white rounded shadow">
+            <div class="flex flex-col items-center justify-center p-4 mt-6 bg-white dark:bg-[#1e1e1e] dark:text-white rounded shadow">
                 <h2 class="text-xl font-medium leading-8 tracking-wide">{{ __('Thanks for your suggestion!') }}</h2>
                 <x-gmdi-check class="w-12 h-12 text-green-700 fill-current" />
             </div>
             @else
-            <form action="" method="POST" class="p-4 mt-8 bg-white dark:bg-[#1e1e1e] dark:text-white rounded shadow" id="form-suggest">
+            <form action="" method="POST" class="p-4 mt-6 bg-white dark:bg-[#1e1e1e] dark:text-white rounded shadow" id="form-suggest">
                 @csrf
                 <input type="hidden" value="{{ $vin }}" id="vin" name="vin">
                 

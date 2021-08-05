@@ -7,7 +7,7 @@
         <div class="md:col-span-2">
             <ul class="flex overflow-auto gap-x-4">
                 @foreach($vehicles as $vehicle)
-                    <li class="px-4 py-2 space-y-2 bg-white dark:bg-[#1e1e1e] dark:text-white rounded text-sm flex-shrink-0 mb-2">
+                    <li class="px-4 py-2 space-y-2 bg-white dark:bg-grey dark:text-white rounded text-sm flex-shrink-0 mb-2">
                         <div class="inline px-2 py-1 rounded" style="color: {{ $vehicle->agency->text_color }};background-color: {{ $vehicle->agency->color }};">
                             {{ $vehicle->agency->short_name }}
                         </div>
@@ -18,12 +18,12 @@
             </ul>
 
             @if($sessionSuggestion)
-            <div class="flex flex-col items-center justify-center p-4 mt-6 bg-white dark:bg-[#1e1e1e] dark:text-white rounded shadow">
+            <div class="flex flex-col items-center justify-center p-4 mt-6 bg-white dark:bg-grey dark:text-white rounded shadow">
                 <h2 class="text-xl font-medium leading-8 tracking-wide">{{ __('Thanks for your suggestion!') }}</h2>
                 <x-gmdi-check class="w-12 h-12 text-green-700 fill-current" />
             </div>
             @else
-            <form action="" method="POST" class="p-4 mt-6 bg-white dark:bg-[#1e1e1e] dark:text-white rounded shadow" id="form-suggest">
+            <form action="" method="POST" class="p-4 mt-6 bg-white dark:bg-grey dark:text-white rounded shadow" id="form-suggest">
                 @csrf
                 <input type="hidden" value="{{ $vin }}" id="vin" name="vin">
                 
@@ -62,7 +62,7 @@
             </form>
             @endif
         </div>          
-        <div class="mt-1 bg-white dark:bg-[#1e1e1e] dark:text-white shadow">
+        <div class="mt-1 bg-white dark:bg-grey dark:text-white shadow">
             <div class="flex items-center h-12 px-4 text-sm uppercase opacity-60">{{ __('Submitted suggestions') }}</div>
             <ul>
                 @foreach($suggestions as $suggestion)
@@ -97,7 +97,7 @@
                                 <x-gmdi-check class="w-6 h-6 text-green-700 fill-current group-disabled:text-gray-300" />
                             </button>
                             <div class="absolute inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50" x-show="showModal">
-                                <div class="bg-white dark:bg-[#1e1e1e] dark:text-white rounded shadow-xl w-[280px]" x-on:click.away="showModal = false">
+                                <div class="bg-white dark:bg-grey dark:text-white rounded shadow-xl w-[280px]" x-on:click.away="showModal = false">
                                     <div class="flex items-center h-16 pl-6 pr-2 text-xl font-medium tracking-wide shadow">Apply new VIN to</div>
                                     <div class="pl-6 pr-2">
                                         @foreach($vehicles as $vehicle)

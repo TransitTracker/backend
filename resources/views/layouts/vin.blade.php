@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="/css/app.css">
 </head>
-<body class="relative min-h-screen font-sans bg-primary-100 dark:bg-[#121212]">
+<body class="relative min-h-screen font-sans bg-primary-100 dark:bg-grey-900">
     <nav class="w-full text-xl text-white bg-primary-500 dark:bg-primary-700 drop-shadow">
         <div class="container flex items-center px-4 py-4 mx-auto md:px-0">
             <a href="https://www.transittracker.ca/" class="flex items-center px-2 py-1 -mx-2 -my-1 transition-colors bg-white bg-opacity-0 rounded hover:bg-opacity-10">

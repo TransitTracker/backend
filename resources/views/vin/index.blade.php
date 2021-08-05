@@ -5,7 +5,7 @@
         <h1 class="col-span-8 text-2xl font-bold md:mb-4 md:text-4xl text-primary-700 dark:text-white">{{ __('exo VIN Database') }}</h1>
         <div class="flex items-start justify-end col-span-4" x-data="{vin: ''}">
             <form x-bind:action="'/vin/'+vin" class="flex shadow">
-                <input x-model="vin" type="text" placeholder="VIN" class="dark:bg-[#1e1e1e] border-transparent rounded-l focus:border-transparent focus:outline-none focus:ring-0" maxlength="17" minlength="17" required>
+                <input x-model="vin" type="text" placeholder="VIN" class="border-transparent rounded-l dark:bg-grey focus:border-transparent focus:outline-none focus:ring-0" maxlength="17" minlength="17" required>
                 <button class="p-2 text-white transition-colors rounded-r bg-primary-500 hover:bg-primary-700 dark:bg-primary-700 dark:hover:bg-primary-900" type="submit">
                     <x-gmdi-arrow-forward class="w-6 h-6" />
                 </button>
@@ -14,7 +14,7 @@
         
         <div class="col-span-full">
             <small class="text-xs font-medium tracking-widest uppercase dark:text-white">{{ __('Recent suggestions') }}</small>
-            <ul class="mt-1 bg-white dark:bg-[#1e1e1e] dark:text-white shadow">
+            <ul class="mt-1 bg-white shadow dark:bg-grey dark:text-white">
                 @foreach($suggestions as $suggestion)
                 <li>
                     <a href="{{ route('vin.show', ['vin' => $suggestion->vin]) }}" class="block px-4 py-3">
@@ -31,7 +31,7 @@
 
         <div class="col-span-full">
             <small class="text-xs font-medium tracking-widest uppercase dark:text-white">{{ __('Unlabelled Vehicles') }}</small>
-            <ul class="mt-1 bg-white dark:bg-[#1e1e1e] dark:text-white shadow">
+            <ul class="mt-1 bg-white shadow dark:bg-grey dark:text-white">
                 @foreach($unlabelledVehicles as $vehicle)
                 <li>
                     <a href="{{ route('vin.show', ['vin' => $vehicle->vehicle]) }}" class="block px-4 py-3">

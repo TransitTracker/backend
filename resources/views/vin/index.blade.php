@@ -1,9 +1,9 @@
 @extends('layouts.vin')
 
 @section('body')
-    <div class="container grid grid-cols-12 px-4 mx-auto mt-8 gap-y-8 gap-x-12">
-        <h1 class="col-span-8 text-2xl font-bold md:mb-4 md:text-4xl text-primary-700 dark:text-white">{{ __('exo VIN Database') }}</h1>
-        <div class="flex items-start justify-end col-span-4" x-data="{vin: ''}">
+    <div class="container grid grid-cols-6 px-4 mx-auto mt-8 md:grid-cols-12 gap-y-8 gap-x-12">
+        <h1 class="col-span-6 text-2xl font-bold md:col-span-8 md:mb-4 md:text-4xl text-primary-700 dark:text-white">{{ __('exo VIN Database') }}</h1>
+        <div class="flex items-start col-span-6 md:justify-end md:col-span-4" x-data="{vin: ''}">
             <form x-bind:action="'/vin/'+vin" class="flex shadow">
                 <input x-model="vin" type="text" placeholder="VIN" class="border-transparent rounded-l dark:bg-grey focus:border-transparent focus:outline-none focus:ring-0" maxlength="17" minlength="17" required>
                 <button class="p-2 text-white transition-colors rounded-r bg-primary-500 hover:bg-primary-700 dark:bg-primary-700 dark:hover:bg-primary-900" type="submit">

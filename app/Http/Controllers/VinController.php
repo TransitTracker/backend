@@ -100,6 +100,7 @@ class VinController extends Controller
         }
 
         Vehicle::query()
+            ->withoutTouch()
             ->where(['vehicle' => $vinSuggestion->vin, 'agency_id' => $agency->id])
             ->update(['force_label' => $vinSuggestion->label]);
 

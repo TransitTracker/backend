@@ -65,6 +65,13 @@ class Vehicle extends Model
         return $query->whereNotIn('agency_id', [28]);
     }
 
+    public function scopeWithoutTouch($query)
+    {
+        $this->timestamps = false;
+
+        return $query;
+    }
+
     protected static function booted()
     {
         static::created(function (self $vehicle) {

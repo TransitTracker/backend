@@ -22,15 +22,8 @@ class ProcessGtfsTrips implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private Agency $agency;
-    private string $file;
-    private int $offset;
-
-    public function __construct(Agency $agency, string $file, int $offset = 0)
+    public function __construct(private Agency $agency, private string $file, private int $offset = 0)
     {
-        $this->agency = $agency;
-        $this->file = $file;
-        $this->offset = $offset;
     }
 
     public function handle()

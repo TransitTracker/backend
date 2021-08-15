@@ -17,13 +17,8 @@ class ProcessGtfsServices implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private Agency $agency;
-    private string $file;
-
-    public function __construct(Agency $agency, string $file)
+    public function __construct(private Agency $agency, private string $file)
     {
-        $this->agency = $agency;
-        $this->file = $file;
     }
 
     public function handle()

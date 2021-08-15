@@ -13,13 +13,8 @@ use Illuminate\Support\Facades\Notification;
 
 class HandleFailedDispatch
 {
-    private RequestException $exception;
-    private Agency $agency;
-
-    public function __construct(RequestException $exception, Agency $agency)
+    public function __construct(private RequestException $exception, private Agency $agency)
     {
-        $this->exception = $exception;
-        $this->agency = $agency;
     }
 
     public function execute()

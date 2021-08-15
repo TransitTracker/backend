@@ -15,16 +15,13 @@ class CleanGtfsData implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $agency;
-
     /**
      * Create a new job instance.
      *
      * @param Agency $agency
      */
-    public function __construct(Agency $agency)
+    public function __construct(private Agency $agency)
     {
-        $this->agency = $agency;
     }
 
     /**

@@ -15,15 +15,10 @@ use Storage;
 class ProcessGtfsShapes implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    private Agency $agency;
-    private string $file;
     private array $shapes;
 
-    public function __construct(Agency $agency, string $file)
+    public function __construct(private Agency $agency, private string $file)
     {
-        $this->agency = $agency;
-        $this->file = $file;
         $this->shapes = [];
     }
 

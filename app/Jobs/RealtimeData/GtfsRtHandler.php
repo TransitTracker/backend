@@ -22,10 +22,6 @@ class GtfsRtHandler implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private Agency $agency;
-    private string $dataFile;
-    private int $time;
-
     /**
      * Create a new job instance.
      *
@@ -33,11 +29,8 @@ class GtfsRtHandler implements ShouldQueue
      * @param string $dataFile
      * @param int $time
      */
-    public function __construct(Agency $agency, $dataFile, $time)
+    public function __construct(private Agency $agency, private $dataFile, private $time)
     {
-        $this->agency = $agency;
-        $this->dataFile = $dataFile;
-        $this->time = $time;
     }
 
     /**

@@ -13,11 +13,8 @@ class DispatchFailed extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private FailedJob $failedJob;
-
-    public function __construct(FailedJob $failedJob)
+    public function __construct(private FailedJob $failedJob)
     {
-        $this->failedJob = $failedJob;
     }
 
     public function via($notifiable)

@@ -14,11 +14,8 @@ class StaticDataUpdated extends Notification
 {
     use Queueable;
 
-    private Agency $agency;
-
-    public function __construct(Agency $agency)
+    public function __construct(private Agency $agency)
     {
-        $this->agency = $agency;
     }
 
     public function via($notifiable)

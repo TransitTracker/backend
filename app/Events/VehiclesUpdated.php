@@ -12,8 +12,6 @@ class VehiclesUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets;
 
-    public $agency;
-
     /**
      * The name of the queue on which to place the event.
      *
@@ -26,9 +24,8 @@ class VehiclesUpdated implements ShouldBroadcast
      *
      * @param Agency $agency
      */
-    public function __construct(Agency $agency)
+    public function __construct(public Agency $agency)
     {
-        $this->agency = $agency;
     }
 
     /**

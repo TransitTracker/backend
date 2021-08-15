@@ -17,13 +17,8 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private Agency $agency;
-    private string $zipFile;
-
-    public function __construct(Agency $agency, string $zipFile)
+    public function __construct(private Agency $agency, private string $zipFile)
     {
-        $this->agency = $agency;
-        $this->zipFile = $zipFile;
     }
 
     public function handle()

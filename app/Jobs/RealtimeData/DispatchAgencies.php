@@ -20,18 +20,12 @@ class DispatchAgencies implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var Collection
-     */
-    public Collection $agencies;
-
-    /**
      * Create a new job instance.
      *
      * @param Collection $agencies
      */
-    public function __construct(Collection $agencies)
+    public function __construct(public Collection $agencies)
     {
-        $this->agencies = $agencies;
     }
 
     /**

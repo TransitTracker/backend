@@ -1,0 +1,2 @@
+[shift]
+excluded_paths="packages/felixinx/gtfs-realtime-protobuf-php/src"

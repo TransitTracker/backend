@@ -92,9 +92,7 @@ class ProcessGtfsTrips implements ShouldQueue
 
         // STO route_long_name is not kept
         if ($this->agency->slug === 'sto') {
-            $tripsToUpdate = collect($tripsToUpdate)->map(function ($trip) {
-                return array_merge($trip, ['route_long_name' => '']);
-            })->all();
+            $tripsToUpdate = collect($tripsToUpdate)->map(fn($trip) => array_merge($trip, ['route_long_name' => '']))->all();
         }
 
         collect($tripsToUpdate)->chunk(1000)->each(function (Collection $chunk) {

@@ -37,9 +37,7 @@ class ProcessGtfsShapes implements ShouldQueue
         }
 
         foreach ($this->shapes as $shapeId => $unorderedShape) {
-            usort($unorderedShape, function ($a, $b) {
-                return $a->sequence <=> $b->sequence;
-            });
+            usort($unorderedShape, fn($a, $b) => $a->sequence <=> $b->sequence);
 
             $coordinates = [];
             foreach ($unorderedShape as $orderedPoint) {

@@ -59,9 +59,7 @@ foreach (['api', 'v1'] as $apiGroup) {
         /*
          * Fallback (404)
          */
-        Route::fallback(function () {
-            return response()->json(['message' => 'API_ENDPOINT_NOT_FOUND'], 404);
-        });
+        Route::fallback(fn() => response()->json(['message' => 'API_ENDPOINT_NOT_FOUND'], 404));
     });
 }
 
@@ -81,7 +79,5 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::get('vehicles', [VehicleController::class, 'index']);
     Route::get('vehicles/{vehicle}', [VehicleController::class, 'show']);
 
-    Route::fallback(function () {
-        return response()->json(['message' => 'Route not found.'], 404);
-    });
+    Route::fallback(fn() => response()->json(['message' => 'Route not found.'], 404));
 });

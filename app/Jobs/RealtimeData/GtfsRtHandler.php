@@ -3,13 +3,13 @@
 namespace App\Jobs\RealtimeData;
 
 use App\Actions\HandleExpiredGtfs;
-use App\Events\VehiclesUpdated;
 use App\Models\Agency;
 use App\Models\Stat;
 use App\Models\Trip;
 use App\Models\Vehicle;
 use Exception;
 use FelixINX\TransitRealtime\FeedMessage;
+use Google\Protobuf\Internal\GPBDecodeException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -51,9 +51,16 @@ class GtfsRtHandler implements ShouldQueue
         $data = Storage::get($this->dataFile);
 
         // Convert protobuf to PHP object
-        $feed = new FeedMessage();
-        $feed->mergeFromString($data);
-        $count = count($feed->getEntity());
+        try {
+            $feed = new FeedMessage();
+            $feed->mergeFromString($data);
+            $count = count($feed->getEntity());
+        } catch (GPBDecodeException $e) {
+            Log::error("Error while decoding GTFS-RT feed from {$this->agency->slug}: {$e->getMessage()}");
+            Storage::delete($this->dataFile);
+
+            return;
+        }
 
         $vehiclesWithoutTrip = 0;
 
@@ -248,6 +255,11 @@ class GtfsRtHandler implements ShouldQueue
         }
 
         // Delete the file
+        Storage::delete($this->dataFile);
+    }
+
+    public function fail()
+    {
         Storage::delete($this->dataFile);
     }
 }

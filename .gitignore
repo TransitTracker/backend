@@ -20,6 +20,7 @@ yarn-error.log
 /public/css
 /public/packages
 /public/vendors~js
+/public/vendor
 /public/mix-manifest.json
 .php_cs.cache
 .php_cs

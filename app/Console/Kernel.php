@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\CleanFolders;
+use App\Jobs\RealtimeData\CheckTimestamps;
 use App\Jobs\RealtimeData\DispatchAgencies;
 use App\Models\Agency;
 use Illuminate\Console\Scheduling\Schedule;
@@ -28,6 +29,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job(new DispatchAgencies(Agency::active()->get()), 'vehicles')->everyMinute()->unlessBetween('03:54', '03:56');
+        $schedule->job(new CheckTimestamps(), 'default')->everyThreeMinutes();
         $schedule->command('backup:clean')->dailyAt('02:00');
         $schedule->command('backup:run')->dailyAt('02:15');
         $schedule->command('backup:monitor')->dailyAt('02:30');

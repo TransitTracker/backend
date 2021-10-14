@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Agency;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
@@ -23,9 +24,11 @@ class RealtimeDataExpired extends Notification
 
     public function toSlack($notifiable)
     {
+        $timeSince = Carbon::parse(date('Y-m-d H:i:s', $this->agency->timestamp))->diffForHumans();
+
         return (new SlackMessage)
             ->warning()
-            ->content("The realtime data for {$this->agency->short_name} has expired.")
+            ->content("The realtime data for {$this->agency->short_name} has expired {$timeSince}.")
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->action('Open Horizon', route('horizon.index'));
             });

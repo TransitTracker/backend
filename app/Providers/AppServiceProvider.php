@@ -6,6 +6,11 @@ use App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Health\Checks\Checks\DatabaseCheck;
+use Spatie\Health\Checks\Checks\HorizonCheck;
+use Spatie\Health\Checks\Checks\RedisCheck;
+use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
+use Spatie\Health\Facades\Health;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,5 +33,12 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Model::preventLazyLoading(App::environment('local'));
+
+        Health::checks([
+            DatabaseCheck::new(),
+            HorizonCheck::new(),
+            RedisCheck::new(),
+            UsedDiskSpaceCheck::new(),
+        ]);
     }
 }

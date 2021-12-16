@@ -8,9 +8,10 @@ use App\Http\Controllers\Api\V2\AgencyController;
 use App\Http\Controllers\Api\V2\AlertController;
 use App\Http\Controllers\Api\V2\LandingController;
 use App\Http\Controllers\Api\V2\LinkController;
+use App\Http\Controllers\Api\V2\NotificationsController;
+use App\Http\Controllers\Api\V2\Push\ProfileController;
 use App\Http\Controllers\Api\V2\RegionController;
 use App\Http\Controllers\Api\V2\VehicleController;
-use App\Http\Controllers\Api\V2\VinController;
 use App\Http\Middleware\Localization;
 
 /*
@@ -78,6 +79,13 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::get('regions/{region}/alerts', [RegionController::class, 'alerts']);
     Route::get('vehicles', [VehicleController::class, 'index']);
     Route::get('vehicles/{vehicle}', [VehicleController::class, 'show']);
+
+    Route::get('push/profile', [ProfileController::class, 'show']);
+    Route::put('push/profile', [ProfileController::class, 'update']);
+    Route::delete('push/profile', [ProfileController::class, 'destroy']);
+    Route::post('push/profile', [ProfileController::class, 'store']);
+    Route::post('push/profile/verify', [ProfileController::class, 'verify']);
+    Route::get('push/notifications/agencies', [NotificationsController::class, 'agencies']);
 
     Route::fallback(fn () => response()->json(['message' => 'Route not found.'], 404));
 });

@@ -11,67 +11,44 @@ use URL;
 
 class Agency extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = ['name', 'short_name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type',
                             'realtime_options', 'color', 'text_color', 'vehicles_type', 'is_active', 'license',
                             'short_name', 'refresh_is_active', 'cron_schedule', 'cities', 'static_etag', ];
 
-    protected $fakeColumns = ['license'];
-
-    protected $dispatchesEvents = [
-        'updated' => VehiclesUpdated::class,
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'tags' => 'array',
         'license' => 'array',
         'cities' => 'array',
     ];
 
-    /**
-     * Get all vehicles from this agency.
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    /*
+     * Relationships
      */
     public function vehicles()
     {
         return $this->hasMany(Vehicle::class);
     }
 
-    /**
-     * Get all trips from this agency.
-     */
     public function trips()
     {
         return $this->hasMany(Trip::class);
     }
 
-    /**
-     * Get all routes from this agency.
-     */
     public function routes()
     {
         return $this->hasMany(Route::class);
     }
 
-    /**
-     * Get all routes from this agency.
-     */
     public function services()
     {
         return $this->hasMany(Service::class);
     }
 
-    /**
-     * Get the regions of this agency.
-     */
     public function regions()
     {
         return $this->belongsToMany(Region::class);
@@ -82,76 +59,60 @@ class Agency extends Model
         return $this->belongsToMany(Link::class);
     }
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
+    public function notificationUsers()
     {
-        return 'slug';
+        return $this->belongsToMany(NotificationUser::class);
     }
 
-    /**
-     * Get the realtime method.
-     *
-     * @return string
+    public function activeNotificationUsers()
+    {
+        return $this->belongsToMany(NotificationUser::class)->active();
+    }
+
+    /*
+     * Accessors
      */
     public function getRealtimeMethodAttribute()
     {
         return json_decode($this->realtime_options)->realtime_method;
     }
 
-    /**
-     * Get the realtime options header key.
-     *
-     * @return string
-     */
     public function getHeaderNameAttribute()
     {
         return json_decode($this->realtime_options)->header_name;
     }
 
-    /**
-     * Get the realtime options header key.
-     *
-     * @return string
-     */
     public function getHeaderValueAttribute()
     {
         return json_decode($this->realtime_options)->header_value;
     }
 
-    /**
-     * Get the realtime options header key.
-     *
-     * @return string
-     */
     public function getParamNameAttribute()
     {
         return json_decode($this->realtime_options)->param_name;
     }
 
-    /**
-     * Get the realtime options header key.
-     *
-     * @return string
-     */
     public function getParamValueAttribute()
     {
         return json_decode($this->realtime_options)->param_value;
     }
 
-    /**
-     * Get the custom download method.
-     *
-     * @return string
-     */
     public function getDownloadMethodAttribute()
     {
         return json_decode($this->realtime_options)->download_method ?? '';
     }
 
+    /*
+     * Scopes
+     */
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', 1);
+    }
+
+    /*
+     * Others
+     */
     public function getRandomCitiesAttribute()
     {
         $cities = $this->cities;
@@ -166,23 +127,19 @@ class Agency extends Model
         return Arr::random($cities, 5);
     }
 
-    /**
-     * Scope a query to only include active agencies.
-     *
-     * @param Builder $query
-     * @return Builder
-     */
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', 1);
-    }
-
-    public function signedUpdateGtfsUrl()
+    public function signedUpdateGtfsUrl(): string
     {
         return URL::temporarySignedRoute('admin.agencies.update', now()->addHours(12), [
             'agency' => $this,
         ]);
     }
+
+    /*
+     * Events
+     */
+    protected $dispatchesEvents = [
+        'updated' => VehiclesUpdated::class,
+    ];
 
     protected static function booted()
     {

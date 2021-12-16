@@ -2,75 +2,101 @@
 
 namespace App\Models;
 
+use App\Events\ElectricStmVehicleUpdated;
+use App\Events\VehicleCreated;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Vehicle extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = ['agency_id', 'active', 'agency', 'gtfs_trip', 'route', 'start', 'vehicle', 'lat', 'lon',
                             'trip_id', 'bearing', 'speed', 'stop_sequence', 'status', 'headsign', 'short_name', 'icon',
                             'relationship', 'label', 'force_label', 'plate', 'odometer', 'timestamp', 'congestion', 'occupancy', ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'active' => 'boolean',
         'coordinates' => 'array',
     ];
 
-    /**
-     * Get the agency from this vehicle.
+    /*
+     * Relationships
      */
-    public function agency()
+    public function agency(): BelongsTo
     {
         return $this->belongsTo(Agency::class);
     }
 
-    /**
-     * Get the trip from this vehicle.
-     */
-    public function trip()
+    public function trip(): BelongsTo
     {
         return $this->belongsTo(Trip::class)->withDefault();
     }
 
-    public function links()
+    public function links(): BelongsToMany
     {
         return $this->belongsToMany(Link::class);
     }
 
-    /**
-     * Scope a query to only include active agencies.
-     *
-     * @param Builder $query
-     * @return Builder
+    /*
+     * Scopes
      */
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', 1);
     }
 
-    public function scopeDownloadable($query)
+    public function scopeDownloadable(Builder $query): Builder
     {
         // Todo: make this function dynamic
         return $query->whereNotIn('agency_id', [28]);
     }
 
-    public function scopeWithoutTouch($query)
+    public function scopeWithoutTouch(Builder $query): Builder
     {
         $this->timestamps = false;
 
         return $query;
     }
+
+    /*
+     * Others
+     */
+    public function isFirstAppearanceToday(): bool
+    {
+        if (
+            ! Carbon::parse($this->getOriginal('updated_at'))->isCurrentDay() &&
+            $this->updated_at->isCurrentDay()
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isElectricStm(): bool
+    {
+        if ($this->agency_id !== 1) {
+            return false;
+        }
+
+        $vehicle = intval($this->vehicle);
+
+        if ((40901 <= $vehicle) && ($vehicle <= 40930)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /*
+     * Events
+     */
+    protected $dispatchesEvents = [
+        'created' => VehicleCreated::class,
+    ];
 
     protected static function booted()
     {
@@ -89,6 +115,8 @@ class Vehicle extends Model
                 ->usingSuffix('fr')
                 ->forUrls("/v2/vehicles/{$vehicle->id}")
                 ->forget();
+
+            ElectricStmVehicleUpdated::dispatchIf(($vehicle->isFirstAppearanceToday() && $vehicle->isElectricStm()), $vehicle);
         });
     }
 }

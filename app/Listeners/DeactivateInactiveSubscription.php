@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use Illuminate\Support\Facades\Log;
 use NotificationChannels\WebPush\Events\NotificationFailed;
 
 class DeactivateInactiveSubscription
@@ -12,6 +13,8 @@ class DeactivateInactiveSubscription
 
     public function handle(NotificationFailed $event)
     {
+        Log::warning('notification user deactivated', ['uuid' => $event->subscription->subscribable->uuid]);
+
         $event->subscription->subscribable->is_active = false;
         $event->subscription->subscribable->save();
     }

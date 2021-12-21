@@ -18,10 +18,12 @@ class SendElectricStmNotification implements ShouldQueue
 
     public function handle(ElectricStmVehicleUpdated $event)
     {
-        $users = NotificationUser::where([
-            'is_active' => true,
-            'subscribed_electric_stm' => true,
-        ])->get();
+        $users = NotificationUser::query()
+            ->where([
+                'is_active' => true,
+                'subscribed_electric_stm' => true,
+            ])
+            ->get();
 
         Notification::send($users, new ElectricStmAppearance($event->vehicle));
     }

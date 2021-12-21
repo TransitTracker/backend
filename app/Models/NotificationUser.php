@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use NotificationChannels\WebPush\HasPushSubscriptions;
@@ -36,12 +37,12 @@ class NotificationUser extends Model
 
     protected $with = ['pushSubscriptions'];
 
-    public function agencies()
+    public function agencies(): BelongsToMany
     {
         return $this->belongsToMany(Agency::class);
     }
 
-    public function scopeActive(Builder $query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', 1);
     }

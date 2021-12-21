@@ -43,8 +43,8 @@ class NewVehicle extends Notification implements ShouldQueue
         }
 
         return (new WebPushMessage)
-            ->icon('https://www.transittracker.ca/icon.png')
-            ->badge('https://www.transittracker.ca/badge.png')
+            ->icon('https://api.transittracker.ca/img/icon-192.png')
+            ->badge('https://api.transittracker.ca/img/badge.png')
             ->title(__('push.new_vehicle.title', ['emoji' => $emoji, 'type' => $this->vehicle->icon, 'label' => $label, 'agency' => $this->vehicle->agency->short_name], $locale))
             ->body(__('push.new_vehicle.body', ['label' => $label, 'route' => $this->vehicle->trip->route_short_name ?? $this->vehicle->route], $locale))
             ->action(__('push.new_vehicle.action', [], $locale), "open_region.{$this->vehicle->agency->regions[0]->slug}");

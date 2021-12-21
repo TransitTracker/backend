@@ -37,8 +37,8 @@ class ElectricStmAppearance extends Notification implements ShouldQueue
         $locale = $notifiable->is_french ? 'fr' : 'en';
 
         return (new WebPushMessage)
-            ->icon('https://www.transittracker.ca/icon.png')
-            ->badge('https://www.transittracker.ca/badge.png')
+            ->icon('https://api.transittracker.ca/img/icon-192.png')
+            ->badge('https://api.transittracker.ca/img/badge.png')
             ->title(__('push.electric_stm.title', ['label' => $this->vehicle->vehicle, 'headsign' => $this->vehicle->trip->trip_headsign], $locale))
             ->body(__('push.electric_stm.body', ['label' => $this->vehicle->vehicle, 'route' => "{$this->vehicle->trip->route_short_name} {$this->vehicle->trip->route_long_name}"], $locale))
             ->action(__('push.electric_stm.action_track', [], $locale), "open_region.{$this->vehicle->agency->regions[0]->slug}")

@@ -42,6 +42,7 @@ class ProfileController extends Controller
 
         if ($user->endpoint !== $request->endpoint) {
             $user->endpoint = $request->endpoint;
+            $user->is_active = true;
             $user->save();
 
             $user->updatePushSubscription($request->endpoint, $request->keys['p256dh'], $request->keys['auth']);

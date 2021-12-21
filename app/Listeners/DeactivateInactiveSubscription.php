@@ -13,7 +13,7 @@ class DeactivateInactiveSubscription
 
     public function handle(NotificationFailed $event)
     {
-        Log::warning('notification user deactivated', ['uuid' => $event->subscription->subscribable->uuid]);
+        Log::info('Push user has been deactivated', ['uuid' => $event->subscription->subscribable->uuid, 'reason' => $event->report->getReason()]);
 
         $event->subscription->subscribable->is_active = false;
         $event->subscription->subscribable->save();

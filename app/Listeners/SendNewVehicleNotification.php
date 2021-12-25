@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\VehicleCreated;
-use App\Models\Vehicle;
 use App\Notifications\Push\NewVehicle;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;

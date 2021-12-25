@@ -12,4 +12,8 @@ return [
         'action_track' => '📍 Track',
         'action_gtfstools' => '⏭️ Departures',
     ],
+    'welcome' => [
+        'title' => 'You are now subscribed to Transit Tracker push notifications!',
+        'body' => 'You can change your subscriptions or unsubscribe at any time in the notification centre.',
+    ],
 ];

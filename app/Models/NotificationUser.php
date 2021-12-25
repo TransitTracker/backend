@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Events\NotificationUserCreated;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -9,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 
-class NotificationUser extends Model
+class NotificationUser extends Model implements HasLocalePreference
 {
     use Notifiable;
     use HasPushSubscriptions;
@@ -46,6 +48,15 @@ class NotificationUser extends Model
     {
         return $query->where('is_active', 1);
     }
+
+    public function preferredLocale()
+    {
+        return $this->is_french ? 'fr' : 'en';
+    }
+
+    protected $dispatchesEvents = [
+        'created' => NotificationUserCreated::class,
+    ];
 
     protected static function boot()
     {

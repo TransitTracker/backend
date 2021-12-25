@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Events\ElectricStmVehicleUpdated;
+use App\Events\NotificationUserCreated;
 use App\Events\VehicleCreated;
 use App\Listeners\DeactivateInactiveSubscription;
 use App\Listeners\SendElectricStmNotification;
 use App\Listeners\SendNewVehicleNotification;
+use App\Listeners\SendWelcomeNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -25,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         NotificationFailed::class => [
             DeactivateInactiveSubscription::class,
+        ],
+        NotificationUserCreated::class => [
+            SendWelcomeNotification::class,
         ],
         VehicleCreated::class => [
             SendNewVehicleNotification::class,

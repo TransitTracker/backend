@@ -2,10 +2,10 @@
 
 namespace App\Notifications\Push;
 
-use App\Models\NotificationUser;
 use App\Models\Vehicle;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Channels\DatabaseChannel;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushChannel;
 use NotificationChannels\WebPush\WebPushMessage;
@@ -16,11 +16,12 @@ class ElectricStmAppearance extends Notification implements ShouldQueue
 
     public function __construct(private Vehicle $vehicle)
     {
+        $this->vehicle->load('trip');
     }
 
     public function via()
     {
-        return [WebPushChannel::class];
+        return [WebPushChannel::class, DatabaseChannel::class];
     }
 
     public function viaQueues()
@@ -30,18 +31,22 @@ class ElectricStmAppearance extends Notification implements ShouldQueue
         ];
     }
 
-    public function toWebPush(NotificationUser $notifiable)
+    public function toWebPush()
     {
-        $this->vehicle->load('trip');
-
-        $locale = $notifiable->is_french ? 'fr' : 'en';
-
         return (new WebPushMessage)
             ->icon('https://api.transittracker.ca/img/icon-192.png')
             ->badge('https://api.transittracker.ca/img/badge.png')
-            ->title(__('push.electric_stm.title', ['label' => $this->vehicle->vehicle, 'headsign' => $this->vehicle->trip->trip_headsign], $locale))
-            ->body(__('push.electric_stm.body', ['label' => $this->vehicle->vehicle, 'route' => "{$this->vehicle->trip->route_short_name} {$this->vehicle->trip->route_long_name}"], $locale))
-            ->action(__('push.electric_stm.action_track', [], $locale), "open_region.{$this->vehicle->agency->regions[0]->slug}")
-            ->action(__('push.electric_stm.action_gtfstools', [], $locale), "open_gtfstools.{$this->vehicle->gtfs_trip}");
+            ->title(__('push.electric_stm.title', ['label' => $this->vehicle->vehicle, 'headsign' => $this->vehicle->trip->trip_headsign]))
+            ->body(__('push.electric_stm.body', ['label' => $this->vehicle->vehicle, 'route' => "{$this->vehicle->trip->route_short_name} {$this->vehicle->trip->route_long_name}"]))
+            ->action(__('push.electric_stm.action_track', []), "open_region.{$this->vehicle->agency->regions[0]->slug}")
+            ->action(__('push.electric_stm.action_gtfstools', []), "open_gtfstools.{$this->vehicle->gtfs_trip}");
+    }
+
+    public function toArray()
+    {
+        return [
+            'title' => __('push.electric_stm.title', ['label' => $this->vehicle->vehicle, 'headsign' => $this->vehicle->trip->trip_headsign]),
+            'body' => __('push.electric_stm.body', ['label' => $this->vehicle->vehicle, 'route' => "{$this->vehicle->trip->route_short_name} {$this->vehicle->trip->route_long_name}"]),
+        ];
     }
 }

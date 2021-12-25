@@ -128,8 +128,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'label' => [
+            'unique' => 'There is already a suggestion with this label, you can vote for it.',
         ],
     ],
 

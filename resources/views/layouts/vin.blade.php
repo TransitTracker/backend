@@ -14,7 +14,7 @@
 <body class="relative min-h-screen font-sans bg-primary-100 dark:bg-grey-900">
     <nav class="w-full text-xl text-white bg-primary-500 dark:bg-primary-700 drop-shadow">
         <div class="container flex items-center px-4 py-4 mx-auto md:px-0">
-            <a href="https://www.transittracker.ca/" class="flex items-center px-2 py-1 -mx-2 -my-1 transition-colors bg-white bg-opacity-0 rounded hover:bg-opacity-10">
+            <a href="{{ route('vin.index') }}" class="flex items-center px-2 py-1 -mx-2 -my-1 transition-colors bg-white bg-opacity-0 rounded hover:bg-opacity-10">
                 <svg viewBox="0 0 295.01 403.72" xmlns="http://www.w3.org/2000/svg" class="h-6 mr-2">
                     <path fill="#fff" d="m147.51 1.875c-80.34 0-145.63 65.291-145.63 145.63 0 84.709 87.863 198.79 126.94 245.63 9.708 11.651 27.428 11.651 37.137 0 39.32-46.845 127.18-160.92 127.18-245.63 0-80.34-65.291-145.63-145.63-145.63zm0 70.631c34.895 0 63.158 3.9481 63.158 31.58v78.945c0 6.948-3.0785 13.185-7.8945 17.527v10.105c0 6.553-5.3678 11.842-11.842 11.842-6.553 0-11.842-5.3678-11.842-11.842v-3.9473h-63.158v3.9473a11.826 11.826 0 0 1-11.842 11.842 11.826 11.826 0 0 1-11.844-11.842v-10.105c-4.816-4.342-7.8945-10.579-7.8945-17.527v-78.945c0-27.632 28.263-31.58 63.158-31.58zm-47.367 31.58v39.473h94.734v-39.473h-94.734zm11.842 63.156a11.826 11.826 0 0 0-11.842 11.844 11.826 11.826 0 0 0 11.842 11.842c6.552 0 11.842-5.2888 11.842-11.842a11.826 11.826 0 0 0-11.842-11.844zm71.051 0c-6.552 0-11.842 5.2908-11.842 11.844a11.826 11.826 0 0 0 11.842 11.842 11.826 11.826 0 0 0 11.842-11.842 11.826 11.826 0 0 0-11.842-11.844z"/>
                 </svg>
@@ -23,8 +23,8 @@
             </a>
 
             <div class="flex-grow"></div>
-
-            <a href="{{ app()->getLocale() === 'en' ? '/vin/'.request('vin').'/fr' : '/vin/'.request('vin') }}"
+            
+            <a href="{{ route('locale', ['locale' => app()->getLocale() === 'en' ? 'fr' : 'en' ]) }}"
                 class=" min-w-[64px] h-9 px-4 flex items-center justify-center bg-white bg-opacity-0 hover:bg-opacity-10 text-sm font-medium tracking-wider rounded">
                 {{ __('FR') }}
             </a>
@@ -37,19 +37,12 @@
         </div>
     </div>
     @endif
-    <div class="text-black bg-[#facc15] dark:bg-[#a16207] dark:text-white pt-2.5 pb-2 pl-4 pr-2 flex items-center gap-x-4">
-        <div class="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white bg-black bg-opacity-25 rounded-full">
-            <x-gmdi-new-releases class="w-6 h-6" />
-        </div>        
-        {{ __("A new home for exo VINs. You can now see other user's submissions and vote for the good ones.") }}
-    </div>    
     <div class="pb-24">@yield('body')</div>
 
     <footer class="absolute bottom-0 w-full h-12 mt-20 dark:text-white">
         <div class="container flex items-center h-full px-4 mx-auto border-t-4 border-opacity-25 dark:border-opacity-50 border-primary-500">
             <div>
-                <img src="https://felixinx.me/favicon.svg" alt="FelixINX logo" class="inline w-8 h-8">
-                {{ __('A project by') }} <a href="https://felixinx.me/{{ app()->getLocale() === 'en' ? 'en' : '' }}" class="text-[#1f5784] font-bold">@felixinx</a>
+                {{ __('A project by') }} <a href="https://felixinx.me/" class="text-[#1f5784] font-bold">@felixinx</a>
             </div>
             <div class="hidden ml-4 text-sm lg:block">
                 {{ __('This website uses cookies to show you which suggestions you have made and which suggestions you have approved.') }}

@@ -7,23 +7,23 @@
         <div class="md:col-span-2">
             <ul class="flex overflow-auto gap-x-4">
                 @foreach($vehicles as $vehicle)
-                    <li class="px-4 py-2 space-y-2 bg-white dark:bg-grey dark:text-white rounded text-sm flex-shrink-0 mb-2">
+                    <li class="flex-shrink-0 px-4 py-2 mb-2 space-y-2 text-sm bg-white rounded dark:bg-grey dark:text-white">
                         <div class="inline px-2 py-1 rounded" style="color: {{ $vehicle->agency->text_color }};background-color: {{ $vehicle->agency->color }};">
                             {{ $vehicle->agency->short_name }}
                         </div>
                         @if($vehicle->force_label)<small class="ml-2 text-xs tracking-wide">{{ __('Fleet label:') }} {{ $vehicle->force_label }}</small>@endif
-                        <div>Last seen: {{ now()->parse($vehicle->updated_at)->diffForHumans() }}</div>
+                        <div>{{ __('Last seen:') }} {{ now()->parse($vehicle->updated_at)->diffForHumans() }}</div>
                     </li>
                 @endforeach
             </ul>
 
             @if($sessionSuggestion)
-            <div class="flex flex-col items-center justify-center p-4 mt-6 bg-white dark:bg-grey dark:text-white rounded shadow">
+            <div class="flex flex-col items-center justify-center p-4 mt-6 bg-white rounded shadow dark:bg-grey dark:text-white">
                 <h2 class="text-xl font-medium leading-8 tracking-wide">{{ __('Thanks for your suggestion!') }}</h2>
                 <x-gmdi-check class="w-12 h-12 text-green-700 fill-current" />
             </div>
             @else
-            <form action="" method="POST" class="p-4 mt-6 bg-white dark:bg-grey dark:text-white rounded shadow" id="form-suggest">
+            <form action="" method="POST" class="p-4 mt-6 bg-white rounded shadow dark:bg-grey dark:text-white" id="form-suggest">
                 @csrf
                 <input type="hidden" value="{{ $vin }}" id="vin" name="vin">
                 
@@ -37,7 +37,8 @@
                         {{ __('Fleet number') }}
                     </label>
                     @error('label')
-                        <div class="absolute text-xs text-red-500 -bottom-3">{{ __('This field is required.') }}</div>
+                        <div class="absolute text-xs text-red-500 -bottom-3">{{ $message }}</div>
+                        <!-- <div class="absolute text-xs text-red-500 -bottom-3">{{ __('This field is required.') }}</div> -->
                     @enderror
                 </div>
                 
@@ -62,7 +63,7 @@
             </form>
             @endif
         </div>          
-        <div class="mt-1 bg-white dark:bg-grey dark:text-white shadow">
+        <div class="mt-1 bg-white shadow dark:bg-grey dark:text-white">
             <div class="flex items-center h-12 px-4 text-sm uppercase opacity-60">{{ __('Submitted suggestions') }}</div>
             <ul>
                 @foreach($suggestions as $suggestion)
@@ -70,7 +71,10 @@
                     <div class="flex items-center px-4 py-3 gap-x-4 @if($sessionVote === $suggestion->id) bg-green-100 @endif">
                         <div class="flex-grow">
                             <p class="mb-2 leading-tight">{{ $suggestion->label }}</p>
-                            <small class="text-sm leading-tight">{{ $suggestion->note }}</small>
+                            <small class="text-sm leading-tight">
+                                {{ $suggestion->note }}
+                                {{ $suggestion->created_at->diffForHumans() }}
+                            </small>
                             @if($sessionVote === $suggestion->id)
                                 <div class="py-0.5 px-1 rounded bg-green-500 text-white text-xs inline-block">{{ __('You have voted for this suggestion') }}</div>
                             @endif

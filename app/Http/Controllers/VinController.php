@@ -8,12 +8,13 @@ use App\Models\VinSuggestion;
 use App\Rules\Recaptcha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Validation\Rule;
 
 class VinController extends Controller
 {
     public function index()
     {
-        $suggestions = VinSuggestion::latest()->limit(15)->get();
+        $suggestions = VinSuggestion::with(['vehicles:vehicle,agency_id', 'vehicles.agency:id,color'])->latest()->limit(15)->get();
 
         $unlabelledVehicles = Vehicle::query()
             ->latest()
@@ -46,20 +47,22 @@ class VinController extends Controller
         ]);
     }
 
-    public function showFr(string $vin)
-    {
-        App::setLocale('fr');
-
-        return $this->show($vin);
-    }
-
     public function store(Request $request, string $vin)
     {
         abort_unless($vin === $request->input('vin'), 404, 'VIN do not match.');
 
         $this->validate($request, [
-            'vin' => 'required|size:17|exists:vehicles,vehicle',
-            'label' => 'required',
+            'vin' => [
+                'required',
+                'size:17',
+                'exists:vehicles,vehicle',
+            ],
+            'label' => [
+                'required',
+                Rule::unique('vin_suggestions')->where(function ($query) use ($vin) {
+                    return $query->where('vin', $vin);
+                }),
+            ],
             'note' => 'max:255',
             'g-recaptcha-response' => ['required', 'string', new Recaptcha],
         ]);
@@ -69,13 +72,6 @@ class VinController extends Controller
         VinSuggestion::create($request->all());
 
         return back()->with('Thanks for your suggestion!');
-    }
-
-    public function storeFr(Request $request, string $vin)
-    {
-        App::setLocale('fr');
-
-        return $this->store($request, $vin);
     }
 
     public function vote(Request $request, VinSuggestion $vinSuggestion)

@@ -22,24 +22,16 @@ use Illuminate\Support\Facades\App;
  * Developer site
  */
 Route::view('/', 'home')->name('tt.dev.landing');
-Route::get('/fr', function () {
-    App::setLocale('fr');
-
-    return view('home');
-})->name('tt.dev.landing.fr');
-
-/*
- * Beta redirect route
- */
-Route::get('/beta/{lang?}', function ($lang = 'en') {
-    if (! in_array($lang, ['en', 'fr'])) {
-        abort(400);
+Route::get('locale/{locale}', function ($locale) {
+    if (! array_key_exists($locale, config('app.supported_languages'))) {
+        $locale = 'en';
     }
 
-    App::setLocale($lang);
+    App::setLocale($locale);
+    Session::put('locale', $locale);
 
-    return view('beta');
-})->name('tt.beta');
+    return redirect()->back();
+})->name('locale');
 
 // Admin routes
 Route::prefix('admin')->group(function () {
@@ -50,9 +42,7 @@ Route::prefix('admin')->group(function () {
 Route::prefix('vin')->group(function () {
     Route::get('', [VinController::class, 'index'])->name('vin.index');
     Route::get('{vin}', [VinController::class, 'show'])->name('vin.show');
-    Route::get('{vin}/fr', [VinController::class, 'showFr'])->name('vin.show.fr');
     Route::post('{vin}', [VinController::class, 'store'])->name('vin.store');
-    Route::post('{vin}/fr', [VinController::class, 'storeFr'])->name('vin.store.fr');
     Route::post('suggestions/{vinSuggestion}/vote', [VinController::class, 'vote'])->name('vin.vote');
     Route::post('suggestions/{vinSuggestion}/approve/{agency?}', [VinController::class, 'approve'])->middleware('auth')->name('vin.approve');
     Route::post('suggestions/{vinSuggestion}/delete', [VinController::class, 'delete'])->middleware('auth')->name('vin.delete');

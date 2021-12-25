@@ -28,7 +28,7 @@
 
             <div class="flex-grow"></div>
 
-            <a href="{{ app()->getLocale() === 'en' ? '/fr' : '/' }}" class=" min-w-[64px] h-9 px-4 flex items-center justify-center bg-white bg-opacity-0 hover:bg-opacity-10 text-sm font-medium tracking-wider rounded">{{ __('FR') }}</a>
+            <a href="{{ route('locale', ['locale' => app()->getLocale() === 'en' ? 'fr' : 'en']) }}" class=" min-w-[64px] h-9 px-4 flex items-center justify-center bg-white bg-opacity-0 hover:bg-opacity-10 text-sm font-medium tracking-wider rounded">{{ __('FR') }}</a>
         </div>
     </nav>
     @if (session('status'))
@@ -43,7 +43,6 @@
     <footer class="absolute bottom-0 w-full h-12 mt-20">
         <div class="container flex items-center h-full px-4 mx-auto border-t-4 border-opacity-25 border-primary-500 dark:border-white dark:text-white">
             <div>
-                <img src="https://felixinx.me/favicon.svg" alt="FelixINX logo" class="inline w-8 h-8">
                 {{ __('A project by') }} <a href="https://felixinx.me/{{ app()->getLocale() === 'en' ? 'en' : '' }}" class="text-[#1f5784] dark:text-white font-bold">@felixinx</a>
             </div>
             <div class="flex-grow"></div>

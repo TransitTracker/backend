@@ -65,6 +65,11 @@ class NextbusJsonHandler implements ShouldQueue
             $newVehicle = [];
             $newVehicle['active'] = 1;
 
+            // Continue if there is no routeTag
+            if (! isset($vehicle->routeTag)) {
+                continue;
+            }
+
             /*
              * Find a (fake) trip for this route
              */

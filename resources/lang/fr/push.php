@@ -13,7 +13,7 @@ return [
         'action_gtfstools' => '⏭️ Départs',
     ],
     'welcome' => [
-        'title' => 'Vous êtes maintenant abonné aux notifications push de Transit Tracker!',
+        'title' => 'Abonnement activé pour Transit Tracker!',
         'body' => 'Vous pouvez modifier vos abonnements ou vous désabonner à tout moment via le centre de notification.',
     ],
 ];

@@ -69,6 +69,21 @@ class Agency extends Model
         return $this->belongsToMany(NotificationUser::class)->active();
     }
 
+    public function exoWithVin()
+    {
+        return $this->hasMany(Vehicle::class)->exoWithVin();
+    }
+
+    public function exoLabelledVehicles()
+    {
+        return $this->hasMany(Vehicle::class)->exoLabelled();
+    }
+
+    public function exoUnlabelledVehicles()
+    {
+        return $this->hasMany(Vehicle::class)->exoUnlabelled();
+    }
+
     /*
      * Accessors
      */

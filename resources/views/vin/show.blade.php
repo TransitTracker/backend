@@ -2,12 +2,12 @@
 
 @section('body')
     <div class="container grid grid-cols-1 px-4 mx-auto mt-8 md:grid-cols-3 gap-y-8 gap-x-12">
-        <h1 class="text-2xl font-bold md:mb-4 md:text-4xl text-primary-700 dark:text-white col-span-full">VIN {{ $vin }}</h1>
+        <h1 class="text-2xl font-bold md:mb-4 md:text-4xl text-m3-primary-on-container dark:text-white col-span-full">VIN {{ $vin }}</h1>
         
         <div class="md:col-span-2">
             <ul class="flex overflow-auto gap-x-4">
                 @foreach($vehicles as $vehicle)
-                    <li class="flex-shrink-0 px-4 py-2 mb-2 space-y-2 text-sm bg-white rounded dark:bg-grey dark:text-white">
+                    <li class="flex-shrink-0 px-4 py-2 mb-2 space-y-2 text-sm bg-white rounded dark:bg-m3-surface-dark-variant dark:text-m3-surface-dark-on-variant">
                         <div class="inline px-2 py-1 rounded" style="color: {{ $vehicle->agency->text_color }};background-color: {{ $vehicle->agency->color }};">
                             {{ $vehicle->agency->short_name }}
                         </div>
@@ -18,12 +18,12 @@
             </ul>
 
             @if($sessionSuggestion)
-            <div class="flex flex-col items-center justify-center p-4 mt-6 bg-white rounded shadow dark:bg-grey dark:text-white">
+            <div class="flex flex-col items-center justify-center p-4 mt-6 bg-white rounded shadow dark:bg-m3-surface-dark dark:text-m3-surface-dark-on">
                 <h2 class="text-xl font-medium leading-8 tracking-wide">{{ __('Thanks for your suggestion!') }}</h2>
                 <x-gmdi-check class="w-12 h-12 text-green-700 fill-current" />
             </div>
             @else
-            <form action="" method="POST" class="p-4 mt-6 bg-white rounded shadow dark:bg-grey dark:text-white" id="form-suggest">
+            <form action="" method="POST" class="p-4 mt-6 bg-white rounded shadow dark:bg-m3-surface-dark dark:text-m3-surface-dark-on dark:border dark:border-m3-background-dark-outline" id="form-suggest">
                 @csrf
                 <input type="hidden" value="{{ $vin }}" id="vin" name="vin">
                 
@@ -55,15 +55,26 @@
                 <div class="mb-4 text-xs font-medium text-red-500">{{ __('The reCAPTCHA validation has failed. Please try again.') }}</div>
                 @enderror
 
-                <button data-sitekey="{{ config('transittracker.recaptcha.site') }}" data-callback='onSuggestSubmit'
-                    class="inline-flex items-center self-end px-4 py-2 text-sm font-medium tracking-wider text-white uppercase transition-colors rounded shadow g-recaptcha bg-primary-500 dark:bg-primary-700 hover:bg-opacity-80 justify-self-start">
-                    {{ __('Send') }}
-                    <x-gmdi-send class="w-5 h-5 ml-2" />
-                </button>
+                <div class="flex gap-x-2">
+                    <button data-sitekey="{{ config('transittracker.recaptcha.site') }}" data-callback='onSuggestSubmit'
+                        class="relative flex items-center h-10 px-6 text-sm font-medium transition-colors rounded-full bg-m3-primary text-m3-primary-on dark:bg-m3-primary-dark dark:text-m3-primary-dark-on hover:bg-opacity-85 focus:bg-opacity-75">
+                        {{ __('Send') }}
+                        <x-gmdi-send class="w-5 h-5 ml-2" />
+                    </button>
+                    @auth
+                        @foreach($vehicles as $vehicle)
+                        <button formaction="{{ route('vin.agency.store', ['agency' => $vehicle->agency->slug]) }}" formmethod="POST" type="submit" class="relative flex items-center h-10 px-6 text-sm font-medium transition-colors rounded-full bg-m3-secondary-container text-m3-secondary-on-container dark:bg-m3-secondary-dark-container dark:text-m3-secondary-dark-on-container hover:bg-opacity-80 hover:bg-opacity-85 focus:bg-opacity-75">
+                            <x-gmdi-save class="w-5 h-5 mr-2" />
+                            Save to {{ $vehicle->agency->short_name }}
+                        </button>
+                        @endforeach
+                    @endauth
+                </div>
+
             </form>
             @endif
-        </div>          
-        <div class="mt-1 bg-white shadow dark:bg-grey dark:text-white">
+        </div>
+        <div class="mt-1 bg-white rounded shadow dark:bg-m3-surface-dark-variant dark:text-m3-surface-dark-on-variant">
             <div class="flex items-center h-12 px-4 text-sm uppercase opacity-60">{{ __('Submitted suggestions') }}</div>
             <ul>
                 @foreach($suggestions as $suggestion)
@@ -72,7 +83,9 @@
                         <div class="flex-grow">
                             <p class="mb-2 leading-tight">{{ $suggestion->label }}</p>
                             <small class="text-sm leading-tight">
-                                {{ $suggestion->note }}
+                                @if($suggestion->note)
+                                {{ $suggestion->note }} &bull;
+                                @endif
                                 {{ $suggestion->created_at->diffForHumans() }}
                             </small>
                             @if($sessionVote === $suggestion->id)
@@ -101,7 +114,7 @@
                                 <x-gmdi-check class="w-6 h-6 text-green-700 fill-current group-disabled:text-gray-300" />
                             </button>
                             <div class="absolute inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50" x-show="showModal">
-                                <div class="bg-white dark:bg-grey dark:text-white rounded shadow-xl w-[280px]" x-on:click.away="showModal = false">
+                                <div class="bg-white dark:bg-m3-surface-dark dark:text-m3-surface-dark-on rounded shadow-xl w-[280px]" x-on:click.away="showModal = false">
                                     <div class="flex items-center h-16 pl-6 pr-2 text-xl font-medium tracking-wide shadow">Apply new VIN to</div>
                                     <div class="pl-6 pr-2">
                                         @foreach($vehicles as $vehicle)
@@ -122,7 +135,7 @@
                             <button
                                 type="submit"
                                 class="relative flex items-center justify-center w-9 h-9 before:rounded-full before:absolute before:inset-0 before:bg-black before:opacity-0 hover:before:opacity-5 focus:before:opacity-5 disabled:cursor-not-allowed group">
-                                <x-gmdi-remove-circle class="w-6 h-6 text-red-700 fill-current group-disabled:text-gray-300" />
+                                <x-gmdi-delete class="w-6 h-6 text-red-700 fill-current group-disabled:text-gray-300" />
                             </button>
                         </form>
                         @endauth

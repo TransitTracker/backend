@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Agency;
 use App\Models\Vehicle;
 use App\Models\VinSuggestion;
 use App\Rules\Recaptcha;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
-class VinController extends Controller
+class VinSuggestionController extends Controller
 {
     public function index()
     {
@@ -19,32 +19,19 @@ class VinController extends Controller
         $unlabelledVehicles = Vehicle::query()
             ->latest()
             ->where([['force_label', '=', null], ['agency_id', '>=', 5], ['agency_id', '<=', 16]])
-            ->with(['agency:id,name', 'trip:id,route_short_name'])
+            ->with(['agency:id,name,color', 'trip:id,route_short_name,trip_headsign'])
             ->limit(15)
             ->get();
 
-        return view('vin.index', compact('suggestions', 'unlabelledVehicles'));
-    }
-
-    public function show(string $vin)
-    {
-        $suggestions = VinSuggestion::where('vin', $vin)->get();
-        $vehicles = Vehicle::query()
-            ->where([['vehicle', '=', $vin], ['agency_id', '>=', 5], ['agency_id', '<=', 16]])
-            ->with('agency:id,slug,short_name,color,text_color')
+        $agencies = Agency::query()
+            ->where([['id', '>=', 5], ['id', '<=', 16]])
+            ->withCount('exoLabelledVehicles', 'exoUnlabelledVehicles')
             ->get();
 
-        if (! $vehicles->count()) {
-            return view('vin.error', ['vin' => $vin])->with('Invalid VIN');
-        }
+        $allLabelled = $agencies->sum('exo_labelled_vehicles_count');
+        $allUnlabelled = $agencies->sum('exo_unlabelled_vehicles_count');
 
-        return view('vin.show', [
-            'vin' => $vin,
-            'suggestions' => $suggestions,
-            'vehicles' => $vehicles,
-            'sessionSuggestion' => session("vin-{$vin}"),
-            'sessionVote' => session("vin-vote-{$vin}"),
-        ]);
+        return view('vin.index', compact('suggestions', 'unlabelledVehicles', 'agencies', 'allLabelled', 'allUnlabelled'));
     }
 
     public function store(Request $request, string $vin)

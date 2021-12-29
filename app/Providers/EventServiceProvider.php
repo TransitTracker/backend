@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Events\ElectricStmVehicleUpdated;
 use App\Events\NotificationUserCreated;
 use App\Events\VehicleCreated;
+use App\Events\VinSuggestionCreated;
 use App\Listeners\DeactivateInactiveSubscription;
 use App\Listeners\SendElectricStmNotification;
 use App\Listeners\SendNewVehicleNotification;
+use App\Listeners\SendNewVinSuggestionNotification;
 use App\Listeners\SendWelcomeNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -36,6 +38,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ElectricStmVehicleUpdated::class => [
             SendElectricStmNotification::class,
+        ],
+        VinSuggestionCreated::class => [
+            SendNewVinSuggestionNotification::class,
         ],
     ];
 

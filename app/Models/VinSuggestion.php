@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Events\VinSuggestionCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\VinSuggestion
+ * App\Models\VinSuggestion.
  *
  * @property int $id
  * @property string $vin
@@ -40,4 +41,8 @@ class VinSuggestion extends Model
     {
         return $this->hasMany(Vehicle::class, 'vehicle', 'vin');
     }
+
+    protected $dispatchesEvents = [
+        'created' => VinSuggestionCreated::class,
+    ];
 }

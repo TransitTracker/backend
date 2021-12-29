@@ -22,7 +22,7 @@
                 </svg>
                 <small class="text-xs font-medium uppercase">{{ __('All') }}</small>
                 <p class="font-medium">{{ $allLabelled }}</p>
-                <p class="text-xs">{{ __('on') }} {{ $allUnlabelled }}</p>
+                <p class="text-xs">{{ __('on') }} {{ $allUnlabelled + $allLabelled }}</p>
             </li>
             @foreach($agencies as $agency)
             <li

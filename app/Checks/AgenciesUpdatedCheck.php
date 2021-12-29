@@ -16,7 +16,7 @@ class AgenciesUpdatedCheck extends Check
         $agenciesToCheck = Agency::where([['refresh_is_active', true], ['is_active', true]])->select(['timestamp', 'short_name'])->get();
 
         foreach ($agenciesToCheck as $agency) {
-            if (now()->subMinutes(3)->isBefore(Carbon::createFromTimestamp($agency->timestamp))) {
+            if (now()->subMinutes(5)->isBefore(Carbon::createFromTimestamp($agency->timestamp))) {
                 continue;
             }
 

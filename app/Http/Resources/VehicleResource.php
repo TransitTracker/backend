@@ -8,6 +8,9 @@ use App\Enums\ScheduleRelationship;
 use App\Enums\VehicleStopStatus;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/*
+ * @extends JsonResource<\App\Models\Vehicle>
+ */
 class VehicleResource extends JsonResource
 {
     /**

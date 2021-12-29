@@ -3,35 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Service extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = ['service_id', 'start_date', 'end_date', 'agency_id'];
 
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
     protected $dateFormat = 'Ymd';
 
-    /**
-     * Get the agency of this trip.
-     */
-    public function agency()
+    public function agency(): BelongsTo
     {
         return $this->belongsTo(Agency::class);
     }
 
-    /**
-     * Get all trips with this service.
-     */
-    public function trips()
+    public function trips(): HasMany
     {
         return $this->hasMany(Trip::class);
     }

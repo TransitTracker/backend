@@ -8,18 +8,12 @@ use App\Http\Resources\V2\GeoJsonVehiclesCollection;
 use App\Http\Resources\V2\VehicleResource;
 use App\Models\Agency;
 use App\Models\Vehicle;
-use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Storage;
 
 class AgencyController extends Controller
 {
-    /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $totalAgencies = 3 * Agency::active()->count();
@@ -32,11 +26,6 @@ class AgencyController extends Controller
         $this->middleware('cacheResponse:300')->only('vehicles');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
     public function index()
     {
         $agencies = Agency::active()->with('regions:slug')->get();
@@ -44,12 +33,6 @@ class AgencyController extends Controller
         return AgencyResource::collection($agencies);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Agency $agency
-     * @return AgencyResource
-     */
     public function show(Agency $agency)
     {
         if (! $agency->is_active) {
@@ -59,11 +42,6 @@ class AgencyController extends Controller
         return AgencyResource::make($agency);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
-     */
     public function vehicles(Request $request, Agency $agency)
     {
         if (! $agency->is_active) {
@@ -101,12 +79,6 @@ class AgencyController extends Controller
         return VehicleResource::collection($vehicles)->additional($additional)->preserveQuery();
     }
 
-    /**
-     * Display the agency realtime feed (when special API key is provided).
-     *
-     * @param  \App\Models\Agency  $agency
-     * @return LinkResource
-     */
     public function feed(Request $request, Agency $agency)
     {
         if ($request->input('key') !== config('transittracker.api_key')) {

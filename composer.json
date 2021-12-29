@@ -51,6 +51,7 @@
         "matt-allan/laravel-code-style": "^0.7",
         "mockery/mockery": "^1.4",
         "nunomaduro/collision": "^5.3",
+        "nunomaduro/larastan": "^1.0",
         "phpunit/phpunit": "^9.2"
     },
     "config": {

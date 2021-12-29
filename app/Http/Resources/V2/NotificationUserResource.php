@@ -4,6 +4,9 @@ namespace App\Http\Resources\V2;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/*
+ * @extends JsonResource<\App\Models\NotificationUser>
+ */
 class NotificationUserResource extends JsonResource
 {
     public function toArray($request)

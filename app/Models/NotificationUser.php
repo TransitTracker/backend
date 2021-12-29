@@ -49,7 +49,7 @@ class NotificationUser extends Model implements HasLocalePreference
         return $query->where('is_active', 1);
     }
 
-    public function preferredLocale()
+    public function preferredLocale(): string
     {
         return $this->is_french ? 'fr' : 'en';
     }

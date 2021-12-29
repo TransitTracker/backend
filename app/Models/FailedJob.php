@@ -3,29 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use URL;
 
 class FailedJob extends Model
 {
     protected $table = 'failed_jobs_histories';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = ['name', 'agency_id', 'snooze', 'exception'];
 
-    public function agency()
+    public function agency(): BelongsTo
     {
         return $this->belongsTo(Agency::class);
     }
 
-    /**
-     * @param int $hours
-     * @return string
-     */
-    public function signedSnoozeUrl(int $hours)
+    public function signedSnoozeUrl(int $hours): string
     {
         return URL::temporarySignedRoute('signed.snooze', now()->addHours(5), [
             'failedJob' => $this,

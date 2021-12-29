@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\ResponseCache\Facades\ResponseCache;
 use Spatie\Translatable\HasTranslations;
 
@@ -14,12 +15,12 @@ class Link extends Model
 
     protected $translatable = ['title', 'description'];
 
-    public function agencies()
+    public function agencies(): BelongsToMany
     {
         return $this->belongsToMany(Agency::class);
     }
 
-    public function vehicles()
+    public function vehicles(): BelongsToMany
     {
         return $this->belongsToMany(Vehicle::class);
     }
@@ -27,13 +28,6 @@ class Link extends Model
     protected static function booted()
     {
         static::updated(function (self $link) {
-//            $vehicles = Vehicle::whereIn('agency_id', $link->agencies->pluck('id'))->get();
-//            foreach ($vehicles as $vehicle) {
-//                dd($link);
-//                echo $vehicle->id;
-//                $vehicle->links()->syncWithoutDetaching($link->id);
-//            }
-
             ResponseCache::forget('/api/links');
             ResponseCache::forget('/v1/links');
 

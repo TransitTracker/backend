@@ -74,10 +74,6 @@ class ProfileController extends Controller
 
         $agencies = Agency::whereIn('slug', $request->agencies)->get();
 
-        if (! $user) {
-            return response()->json(['message' => 'User not found, subscribe first.'], 404);
-        }
-
         $user->agencies()->sync($agencies);
 
         $user->subscribed_general_news = $request->generalNews;

@@ -48,7 +48,7 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
             ]);
         } else {
             $this->batch()->add([
-                new ProcessGtfsServices($this->agency, false),
+                new ProcessGtfsServices($this->agency, null),
             ]);
         }
 

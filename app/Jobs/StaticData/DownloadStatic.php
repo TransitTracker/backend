@@ -52,7 +52,7 @@ class DownloadStatic implements ShouldQueue
         }
 
         // Dispatch extraction
-        $this->batch()->add(new ExtractAndDispatchStaticGtfs($this->agency, $fileName));
+        $this->batch()->add([new ExtractAndDispatchStaticGtfs($this->agency, $fileName)]);
 
         // Erase client
         $client = null;

@@ -6,6 +6,9 @@ use Arr;
 use Cache;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Spatie\ResponseCache\Facades\ResponseCache;
 use Spatie\Translatable\HasTranslations;
 
@@ -13,18 +16,8 @@ class Region extends Model
 {
     use HasTranslations;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = ['name', 'slug', 'info_title', 'info_body', 'map_box', 'map_center', 'map_zoom', 'credits', 'description', 'meta_description', 'image'];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'map_box' => 'array',
         'map_center' => AsArrayObject::class,
@@ -33,55 +26,37 @@ class Region extends Model
 
     public $translatable = ['info_title', 'info_body', 'credits', 'description', 'meta_description'];
 
-    /**
-     * Get all agencies from this region.
-     */
-    public function agencies()
+    public function agencies(): BelongsToMany
     {
         return $this->belongsToMany(Agency::class);
     }
 
-    /**
-     * Get all active agencies from this region.
-     */
-    public function activeAgencies()
+    public function activeAgencies(): BelongsToMany
     {
         return $this->belongsToMany(Agency::class)->active();
     }
 
-    /**
-     * Get all alerts from this region.
-     */
-    public function alerts()
+    public function alerts(): BelongsToMany
     {
         return $this->belongsToMany(Alert::class);
     }
 
-    /**
-     * Get all active alerts from this region.
-     */
-    public function activeAlerts()
+    public function activeAlerts(): BelongsToMany
     {
         return $this->belongsToMany(Alert::class)->active();
     }
 
-    /**
-     * Get all active vehicles from this region agencies.
-     */
-    public function vehicles()
+    public function vehicles(): QueryBuilder
     {
         return Vehicle::active()->whereIn('agency_id', $this->activeAgencies->modelKeys());
     }
 
-    /**
-     * Get all stats from this region.
-     */
-    public function stats()
+    public function stats(): HasMany
     {
         return $this->hasMany(Stat::class);
     }
 
-    public function getCitiesAttribute()
+    public function getCitiesAttribute(): array
     {
         return Cache::remember("tt-region-{$this->slug}-cities", 60 * 60 * 24 * 7, function () {
             $allCities = [];
@@ -110,12 +85,7 @@ class Region extends Model
         });
     }
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }

@@ -6,6 +6,8 @@ use App\Events\VehiclesUpdated;
 use Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\ResponseCache\Facades\ResponseCache;
 use URL;
 
@@ -29,57 +31,57 @@ class Agency extends Model
     /*
      * Relationships
      */
-    public function vehicles()
+    public function vehicles(): HasMany
     {
         return $this->hasMany(Vehicle::class);
     }
 
-    public function trips()
+    public function trips(): HasMany
     {
         return $this->hasMany(Trip::class);
     }
 
-    public function routes()
+    public function routes(): HasMany
     {
         return $this->hasMany(Route::class);
     }
 
-    public function services()
+    public function services(): HasMany
     {
         return $this->hasMany(Service::class);
     }
 
-    public function regions()
+    public function regions(): BelongsToMany
     {
         return $this->belongsToMany(Region::class);
     }
 
-    public function links()
+    public function links(): BelongsToMany
     {
         return $this->belongsToMany(Link::class);
     }
 
-    public function notificationUsers()
+    public function notificationUsers(): BelongsToMany
     {
         return $this->belongsToMany(NotificationUser::class);
     }
 
-    public function activeNotificationUsers()
+    public function activeNotificationUsers(): BelongsToMany
     {
         return $this->belongsToMany(NotificationUser::class)->active();
     }
 
-    public function exoWithVin()
+    public function exoWithVin(): HasMany
     {
         return $this->hasMany(Vehicle::class)->exoWithVin();
     }
 
-    public function exoLabelledVehicles()
+    public function exoLabelledVehicles(): HasMany
     {
         return $this->hasMany(Vehicle::class)->exoLabelled();
     }
 
-    public function exoUnlabelledVehicles()
+    public function exoUnlabelledVehicles(): HasMany
     {
         return $this->hasMany(Vehicle::class)->exoUnlabelled();
     }
@@ -87,32 +89,32 @@ class Agency extends Model
     /*
      * Accessors
      */
-    public function getRealtimeMethodAttribute()
+    public function getRealtimeMethodAttribute(): string
     {
         return json_decode($this->realtime_options)->realtime_method;
     }
 
-    public function getHeaderNameAttribute()
+    public function getHeaderNameAttribute(): string
     {
         return json_decode($this->realtime_options)->header_name;
     }
 
-    public function getHeaderValueAttribute()
+    public function getHeaderValueAttribute(): string
     {
         return json_decode($this->realtime_options)->header_value;
     }
 
-    public function getParamNameAttribute()
+    public function getParamNameAttribute(): string
     {
         return json_decode($this->realtime_options)->param_name;
     }
 
-    public function getParamValueAttribute()
+    public function getParamValueAttribute(): string
     {
         return json_decode($this->realtime_options)->param_value;
     }
 
-    public function getDownloadMethodAttribute()
+    public function getDownloadMethodAttribute(): string
     {
         return json_decode($this->realtime_options)->download_method ?? '';
     }
@@ -128,7 +130,7 @@ class Agency extends Model
     /*
      * Others
      */
-    public function getRandomCitiesAttribute()
+    public function getRandomCitiesAttribute(): array
     {
         $cities = $this->cities;
         if (! $cities) {
@@ -156,7 +158,7 @@ class Agency extends Model
         'updated' => VehiclesUpdated::class,
     ];
 
-    protected static function booted()
+    protected static function booted(): void
     {
         static::updated(function (self $agency) {
             ResponseCache::forget('/api/regions');

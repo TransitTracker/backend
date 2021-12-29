@@ -57,7 +57,7 @@
 
                 <div class="flex gap-x-2">
                     <button data-sitekey="{{ config('transittracker.recaptcha.site') }}" data-callback='onSuggestSubmit'
-                        class="relative flex items-center h-10 px-6 text-sm font-medium transition-colors rounded-full bg-m3-primary text-m3-primary-on dark:bg-m3-primary-dark dark:text-m3-primary-dark-on hover:bg-opacity-85 focus:bg-opacity-75">
+                        class="relative flex items-center h-10 px-6 text-sm font-medium transition-colors rounded-full bg-m3-primary text-m3-primary-on dark:bg-m3-primary-dark dark:text-m3-primary-dark-on hover:bg-opacity-85 focus:bg-opacity-75 g-recaptcha">
                         {{ __('Send') }}
                         <x-gmdi-send class="w-5 h-5 ml-2" />
                     </button>

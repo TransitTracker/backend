@@ -55,6 +55,7 @@ class HandleFailedDispatch
 
     private function sendNotification(FailedJob $failedJob)
     {
-        Notification::send([User::first()], new DispatchFailed($failedJob));
+        // Stop sending notification
+        // Notification::send([User::first()], new DispatchFailed($failedJob));
     }
 }

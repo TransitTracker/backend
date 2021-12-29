@@ -169,32 +169,32 @@ class Agency extends Model
     /*
      * Accessors
      */
-    public function getRealtimeMethodAttribute(): string
+    public function getRealtimeMethodAttribute()
     {
         return json_decode($this->realtime_options)->realtime_method;
     }
 
-    public function getHeaderNameAttribute(): string
+    public function getHeaderNameAttribute()
     {
         return json_decode($this->realtime_options)->header_name;
     }
 
-    public function getHeaderValueAttribute(): string
+    public function getHeaderValueAttribute()
     {
         return json_decode($this->realtime_options)->header_value;
     }
 
-    public function getParamNameAttribute(): string
+    public function getParamNameAttribute()
     {
         return json_decode($this->realtime_options)->param_name;
     }
 
-    public function getParamValueAttribute(): string
+    public function getParamValueAttribute()
     {
         return json_decode($this->realtime_options)->param_value;
     }
 
-    public function getDownloadMethodAttribute(): string
+    public function getDownloadMethodAttribute()
     {
         return json_decode($this->realtime_options)->download_method ?? '';
     }

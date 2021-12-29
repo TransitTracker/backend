@@ -30,6 +30,7 @@
         "ohdearapp/ohdear-php-sdk": "^3.1",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^5.0",
+        "readme/metrics": "^6.0",
         "spatie/flysystem-dropbox": "^1.2",
         "spatie/laravel-backup": "^7.3",
         "spatie/laravel-health": "^1.2",

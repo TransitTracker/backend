@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Handler;
 
 use Illuminate\Http\Request;
@@ -8,7 +9,7 @@ class ReadMe implements \ReadMe\Handler
     /**
      * This is a grouping callback that's run for every metric sent to ReadMe,
      * and is a way for you to group metrics against a specific user. This
-     * function must return an array with at least an `id` key that represents
+     * function must return an array with at least an `api_key` that represents
      * a unique identifier for the callee (session ID, user ID, etc.).
      *
      * Optionally, you may also return the following:
@@ -22,8 +23,7 @@ class ReadMe implements \ReadMe\Handler
     public static function constructGroup(Request $request): array
     {
         return [
-            'id' => $request->getClientIp(),
-            'label' => $request->getUserInfo(),
+            'api_key' => $request->getClientIp(),
         ];
     }
 }

@@ -23,10 +23,12 @@ class VinSuggestionController extends Controller
             ->limit(15)
             ->get();
 
-        $agencies = Agency::query()
+        $unsortedAgencies = Agency::query()
             ->where([['id', '>=', 5], ['id', '<=', 16]])
             ->withCount('exoLabelledVehicles', 'exoUnlabelledVehicles')
             ->get();
+
+        $agencies = $unsortedAgencies->sortByDesc('exo_unlabelled_vehicles_count');
 
         $allLabelled = $agencies->sum('exo_labelled_vehicles_count');
         $allUnlabelled = $agencies->sum('exo_unlabelled_vehicles_count');

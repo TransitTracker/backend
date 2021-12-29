@@ -32,12 +32,6 @@ class V1VehicleController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource, in CSV format.
-     *
-     * @param Agency $agency
-     * @return \Illuminate\Http\JsonResponse|void
-     */
     public function dump(Agency $agency)
     {
         if (App::environment('local')) {
@@ -61,6 +55,7 @@ class V1VehicleController extends Controller
         $csvExporter = new Export();
 
         try {
+            // @phpstan-ignore-next-line
             return $csvExporter->build($vehicles, $fields)->download($fileName);
         } catch (CannotInsertRecord $e) {
             return response()->json(['message' => 'Problem while generating CSV. Please try again later.'], 500);

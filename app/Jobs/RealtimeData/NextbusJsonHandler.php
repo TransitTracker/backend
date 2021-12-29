@@ -66,7 +66,7 @@ class NextbusJsonHandler implements ShouldQueue
             $newVehicle['active'] = 1;
 
             // Continue if there is no routeTag
-            if (! isset($vehicle->routeTag)) {
+            if (! isset($vehicle->routeTag) || ! isset($vehicle->id)) {
                 continue;
             }
 
@@ -87,39 +87,39 @@ class NextbusJsonHandler implements ShouldQueue
             }
 
             // Latitude
-            if ($lat = $vehicle->lat) {
-                $newVehicle['lat'] = round((float) $lat, 5);
+            if (isset($vehicle->lat)) {
+                $newVehicle['lat'] = round((float) $vehicle->lat, 5);
             }
 
             // Longitude
-            if ($lon = $vehicle->lon) {
-                $newVehicle['lon'] = round((float) $lon, 5);
+            if (isset($vehicle->lon)) {
+                $newVehicle['lon'] = round((float) $vehicle->lon, 5);
             }
 
             // Route
-            if ($routeTag = $vehicle->routeTag) {
-                $newVehicle['route'] = $routeTag;
+            if (isset($vehicle->routeTag)) {
+                $newVehicle['route'] = $vehicle->routeTag;
             }
 
             // Bearing
-            if ($heading = $vehicle->heading) {
-                $newVehicle['bearing'] = $heading;
+            if (isset($vehicle->heading)) {
+                $newVehicle['bearing'] = $vehicle->heading;
             }
 
             // Speed
-            if ($speedKmHr = $vehicle->speedKmHr) {
-                $newVehicle['speed'] = $speedKmHr;
+            if (isset($vehicle->speedKmHr)) {
+                $newVehicle['speed'] = $vehicle->speedKmHr;
             }
 
             // Timestamp
-            if ($secsSinceReport = $vehicle->secsSinceReport) {
-                $newVehicle['timestamp'] = strval($timestamp - $secsSinceReport);
+            if (isset($vehicle->secsSinceReport)) {
+                $newVehicle['timestamp'] = strval($timestamp - $vehicle->secsSinceReport);
             }
 
             /*
              * Check if vehicle is recent, then create or update the vehicle model
              */
-            if ($vehicle->secsSinceReport < 180) {
+            if (isset($vehicle->secsSinceReport) && $vehicle->secsSinceReport < 180) {
                 $vehicle = Vehicle::updateOrCreate(['vehicle' => $vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
 
                 array_push($activeArray, $vehicle->id);

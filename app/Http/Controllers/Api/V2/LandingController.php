@@ -32,7 +32,7 @@ class LandingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return GeoJsonLandingCollection
      */
     public function index()
     {

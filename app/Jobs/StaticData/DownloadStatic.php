@@ -3,18 +3,13 @@
 namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
-use App\Models\User;
-use App\Notifications\StaticDataUpdated;
 use GuzzleHttp\Client;
-use Illuminate\Bus\Batch;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Notification;
 
 class DownloadStatic implements ShouldQueue
 {
@@ -48,7 +43,9 @@ class DownloadStatic implements ShouldQueue
 
             $client = null;
 
-            return $this->batch()->cancel();
+            $this->batch()->cancel();
+
+            return false;
         }
 
         // Dispatch extraction

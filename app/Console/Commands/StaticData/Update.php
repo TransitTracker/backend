@@ -29,7 +29,9 @@ class Update extends Command
 
             $this->createBatch($agency);
 
-            return $this->info("Updating {$agency->short_name}");
+            $this->info("Updating {$agency->short_name}");
+
+            return false;
         }
 
         foreach (Agency::all() as $agency) {

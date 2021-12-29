@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\AlertResource;
 use App\Models\Alert;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\App;
 
 class AlertController extends Controller
@@ -35,14 +36,14 @@ class AlertController extends Controller
     {
         $alerts = Alert::active()->get();
 
-        return AlertResource::collection($alerts->filter(fn($alert) => ! array_key_exists('only-v1', $alert->action_parameters->toArray())));
+        return AlertResource::collection($alerts->filter(fn ($alert) => ! array_key_exists('only-v1', $alert->action_parameters->toArray())));
     }
 
     /**
      * Display the specified resource.
      *
      * @param Alert $alert
-     * @return AlertResource
+     * @return AlertResource|JsonResponse
      */
     public function show(Alert $alert)
     {

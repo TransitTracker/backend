@@ -5,9 +5,7 @@ namespace App\Http\Resources\V2;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
-/*
- * @extends JsonResource<\App\Models\Trip>
- */
+/* @extends JsonResource<\App\Models\Trip> */
 class TripResource extends JsonResource
 {
     public function toArray($request)

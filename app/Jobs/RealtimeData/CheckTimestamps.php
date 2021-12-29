@@ -35,7 +35,7 @@ class CheckTimestamps implements ShouldQueue
         $agenciesToCheck = Agency::where('refresh_is_active', true)->where('is_active', true)->get();
 
         foreach ($agenciesToCheck as $agency) {
-            if (now()->subMinutes(3)->isBefore(Carbon::parse($agency->timestamp))) {
+            if (now()->subMinutes(3)->isBefore(Carbon::createFromTimestamp($agency->timestamp))) {
                 continue;
             }
 

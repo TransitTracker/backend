@@ -9,10 +9,11 @@ parameters:
     # The level 9 is the highest level
     level: 5
 
-    # ignoreErrors:
-    # - '#Unsafe usage of new static#'
+    ignoreErrors:
+        - '#Call to an undefined method Spatie[a-zA-Z0-9\\_]+::forUrls\(\)#'
 
-    # excludePaths:
-    # - ./*/*/FileToBeExcluded.php
+    excludePaths:
+        #- ./*/*/app/Http/Resources/*
+        - *Resource.php
 
     checkMissingIterableValueType: false

@@ -15,16 +15,24 @@ class AgenciesUpdatedCheck extends Check
 
         $agenciesToCheck = Agency::where([['refresh_is_active', true], ['is_active', true]])->select(['timestamp', 'short_name'])->get();
 
+        $badAgencies = [];
+
         foreach ($agenciesToCheck as $agency) {
             if (now()->subMinutes(5)->isBefore(Carbon::createFromTimestamp($agency->timestamp))) {
                 continue;
             }
 
-            return $result->failed("Agency {$agency->short_name} has not been updated in the last 3 minutes.");
+            array_push($badAgencies, $agency->short_name);
+        }
+
+        if (count($badAgencies) > 0) {
+            $joinedAgencies = implode(', ', $badAgencies);
+
+            return $result->failed("Agencies {$joinedAgencies} have not been updated in the last 5 minutes.");
         }
 
         $result->shortSummary("{$agenciesToCheck->count()} ag.");
 
-        return $result->ok;
+        return $result->ok();
     }
 }

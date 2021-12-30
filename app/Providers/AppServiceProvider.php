@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
 
         Health::checks([
             AgenciesUpdatedCheck::new(),
-            CpuLoadCheck::new()->failWhenLoadIsHigherInTheLast5Minutes(0.5),
+            CpuLoadCheck::new()->failWhenLoadIsHigherInTheLast5Minutes(0.75),
             DatabaseCheck::new(),
             HorizonCheck::new(),
             RedisCheck::new(),

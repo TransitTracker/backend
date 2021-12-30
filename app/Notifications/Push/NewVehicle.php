@@ -50,7 +50,7 @@ class NewVehicle extends Notification implements ShouldQueue
             ->badge('https://api.transittracker.ca/img/badge.png')
             ->title(__('push.new_vehicle.title', ['emoji' => $this->emoji, 'type' => $this->vehicle->icon, 'label' => $this->label, 'agency' => $this->vehicle->agency->short_name]))
             ->body(__('push.new_vehicle.body', ['label' => $this->label, 'route' => $this->vehicle->trip->route_short_name ?? $this->vehicle->route]))
-            ->action(__('push.new_vehicle.action', []), "open_region.{$this->vehicle->agency->regions[0]->slug}");
+            ->action(__('push.new_vehicle.action', []), "open_vehicle.{$this->vehicle->agency->regions[0]->slug}.{$this->vehicle->id}");
     }
 
     public function toArray()

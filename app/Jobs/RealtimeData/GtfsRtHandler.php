@@ -105,8 +105,10 @@ class GtfsRtHandler implements ShouldQueue
             // trip->route_id
             if ($route = $vehicle->getTrip()->getRouteId()) {
                 $newVehicle['route'] = $route;
+            } elseif ($trip->route_short_name) {
+                $newVehicle['route'] = $trip->route_short_name;
             } else {
-                $newVehicle['route'] = null;
+                $newVehicle['route'] = 'null';
             }
 
             // trip->start_time

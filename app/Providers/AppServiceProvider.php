@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App;
 use App\Checks\AgenciesUpdatedCheck;
+use BenSampo\Enum\Enum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -49,5 +50,9 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+
+        Enum::macro('asFlippedArray', function () {
+            return array_flip(self::asArray());
+        });
     }
 }

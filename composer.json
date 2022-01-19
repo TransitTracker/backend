@@ -20,6 +20,8 @@
         "dragonmantank/cron-expression": "^3.1",
         "felixinx/gtfs-realtime-protobuf-php": "@dev",
         "fideloper/proxy": "^4.4",
+        "filament/filament": "^2.0",
+        "filament/spatie-laravel-translatable-plugin": "^2.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel-notification-channels/webpush": "^5.1",

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 /**
- * App\Models\Vehicle
+ * App\Models\Vehicle.
  *
  * @property int $id
  * @property bool $active
@@ -107,6 +107,14 @@ class Vehicle extends Model
     public function links(): BelongsToMany
     {
         return $this->belongsToMany(Link::class);
+    }
+
+    /*
+     * Accessor
+     */
+    public function getDisplayedLabelAttribute(): string
+    {
+        return $this->force_label ?? $this->label ?? $this->vehicle;
     }
 
     /*

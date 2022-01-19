@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * App\Models\User
+ * App\Models\User.
  *
  * @property int $id
  * @property string $name
@@ -33,7 +34,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
 
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function routeNotificationForSlack(): string
     {
         return config('transittracker.slack_webhook_url');
+    }
+
+    public function canAccessFilament(): bool
+    {
+        return $this->email === config('transittracker.admin_email');
     }
 }

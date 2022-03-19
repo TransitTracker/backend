@@ -85,6 +85,10 @@ class VinSuggestionController extends Controller
             return response()->json(['message' => 'Missing agency'], 400);
         }
 
+        $vinSuggestion->update([
+            'is_rejected' => false,
+        ]);
+
         Vehicle::query()
             ->withoutTouch()
             ->where(['vehicle' => $vinSuggestion->vin, 'agency_id' => $agency->id])
@@ -93,9 +97,11 @@ class VinSuggestionController extends Controller
         return back()->with('status', 'Suggestion approved.');
     }
 
-    public function delete(VinSuggestion $vinSuggestion)
+    public function reject(VinSuggestion $vinSuggestion)
     {
-        $vinSuggestion->delete();
+        $vinSuggestion->update([
+            'is_rejected' => true,
+        ]);
 
         return back()->with('status', 'Deleted.');
     }

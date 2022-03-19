@@ -94,6 +94,9 @@
                             @if($sessionSuggestion === $suggestion->label)
                                 <div class="py-0.5 px-1 rounded bg-gray-700 text-white text-xs inline-block">{{ __('Your suggestion') }}</div>
                             @endif
+                            @if($suggestion->is_rejected)
+                                <div class="py-0.5 px-1 rounded bg-m3-error text-m3-error-on dark:bg-m3-error-dark dark:text-m3-error-dark-on text-xs inline-block">{{ __('Rejected') }}</div>
+                            @endif
                         </div>
                         @guest
                         <form action="{{ route('vin.vote', ['vinSuggestion' => $suggestion->id]) }}" method="POST" id="form-vote">
@@ -130,12 +133,12 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="{{ route('vin.delete', ['vinSuggestion' => $suggestion->id]) }}" method="POST">
+                        <form action="{{ route('vin.reject', ['vinSuggestion' => $suggestion->id]) }}" method="POST">
                             @csrf
                             <button
                                 type="submit"
                                 class="relative flex items-center justify-center w-9 h-9 before:rounded-full before:absolute before:inset-0 before:bg-black before:opacity-0 hover:before:opacity-5 focus:before:opacity-5 disabled:cursor-not-allowed group">
-                                <x-gmdi-delete class="w-6 h-6 text-red-700 fill-current group-disabled:text-gray-300" />
+                                <x-gmdi-close class="w-6 h-6 text-red-700 fill-current group-disabled:text-gray-300" />
                             </button>
                         </form>
                         @endauth

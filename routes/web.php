@@ -50,7 +50,7 @@ Route::prefix('vin')->group(function () {
     Route::post('agency/{agency}', [VinAgencyController::class, 'store'])->middleware('auth')->name('vin.agency.store');
     Route::post('vin/{vinSuggestion}/vote', [VinSuggestionController::class, 'vote'])->name('vin.vote');
     Route::post('vin/{vinSuggestion}/approve/{agency?}', [VinSuggestionController::class, 'approve'])->middleware('auth')->name('vin.approve');
-    Route::post('vin/{vinSuggestion}/delete', [VinSuggestionController::class, 'delete'])->middleware('auth')->name('vin.delete');
+    Route::post('vin/{vinSuggestion}/reject', [VinSuggestionController::class, 'reject'])->middleware('auth')->name('vin.reject');
 });
 
 Route::get('/failed-job/{failedJob}/snooze/{hours}', [SnoozeFailedJobController::class, 'snooze'])->middleware('signed')->name('signed.snooze');

@@ -35,7 +35,11 @@ class VinSuggestion extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['vin', 'label', 'note'];
+    protected $fillable = ['vin', 'label', 'note', 'is_rejected'];
+
+    protected $casts = [
+        'is_rejected' => 'boolean',
+    ];
 
     public function vehicles(): HasMany
     {

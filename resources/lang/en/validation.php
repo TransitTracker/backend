@@ -130,6 +130,7 @@ return [
     'custom' => [
         'label' => [
             'unique' => 'There is already a suggestion with this label, you can vote for it.',
+            'regex' => 'A fleet number can only consist of numbers and dashes. The last character must be a number.',
         ],
     ],
 

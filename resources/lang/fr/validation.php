@@ -130,6 +130,7 @@ return [
     'custom' => [
         'label' => [
             'unique' => 'Il y existe déjà une suggestion avec ce numéro, vous pouvez voter pour elle.',
+            'regex' => 'Un numéro de flotte peut uniquement être composé de nombres et de tirets. Le dernier caractère doit être un chiffre.'
         ],
     ],
 ];

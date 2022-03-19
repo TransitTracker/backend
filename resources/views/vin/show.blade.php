@@ -30,7 +30,7 @@
                 <h2 class="text-[1.375rem] leading-8">{{ __('Submit a new fleet number') }}</h2>
 
                 <div class="relative mt-8 mb-4">
-                    <input type="text" id="label" placeholder="{{ __('Fleet number') }}" name="label" required
+                    <input type="text" id="label" placeholder="{{ __('Fleet number') }}" name="label" required value="{{ @old('label') }}"
                         class="w-48 h-8 px-0 py-2 mb-2 placeholder-transparent transition-colors bg-transparent border-0 border-b-2 border-black dark:border-white peer focus:ring-0 border-opacity-40 dark:border-opacity-60 focus:border-primary-500 dark:focus:border-white focus:border-opacity-100 @error('label') border-red-500 border-opacity-100 @enderror" />
                     <label for="label"
                         class="absolute left-0 transition-transform origin-top-left scale-75 -translate-y-8 top-1/2 opacity-60 peer-focus:-translate-y-8 peer-focus:scale-75 peer-focus:text-primary-500 dark:peer-focus:text-white peer-focus:opacity-100 peer-placeholder-shown:-translate-y-4 peer-placeholder-shown:scale-100 @error('label') text-red-500 opacity-100 @enderror">

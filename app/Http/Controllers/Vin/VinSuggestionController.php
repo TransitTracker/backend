@@ -48,6 +48,7 @@ class VinSuggestionController extends Controller
             ],
             'label' => [
                 'required',
+                'regex:/^[0-9-]*\d$/',
                 Rule::unique('vin_suggestions')->where(function ($query) use ($vin) {
                     return $query->where('vin', $vin);
                 }),

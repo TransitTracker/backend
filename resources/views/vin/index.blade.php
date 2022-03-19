@@ -63,7 +63,7 @@
                                 {{ $suggestion->vin }}
                                 <div class="inline-flex gap-x-1">
                                     @foreach($suggestion->vehicles as $vehicle)
-                                    <span class="inline-block w-4 h-4 rounded-full" style="background-color: {{ $vehicle->agency->color }};" title="{{ $agency->short_name }}"></span>
+                                    <span class="inline-block w-4 h-4 rounded-full" style="background-color: {{ $vehicle->agency->color }};" title="{{ $vehicle->agency->short_name }}"></span>
                                     @endforeach
                                 </div>
                             </a>
@@ -115,7 +115,7 @@
                         <td class="px-4 text-left">
                             <a href="{{ route('vin.show', ['vin' => $vehicle->vehicle]) }}" class="flex items-center justify-between gap-x-2">
                                 {{ $vehicle->vehicle }}
-                                <span class="inline-block w-4 h-4 rounded-full" style="background-color: {{ $vehicle->agency->color }};" title="{{ $agency->short_name }}"></span>
+                                <span class="inline-block w-4 h-4 rounded-full" style="background-color: {{ $vehicle->agency->color }};" title="{{ $vehicle->agency->short_name }}"></span>
                             </a>
                         </td>
                         <td class="px-4 text-left">

@@ -14,12 +14,12 @@ class VinSuggestionController extends Controller
 {
     public function index()
     {
-        $suggestions = VinSuggestion::with(['vehicles:vehicle,agency_id', 'vehicles.agency:id,color'])->latest()->limit(15)->get();
+        $suggestions = VinSuggestion::with(['vehicles:vehicle,agency_id', 'vehicles.agency:id,color,short_name'])->latest()->limit(15)->get();
 
         $unlabelledVehicles = Vehicle::query()
             ->latest()
             ->where([['force_label', '=', null], ['agency_id', '>=', 5], ['agency_id', '<=', 16]])
-            ->with(['agency:id,name,color', 'trip:id,route_short_name,trip_headsign'])
+            ->with(['agency:id,name,color,short_name', 'trip:id,route_short_name,trip_headsign'])
             ->limit(15)
             ->get();
 

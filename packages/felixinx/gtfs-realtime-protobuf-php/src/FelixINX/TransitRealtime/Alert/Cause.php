@@ -70,7 +70,3 @@ class Cause
      */
     const MEDICAL_EMERGENCY = 12;
 }
-
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(Cause::class, \FelixINX\TransitRealtime\Alert_Cause::class);
-

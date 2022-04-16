@@ -24,7 +24,3 @@ class Incrementality
      */
     const DIFFERENTIAL = 1;
 }
-
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(Incrementality::class, \FelixINX\TransitRealtime\FeedHeader_Incrementality::class);
-

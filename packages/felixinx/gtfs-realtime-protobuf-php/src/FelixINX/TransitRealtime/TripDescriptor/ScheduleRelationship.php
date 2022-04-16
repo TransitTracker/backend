@@ -42,7 +42,3 @@ class ScheduleRelationship
      */
     const CANCELED = 3;
 }
-
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(ScheduleRelationship::class, \FelixINX\TransitRealtime\TripDescriptor_ScheduleRelationship::class);
-

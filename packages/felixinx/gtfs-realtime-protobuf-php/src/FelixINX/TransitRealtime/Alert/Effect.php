@@ -56,7 +56,3 @@ class Effect
      */
     const STOP_MOVED = 9;
 }
-
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(Effect::class, \FelixINX\TransitRealtime\Alert_Effect::class);
-

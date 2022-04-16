@@ -39,7 +39,3 @@ class ScheduleRelationship
      */
     const NO_DATA = 2;
 }
-
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(ScheduleRelationship::class, \FelixINX\TransitRealtime\TripUpdate_StopTimeUpdate_ScheduleRelationship::class);
-

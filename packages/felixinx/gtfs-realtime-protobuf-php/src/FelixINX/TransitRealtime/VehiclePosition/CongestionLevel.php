@@ -34,7 +34,3 @@ class CongestionLevel
      */
     const SEVERE_CONGESTION = 4;
 }
-
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(CongestionLevel::class, \FelixINX\TransitRealtime\VehiclePosition_CongestionLevel::class);
-

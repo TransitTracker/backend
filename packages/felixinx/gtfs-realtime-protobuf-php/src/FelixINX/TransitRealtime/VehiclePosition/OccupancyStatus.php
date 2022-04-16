@@ -65,7 +65,3 @@ class OccupancyStatus
      */
     const NOT_ACCEPTING_PASSENGERS = 6;
 }
-
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(OccupancyStatus::class, \FelixINX\TransitRealtime\VehiclePosition_OccupancyStatus::class);
-

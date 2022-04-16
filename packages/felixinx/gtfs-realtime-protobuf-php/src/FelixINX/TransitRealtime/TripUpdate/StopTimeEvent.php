@@ -185,7 +185,3 @@ class StopTimeEvent extends \Google\Protobuf\Internal\Message
     }
 
 }
-
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(StopTimeEvent::class, \FelixINX\TransitRealtime\TripUpdate_StopTimeEvent::class);
-

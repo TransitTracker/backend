@@ -29,7 +29,3 @@ class VehicleStopStatus
      */
     const IN_TRANSIT_TO = 2;
 }
-
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(VehicleStopStatus::class, \FelixINX\TransitRealtime\VehiclePosition_VehicleStopStatus::class);
-

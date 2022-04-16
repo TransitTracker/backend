@@ -16,8 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "FelixINX\\TransitRealtime\\": "src/",
-            "GPBMetadata\\": "src/"
+            "FelixINX\\TransitRealtime\\": "src/"
         }
     }
 }

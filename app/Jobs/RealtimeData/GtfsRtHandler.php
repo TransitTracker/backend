@@ -70,7 +70,7 @@ class GtfsRtHandler implements ShouldQueue
              * Check if entity has vehiclePosition or if is not valid
              */
             $vehicle = $entity->getVehicle();
-            if (! $vehicle || ! $vehicle->getTrip()) {
+            if (! $vehicle || ! $vehicle->getTrip() || ! $vehicle->getPosition()) {
                 continue;
             }
 

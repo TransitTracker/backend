@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\V2\LandingController;
 use App\Http\Controllers\Api\V2\LinkController;
 use App\Http\Controllers\Api\V2\NotificationsController;
 use App\Http\Controllers\Api\V2\Push\ProfileController;
+use App\Http\Controllers\Api\V2\Push\ProfileVehiclesController;
 use App\Http\Controllers\Api\V2\RegionController;
 use App\Http\Controllers\Api\V2\VehicleController;
 use App\Http\Middleware\Localization;
@@ -69,14 +70,19 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::get('agencies/{agency}', [AgencyController::class, 'show']);
     Route::get('agencies/{agency}/vehicles', [AgencyController::class, 'vehicles']);
     Route::get('agencies/{agency}/feed', [AgencyController::class, 'feed']);
+    
     Route::get('alerts', [AlertController::class, 'index']);
     Route::get('alerts/{alert}', [AlertController::class, 'show']);
+
     Route::get('landing', [LandingController::class, 'index']);
+
     Route::get('links', [LinkController::class, 'index']);
     Route::get('links/{link}', [LinkController::class, 'show']);
+
     Route::get('regions', [RegionController::class, 'index']);
     Route::get('regions/{region}', [RegionController::class, 'show']);
     Route::get('regions/{region}/alerts', [RegionController::class, 'alerts']);
+
     Route::get('vehicles', [VehicleController::class, 'index']);
     Route::get('vehicles/{vehicle}', [VehicleController::class, 'show']);
 
@@ -85,6 +91,10 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::delete('push/profile', [ProfileController::class, 'destroy']);
     Route::post('push/profile', [ProfileController::class, 'store']);
     Route::post('push/profile/verify', [ProfileController::class, 'verify']);
+
+    Route::post('push/profile/vehicles', [ProfileVehiclesController::class, 'store']);
+    Route::delete('push/profile/vehicles', [ProfileVehiclesController::class, 'destroy']);
+    
     Route::get('push/notifications/agencies', [NotificationsController::class, 'agencies']);
 
     Route::fallback(fn () => response()->json(['message' => 'Route not found.'], 404));

@@ -72,11 +72,21 @@ class NotificationUser extends Model implements HasLocalePreference
         'subscribed_electric_stm' => 'boolean',
     ];
 
-    protected $with = ['pushSubscriptions'];
+    protected $with = [
+        'pushSubscriptions',
+        'agencies:id,slug',
+        'vehicles:id,label,force_label,vehicle,icon,agency_id',
+        'vehicles.agency:id,slug',
+    ];
 
     public function agencies(): BelongsToMany
     {
         return $this->belongsToMany(Agency::class);
+    }
+
+    public function vehicles(): BelongsToMany
+    {
+        return $this->belongsToMany(Vehicle::class);
     }
 
     public function scopeActive(Builder $query): Builder

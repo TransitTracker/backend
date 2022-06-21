@@ -76,7 +76,6 @@
     "autoload": {
         "psr-4": {
             "FelixINX\\TransitRealtime\\": "packages/felixinx/gtfs-realtime-protobuf-php/src",
-            "GPBMetadata\\GtfsRealtime\\": "packages/felixinx/gtfs-realtime-protobuf-php/src",
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"

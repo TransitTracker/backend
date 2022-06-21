@@ -6,11 +6,6 @@ return [
         'body' => ':label has appeared for this first time, on route :route',
         'action' => '📍 Track in the app',
     ],
-    'updated_vehicle' => [
-        'title' => ':emoji :label is on route :route!',
-        'body' => ':label made his first appearance today',
-        'action_track' => '📍 Track',
-    ],
     'electric_stm' => [
         'title' => '⚡ :label is on route :headsign!',
         'body' => ':label made his first appearance today, on route :route',

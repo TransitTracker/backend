@@ -19,7 +19,7 @@ class ProfileController extends Controller
             'isFrench' => 'required|boolean',
         ]);
 
-        $user = NotificationUser::firstOrCreate(
+        $user = NotificationUser::with('agencies:id,slug')->firstOrCreate(
             ['endpoint' => $request->endpoint],
             ['is_french' => $request->isFrench, 'is_active' => true, 'subscribed_electric_stm' => false, 'subscribed_general_news' => true],
         );
@@ -38,7 +38,7 @@ class ProfileController extends Controller
             'keys.p256dh' => 'required',
         ]);
 
-        $user = NotificationUser::where('uuid', $request->uuid)->firstOrFail();
+        $user = NotificationUser::where('uuid', $request->uuid)->with('agencies:id,slug')->firstOrFail();
 
         if ($user->endpoint !== $request->endpoint) {
             $user->endpoint = $request->endpoint;
@@ -57,7 +57,7 @@ class ProfileController extends Controller
             'uuid' => 'required|uuid',
         ]);
 
-        return NotificationUserResource::make(NotificationUser::where('uuid', $request->uuid)->firstOrFail());
+        return NotificationUserResource::make(NotificationUser::where('uuid', $request->uuid)->with('agencies:id,slug')->firstOrFail());
     }
 
     public function update(Request $request)
@@ -81,6 +81,8 @@ class ProfileController extends Controller
         $user->is_french = $request->isFrench;
         $user->save();
 
+        $user->load('agencies:id,slug');
+
         return NotificationUserResource::make($user);
     }
 
@@ -90,7 +92,7 @@ class ProfileController extends Controller
             'uuid' => 'required|uuid',
         ]);
 
-        $user = NotificationUser::where('uuid', $request->uuid)->firstOrFail();
+        $user = NotificationUser::where('uuid', $request->uuid)->with('agencies:id,slug')->firstOrFail();
 
         $user->deletePushSubscription($user->endpoint);
         $user->delete();

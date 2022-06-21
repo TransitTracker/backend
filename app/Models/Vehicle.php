@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Events\ElectricStmVehicleUpdated;
 use App\Events\VehicleCreated;
-use App\Events\VehicleUpdated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -100,19 +99,14 @@ class Vehicle extends Model
         return $this->belongsTo(Agency::class);
     }
 
-    public function links(): BelongsToMany
-    {
-        return $this->belongsToMany(Link::class);
-    }
-
-    public function notificationUsers(): BelongsToMany
-    {
-        return $this->belongsToMany(NotificationUser::class);
-    }
-
     public function trip(): BelongsTo
     {
         return $this->belongsTo(Trip::class)->withDefault();
+    }
+
+    public function links(): BelongsToMany
+    {
+        return $this->belongsToMany(Link::class);
     }
 
     /*
@@ -173,14 +167,9 @@ class Vehicle extends Model
      */
     public function isFirstAppearanceToday(): bool
     {
-        if (!$this->getOriginal('updated_at')) {
-            return false;
-        }
-        
-        // Use subHours(4) to not count 0 a.m. to 4 a.m. in the current day (night routes)
         if (
-            ! $this->getOriginal('updated_at')->subHours(4)->isCurrentDay() &&
-            $this->updated_at->subHours(4)->isCurrentDay()
+            ! Carbon::parse($this->getOriginal('updated_at'))->isCurrentDay() &&
+            $this->updated_at->isCurrentDay()
         ) {
             return true;
         }
@@ -227,8 +216,6 @@ class Vehicle extends Model
                 ->usingSuffix('fr')
                 ->forUrls("/v2/vehicles/{$vehicle->id}")
                 ->forget();
-            
-            VehicleUpdated::dispatchIf($vehicle->isFirstAppearanceToday(), $vehicle);
 
             ElectricStmVehicleUpdated::dispatchIf(($vehicle->isFirstAppearanceToday() && $vehicle->isElectricStm()), $vehicle);
         });

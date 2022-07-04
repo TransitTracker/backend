@@ -1,4 +1,3 @@
-@@ -0,0 +1,16 @@
 <?php
 
 namespace App\Events;

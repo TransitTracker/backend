@@ -1,12 +1,10 @@
 module.exports = {
-    mode: "jit",
-    purge: [
+    content: [
         "./storage/framework/views/*.php",
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",
     ],
-    darkMode: "media",
     theme: {
         extend: {
             colors: {
@@ -108,9 +106,6 @@ module.exports = {
         fontFamily: {
             sans: ["Roboto", "sans-serif"],
         },
-    },
-    variants: {
-        extend: {},
     },
     plugins: [require("@tailwindcss/forms")],
 };

@@ -13,7 +13,7 @@
     },
     "devDependencies": {
         "@fontsource/roboto": "^4.4.5",
-        "@tailwindcss/forms": "^0.3.3",
+        "@tailwindcss/forms": "^0.4.0",
         "autoprefixer": "^10.2.6",
         "browser-sync": "^2.26.14",
         "browser-sync-webpack-plugin": "^2.3.0",
@@ -24,6 +24,6 @@
         "lodash": "^4.17.21",
         "postcss": "^8.3.5",
         "prettier": "2.3.1",
-        "tailwindcss": "^2.2.2"
+        "tailwindcss": "^3"
     }
 }

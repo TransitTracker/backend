@@ -72,7 +72,12 @@
     <script async defer data-website-id="577432c9-d486-4ba6-8d36-6407c6c618e8" src="https://stats.felixinx.me/umami.js"></script>
     @endproduction
 
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <!-- Alpine Plugins -->
+    <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Alpine Core -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> 
 </body>
 </html>

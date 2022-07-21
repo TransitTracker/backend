@@ -1,36 +1,31 @@
 <?php
 
-use App\Enums\CongestionLevel;
-use App\Enums\OccupancyStatus;
-use App\Enums\ScheduleRelationship;
-use App\Enums\VehicleStopStatus;
-
 return [
-    CongestionLevel::class => [
-        CongestionLevel::UNKNOWN_CONGESTION_LEVEL => 'Niveau de congestion inconnu',
-        CongestionLevel::RUNNING_SMOOTHLY => 'Aucune congestion',
-        CongestionLevel::STOP_AND_GO => 'Faible congestion',
-        CongestionLevel::CONGESTION => 'Congestion',
-        CongestionLevel::SEVERE_CONGESTION => 'Congestion sévère',
+    'App\\Enums\\CongestionLevel' => [
+        '0' => 'Niveau de congestion inconnu',
+        '1' => 'Aucune congestion',
+        '2' => 'Faible congestion',
+        '3' => 'Congestion',
+        '4' => 'Congestion sévère',
     ],
-    OccupancyStatus::class => [
-        OccupancyStatus::EMPTY => 'Vide',
-        OccupancyStatus::MANY_SEATS_AVAILABLE => 'Plusieurs sièges disponibles',
-        OccupancyStatus::FEW_SEATS_AVAILABLE => 'Quelques sièges disponibles',
-        OccupancyStatus::STANDING_ROOM_ONLY => 'Places debout seulement',
-        OccupancyStatus::CRUSHED_STANDING_ROOM_ONLY => 'Quelques places debout seulement',
-        OccupancyStatus::FULL => 'Plein',
-        OccupancyStatus::NOT_ACCEPTING_PASSENGERS => "N'accepte plus de passagers",
+    'App\\Enums\\OccupancyStatus' => [
+        '0' => 'Vide',
+        '1' => 'Plusieurs sièges disponibles',
+        '2' => 'Quelques sièges disponibles',
+        '3' => 'Places debout seulement',
+        '4' => 'Quelques places debout seulement',
+        '5' => 'Plein',
+        '6' => 'N\'accepte plus de passagers',
     ],
-    ScheduleRelationship::class => [
-        ScheduleRelationship::SCHEDULED => 'Prévu',
-        ScheduleRelationship::ADDED => 'Ajouté',
-        ScheduleRelationship::UNSCHEDULED => 'Non prévu',
-        ScheduleRelationship::CANCELED => 'Annulé',
+    'App\\Enums\\ScheduleRelationship' => [
+        '0' => 'Prévu',
+        '1' => 'Ajouté',
+        '2' => 'Non prévu',
+        '3' => 'Annulé',
     ],
-    VehicleStopStatus::class => [
-        VehicleStopStatus::INCOMING_AT => 'Arrive au prochain arrêt',
-        VehicleStopStatus::STOPPED_AT => "À l'arrêt",
-        VehicleStopStatus::IN_TRANSIT_TO => 'En déplacement',
+    'App\\Enums\\VehicleStopStatus' => [
+        '0' => 'Arrive au prochain arrêt',
+        '1' => 'À l\'arrêt',
+        '2' => 'En déplacement',
     ],
 ];

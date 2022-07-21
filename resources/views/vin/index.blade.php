@@ -103,11 +103,11 @@
                     </tr>
                 </thead>
                 <tbody class="border-t divide-y divide-black/[0.12] dark:divide-m3-background-dark-outline">
-                    @foreach($unlabelledVehicles as $vehicle)
+                    @foreach($sortedUnlabbeledVehicles as $vehicle)
                     <tr class="h-[3.25rem]">
                         <td class="px-4 text-left">
                             <a href="{{ route('vin.show', ['vin' => $vehicle->vehicle]) }}">
-                                @if($vehicle->active)
+                                @if($vehicle->one_is_active)
                                     <span class="inline-block w-4 h-4 bg-green-500 border-4 border-green-100 rounded-full dark:border-green-900"></span>
                                 @endif
                             </a>
@@ -115,15 +115,19 @@
                         <td class="px-4 text-left">
                             <a href="{{ route('vin.show', ['vin' => $vehicle->vehicle]) }}" class="flex items-center justify-between gap-x-2">
                                 {{ $vehicle->vehicle }}
-                                <span class="inline-block w-4 h-4 rounded-full" style="background-color: {{ $vehicle->agency->color }};" title="{{ $vehicle->agency->short_name }}"></span>
+                                <div class="flex gap-x-1">
+                                    @foreach ($vehicle->relatedVehicles as $related)
+                                        <span class="inline-block w-4 h-4 rounded-full" style="background-color: {{ $related->agency->color }};" title="{{ $related->agency->short_name }}"></span>
+                                    @endforeach
+                                </div>
                             </a>
                         </td>
                         <td class="px-4 text-left">
-                            {{ $vehicle->trip->route_short_name }} > {{ $vehicle->trip->trip_headsign }}
+                            {{ $vehicle->last_trip->route_short_name }} > {{ $vehicle->last_trip->trip_headsign }}
                         </td>
                         <td class="px-4 text-left">
                             <a href="{{ route('vin.show', ['vin' => $vehicle->vehicle]) }}">
-                                {{ $vehicle->created_at->diffForHumans() }}
+                                {{ $vehicle->last_seen_at_with_related->diffForHumans() }}
                             </a>
                         </td>
                     </tr>

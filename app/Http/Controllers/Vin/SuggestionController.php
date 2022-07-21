@@ -5,23 +5,34 @@ namespace App\Http\Controllers\Vin;
 use App\Http\Controllers\Controller;
 use App\Models\Agency;
 use App\Models\Vehicle;
-use App\Models\VinSuggestion;
+use App\Models\Vin\Suggestion;
 use App\Rules\Recaptcha;
+use App\Services\Vin\VinManager;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class VinSuggestionController extends Controller
+class SuggestionController extends Controller
 {
     public function index()
     {
-        $suggestions = VinSuggestion::with(['vehicles:vehicle,agency_id', 'vehicles.agency:id,color,short_name'])->latest()->limit(15)->get();
+        $suggestions = Suggestion::with(['vehicles:vehicle,agency_id', 'vehicles.agency:id,color,short_name'])->latest()->limit(15)->get();
 
         $unlabelledVehicles = Vehicle::query()
             ->latest()
             ->where([['force_label', '=', null], ['agency_id', '>=', 5], ['agency_id', '<=', 16]])
-            ->with(['agency:id,name,color,short_name', 'trip:id,route_short_name,trip_headsign'])
+            ->select('id', 'vehicle', 'trip_id', 'force_label', 'agency_id', 'updated_at')
+            ->with(['relatedVehicles:id,vehicle,agency_id,updated_at,trip_id,active', 'relatedVehicles.agency:id,color,short_name', 'relatedVehicles.trip:id,route_short_name,trip_headsign'])
             ->limit(15)
             ->get();
+
+        $sortedUnlabbeledVehicles = $unlabelledVehicles->map(function($table) {
+            $lastVehicle = $table->relatedVehicles->sortByDesc('updated_at')->first();
+            $table->last_seen_at_with_related = $lastVehicle->updated_at;
+            $table->last_trip = $lastVehicle->trip;
+            $table->one_is_active = in_array(true, $table->relatedVehicles->pluck('active')->all());
+
+            return $table;
+        })->sortByDesc('last_seen_at_with_related');
 
         $unsortedAgencies = Agency::query()
             ->where([['id', '>=', 5], ['id', '<=', 16]])
@@ -33,7 +44,7 @@ class VinSuggestionController extends Controller
         $allLabelled = $agencies->sum('exo_labelled_vehicles_count');
         $allUnlabelled = $agencies->sum('exo_unlabelled_vehicles_count');
 
-        return view('vin.index', compact('suggestions', 'unlabelledVehicles', 'agencies', 'allLabelled', 'allUnlabelled'));
+        return view('vin.index', compact('suggestions', 'sortedUnlabbeledVehicles', 'agencies', 'allLabelled', 'allUnlabelled'));
     }
 
     public function store(Request $request, string $vin)
@@ -59,47 +70,47 @@ class VinSuggestionController extends Controller
 
         $request->session()->put("vin-{$vin}", $request->input('label'));
 
-        VinSuggestion::create($request->all());
+        Suggestion::create($request->all());
 
         return back()->with('Thanks for your suggestion!');
     }
 
-    public function vote(Request $request, VinSuggestion $vinSuggestion)
+    public function vote(Request $request, Suggestion $suggestion)
     {
         $request->validate([
             'g-recaptcha-response' => ['required', 'string', new Recaptcha],
         ]);
 
-        $request->session()->put("vin-vote-{$vinSuggestion->vin}", $vinSuggestion->id);
+        $request->session()->put("vin-vote-{$suggestion->vin}", $suggestion->id);
 
-        $vinSuggestion->upvotes += 1;
+        $suggestion->upvotes += 1;
 
-        $vinSuggestion->save();
+        $suggestion->save();
 
         return back();
     }
 
-    public function approve(VinSuggestion $vinSuggestion, Agency $agency = null)
+    public function approve(Suggestion $suggestion, Agency $agency = null)
     {
         if (! $agency) {
             return response()->json(['message' => 'Missing agency'], 400);
         }
 
-        $vinSuggestion->update([
+        $suggestion->update([
             'is_rejected' => false,
         ]);
 
         Vehicle::query()
             ->withoutTouch()
-            ->where(['vehicle' => $vinSuggestion->vin, 'agency_id' => $agency->id])
-            ->update(['force_label' => $vinSuggestion->label]);
+            ->where(['vehicle' => $suggestion->vin, 'agency_id' => $agency->id])
+            ->update(['force_label' => $suggestion->label]);
 
         return back()->with('status', 'Suggestion approved.');
     }
 
-    public function reject(VinSuggestion $vinSuggestion)
+    public function reject(Suggestion $suggestion)
     {
-        $vinSuggestion->update([
+        $suggestion->update([
             'is_rejected' => true,
         ]);
 

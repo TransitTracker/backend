@@ -4,10 +4,9 @@ use App\Http\Controllers\Api\Admin\AgencyController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\SnoozeFailedJobController;
-use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\Vin\AgencyController as VinAgencyController;
 use App\Http\Controllers\Vin\VehicleController as VinVehicleController;
-use App\Http\Controllers\Vin\VinSuggestionController;
+use App\Http\Controllers\Vin\SuggestionController;
 use Illuminate\Support\Facades\App;
 
 /*
@@ -43,14 +42,14 @@ Route::prefix('admin')->group(function () {
 
 // VIN routes
 Route::prefix('vin')->group(function () {
-    Route::get('', [VinSuggestionController::class, 'index'])->name('vin.index');
+    Route::get('', [SuggestionController::class, 'index'])->name('vin.index');
     Route::get('{vin}', [VinVehicleController::class, 'show'])->name('vin.show');
-    Route::post('{vin}', [VinSuggestionController::class, 'store'])->name('vin.store');
+    Route::post('{vin}', [SuggestionController::class, 'store'])->name('vin.store');
     Route::get('agency/{agency}', [VinAgencyController::class, 'show'])->name('vin.agency.show');
     Route::post('agency/{agency}', [VinAgencyController::class, 'store'])->middleware('auth')->name('vin.agency.store');
-    Route::post('vin/{vinSuggestion}/vote', [VinSuggestionController::class, 'vote'])->name('vin.vote');
-    Route::post('vin/{vinSuggestion}/approve/{agency?}', [VinSuggestionController::class, 'approve'])->middleware('auth')->name('vin.approve');
-    Route::post('vin/{vinSuggestion}/reject', [VinSuggestionController::class, 'reject'])->middleware('auth')->name('vin.reject');
+    Route::post('vin/{suggestion}/vote', [SuggestionController::class, 'vote'])->name('vin.vote');
+    Route::post('vin/{suggestion}/approve/{agency?}', [SuggestionController::class, 'approve'])->middleware('auth')->name('vin.approve');
+    Route::post('vin/{suggestion}/reject', [SuggestionController::class, 'reject'])->middleware('auth')->name('vin.reject');
 });
 
 Route::get('/failed-job/{failedJob}/snooze/{hours}', [SnoozeFailedJobController::class, 'snooze'])->middleware('signed')->name('signed.snooze');

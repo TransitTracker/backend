@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\VinSuggestion;
+use App\Models\Vin\Suggestion;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Channels\SlackWebhookChannel;
 use Illuminate\Notifications\Messages\SlackAttachment;
@@ -13,7 +13,7 @@ class NewVinSuggestion extends Notification
 {
     use Queueable;
 
-    public function __construct(private VinSuggestion $vinSuggestion)
+    public function __construct(private Suggestion $suggestion)
     {
     }
 
@@ -26,9 +26,9 @@ class NewVinSuggestion extends Notification
     {
         return (new SlackMessage)
             ->info()
-            ->content("New VIN suggestion for {$this->vinSuggestion->vin}")
+            ->content("New VIN suggestion for {$this->suggestion->vin}")
             ->attachment(function (SlackAttachment $attachment) {
-                $attachment->action('View suggestion', route('vin.show', ['vin' => $this->vinSuggestion->vin]));
+                $attachment->action('View suggestion', route('vin.show', ['vin' => $this->suggestion->vin]));
             });
     }
 

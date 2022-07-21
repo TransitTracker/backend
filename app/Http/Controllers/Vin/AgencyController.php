@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Vin;
 use App\Http\Controllers\Controller;
 use App\Models\Agency;
 use App\Models\Vehicle;
-use App\Models\VinSuggestion;
+use App\Models\Vin\Suggestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -39,7 +39,7 @@ class AgencyController extends Controller
             ],
         ]);
 
-        VinSuggestion::create([
+        Suggestion::create([
             'vin' => $request->input('vin'),
             'label' => $request->input('label'),
             'note' => Auth::user()->name,

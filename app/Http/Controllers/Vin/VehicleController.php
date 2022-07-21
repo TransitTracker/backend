@@ -4,22 +4,25 @@ namespace App\Http\Controllers\Vin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vehicle;
-use App\Models\VinSuggestion;
+use App\Models\Vin\Suggestion;
+use App\Services\Vin\VinManager;
 
 class VehicleController extends Controller
 {
     public function show(string $vin)
     {
-        $suggestions = VinSuggestion::where('vin', $vin)->get();
+        $suggestions = Suggestion::where('vin', $vin)->get();
         $vehicles = Vehicle::query()
             ->where('vehicle', $vin)
             ->exo()
-            ->with('agency:id,slug,short_name,color,text_color')
+            ->with(['agency:id,slug,short_name,color,text_color', 'trip:id,route_short_name,route_long_name,trip_headsign,trip_short_name,trip_id'])
             ->get();
 
         if (! $vehicles->count()) {
             return view('vin.error', ['vin' => $vin])->with('Invalid VIN');
         }
+
+        $vinInfo = $vehicles[0]->vin_info;
 
         return view('vin.show', [
             'vin' => $vin,
@@ -27,6 +30,7 @@ class VehicleController extends Controller
             'vehicles' => $vehicles,
             'sessionSuggestion' => session("vin-{$vin}"),
             'sessionVote' => session("vin-vote-{$vin}"),
+            'vinInfo' => $vinInfo,
         ]);
     }
 }

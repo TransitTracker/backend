@@ -1,24 +1,24 @@
 <?php
 
 return [
+    'electric_stm' => [
+        'action_gtfstools' => '⏭️ Départs',
+        'action_track' => '📍 Suivre',
+        'body' => ':label a fait sa première apparition aujourd\'hui, sur la route :route',
+        'title' => '⚡ :label est sur la route :headsign!',
+    ],
     'new_vehicle' => [
-        'title' => ':emoji Nouveau :type! :label | :agency',
-        'body' => ':label est apparu pour la première fois, sur la route :route',
         'action' => '📍 Suivre',
+        'body' => ':label est apparu pour la première fois, sur la route :route',
+        'title' => ':emoji Nouveau :type! :label | :agency',
     ],
     'updated_vehicle' => [
+        'action_track' => '📍 Suivre',
+        'body' => ':label a fait sa première apparition aujourd\'hui',
         'title' => ':emoji :label est sur la route :route!',
-        'body' => ":label a fait sa première apparition aujourd'hui",
-        'action_track' => '📍 Suivre',
-    ],
-    'electric_stm' => [
-        'title' => '⚡ :label est sur la route :headsign!',
-        'body' => ":label a fait sa première apparition aujourd'hui, sur la route :route",
-        'action_track' => '📍 Suivre',
-        'action_gtfstools' => '⏭️ Départs',
     ],
     'welcome' => [
-        'title' => 'Abonnement activé pour Transit Tracker!',
         'body' => 'Vous pouvez modifier vos abonnements ou vous désabonner à tout moment via le centre de notification.',
+        'title' => 'Abonnement activé pour Transit Tracker!',
     ],
 ];

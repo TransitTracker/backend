@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Vin;
 
-use App\Events\VinSuggestionCreated;
+use App\Events\Vin\SuggestionCreated;
+use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -31,9 +33,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|VinSuggestion whereVin($value)
  * @mixin \Eloquent
  */
-class VinSuggestion extends Model
+class Suggestion extends Model
 {
     use HasFactory;
+
+    protected $table = 'vin_suggestions';
 
     protected $fillable = ['vin', 'label', 'note', 'is_rejected'];
 
@@ -47,6 +51,6 @@ class VinSuggestion extends Model
     }
 
     protected $dispatchesEvents = [
-        'created' => VinSuggestionCreated::class,
+        'created' => SuggestionCreated::class,
     ];
 }

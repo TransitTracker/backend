@@ -5,11 +5,14 @@ namespace App\Models;
 use App\Events\ElectricStmVehicleUpdated;
 use App\Events\VehicleCreated;
 use App\Events\VehicleUpdated;
-use Carbon\Carbon;
+use App\Services\Vin\VinInterface;
+use App\Services\Vin\VinManager;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 /**
@@ -115,12 +118,30 @@ class Vehicle extends Model
         return $this->belongsTo(Trip::class)->withDefault();
     }
 
+    public function relatedVehicles(): HasMany
+    {
+        return $this->hasMany(self::class, 'vehicle', 'vehicle');
+    }
+
     /*
      * Accessor
      */
     public function getDisplayedLabelAttribute(): string
     {
         return $this->force_label ?? $this->label ?? $this->vehicle;
+    }
+
+    protected function vinInfo(): Attribute
+    {
+        return Attribute::make(
+            get: function($value, $attributes): VinInterface {
+                if (!$this->isExoVin()) {
+                    return new \App\Services\Vin\EmptyVinInterface();
+                }
+
+                return VinManager::getInfo($attributes['vehicle']);
+            },
+        )->shouldCache();
     }
 
     /*
@@ -151,7 +172,6 @@ class Vehicle extends Model
 
     public function scopeExoWithVin(Builder $query): Builder
     {
-        // return $query->where([['agency_id', '>=', 5], ['agency_id', '<=', 16]]);
         return $query->where([['agency_id', '>=', 5], ['agency_id', '<=', 16]])
             ->whereDate('created_at', '>=', '2021-04-27');
     }
@@ -201,6 +221,19 @@ class Vehicle extends Model
         }
 
         return false;
+    }
+
+    public function isExoVin(): bool
+    {
+        if (($this->agency_id < 5) || ($this->agency_id > 16)) {
+            return false;
+        }
+
+        if ($this->created_at->isBefore('2021-04-27')) {
+            return false;
+        }
+        
+        return true;
     }
 
     /*

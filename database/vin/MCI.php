@@ -1,0 +1,140 @@
+<?php
+
+namespace Database\Vin;
+
+class MCI
+{
+    const ENGINE = [
+        'A' => 'Cummins ISL 8.9L/9L, 380 HP',
+        'B' => 'Cummins ISX11.9/ISX12, 385/425 HP',
+        'C' => 'Caterpillar C12 11.9L 505 HP',
+        'D' => 'Caterpillar C13 12.5L 335/505 HP',
+        'E' => 'Cummins ISM 410 HP',
+        'F' => 'Caterpillar C13 410 HP',
+        'G' => 'Cummins ISL 300 HP - Hybrid/Electric',
+        'H' => 'Detroit Diesel Series 60 425/435/445 HP',
+        'J' => 'Caterpillar C13 12.7L 380 HP',
+        'K' => 'Detroit Diesel 8V92TA (12.1L, 450 hp & 500 hp)',
+        'K' => 'Cummins ISM 450 HP (2007)',
+        'L' => 'Cummins LTA-10 10.0L 300 HP',
+        'L' => 'Cummins Westport ISL-G 8.9L & 9L 320 HP-CNG',
+        'M' => 'Caterpillar 3176 10.3L 325/350 HP',
+        'N' => 'Cummins ISX 15L 450 HP (2010)',
+        'N' => 'Cummins X12 410/455 HP, 6 cyls., 11.8L, diesel (2017)',
+        'P' => 'Detroit Diesel Series 60 12.7L, 370/400/430 HP',
+        'R' => 'Detroit Diesel Series 60 12.7L, 370 HP',
+        'S' => 'Cummins M11 11.0L 370 HP',
+        'T' => 'Detroit Diesel Series 60 11.1L 330/350/365 HP',
+        'U' => 'Detroit Diesel Series 50',
+        'U' => 'Cummins ISL 8.9L/9L Hybrid-Electric, 330 HP (2010, 2013, 2015)',
+        'V' => 'Caterpillar C10',
+        'W' => 'Caterpillar C12 (11.9L, 410 hp)',
+        'X' => 'Cummins M11 (10.8L)',
+        'X' => 'Cummins L9 350 HP, 6 cyls., 8.9L, diesel (2017)',
+        'Y' => 'Detroit Diesel Series 60 (12.7L, 470 hp & 500 hp)',
+        'Y' => 'Cummins ISX-12N 400 hp, 6 cyls., 11.9L, CNG',
+        'Z' => 'Detroit Diesel Series 60G',
+        'Z' => 'Siemens PEM 750V, 320KW motor (2018)',
+        '1' => 'Detroit Diesel Series 60 (12.7L, 330 hp & 350 hp)',
+        '2' => 'Cummins ISC 8.3L 285 HP',
+        '3' => 'Detroit Diesel Series 40',
+        '3' => 'Cummins ISX-G 400 HP (2015. 2016, 2017)',
+        '4' => 'Cummins ISM 10.8L 400 HP',
+        '5' => 'Cummins ISL 8.9L 330 HP',
+        '6' => 'Detroit Diesel 6V92TA (277 hp)',
+        '6' => 'Cummins ISL 8.9L 400 HP',
+        '7' => 'Detroit Diesel 6V92TA (300 hp)',
+        '7' => 'Caterpillar C12 (11.9L, 505 hp)',
+        '8' => 'Detroit Diesel 8V71N',
+        '8' => 'Daimler DD13 12.7L 410 HP (2010, 2013, 2016, 2017)',
+        '9' => 'Detroit Diesel 8V92TA 12.1L 370/400 HP ',
+    ];
+
+    const ENGINE_AFTER_2021 = [
+        'A' => 'Cummins ISL G',
+        'B' => 'Hybrid Cummins ISL - BAE TB-300',
+        'J' => 'Cummins ISL9',
+        'K' => 'Cummins Westport ISL G',
+        'L' => 'Hybrid Cummins ISB6.7 - BAE HDS 200',
+        'M' => 'Cummins M11',
+        'N' => 'Detroit Diesel Series 50',
+        'P' => 'Detroit Diesel Series 40',
+        'R' => 'Detroit Diesel Series 50 Propane',
+        'S' => 'Cummins ISC',
+        'T' => 'No Power Train',
+        'U' => 'Cummins ISL/ISL9',
+        'V' => 'Cummins ISC Non Transit',
+        'W' => 'Hybrid Cummins ISL - Allison EP 40',
+        'X' => 'Hybrid Cummins ISB - Allison EP 40',
+        'Y' => 'Hybrid Cummins ISL - Allison EP 50',
+        'Z' => 'Hybrid Cummins ISB - BAE TB-200 ',
+    ];
+
+    const ASSEMBLY = [
+        'C' => 'Crookston, MN',
+        'P' => 'Pembina, ND',
+        'S' => 'Sahagun, Mexico',
+        'W' => 'Winnipeg, MB',
+        'R' => 'Roswell, NM (TMC)',
+        '3' => 'St. Eustache, QC ',
+    ];
+
+    const LENGTH_AFTER_2021 = [
+        'F' => 40,
+        'K' => 35,
+        'W' => 45,
+    ];
+
+    const MODEL = [
+        'C' => '96-A2',
+        'D' => '96-A3',
+        'E' => '102-A2',
+        'F' => '102-A3',
+        'G' => '102-C3',
+        'G' => 'D4520',
+        'H' => '102-B3',
+        'H' => 'D4020',
+        'K' => 'F3500',
+        'K' => 'J3500',
+        'L' => '96-B3',
+        'L' => 'J4500e',
+        'M' => '102-B3',
+        'N' => '102-BP3',
+        'N' => 'D4020 ISTV',
+        'P' => '102-DL3/D4500',
+        'R' => 'MC-12',
+        'R' => 'D45 CRT LR',
+        'S' => '102-D3/D4000',
+        'T' => '102-EL3/E4500',
+        'W' => 'G4100',
+        'W' => 'D45 CRTe LE',
+        'X' => 'G4500',
+        'X' => 'D45 CRT',
+        'Z' => 'F4100',
+        'Z' => 'D45 CRT LE',
+        '1' => '102-D3 ISTV/D4000 ISTV',
+        '2' => 'Transit (102-A3 and 102-C3 specials)',
+        '3' => 'J4500',
+        '4' => 'D4000N (96")',
+        '5' => 'D4005',
+        '6' => 'D4505',
+        '9' => 'MC-9',
+    ];
+
+    const MODEL_AFTER_2021 = [
+        '1' => 'J3500/J4500',
+        '2' => 'D4000/D4500',
+        '3' => 'D4000 ISTV',
+        '4' => 'D40/D45 CRT LE',
+        '5' => 'D4020/D4520',
+        '6' => 'D4020 ISTV',
+        '7' => 'D4005/D4505',
+    ];
+
+    const PROPULSION_AFTER_2021 = [
+        'B' => 'Battery Electric',
+        'C' => 'Compressed Natual Gas',
+        'D' => 'Diesel',
+        'H' => 'Hybrid-Electric',
+    ];
+}

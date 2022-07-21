@@ -6,7 +6,7 @@ use App\Events\ElectricStmVehicleUpdated;
 use App\Events\NotificationUserCreated;
 use App\Events\VehicleCreated;
 use App\Events\VehicleUpdated;
-use App\Events\VinSuggestionCreated;
+use App\Events\Vin\SuggestionCreated;
 use App\Listeners\DeactivateInactiveSubscription;
 use App\Listeners\SendElectricStmNotification;
 use App\Listeners\SendNewVehicleNotification;
@@ -44,7 +44,7 @@ class EventServiceProvider extends ServiceProvider
         ElectricStmVehicleUpdated::class => [
             SendElectricStmNotification::class,
         ],
-        VinSuggestionCreated::class => [
+        SuggestionCreated::class => [
             SendNewVinSuggestionNotification::class,
         ],
     ];

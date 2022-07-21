@@ -43,9 +43,9 @@
         "usmanhalalit/laracsv": "^2.1"
     },
     "require-dev": {
+        "amirami/localizator": "^0.9.1@alpha",
         "barryvdh/laravel-debugbar": "^3.5",
         "barryvdh/laravel-ide-helper": "^2.9",
-        "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.13",
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.6",
@@ -53,7 +53,8 @@
         "mockery/mockery": "^1.4",
         "nunomaduro/collision": "^6.1",
         "nunomaduro/larastan": "^2.1",
-        "phpunit/phpunit": "^9.2"
+        "phpunit/phpunit": "^9.2",
+        "spatie/laravel-ignition": "^1.0"
     },
     "config": {
         "optimize-autoloader": true,

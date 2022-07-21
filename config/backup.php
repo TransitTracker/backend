@@ -27,6 +27,9 @@ return [
                  * Directories used by the backup process will automatically be excluded.
                  */
                 'exclude' => [
+                    base_path('storage/app/downloads'),
+                    base_path('storage/app/feeds'),
+                    base_path('storage/app/static'),
                     base_path('vendor'),
                     base_path('node_modules'),
                 ],

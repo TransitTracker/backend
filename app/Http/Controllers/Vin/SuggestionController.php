@@ -18,7 +18,9 @@ class SuggestionController extends Controller
 
         $unlabelledVehicles = Vehicle::query()
             ->latest()
-            ->where([['force_label', '=', null], ['agency_id', '>=', 5], ['agency_id', '<=', 16]])
+            ->where([['force_label', '=', null]])
+            ->exoWithVin()
+            ->orderBy('updated_at')
             ->select('id', 'vehicle', 'trip_id', 'force_label', 'agency_id', 'updated_at')
             ->with(['relatedVehicles:id,vehicle,agency_id,updated_at,trip_id,active', 'relatedVehicles.agency:id,color,short_name', 'relatedVehicles.trip:id,route_short_name,trip_headsign'])
             ->limit(15)

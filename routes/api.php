@@ -70,7 +70,7 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::get('agencies/{agency}', [AgencyController::class, 'show']);
     Route::get('agencies/{agency}/vehicles', [AgencyController::class, 'vehicles']);
     Route::get('agencies/{agency}/feed', [AgencyController::class, 'feed']);
-    
+
     Route::get('alerts', [AlertController::class, 'index']);
     Route::get('alerts/{alert}', [AlertController::class, 'show']);
 
@@ -94,7 +94,7 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
 
     Route::post('push/profile/vehicles', [ProfileVehiclesController::class, 'store']);
     Route::delete('push/profile/vehicles', [ProfileVehiclesController::class, 'destroy']);
-    
+
     Route::get('push/notifications/agencies', [NotificationsController::class, 'agencies']);
 
     Route::fallback(fn () => response()->json(['message' => 'Route not found.'], 404));

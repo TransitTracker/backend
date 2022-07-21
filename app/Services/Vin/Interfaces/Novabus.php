@@ -7,7 +7,6 @@ use Database\Vin\Novabus as VinNovabus;
 
 class Novabus extends VinBaseInterface
 {
-
     public function getAssembly(): string
     {
         return VinNovabus::ASSEMBLY[substr($this->vin, 10, 1)];

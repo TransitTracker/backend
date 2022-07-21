@@ -20,7 +20,7 @@ class ChangeRegionRealtimeOptions extends Migration
                     'header_name' => key($old->header),
                     'header_value' => current($old->header),
                     'param_name' => key($old->param),
-                    'param_value' => current($old->param)
+                    'param_value' => current($old->param),
                 ];
             } else {
                 $new = [
@@ -28,7 +28,7 @@ class ChangeRegionRealtimeOptions extends Migration
                     'header_name' => '',
                     'header_value' => '',
                     'param_name' => '',
-                    'param_value' => ''
+                    'param_value' => '',
                 ];
             }
 
@@ -52,7 +52,7 @@ class ChangeRegionRealtimeOptions extends Migration
                 'header_name' => $old->header_name,
                 'header_value' => $old->header_value,
                 'param_name' => $old->param_name,
-                'param_value' => $old->param_value
+                'param_value' => $old->param_value,
             ];
 
             $agency->realtime_options = json_encode($new);

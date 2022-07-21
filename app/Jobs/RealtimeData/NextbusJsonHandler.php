@@ -2,7 +2,6 @@
 
 namespace App\Jobs\RealtimeData;
 
-use App\Events\VehiclesUpdated;
 use App\Models\Agency;
 use App\Models\Stat;
 use App\Models\Trip;
@@ -22,9 +21,9 @@ class NextbusJsonHandler implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Agency $agency
-     * @param string $dataFile
-     * @param int $time
+     * @param  Agency  $agency
+     * @param  string  $dataFile
+     * @param  int  $time
      */
     public function __construct(private Agency $agency, private $dataFile, private $time)
     {
@@ -34,6 +33,7 @@ class NextbusJsonHandler implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     *
      * @throws Exception
      */
     public function handle()

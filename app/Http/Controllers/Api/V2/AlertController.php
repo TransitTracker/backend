@@ -42,7 +42,7 @@ class AlertController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Alert $alert
+     * @param  Alert  $alert
      * @return AlertResource|JsonResponse
      */
     public function show(Alert $alert)

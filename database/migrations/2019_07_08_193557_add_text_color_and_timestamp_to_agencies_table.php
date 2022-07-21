@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddTextColorAndTimestampToAgenciesTable extends Migration
 {
@@ -14,8 +14,8 @@ class AddTextColorAndTimestampToAgenciesTable extends Migration
     public function up()
     {
         Schema::table('agencies', function (Blueprint $table) {
-           $table->bigInteger('timestamp')->default(time());
-           $table->string('text_color')->default('#FFFFFF');
+            $table->bigInteger('timestamp')->default(time());
+            $table->string('text_color')->default('#FFFFFF');
         });
     }
 

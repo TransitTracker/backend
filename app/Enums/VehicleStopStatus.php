@@ -13,6 +13,8 @@ use BenSampo\Enum\Enum;
 final class VehicleStopStatus extends Enum implements LocalizedEnum
 {
     const INCOMING_AT = 0;
+
     const STOPPED_AT = 1;
+
     const IN_TRANSIT_TO = 2;
 }

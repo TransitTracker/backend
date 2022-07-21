@@ -7,7 +7,6 @@ use App\Enums\OccupancyStatus;
 use App\Enums\ScheduleRelationship;
 use App\Enums\VehicleStopStatus;
 use App\Filament\Resources\VehicleResource\Pages;
-use App\Filament\Resources\VehicleResource\RelationManagers;
 use App\Models\Vehicle;
 use Filament\Forms\Components\BelongsToSelect;
 use Filament\Forms\Components\Select;
@@ -18,7 +17,6 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
 
 class VehicleResource extends Resource
 {

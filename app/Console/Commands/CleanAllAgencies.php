@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Agency;
 use App\Jobs\CleanGtfsData;
+use App\Models\Agency;
 use Illuminate\Console\Command;
 
 class CleanAllAgencies extends Command

@@ -18,7 +18,7 @@ class CleanGtfsData implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Agency $agency
+     * @param  Agency  $agency
      */
     public function __construct(private Agency $agency)
     {

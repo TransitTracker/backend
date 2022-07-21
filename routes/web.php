@@ -5,8 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\SnoozeFailedJobController;
 use App\Http\Controllers\Vin\AgencyController as VinAgencyController;
-use App\Http\Controllers\Vin\VehicleController as VinVehicleController;
 use App\Http\Controllers\Vin\SuggestionController;
+use App\Http\Controllers\Vin\VehicleController as VinVehicleController;
 use Illuminate\Support\Facades\App;
 
 /*

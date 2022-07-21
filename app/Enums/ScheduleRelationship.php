@@ -14,7 +14,10 @@ use BenSampo\Enum\Enum;
 final class ScheduleRelationship extends Enum implements LocalizedEnum
 {
     const SCHEDULED = 0;
+
     const ADDED = 1;
+
     const UNSCHEDULED = 2;
+
     const CANCELED = 3;
 }

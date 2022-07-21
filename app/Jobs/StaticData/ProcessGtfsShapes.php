@@ -15,6 +15,7 @@ use Storage;
 class ProcessGtfsShapes implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     private array $shapes;
 
     public function __construct(private Agency $agency, private string $file)
@@ -37,7 +38,7 @@ class ProcessGtfsShapes implements ShouldQueue
         }
 
         foreach ($this->shapes as $shapeId => $unorderedShape) {
-            usort($unorderedShape, fn($a, $b) => $a->sequence <=> $b->sequence);
+            usort($unorderedShape, fn ($a, $b) => $a->sequence <=> $b->sequence);
 
             $coordinates = [];
             foreach ($unorderedShape as $orderedPoint) {

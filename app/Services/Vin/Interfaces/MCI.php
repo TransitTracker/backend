@@ -55,7 +55,7 @@ class MCI extends VinBaseInterface
         $lengthCode = substr($this->vin, 5, 1);
 
         if ($this->getYear() === 2020 && array_key_exists($lengthCode, VinMCI::LENGTH_AFTER_2021)) {
-            return VinMCI::LENGTH_AFTER_2021[$lengthCode] . __(' (uncertain)');
+            return VinMCI::LENGTH_AFTER_2021[$lengthCode].__(' (uncertain)');
         }
 
         if ($this->getYear() > 2020) {
@@ -99,7 +99,7 @@ class MCI extends VinBaseInterface
         $propulsionCode = substr($this->vin, 3, 1);
 
         if ($this->getYear() === 2020 && array_key_exists($propulsionCode, VinMCI::PROPULSION_AFTER_2021)) {
-            return VinMCI::PROPULSION_AFTER_2021[$propulsionCode] . __(' (uncertain)');
+            return VinMCI::PROPULSION_AFTER_2021[$propulsionCode].__(' (uncertain)');
         }
 
         if ($this->getYear() > 2020) {

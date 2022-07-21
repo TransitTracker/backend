@@ -2,12 +2,12 @@
 
 namespace App\Services\Vin;
 
-use App\Services\Vin\VinInterface;
 use Database\Vin\BaseData;
 
 abstract class VinBaseInterface implements VinInterface
 {
     protected string $vin;
+
     protected int $year;
 
     public function __construct(string $vin)
@@ -17,7 +17,7 @@ abstract class VinBaseInterface implements VinInterface
 
         return $this->toArray();
     }
-    
+
     protected function determineYear(): int
     {
         return BaseData::YEARS[substr($this->vin, 9, 1)];

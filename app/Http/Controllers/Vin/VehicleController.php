@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Vin;
 use App\Http\Controllers\Controller;
 use App\Models\Vehicle;
 use App\Models\Vin\Suggestion;
-use App\Services\Vin\VinManager;
 
 class VehicleController extends Controller
 {

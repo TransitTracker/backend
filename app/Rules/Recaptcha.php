@@ -30,7 +30,7 @@ class Recaptcha implements Rule
         if (App::environment('local')) {
             return true;
         }
-        
+
         $client = new Client();
 
         $response = $client->request(

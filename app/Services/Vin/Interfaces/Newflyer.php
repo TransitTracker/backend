@@ -7,7 +7,6 @@ use Database\Vin\Newflyer as VinNewflyer;
 
 class Newflyer extends VinBaseInterface
 {
-
     public function getAssembly(): string
     {
         return VinNewFlyer::ASSEMBLY[substr($this->vin, 10, 1)];

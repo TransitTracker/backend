@@ -9,11 +9,11 @@ interface VinInterface
     public function getEngine(): string|null;
 
     public function getLength(): int|string|null;
-    
+
     public function getManufacturer(): string|null;
 
     public function getModel(): string|null;
-    
+
     public function getNote(): string|null;
 
     public function getPropulsion(): string|null;

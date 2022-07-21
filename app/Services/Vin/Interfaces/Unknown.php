@@ -4,11 +4,9 @@ namespace App\Services\Vin\Interfaces;
 
 use App\Services\Vin\VinBaseInterface;
 use Database\Vin\BaseData;
-use Database\Vin\Novabus as VinNovabus;
 
 class Unknown extends VinBaseInterface
 {
-
     public function getAssembly(): string|null
     {
         return null;
@@ -27,8 +25,8 @@ class Unknown extends VinBaseInterface
     public function getManufacturer(): string
     {
         $manufacturerCode = substr($this->vin, 0, 3);
-        
-        if (!array_key_exists($manufacturerCode, BaseData::MANUFACTURERS)) {
+
+        if (! array_key_exists($manufacturerCode, BaseData::MANUFACTURERS)) {
             return __('Unknown');
         }
 

@@ -4,12 +4,8 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\GeoJsonLandingCollection;
-use App\Http\Resources\V2\GeoJsonLandingResource;
 use App\Models\Region;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Log;
 
 class LandingController extends Controller
 {

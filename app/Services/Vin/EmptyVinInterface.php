@@ -2,8 +2,6 @@
 
 namespace App\Services\Vin;
 
-use App\Services\Vin\VinInterface;
-
 class EmptyVinInterface implements VinInterface
 {
     public function __construct()
@@ -43,7 +41,7 @@ class EmptyVinInterface implements VinInterface
 
     public function getPropulsion(): ?string
     {
-        return null;   
+        return null;
     }
 
     public function getSequence(): ?string

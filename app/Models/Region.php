@@ -12,54 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\ResponseCache\Facades\ResponseCache;
 use Spatie\Translatable\HasTranslations;
 
-/**
- * App\Models\Region.
- *
- * @property int $id
- * @property string $name
- * @property string $slug
- * @property array|null $info_title
- * @property array|null $info_body
- * @property array $map_box
- * @property AsArrayObject $map_center
- * @property int $map_zoom
- * @property array $credits
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property array $description
- * @property array|null $meta_description
- * @property string|null $image
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $activeAgencies
- * @property-read int|null $active_agencies_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alert[] $activeAlerts
- * @property-read int|null $active_alerts_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $agencies
- * @property-read int|null $agencies_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alert[] $alerts
- * @property-read int|null $alerts_count
- * @property-read array $cities
- * @property-read array $translations
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Stat[] $stats
- * @property-read int|null $stats_count
- * @method static \Illuminate\Database\Eloquent\Builder|Region newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Region newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Region query()
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereCredits($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereInfoBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereInfoTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapBox($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapCenter($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapZoom($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereMetaDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereUpdatedAt($value)
- * @mixin \Eloquent
- */
 class Region extends Model
 {
     use HasTranslations;

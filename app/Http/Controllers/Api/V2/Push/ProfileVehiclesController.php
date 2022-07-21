@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V2\Push;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\NotificationUserResource;
-use App\Models\Agency;
 use App\Models\NotificationUser;
 use Illuminate\Http\Request;
 

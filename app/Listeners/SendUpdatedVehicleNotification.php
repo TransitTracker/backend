@@ -2,9 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\ElectricStmVehicleUpdated;
 use App\Events\VehicleUpdated;
-use App\Models\NotificationUser;
 use App\Notifications\Push\UpdatedVehicle;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Notification;

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AlertResource\Pages;
-use App\Filament\Resources\AlertResource\RelationManagers;
 use App\Models\Alert;
 use Filament\Forms;
 use Filament\Resources\Concerns\Translatable;
@@ -19,7 +18,7 @@ class AlertResource extends Resource
     protected static ?string $model = Alert::class;
 
     protected static ?string $navigationIcon = 'gmdi-warning';
-    
+
     protected static ?string $recordTitleAttribute = 'title';
 
     public static function form(Form $form): Form

@@ -25,9 +25,9 @@ class GtfsRtHandler implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Agency $agency
-     * @param string $dataFile
-     * @param int $time
+     * @param  Agency  $agency
+     * @param  string  $dataFile
+     * @param  int  $time
      */
     public function __construct(private Agency $agency, private $dataFile, private $time)
     {
@@ -37,6 +37,7 @@ class GtfsRtHandler implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     *
      * @throws Exception
      */
     public function handle()

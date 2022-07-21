@@ -17,10 +17,16 @@ use BenSampo\Enum\Enum;
 final class OccupancyStatus extends Enum implements LocalizedEnum
 {
     const EMPTY = 0;
+
     const MANY_SEATS_AVAILABLE = 1;
+
     const FEW_SEATS_AVAILABLE = 2;
+
     const STANDING_ROOM_ONLY = 3;
+
     const CRUSHED_STANDING_ROOM_ONLY = 4;
+
     const FULL = 5;
+
     const NOT_ACCEPTING_PASSENGERS = 6;
 }

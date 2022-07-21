@@ -11,41 +11,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 
-/**
- * App\Models\NotificationUser
- *
- * @property int $id
- * @property string $uuid
- * @property bool $is_active
- * @property bool $is_french
- * @property string $endpoint
- * @property string|null $expiration
- * @property bool $subscribed_general_news
- * @property bool $subscribed_electric_stm
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $agencies
- * @property-read int|null $agencies_count
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\NotificationChannels\WebPush\PushSubscription[] $pushSubscriptions
- * @property-read int|null $push_subscriptions_count
- * @method static Builder|NotificationUser active()
- * @method static Builder|NotificationUser newModelQuery()
- * @method static Builder|NotificationUser newQuery()
- * @method static Builder|NotificationUser query()
- * @method static Builder|NotificationUser whereCreatedAt($value)
- * @method static Builder|NotificationUser whereEndpoint($value)
- * @method static Builder|NotificationUser whereExpiration($value)
- * @method static Builder|NotificationUser whereId($value)
- * @method static Builder|NotificationUser whereIsActive($value)
- * @method static Builder|NotificationUser whereIsFrench($value)
- * @method static Builder|NotificationUser whereSubscribedElectricStm($value)
- * @method static Builder|NotificationUser whereSubscribedGeneralNews($value)
- * @method static Builder|NotificationUser whereUpdatedAt($value)
- * @method static Builder|NotificationUser whereUuid($value)
- * @mixin \Eloquent
- */
 class NotificationUser extends Model implements HasLocalePreference
 {
     use Notifiable;

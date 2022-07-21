@@ -22,7 +22,7 @@ class VehiclesUpdated implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
-     * @param Agency $agency
+     * @param  Agency  $agency
      */
     public function __construct(public Agency $agency)
     {

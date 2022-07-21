@@ -15,6 +15,7 @@ class NewVehicle extends Notification implements ShouldQueue
     use Queueable;
 
     private string $label;
+
     private string $emoji;
 
     public function __construct(private Vehicle $vehicle)

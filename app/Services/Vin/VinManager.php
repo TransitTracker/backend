@@ -16,7 +16,7 @@ class VinManager
     {
         $value = strtoupper($value);
 
-        if (!preg_match(self::REGEX, $value)) {
+        if (! preg_match(self::REGEX, $value)) {
             throw new InvalidArgumentException(sprintf(
                 'The value "%s" is not a valid VIN',
                 $value
@@ -29,7 +29,7 @@ class VinManager
             '2FY' => Newflyer::class,
             // '2M9' => MCI::class,
             // '2MG' => MCI::class,
-            '2NV' => Novabus::class, 
+            '2NV' => Novabus::class,
             // '3BM' => MCI::class,
             '4RK' => Novabus::class,
             '5FY' => Newflyer::class,
@@ -45,5 +45,4 @@ class VinManager
 
         return new $interface($value);
     }
-
 }

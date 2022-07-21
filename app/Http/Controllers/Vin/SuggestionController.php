@@ -7,7 +7,6 @@ use App\Models\Agency;
 use App\Models\Vehicle;
 use App\Models\Vin\Suggestion;
 use App\Rules\Recaptcha;
-use App\Services\Vin\VinManager;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -25,7 +24,7 @@ class SuggestionController extends Controller
             ->limit(15)
             ->get();
 
-        $sortedUnlabbeledVehicles = $unlabelledVehicles->map(function($table) {
+        $sortedUnlabbeledVehicles = $unlabelledVehicles->map(function ($table) {
             $lastVehicle = $table->relatedVehicles->sortByDesc('updated_at')->first();
             $table->last_seen_at_with_related = $lastVehicle->updated_at;
             $table->last_trip = $lastVehicle->trip;

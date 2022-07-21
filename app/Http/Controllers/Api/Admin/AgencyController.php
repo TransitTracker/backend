@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Agency;
 use Artisan;
-use Illuminate\Http\Request;
 
 class AgencyController extends Controller
 {

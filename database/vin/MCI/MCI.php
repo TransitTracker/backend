@@ -43,5 +43,3 @@ const ASSEMBLY = [
     'P' => 'Pembina, ND',
     'W' => 'Winnipeg, MB',
 ];
-
-

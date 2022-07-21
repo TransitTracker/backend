@@ -22,7 +22,7 @@ class DispatchAgencies implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Collection $agencies
+     * @param  Collection  $agencies
      */
     public function __construct(public Collection $agencies)
     {

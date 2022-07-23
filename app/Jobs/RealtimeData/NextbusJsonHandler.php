@@ -135,11 +135,17 @@ class NextbusJsonHandler implements ShouldQueue
         $this->agency->timestamp = (int) $timestamp;
         $this->agency->save();
 
+        // Get count
+        $count = 1;
+        if (gettype($json->vehicle) === 'array') {
+            $count = count($json->vehicle);
+        }
+
         // Add statistics
         $stat = new Stat();
         $stat->type = 'vehicleTotal';
         $stat->data = (object) [
-            'count' => count($json->vehicle),
+            'count' => $count,
             'agency' => $this->agency->slug,
             'time' => $this->time,
         ];

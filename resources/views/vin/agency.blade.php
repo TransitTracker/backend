@@ -19,8 +19,8 @@
             <thead>
                 <tr class="h-14">
                     <th class="px-4 font-medium text-left w-[99%]">VIN</th>
-                    <th class="px-4 font-medium text-left">{{ __('Manufacturer') }}</th>
                     <th class="px-4 font-medium text-left">{{ __('Fleet number') }}</th>
+                    <th class="px-4 font-medium text-left">{{ __('Manufacturer') }}</th>
                     <th class="px-4 font-medium text-left">{{ __('Last trip') }}</th>
                     <th class="px-4 font-medium text-left">{{ __('Last seen') }}</th>
                 </tr>
@@ -55,7 +55,7 @@
                     </td>
                     <td class="px-4 text-left">
                         <a href="{{ route('vin.show', ['vin' => $vehicle->vehicle]) }}">
-                            {{ $vehicle->created_at->diffForHumans() }}
+                            {{ $vehicle->updated_at->diffForHumans() }}
                         </a>
                     </td>
                 </tr>

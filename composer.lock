@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "23e8310fff5f2c674230c12e17f481da",
+    "content-hash": "e710421972ef0fcb005cbf3c08aa27d1",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -452,6 +452,59 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
+        },
+        {
+            "name": "calebporzio/sushi",
+            "version": "v2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/calebporzio/sushi.git",
+                "reference": "cec0768285971add48f3ccebfefad856be6f5078"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/calebporzio/sushi/zipball/cec0768285971add48f3ccebfefad856be6f5078",
+                "reference": "cec0768285971add48f3ccebfefad856be6f5078",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^5.8 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "illuminate/support": "^5.8 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "php": "^7.1.3|^8.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.9",
+                "orchestra/database": "3.8.* || 3.9.* || ^4.0 || ^5.0 || ^6.0 || ^7.0",
+                "orchestra/testbench": "3.8.* || 3.9.* || ^4.0 || ^6.0 || ^7.0",
+                "phpunit/phpunit": "^7.5 || ^8.4 || ^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sushi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Caleb Porzio",
+                    "email": "calebporzio@gmail.com"
+                }
+            ],
+            "description": "Eloquent's missing \"array\" driver.",
+            "support": {
+                "source": "https://github.com/calebporzio/sushi/tree/v2.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/calebporzio",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-01-18T22:48:40+00:00"
         },
         {
             "name": "cboden/ratchet",
@@ -2563,16 +2616,16 @@
         },
         {
             "name": "google/protobuf",
-            "version": "v3.21.2",
+            "version": "v3.21.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/protocolbuffers/protobuf-php.git",
-                "reference": "374edda06747bb1d6899d11af646ccab38646e65"
+                "reference": "e2497c2576556469963852216d886050e0606d8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/374edda06747bb1d6899d11af646ccab38646e65",
-                "reference": "374edda06747bb1d6899d11af646ccab38646e65",
+                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/e2497c2576556469963852216d886050e0606d8b",
+                "reference": "e2497c2576556469963852216d886050e0606d8b",
                 "shasum": ""
             },
             "require": {
@@ -2602,9 +2655,9 @@
             ],
             "support": {
                 "issues": "https://github.com/protocolbuffers/protobuf-php/issues",
-                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v3.21.2"
+                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v3.21.3"
             },
-            "time": "2022-06-24T21:52:31+00:00"
+            "time": "2022-07-21T19:11:32+00:00"
         },
         {
             "name": "graham-campbell/guzzle-factory",
@@ -3057,6 +3110,72 @@
             "time": "2022-06-20T21:43:11+00:00"
         },
         {
+            "name": "jackiedo/log-reader",
+            "version": "2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JackieDo/Laravel-Log-Reader.git",
+                "reference": "5a56f70c86f55edbfd0d5532fc22d675f9d67f43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JackieDo/Laravel-Log-Reader/zipball/5a56f70c86f55edbfd0d5532fc22d675f9d67f43",
+                "reference": "5a56f70c86f55edbfd0d5532fc22d675f9d67f43",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/cache": "^9.0|^8.0|^7.0|^6.0|5.*",
+                "illuminate/config": "^9.0|^8.0|^7.0|^6.0|5.*",
+                "illuminate/console": "^9.0|^8.0|^7.0|^6.0|5.*",
+                "illuminate/http": "^9.0|^8.0|^7.0|^6.0|5.*",
+                "illuminate/pagination": "^9.0|^8.0|^7.0|^6.0|5.*",
+                "illuminate/support": "^9.0|^8.0|^7.0|^6.0|5.*",
+                "nesbot/carbon": "^2.0|~1.20"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Jackiedo\\LogReader\\LogReaderServiceProvider"
+                    ],
+                    "aliases": {
+                        "LogReader": "Jackiedo\\LogReader\\Facades\\LogReader"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jackiedo\\LogReader\\": "src/Jackiedo/LogReader"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jackie Do",
+                    "email": "anhvudo@gmail.com"
+                }
+            ],
+            "description": "An easy log reader and management tool for Laravel",
+            "keywords": [
+                "Viewer",
+                "laravel",
+                "log",
+                "log-manager",
+                "log-reader",
+                "log-viewer",
+                "logs",
+                "reader"
+            ],
+            "support": {
+                "issues": "https://github.com/JackieDo/Laravel-Log-Reader/issues",
+                "source": "https://github.com/JackieDo/Laravel-Log-Reader/tree/2.2.1"
+            },
+            "time": "2022-02-25T08:31:43+00:00"
+        },
+        {
             "name": "justinrainbow/json-schema",
             "version": "5.2.12",
             "source": {
@@ -3252,16 +3371,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v9.21.2",
+            "version": "v9.21.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "7d55eaf2c83519ef2c788d7278ff8dfed795ee3e"
+                "reference": "569d7a2e361895f90e66bb4e02db89c27691a0e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/7d55eaf2c83519ef2c788d7278ff8dfed795ee3e",
-                "reference": "7d55eaf2c83519ef2c788d7278ff8dfed795ee3e",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/569d7a2e361895f90e66bb4e02db89c27691a0e7",
+                "reference": "569d7a2e361895f90e66bb4e02db89c27691a0e7",
                 "shasum": ""
             },
             "require": {
@@ -3428,7 +3547,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-07-20T15:52:38+00:00"
+            "time": "2022-07-22T14:16:44+00:00"
         },
         {
             "name": "laravel/horizon",
@@ -5875,6 +5994,76 @@
                 "source": "https://github.com/pusher/pusher-http-php/tree/7.0.2"
             },
             "time": "2021-12-07T13:09:00+00:00"
+        },
+        {
+            "name": "rabol/filament-logviewer",
+            "version": "v0.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rabol/filament-logviewer.git",
+                "reference": "3f72dccca37f43cea3de923ddc89ff15ee663988"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rabol/filament-logviewer/zipball/3f72dccca37f43cea3de923ddc89ff15ee663988",
+                "reference": "3f72dccca37f43cea3de923ddc89ff15ee663988",
+                "shasum": ""
+            },
+            "require": {
+                "calebporzio/sushi": "^2.3",
+                "illuminate/contracts": "^8.73|^9.0",
+                "jackiedo/log-reader": "^2.2",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^5.10",
+                "nunomaduro/larastan": "^1.0",
+                "orchestra/testbench": "^6.22",
+                "pestphp/pest": "^1.21",
+                "pestphp/pest-plugin-laravel": "^1.1",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Rabol\\FilamentLogviewer\\FilamentLogviewerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Rabol\\FilamentLogviewer\\": "src",
+                    "Rabol\\FilamentLogviewer\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Steen Rabol",
+                    "email": "steen@rabol.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Logviewer for Filament admin",
+            "homepage": "https://github.com/rabol/filament-logviewer",
+            "keywords": [
+                "filament-logviewer",
+                "laravel",
+                "rabol"
+            ],
+            "support": {
+                "issues": "https://github.com/rabol/filament-logviewer/issues",
+                "source": "https://github.com/rabol/filament-logviewer/tree/v0.14"
+            },
+            "time": "2022-03-11T09:02:21+00:00"
         },
         {
             "name": "ralouphie/getallheaders",

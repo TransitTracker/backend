@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.21.2.
+ * Generated for Laravel 9.21.6.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -7256,7 +7256,7 @@
      * @method static \Illuminate\Http\Client\PendingRequest asJson()
      * @method static \Illuminate\Http\Client\PendingRequest asMultipart()
      * @method static \Illuminate\Http\Client\PendingRequest async()
-     * @method static \Illuminate\Http\Client\PendingRequest attach(string|array $name, string $contents = '', string|null $filename = null, array $headers = [])
+     * @method static \Illuminate\Http\Client\PendingRequest attach(string|array $name, string|resource $contents = '', string|null $filename = null, array $headers = [])
      * @method static \Illuminate\Http\Client\PendingRequest baseUrl(string $url)
      * @method static \Illuminate\Http\Client\PendingRequest beforeSending(callable $callback)
      * @method static \Illuminate\Http\Client\PendingRequest bodyFormat(string $format)
@@ -14799,6 +14799,17 @@
                         return $instance->url($path);
         }
                     /**
+         * Determine if temporary URLs can be generated.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function providesTemporaryUrls()
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->providesTemporaryUrls();
+        }
+                    /**
          * Get a temporary URL for the file at the given path.
          *
          * @param string $path
@@ -17189,6 +17200,312 @@
         {            //Method inherited from \DebugBar\DebugBar         
                         /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
                         return $instance->offsetUnset($key);
+        }
+         
+    }
+     
+}
+
+    namespace Jackiedo\LogReader\Facades { 
+            /**
+     * The LogReader class.
+     *
+     * @package Jackiedo\LogReader
+     * @author Jackie Do <anhvudo@gmail.com>
+     * @copyright 2017
+     * @access public
+     */ 
+        class LogReader {
+                    /**
+         * Sets the path to directory storing the log files.
+         *
+         * @param string $path
+         * @return void 
+         * @static 
+         */ 
+        public static function setLogPath($path)
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        $instance->setLogPath($path);
+        }
+                    /**
+         * Setting the parser for structural analysis
+         *
+         * @param object $parser
+         * @return void 
+         * @static 
+         */ 
+        public static function setLogParser($parser)
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        $instance->setLogParser($parser);
+        }
+                    /**
+         * Get instance of Levelable
+         *
+         * @return \Jackiedo\LogReader\Levelable 
+         * @static 
+         */ 
+        public static function getLevelable()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->getLevelable();
+        }
+                    /**
+         * Retrieves the orderByField property.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getOrderByField()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->getOrderByField();
+        }
+                    /**
+         * Retrieves the orderByDirection property.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getOrderByDirection()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->getOrderByDirection();
+        }
+                    /**
+         * Retrieves the environment property.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getEnvironment()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->getEnvironment();
+        }
+                    /**
+         * Retrieves the level property.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getLevel()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->getLevel();
+        }
+                    /**
+         * Retrieves the currentLogPath property.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getCurrentLogPath()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->getCurrentLogPath();
+        }
+                    /**
+         * Retrieves the path to directory storing the log files.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getLogPath()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->getLogPath();
+        }
+                    /**
+         * Retrieves the log filename property.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getLogFilename()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->getLogFilename();
+        }
+                    /**
+         * Sets the environment to sort the log entries by.
+         *
+         * @param string $environment
+         * @return \Jackiedo\LogReader\LogReader 
+         * @static 
+         */ 
+        public static function environment($environment)
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->environment($environment);
+        }
+                    /**
+         * Sets the level to sort the log entries by.
+         *
+         * @param mixed $level
+         * @return \Jackiedo\LogReader\LogReader 
+         * @static 
+         */ 
+        public static function level($level)
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->level($level);
+        }
+                    /**
+         * Sets the filename to get log entries.
+         *
+         * @param string $filename
+         * @return \Jackiedo\LogReader\LogReader 
+         * @static 
+         */ 
+        public static function filename($filename)
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->filename($filename);
+        }
+                    /**
+         * Includes read entries in the log results.
+         *
+         * @return \Jackiedo\LogReader\LogReader 
+         * @static 
+         */ 
+        public static function withRead()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->withRead();
+        }
+                    /**
+         * Alias of the withRead() method.
+         *
+         * @return \Jackiedo\LogReader\LogReader 
+         * @static 
+         */ 
+        public static function includeRead()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->includeRead();
+        }
+                    /**
+         * Sets the direction to return the log entries in.
+         *
+         * @param string $field
+         * @param string $direction
+         * @return \Jackiedo\LogReader\LogReader 
+         * @static 
+         */ 
+        public static function orderBy($field, $direction = 'asc')
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->orderBy($field, $direction);
+        }
+                    /**
+         * Returns a Laravel collection of log entries.
+         *
+         * @throws \Jackiedo\LogReader\Exceptions\UnableToRetrieveLogFilesException
+         * @return \Illuminate\Support\Collection 
+         * @static 
+         */ 
+        public static function get()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->get();
+        }
+                    /**
+         * Returns total of log entries.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function count()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->count();
+        }
+                    /**
+         * Finds a logged error by it's ID.
+         *
+         * @param string $id
+         * @return mixed|null 
+         * @static 
+         */ 
+        public static function find($id = '')
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->find($id);
+        }
+                    /**
+         * Marks all retrieved log entries as read and
+         * returns the number of entries that have been marked.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function markAsRead()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->markAsRead();
+        }
+                    /**
+         * Alias of the markAsRead() method.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function markRead()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->markRead();
+        }
+                    /**
+         * Deletes all retrieved log entries and returns
+         * the number of entries that have been deleted.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function delete()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->delete();
+        }
+                    /**
+         * Deletes all retrieved log entries and returns
+         * the number of entries that have been deleted.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function removeLogFile()
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->removeLogFile();
+        }
+                    /**
+         * Paginates the returned log entries.
+         *
+         * @param int $perPage
+         * @param int $currentPage
+         * @param array $options [path => '', query => [], fragment => '', pageName => '']
+         * @return mixed 
+         * @static 
+         */ 
+        public static function paginate($perPage = 25, $currentPage = null, $options = [])
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->paginate($perPage, $currentPage, $options);
+        }
+                    /**
+         * Returns an array of log filenames.
+         *
+         * @param null|string $filename
+         * @return array 
+         * @static 
+         */ 
+        public static function getLogFilenameList($filename = null)
+        {
+                        /** @var \Jackiedo\LogReader\LogReader $instance */
+                        return $instance->getLogFilenameList($filename);
         }
          
     }
@@ -22616,6 +22933,7 @@ namespace  {
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
+            class LogReader extends \Jackiedo\LogReader\Facades\LogReader {}
             class Horizon extends \Laravel\Horizon\Horizon {}
             class Livewire extends \Livewire\Livewire {}
             class Health extends \Spatie\Health\Facades\Health {}

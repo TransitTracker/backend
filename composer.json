@@ -30,6 +30,7 @@
         "ohdearapp/ohdear-php-sdk": "^3.1",
         "predis/predis": "^2.0",
         "pusher/pusher-php-server": "^7.0",
+        "rabol/filament-logviewer": "^0.14.0",
         "readme/metrics": "^9.0",
         "spatie/cpu-load-health-check": "^1.0",
         "spatie/flysystem-dropbox": "^2.0",
@@ -100,7 +101,8 @@
             "@php artisan key:generate --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan ide-helper:generate"
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:models --nowrite"
         ],
         "app-install": [
             "@composer install",

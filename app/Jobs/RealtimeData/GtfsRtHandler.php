@@ -7,6 +7,7 @@ use App\Models\Agency;
 use App\Models\Stat;
 use App\Models\Trip;
 use App\Models\Vehicle;
+use Carbon\Carbon;
 use Exception;
 use FelixINX\TransitRealtime\FeedMessage;
 use Google\Protobuf\Internal\GPBDecodeException;
@@ -192,6 +193,10 @@ class GtfsRtHandler implements ShouldQueue
             // timestamp
             if ($timestamp = $vehicle->getTimestamp()) {
                 $newVehicle['timestamp'] = $timestamp;
+
+                if (now()->diffInMinutes(new Carbon($timestamp)) > 3) {
+                    continue;
+                }
             } else {
                 $newVehicle['timestamp'] = null;
             }

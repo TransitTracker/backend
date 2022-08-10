@@ -23,6 +23,17 @@ abstract class VinBaseInterface implements VinInterface
         return BaseData::YEARS[substr($this->vin, 9, 1)];
     }
 
+    protected function getValueFromList(array $list, int $position, int $length = 1): string|int|null
+    {
+        $key = substr($this->vin, $position - 1, $length)
+
+        if (!array_key_exists($key, $array)) {
+            return null;
+        }
+
+        return $list[$key];
+    }
+
     public function getNote(): ?string
     {
         return null;

@@ -9,21 +9,21 @@ class Novabus extends VinBaseInterface
 {
     public function getAssembly(): string
     {
-        return VinNovabus::ASSEMBLY[substr($this->vin, 10, 1)];
+        return $this->getValueFromList(VinNovabus::ASSEMBLY, 11);
     }
 
     public function getEngine(): string
     {
         if ($this->getYear() >= 2013) {
-            return VinNovabus::ENGINE_AFTER_2013[substr($this->vin, 7, 1)];
+            return $this->getValueFromList(VinNovabus::ENGINE_AFTER_2013, 8);
         }
 
-        return VinNovabus::ENGINE[substr($this->vin, 7, 1)];
+        return $this->getValueFromList(VinNovabus::ENGINE, 8);
     }
 
     public function getLength(): int
     {
-        return VinNovabus::LENGTH[substr($this->vin, 5, 1)];
+        return $this->getValueFromList(VinNovabus::LENGTH, 6);
     }
 
     public function getManufacturer(): string
@@ -33,7 +33,7 @@ class Novabus extends VinBaseInterface
 
     public function getModel(): string
     {
-        return VinNovabus::MODEL[substr($this->vin, 4, 1)];
+        return $this->getValueFromList(VinNovabus::MODEL, 5);
     }
 
     public function getPropulsion(): string|null

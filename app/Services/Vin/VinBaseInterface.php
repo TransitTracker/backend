@@ -25,9 +25,9 @@ abstract class VinBaseInterface implements VinInterface
 
     protected function getValueFromList(array $list, int $position, int $length = 1): string|int|null
     {
-        $key = substr($this->vin, $position - 1, $length)
+        $key = substr($this->vin, $position - 1, $length);
 
-        if (!array_key_exists($key, $array)) {
+        if (!array_key_exists($key, $list)) {
             return null;
         }
 

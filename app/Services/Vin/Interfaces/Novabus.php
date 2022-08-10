@@ -7,12 +7,12 @@ use Database\Vin\Novabus as VinNovabus;
 
 class Novabus extends VinBaseInterface
 {
-    public function getAssembly(): string
+    public function getAssembly(): ?string
     {
         return $this->getValueFromList(VinNovabus::ASSEMBLY, 11);
     }
 
-    public function getEngine(): string
+    public function getEngine(): ?string
     {
         if ($this->getYear() >= 2013) {
             return $this->getValueFromList(VinNovabus::ENGINE_AFTER_2013, 8);
@@ -21,7 +21,7 @@ class Novabus extends VinBaseInterface
         return $this->getValueFromList(VinNovabus::ENGINE, 8);
     }
 
-    public function getLength(): int
+    public function getLength(): ?int
     {
         return $this->getValueFromList(VinNovabus::LENGTH, 6);
     }
@@ -31,12 +31,12 @@ class Novabus extends VinBaseInterface
         return 'Nova Bus';
     }
 
-    public function getModel(): string
+    public function getModel(): ?string
     {
         return $this->getValueFromList(VinNovabus::MODEL, 5);
     }
 
-    public function getPropulsion(): string|null
+    public function getPropulsion(): ?string
     {
         return null;
     }

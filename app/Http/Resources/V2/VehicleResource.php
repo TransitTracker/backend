@@ -55,7 +55,7 @@ class VehicleResource extends JsonResource
             'links' => LinkSimpleResource::collection($this->links),
             'trip' => TripResource::make($this->trip)->additional(['agencySlug' => $this->agency->slug]),
             'meta' => $this->when($this->agency->slug === 'stm' && $this->vehicle === '39037', (object) ['habsBus' => true], (object) []),
-            $this->mergeWhen($request->include && $request->include === 'all', [
+            $this->mergeWhen($request->has('include'), [
                 'updatedAt' => Carbon::parse($this->updated_at)->format('Y-m-d H:i:s'),
                 'createdAt' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
                 'agencyName' => $this->agency->name,

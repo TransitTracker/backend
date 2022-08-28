@@ -26,7 +26,7 @@ class VehicleController extends Controller
     {
         $this->middleware('cacheResponse:900');
 
-        $request->request->add(['include' => 'all']);
+        $request->merge(['include' => 'all']);
 
         $vehicles = Vehicle::query()
             ->downloadable()

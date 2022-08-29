@@ -4,7 +4,6 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Http\Middleware\MirrorConfigToSubpackages;
 use Filament\Pages;
-use Filament\Resources;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -30,6 +29,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Filament Core Path
+    |--------------------------------------------------------------------------
+    |
+    | This is the path which Filament will use to load its core routes and assets.
+    | You may change it if it conflicts with your other routes.
+    |
+    */
+
+    'core_path' => env('FILAMENT_CORE_PATH', 'filament'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Filament Domain
     |--------------------------------------------------------------------------
     |
@@ -51,6 +62,17 @@ return [
     */
 
     'home_url' => '/',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Brand Name
+    |--------------------------------------------------------------------------
+    |
+    | This will be displayed on the login page and in the sidebar's header.
+    |
+    */
+
+    'brand' => env('APP_NAME'),
 
     /*
     |--------------------------------------------------------------------------
@@ -139,10 +161,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Dark mode
+    |--------------------------------------------------------------------------
+    |
+    | By enabling this feature, your users are able to select between a light
+    | and dark appearance for the admin panel, or let their system decide.
+    |
+    */
+
+    'dark_mode' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Layout
     |--------------------------------------------------------------------------
     |
-    | This is the configuration for the general appearance of the admin panel.
+    | This is the configuration for the general layout of the admin panel.
     |
     | You may configure the max content width from `xl` to `7xl`, or `full`
     | for no max width.
@@ -150,21 +184,46 @@ return [
     */
 
     'layout' => [
+        'actions' => [
+            'modal' => [
+                'actions' => [
+                    'alignment' => 'left',
+                ],
+            ],
+        ],
         'forms' => [
             'actions' => [
                 'alignment' => 'left',
             ],
+            'have_inline_labels' => false,
         ],
         'footer' => [
             'should_show_logo' => true,
         ],
         'max_content_width' => null,
-        'tables' => [
-            'actions' => [
-                'type' => \Filament\Tables\Actions\LinkAction::class,
+        'notifications' => [
+            'vertical_alignment' => 'top',
+            'alignment' => 'right',
+        ],
+        'sidebar' => [
+            'is_collapsible_on_desktop' => true,
+            'groups' => [
+                'are_collapsible' => true,
             ],
+            'width' => null,
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Favicon
+    |--------------------------------------------------------------------------
+    |
+    | This is the path to the favicon used for pages in the admin panel.
+    |
+    */
+
+    'favicon' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -189,6 +248,21 @@ return [
     */
 
     'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DRIVER', 'public'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Google Fonts
+    |--------------------------------------------------------------------------
+    |
+    | This is the URL for Google Fonts that should be loaded. You may use any
+    | font, or set to `null` to prevent any Google Fonts from loading.
+    |
+    | When using a custom font, you should also set the font family in your
+    | custom theme's `tailwind.config.js` file.
+    |
+    */
+
+    'google_fonts' => 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
 
     /*
     |--------------------------------------------------------------------------

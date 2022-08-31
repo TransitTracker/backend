@@ -23,7 +23,7 @@ class ReadMe implements \ReadMe\Handler
     public static function constructGroup(Request $request): array
     {
         return [
-            'api_key' => $request->getClientIp(),
+            'api_key' => session()->getId(),
         ];
     }
 }

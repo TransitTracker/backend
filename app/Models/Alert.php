@@ -30,7 +30,9 @@ class Alert extends Model
 
     public function scopeActive(Builder $query): Builder
     {
-        return $query->whereIsActive(true)->whereDate('expiration', '>', now());
+        return $query->where('is_active', true)->where(function (Builder $query) {
+            $query->whereDate('expiration', '>', now())->orWhereNull('expiration');
+        });
     }
 
     protected static function booted()

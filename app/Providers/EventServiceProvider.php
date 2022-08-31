@@ -6,6 +6,8 @@ use App\Events\ElectricStmVehicleUpdated;
 use App\Events\NotificationUserCreated;
 use App\Events\VehicleCreated;
 use App\Events\VehicleUpdated;
+use App\Events\TagCreated;
+use App\Events\TagUpdated;
 use App\Events\Vin\SuggestionCreated;
 use App\Listeners\DeactivateInactiveSubscription;
 use App\Listeners\SendElectricStmNotification;
@@ -13,6 +15,7 @@ use App\Listeners\SendNewVehicleNotification;
 use App\Listeners\SendNewVinSuggestionNotification;
 use App\Listeners\SendUpdatedVehicleNotification;
 use App\Listeners\SendWelcomeNotification;
+use App\Listeners\AddTagIconToMapbox;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -46,6 +49,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         SuggestionCreated::class => [
             SendNewVinSuggestionNotification::class,
+        ],
+        TagCreated::class => [
+            AddTagIconToMapbox::class,
+        ],
+        TagUpdated::class => [
+            AddTagIconToMapbox::class,
         ],
     ];
 

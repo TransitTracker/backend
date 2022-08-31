@@ -8,4 +8,9 @@ return [
         'site' => env('RECAPTCHA_SITE_KEY'),
         'secret' => env('RECAPTCHA_SECRET_KEY'),
     ],
+    'mapbox' => [
+        'secret_key' => env('MAPBOX_SECRET_KEY'),
+        'light_style' => env('MAPBOX_LIGHT_STYLE'),
+        'dark_style' => env('MAPBOX_DARK_STYLE'),
+    ],
 ];

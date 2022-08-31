@@ -23,7 +23,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $timestamp
  * @property string $text_color
- * @property array|null $tags
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property int $is_active
  * @property string|null $static_gtfs_url
  * @property string|null $realtime_url
@@ -60,6 +60,7 @@ namespace App\Models{
  * @property-read int|null $routes_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Service[] $services
  * @property-read int|null $services_count
+ * @property-read int|null $tags_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Trip[] $trips
  * @property-read int|null $trips_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
@@ -362,6 +363,35 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Tag
+ *
+ * @property int $id
+ * @property array $label
+ * @property string|null $icon
+ * @property string $color
+ * @property string $text_color
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $agencies
+ * @property-read int|null $agencies_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
+ * @property-read int|null $vehicles_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereIcon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereTextColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
+ */
+	class Tag extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Trip
  *
  * @property int $id
@@ -463,6 +493,8 @@ namespace App\Models{
  * @property int|null $congestion
  * @property int|null $occupancy
  * @property-read \App\Models\Agency|null $agency
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $agencyTags
+ * @property-read int|null $agency_tags_count
  * @property-read string $displayed_label
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Link[] $links
  * @property-read int|null $links_count
@@ -470,6 +502,8 @@ namespace App\Models{
  * @property-read int|null $notification_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection|Vehicle[] $relatedVehicles
  * @property-read int|null $related_vehicles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
  * @property-read \App\Models\Trip|null $trip
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle active()
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle downloadable()

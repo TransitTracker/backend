@@ -170,7 +170,7 @@ return [
         'production' => [
             'supervisor-main' => [
                 'connection' => 'redis',
-                'queue' => ['vehicles', 'notifications', 'ohdear'],
+                'queue' => ['vehicles', 'notifications', 'ohdear', 'misc'],
                 'balance' => 'auto',
                 'processes' => 5,
                 'tries' => 1,
@@ -193,7 +193,7 @@ return [
         'staging' => [
             'supervisor-staging-main' => [
                 'connection' => 'redis',
-                'queue' => ['vehicles', 'notifications', 'ohdear'],
+                'queue' => ['vehicles', 'notifications', 'ohdear', 'misc'],
                 'balance' => 'auto',
                 'processes' => 5,
                 'tries' => 1,
@@ -211,7 +211,7 @@ return [
         'local' => [
             'supervisor-dev' => [
                 'connection' => 'redis',
-                'queue' => ['vehicles', 'notifications', 'gtfs', 'ohdear'],
+                'queue' => ['vehicles', 'notifications', 'gtfs', 'ohdear', 'misc'],
                 'balance' => 'simple',
                 'processes' => 5,
                 'tries' => 1,

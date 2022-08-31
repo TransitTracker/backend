@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AlertResource\Pages;
+use App\Filament\Resources\AlertResource\Widgets\AlertsOverview;
 use App\Models\Alert;
 use Filament\Forms;
 use Filament\Resources\Concerns\Translatable;
@@ -10,6 +11,8 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
 
 class AlertResource extends Resource
 {
@@ -53,7 +56,7 @@ class AlertResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->dateTime('M d, Y'),
             ])
             ->filters([
-                //
+                Filter::make('is_active')->query(fn (Builder $query): Builder => $query->active()),
             ]);
     }
 

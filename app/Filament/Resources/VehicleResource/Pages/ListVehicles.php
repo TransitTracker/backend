@@ -3,7 +3,9 @@
 namespace App\Filament\Resources\VehicleResource\Pages;
 
 use App\Filament\Resources\VehicleResource;
+use App\Filament\Resources\VehicleResource\Widgets\VehiclesChart;
 use App\Models\Link;
+use App\Models\Tag;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ListRecords;
@@ -45,6 +47,16 @@ class ListVehicles extends ListRecords
                 ->form([
                     Select::make('linkId')->options(Link::pluck('internal_title', 'id'))->label('Link')->required(),
                 ])->icon('gmdi-link'),
+            BulkAction::make('attachTag')
+                ->action(function (Collection $records, array $data): void {
+                    foreach ($records as $record) {
+                        $record->tags()->attach($data['tagId']);
+                        $record->saveQuietly();
+                    }
+                })
+                ->form([
+                    Select::make('tagId')->options(Tag::pluck('label', 'id'))->label('Tag')->required(),
+                ])->icon('gmdi-label'),
         ];
     }
 

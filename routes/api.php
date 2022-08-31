@@ -12,8 +12,11 @@ use App\Http\Controllers\Api\V2\NotificationsController;
 use App\Http\Controllers\Api\V2\Push\ProfileController;
 use App\Http\Controllers\Api\V2\Push\ProfileVehiclesController;
 use App\Http\Controllers\Api\V2\RegionController;
+use App\Http\Controllers\Api\V2\TagController;
 use App\Http\Controllers\Api\V2\VehicleController;
 use App\Http\Middleware\Localization;
+use App\Models\Tag;
+use App\Models\Vehicle;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +85,9 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::get('regions', [RegionController::class, 'index']);
     Route::get('regions/{region}', [RegionController::class, 'show']);
     Route::get('regions/{region}/alerts', [RegionController::class, 'alerts']);
+
+    Route::get('tags', [TagController::class, 'index']);
+    Route::get('tags/{tag}', [TagController::class, 'show']);
 
     Route::get('vehicles', [VehicleController::class, 'index']);
     Route::get('vehicles/{vehicle}', [VehicleController::class, 'show']);

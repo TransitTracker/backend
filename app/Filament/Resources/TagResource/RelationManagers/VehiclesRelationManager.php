@@ -1,24 +1,23 @@
 <?php
 
-namespace App\Filament\Resources\AgencyResource\RelationManagers;
+namespace App\Filament\Resources\TagResource\RelationManagers;
 
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables;
 
-class RegionsRelationManager extends RelationManager
+class VehiclesRelationManager extends RelationManager
 {
-    protected static string $relationship = 'regions';
+    protected static string $relationship = 'vehicles';
 
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $recordTitleAttribute = 'id';
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('slug'),
+                Tables\Columns\TextColumn::make('agency.short_name'),
+                Tables\Columns\TextColumn::make('displayed_label'),
             ])
             ->filters([
                 //
@@ -32,5 +31,5 @@ class RegionsRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\DetachBulkAction::make(),
             ]);
-    }
+    }    
 }

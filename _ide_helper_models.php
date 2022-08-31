@@ -369,9 +369,13 @@ namespace App\Models{
  * @property array $label
  * @property string|null $icon
  * @property string $color
+ * @property string $dark_color
  * @property string $text_color
+ * @property string $dark_text_color
+ * @property int $show_on_map
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property array|null $short_label
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $agencies
  * @property-read int|null $agencies_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
@@ -381,9 +385,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tag query()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereDarkColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereDarkTextColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereIcon($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereShortLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereShowOnMap($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereTextColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
  */
@@ -493,8 +501,6 @@ namespace App\Models{
  * @property int|null $congestion
  * @property int|null $occupancy
  * @property-read \App\Models\Agency|null $agency
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $agencyTags
- * @property-read int|null $agency_tags_count
  * @property-read string $displayed_label
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Link[] $links
  * @property-read int|null $links_count

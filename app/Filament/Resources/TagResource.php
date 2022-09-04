@@ -36,10 +36,13 @@ class TagResource extends Resource
         return $form
             ->schema([
                 Group::make()->columnSpan(['lg' => 2])->schema([
-                    Card::make()->schema([
+                    Card::make()->columns(3)->schema([
                         TextInput::make('label')
-                            ->required(),
+                            ->required()
+                            ->columnSpan(2),
                         TextInput::make('short_label'),
+                        TextInput::make('description')
+                            ->columnSpan(3),
                     ]),
                     Section::make('Appearance')->schema([
                         TextInput::make('icon')->columnSpan(2),

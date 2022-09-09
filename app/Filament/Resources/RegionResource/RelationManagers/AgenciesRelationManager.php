@@ -3,11 +3,12 @@
 namespace App\Filament\Resources\RegionResource\RelationManagers;
 
 use Filament\Resources\Form;
-use Filament\Resources\RelationManagers\HasManyRelationManager;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
+use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 
-class AgenciesRelationManager extends HasManyRelationManager
+class AgenciesRelationManager extends RelationManager
 {
     protected static string $relationship = 'agencies';
 
@@ -30,6 +31,15 @@ class AgenciesRelationManager extends HasManyRelationManager
             ])
             ->filters([
                 //
+            ])
+            ->headerActions([
+                Tables\Actions\AttachAction::make(),
+            ])
+            ->actions([
+                Tables\Actions\DetachAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\DetachBulkAction::make(),
             ]);
     }
 }

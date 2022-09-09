@@ -38,6 +38,7 @@ class Update extends Command
             // Agency without etag will only update on sunday
             if (! $agency->static_etag && ! now()->isSunday()) {
                 $this->line("skipping {$agency->short_name}");
+
                 continue;
             }
 

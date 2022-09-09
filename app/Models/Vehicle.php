@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Events\ElectricStmVehicleUpdated;
 use App\Events\VehicleCreated;
 use App\Events\VehicleUpdated;
-use App\Models\Tag;
 use App\Services\Vin\VinInterface;
 use App\Services\Vin\VinManager;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,10 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Vehicle extends Model

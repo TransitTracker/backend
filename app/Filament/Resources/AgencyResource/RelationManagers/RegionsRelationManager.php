@@ -4,8 +4,8 @@ namespace App\Filament\Resources\AgencyResource\RelationManagers;
 
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 
 class RegionsRelationManager extends RelationManager
 {

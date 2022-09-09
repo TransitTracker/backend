@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AlertResource\Pages;
-use App\Filament\Resources\AlertResource\Widgets\AlertsOverview;
 use App\Models\Alert;
 use Filament\Forms;
 use Filament\Resources\Concerns\Translatable;

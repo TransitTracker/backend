@@ -27,7 +27,7 @@ abstract class VinBaseInterface implements VinInterface
     {
         $key = substr($this->vin, $position - 1, $length);
 
-        if (!array_key_exists($key, $list)) {
+        if (! array_key_exists($key, $list)) {
             return null;
         }
 

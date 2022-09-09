@@ -15,8 +15,6 @@ use App\Http\Controllers\Api\V2\RegionController;
 use App\Http\Controllers\Api\V2\TagController;
 use App\Http\Controllers\Api\V2\VehicleController;
 use App\Http\Middleware\Localization;
-use App\Models\Tag;
-use App\Models\Vehicle;
 
 /*
 |--------------------------------------------------------------------------

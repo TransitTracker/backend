@@ -13,7 +13,6 @@ use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -86,12 +85,12 @@ class AgencyResource extends Resource
                         Placeholder::make('updated_at')
                             ->label('Last modified')
                             ->content(fn (Agency $record): string => $record->updated_at->diffForHumans()),
-                            Placeholder::make('timestamp')
-                            ->label('Lastest data from agency')
-                            ->content(fn (Agency $record): string => Carbon::createFromTimestamp($record->timestamp)->format('j M Y H:i')),
+                        Placeholder::make('timestamp')
+                        ->label('Lastest data from agency')
+                        ->content(fn (Agency $record): string => Carbon::createFromTimestamp($record->timestamp)->format('j M Y H:i')),
 
-                    ])->hidden(fn(?Agency $record) => $record === null),
-                ])->columnSpan(['lg' => 1])
+                    ])->hidden(fn (?Agency $record) => $record === null),
+                ])->columnSpan(['lg' => 1]),
             ])->columns(3);
     }
 

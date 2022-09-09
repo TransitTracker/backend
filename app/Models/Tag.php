@@ -4,8 +4,6 @@ namespace App\Models;
 
 use App\Events\TagCreated;
 use App\Events\TagUpdated;
-use App\Models\Agency;
-use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;

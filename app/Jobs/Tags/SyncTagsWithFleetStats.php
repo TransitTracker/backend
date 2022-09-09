@@ -33,17 +33,21 @@ class SyncTagsWithFleetStats implements ShouldQueue
         ];
 
         $response = Http::get('https://fleetstatsapp.com/api/vehicles/stm');
-        
+
         foreach ($response->json('vehicles') as $fsVehicle) {
             $vehicle = Vehicle::select('id')->firstWhere(['vehicle' => $fsVehicle['fleet_number'], 'agency_id' => 1]);
-            if (!$vehicle) { continue; }
-            
+            if (! $vehicle) {
+                continue;
+            }
+
             $garages->{$fsVehicle['allocated_garage']}[] = $vehicle->id;
         }
 
         foreach ($garages as $garage => $ids) {
             $tag = Tag::firstWhere('label', 'LIKE', "%{$garage}%");
-            if (!$tag) { continue; }
+            if (! $tag) {
+                continue;
+            }
 
             $tag->vehicles()->sync($ids);
         }

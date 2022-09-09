@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TagResource\Pages;
 use App\Filament\Resources\TagResource\RelationManagers\AgenciesRelationManager;
 use App\Filament\Resources\TagResource\RelationManagers\VehiclesRelationManager;
-use App\Jobs\AddTagIconToMapbox;
 use App\Models\Tag;
 use Closure;
 use Filament\Forms\Components\Card;
@@ -19,9 +18,7 @@ use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Collection;
 
 class TagResource extends Resource
 {
@@ -72,7 +69,7 @@ class TagResource extends Resource
                                     ->content(fn (Tag $record): string => $record->updated_at->diffForHumans()),
 
                             ])->hidden(fn (?Tag $record) => $record === null),
-                    ])->columnSpan(['lg' => 1])
+                    ])->columnSpan(['lg' => 1]),
             ])->columns(3);
     }
 

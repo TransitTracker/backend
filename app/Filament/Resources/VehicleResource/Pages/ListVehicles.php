@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\VehicleResource\Pages;
 
 use App\Filament\Resources\VehicleResource;
-use App\Filament\Resources\VehicleResource\Widgets\VehiclesChart;
 use App\Models\Link;
 use App\Models\Tag;
 use Filament\Forms\Components\Select;

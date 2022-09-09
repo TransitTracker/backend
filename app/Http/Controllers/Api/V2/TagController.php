@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\TagResource;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
 class TagController extends Controller
@@ -48,6 +47,4 @@ class TagController extends Controller
     {
         return TagResource::make($tag);
     }
-
-
 }

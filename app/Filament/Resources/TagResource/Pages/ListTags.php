@@ -10,7 +10,7 @@ use Filament\Resources\Pages\ListRecords\Concerns\Translatable;
 class ListTags extends ListRecords
 {
     use Translatable;
-    
+
     protected static string $resource = TagResource::class;
 
     protected function getActions(): array

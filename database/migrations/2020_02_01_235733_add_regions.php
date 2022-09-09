@@ -49,13 +49,13 @@ class AddRegions extends Migration
     {
         Schema::drop('regions');
         Schema::table('agencies', function (Blueprint $table) {
-        $table->dropColumn('region_id');
+            $table->dropColumn('region_id');
         });
         Schema::table('alerts', function (Blueprint $table) {
-        $table->dropColumn('region_id');
+            $table->dropColumn('region_id');
         });
         Schema::table('stats', function (Blueprint $table) {
-        $table->dropColumn('region_id');
+            $table->dropColumn('region_id');
         });
     }
 }

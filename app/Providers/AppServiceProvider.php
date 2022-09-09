@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App;
-use App\Checks\AgenciesUpdatedCheck;
 use BenSampo\Enum\Enum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;

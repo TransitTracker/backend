@@ -30,7 +30,7 @@ class VehicleController extends Controller
 
         $vehicles = Vehicle::query()
             ->downloadable()
-            ->with(['trip', 'links:id', 'agency:id,slug,name', 'trip.service:service_id', 'allTags:id', 'tags:id', 'agency.tags:id'])
+            ->with(['trip', 'links:id', 'agency:id,slug,name', 'trip.service:service_id', 'tags:id'])
             ->paginate(500);
 
         return VehicleResource::collection($vehicles);

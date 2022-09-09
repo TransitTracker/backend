@@ -14,9 +14,9 @@ class Tag extends Model
     use HasFactory;
     use HasTranslations;
 
-    protected $fillable = ['label', 'short_label', 'icon', 'color', 'dark_color', 'text_color', 'dark_text_color', 'show_on_map'];
+    protected $fillable = ['label', 'short_label', 'description', 'icon', 'color', 'dark_color', 'text_color', 'dark_text_color', 'show_on_map'];
 
-    public $translatable = ['label', 'short_label'];
+    public $translatable = ['label', 'short_label', 'description'];
 
     public function agencies(): MorphToMany
     {

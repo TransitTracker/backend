@@ -34,7 +34,6 @@
         "rabol/filament-logviewer": "^0.14.0",
         "readme/metrics": "^10.0",
         "spatie/cpu-load-health-check": "^1.0",
-        "spatie/laravel-backup": "^8.1",
         "spatie/laravel-health": "^1.14",
         "spatie/laravel-package-tools": "^1.9",
         "spatie/laravel-responsecache": "^7.1",

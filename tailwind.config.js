@@ -1,10 +1,15 @@
+const colors = require('tailwindcss/colors')
+const m3 = require('tailwind-m3-colors')
+
 module.exports = {
     content: [
         "./storage/framework/views/*.php",
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",
+        './vendor/filament/**/*.blade.php',
     ],
+    darkMode: 'class',
     theme: {
         extend: {
             colors: {
@@ -14,6 +19,9 @@ module.exports = {
                     700: "#00497b",
                     900: "#00224e",
                 },
+                success: colors.green,
+                warning: colors.yellow,
+                danger: colors.red,
                 secondary: {
                     500: "#4dccbd",
                     700: "#009a8d",
@@ -104,8 +112,13 @@ module.exports = {
             },
         },
         fontFamily: {
-            sans: ["Roboto", "sans-serif"],
+            heading: ["Figtree", "sans-serif"],
+            sans: ["Inter", "sans-serif"],
         },
     },
-    plugins: [require("@tailwindcss/forms")],
+    plugins: [
+        require("@tailwindcss/forms"),
+        require('@tailwindcss/typography'),
+        m3('#2374ab', '#009a8d'),
+    ],
 };

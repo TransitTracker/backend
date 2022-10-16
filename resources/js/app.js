@@ -1,1 +1,2 @@
-import '@fontsource/roboto'
+import '@fontsource/inter'
+import '@fontsource/figtree'

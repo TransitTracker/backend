@@ -9,10 +9,10 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <link rel="stylesheet" href="/css/app.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="relative min-h-screen font-sans bg-primary-100 dark:bg-grey-900">
-    <nav class="w-full text-xl text-white bg-primary-500 dark:bg-primary-700 drop-shadow">
+    <nav class="w-full px-4 text-xl text-white bg-primary-500 dark:bg-primary-700 drop-shadow">
         <div class="container flex items-center px-4 py-4 mx-auto md:px-0">
             <a href="/" class="flex items-center">
                 <svg viewBox="0 0 295.01 403.72" xmlns="http://www.w3.org/2000/svg" class="h-6 mr-2">

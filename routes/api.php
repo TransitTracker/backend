@@ -70,6 +70,7 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::get('agencies', [AgencyController::class, 'index']);
     Route::get('agencies/{agency}', [AgencyController::class, 'show']);
     Route::get('agencies/{agency}/vehicles', [AgencyController::class, 'vehicles']);
+    Route::get('agencies/{agency}/vehicles/{vehicle}', [AgencyController::class, 'vehiclesShow']);
     Route::get('agencies/{agency}/feed', [AgencyController::class, 'feed']);
 
     Route::get('alerts', [AlertController::class, 'index']);

@@ -18,7 +18,7 @@ class AgencyController extends Controller
     {
         $totalAgencies = 3 * Agency::active()->count();
 
-        if (! App::environment('local')) {
+        if (!App::environment('local')) {
             $this->middleware("throttle:{$totalAgencies},1,v2-agencies");
         }
 
@@ -35,7 +35,7 @@ class AgencyController extends Controller
 
     public function show(Agency $agency)
     {
-        if (! $agency->is_active) {
+        if (!$agency->is_active) {
             return response()->json(['message' => 'Agency is inactive.'], 403);
         }
 
@@ -44,7 +44,7 @@ class AgencyController extends Controller
 
     public function vehicles(Request $request, Agency $agency)
     {
-        if (! $agency->is_active) {
+        if (!$agency->is_active) {
             return response()->json(['message' => 'Agency is inactive.'], 403);
         }
 
@@ -57,7 +57,7 @@ class AgencyController extends Controller
             ->where('agency_id', $agency->id)
             ->with(['trip', 'links:id', 'agency:id,slug,name', 'trip.service:service_id', 'tags:id']);
 
-        if (! $includeAll) {
+        if (!$includeAll) {
             $query->where('active', true);
 
             $vehicles = $query->get();
@@ -77,6 +77,16 @@ class AgencyController extends Controller
         }
 
         return VehicleResource::collection($vehicles)->additional($additional)->preserveQuery();
+    }
+
+    public function vehiclesShow(Agency $agency, string $vehicleRef)
+    {
+        $vehicle = Vehicle::firstWhere([
+            'agency_id' => $agency->id,
+            'vehicle' => $vehicleRef,
+        ]);
+
+        return VehicleResource::make($vehicle);
     }
 
     public function feed(Request $request, Agency $agency)

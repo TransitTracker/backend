@@ -11,7 +11,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="/css/app.css">
+    @vite(['ressources/css/app.css'])
 </head>
 <body class="relative min-h-screen font-sans bg-primary-100 dark:bg-m3-background-dark">
     <nav class="w-full text-xl bg-m3-primary text-m3-primary-on dark:bg-m3-primary-dark-container dark:text-m3-primary-dark-on-container drop-shadow">

@@ -33,9 +33,6 @@ class Kernel extends ConsoleKernel
         $schedule->job(new DispatchAgencies(Agency::active()->get()), 'vehicles')->everyMinute()->unlessBetween('03:54', '03:56');
         $schedule->job(new CheckTimestamps(), 'default')->everyThreeMinutes();
         $schedule->job(new SyncTagsWithFleetStats(), 'misc')->everyTwoHours();
-        $schedule->command('backup:clean')->dailyAt('02:00');
-        $schedule->command('backup:run')->dailyAt('02:15');
-        $schedule->command('backup:monitor')->dailyAt('02:30');
         $schedule->command('schedule-monitor:sync')->dailyAt('02:45');
         $schedule->command('model:prune', ['--model' => MonitoredScheduledTaskLogItem::class])->dailyAt('02:50');
         $schedule->command('static:update')->dailyAt('03:00');

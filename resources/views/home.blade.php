@@ -48,18 +48,6 @@
                 </a>
             </div>
         </div>
-        <div class="grid p-4 bg-white rounded-lg shadow-sm dark:bg-grey dark:text-white">
-            <div class="flex items-center mb-2">
-                <h3 class="text-lg font-semibold">{{ __('Bring Your Own Data') }}</h3>
-                <div class="flex-grow"></div>
-                <x-gmdi-upload-file class="w-8 h-8 text-secondary-700 dark:text-white" />
-            </div>
-            <p class="mb-4">{{ __('You can now locally import your GTFS-Realtime feeds into Transit Tracker. Along with the static feed, you can access all Transit Tracker features for any compatible cities!') }}</p>
-            <a target="_blank" href="https://www.transittracker.ca/{{ app()->getLocale() === 'en' ? '' : 'fr/' }}byod" class="inline-flex items-center self-end px-4 py-2 text-sm font-medium tracking-wider text-white uppercase rounded shadow bg-primary-500 dark:bg-primary-700 hover:bg-opacity-80 justify-self-start">
-                {{ __('Start now') }}
-                <x-gmdi-open-in-new class="w-5 h-5 ml-2" />
-            </a>
-        </div>
         <div class="grid p-4 text-white rounded-lg shadow-sm bg-primary-500 dark:bg-primary-700">
             <div class="flex items-center mb-2">
                 <h3 class="text-lg font-semibold">{{ __('Looking for Transit Tracker?') }}</h3>

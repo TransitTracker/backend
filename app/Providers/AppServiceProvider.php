@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App;
 use BenSampo\Enum\Enum;
+use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
@@ -61,6 +63,12 @@ class AppServiceProvider extends ServiceProvider
 
         Enum::macro('asFlippedArray', function () {
             return array_flip(self::asArray());
+        });
+
+        Filament::serving(function () {
+            Filament::registerTheme(
+                app(Vite::class)('resources/css/filament.css'),
+            );
         });
     }
 }

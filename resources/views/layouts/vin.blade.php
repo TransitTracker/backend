@@ -79,11 +79,6 @@
         </div>
     </footer>
 
-    @production
-        <script async defer data-website-id="577432c9-d486-4ba6-8d36-6407c6c618e8" src="https://stats.felixinx.me/umami.js">
-        </script>
-    @endproduction
-
     <!-- Alpine Plugins -->
     <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
 
@@ -91,6 +86,10 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    @production
+    <script async defer data-website-id="4e8482d0-2870-42ab-92d3-02854e972369" data-auto-track="false" data-cache="true" src="https://stats.felixinx.me/umami.js"></script>
+    @endproduction
 </body>
 
 </html>

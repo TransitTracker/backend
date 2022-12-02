@@ -65,7 +65,7 @@
     </footer>
 
     @production
-    <script async defer data-website-id="4e8482d0-2870-42ab-92d3-02854e972369" data-auto-track="false" data-cache="true" src="https://stats.felixinx.me/umami.js"></script>
+    <script async defer data-website-id="4e8482d0-2870-42ab-92d3-02854e972369" data-cache="true" src="https://stats.felixinx.me/umami.js"></script>
     @endproduction
 </body>
 

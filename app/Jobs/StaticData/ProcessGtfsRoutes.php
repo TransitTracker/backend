@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use League\Csv\Reader;
 
 class ProcessGtfsRoutes implements ShouldQueue
@@ -34,7 +35,7 @@ class ProcessGtfsRoutes implements ShouldQueue
             // Prepare a new array to update or create the route model
             $newRoute = [];
 
-            if (! array_key_exists('route_id', $route)) {
+            if (!array_key_exists('route_id', $route)) {
                 continue;
             }
 
@@ -43,16 +44,8 @@ class ProcessGtfsRoutes implements ShouldQueue
             $newRoute['route_id'] = $route['route_id'];
             $newRoute['short_name'] = $route['route_short_name'];
             $newRoute['long_name'] = $route['route_long_name'];
-            if (array_key_exists('route_color', $route)) {
-                $newRoute['color'] = '#'.$route['route_color'];
-            } else {
-                $newRoute['color'] = '#FFFFFF';
-            }
-            if (array_key_exists('route_text_color', $route)) {
-                $newRoute['text_color'] = '#'.$route['route_text_color'];
-            } else {
-                $newRoute['text_color'] = '#000000';
-            }
+            $newRoute['color'] = $this->getColor($route, 'route_color', $this->agency->color);
+            $newRoute['text_color'] = $this->getColor($route, 'route_text_color', $this->agency->text_color);
 
             array_push($routesToUpdate, $newRoute);
         }
@@ -62,5 +55,22 @@ class ProcessGtfsRoutes implements ShouldQueue
         });
 
         $routesReader = null;
+    }
+
+    private function getColor(array $route, string $field, string $fallback)
+    {
+        if (!array_key_exists($field, $route)) {
+            return $fallback;
+        }
+
+        if (Str::length($route[$field]) === 6) {
+            return "#{$route[$field]}";
+        }
+
+        if (Str::length($route[$field]) === 7) {
+            return $route[$field];
+        }
+
+        return $fallback;
     }
 }

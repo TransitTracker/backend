@@ -14,7 +14,7 @@ class VehicleController extends Controller
         $vehicles = Vehicle::query()
             ->where('vehicle', $vin)
             ->exo()
-            ->with(['agency:id,slug,short_name,color,text_color', 'trip:id,route_short_name,route_long_name,trip_headsign,trip_short_name,trip_id', 'tag:id,label,description,color,text_color'])
+            ->with(['agency:id,slug,short_name,color,text_color', 'trip:id,route_short_name,route_long_name,trip_headsign,trip_short_name,trip_id', 'tags:id,label,description,color,text_color'])
             ->get();
 
         if (!$vehicles->count()) {

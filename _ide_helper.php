@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.27.0.
+ * Generated for Laravel 9.35.1.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1496,6 +1496,52 @@
                         /** @var \Illuminate\Foundation\Application $instance */
                         $instance->offsetUnset($key);
         }
+                    /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+                        \Illuminate\Foundation\Application::macro($name, $macro);
+        }
+                    /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void 
+         * @throws \ReflectionException
+         * @static 
+         */ 
+        public static function mixin($mixin, $replace = true)
+        {
+                        \Illuminate\Foundation\Application::mixin($mixin, $replace);
+        }
+                    /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+                        return \Illuminate\Foundation\Application::hasMacro($name);
+        }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Foundation\Application::flushMacros();
+        }
          
     }
             /**
@@ -1529,6 +1575,30 @@
         {            //Method inherited from \Illuminate\Foundation\Console\Kernel         
                         /** @var \App\Console\Kernel $instance */
                         $instance->terminate($input, $status);
+        }
+                    /**
+         * Register a callback to be invoked when the command lifecyle duration exceeds a given amount of time.
+         *
+         * @param \DateTimeInterface|\Carbon\CarbonInterval|float|int $threshold
+         * @param callable $handler
+         * @return void 
+         * @static 
+         */ 
+        public static function whenCommandLifecycleIsLongerThan($threshold, $handler)
+        {            //Method inherited from \Illuminate\Foundation\Console\Kernel         
+                        /** @var \App\Console\Kernel $instance */
+                        $instance->whenCommandLifecycleIsLongerThan($threshold, $handler);
+        }
+                    /**
+         * When the command being handled started.
+         *
+         * @return \Illuminate\Support\Carbon|null 
+         * @static 
+         */ 
+        public static function commandStartedAt()
+        {            //Method inherited from \Illuminate\Foundation\Console\Kernel         
+                        /** @var \App\Console\Kernel $instance */
+                        return $instance->commandStartedAt();
         }
                     /**
          * Register a Closure based command with the application.
@@ -2184,6 +2254,17 @@
                         return $instance->setRequest($request);
         }
                     /**
+         * Get the timebox instance used by the guard.
+         *
+         * @return \Illuminate\Support\Timebox 
+         * @static 
+         */ 
+        public static function getTimebox()
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->getTimebox();
+        }
+                    /**
          * Determine if the current user is authenticated. If not, throw an exception.
          *
          * @return \App\Models\User 
@@ -2768,9 +2849,9 @@
             /**
      * 
      *
-     * @method static \Illuminate\Broadcasting\Broadcasters\Broadcaster channel(string $channel, callable|string  $callback, array $options = [])
+     * @method static \Illuminate\Broadcasting\Broadcasters\Broadcaster channel(string $channel, callable|string $callback, array $options = [])
      * @method static mixed auth(\Illuminate\Http\Request $request)
-     * @method static void resolveAuthenticatedUserUsing(Closure $callback)
+     * @method static void resolveAuthenticatedUserUsing(\Closure $callback)
      * @see \Illuminate\Contracts\Broadcasting\Factory
      */ 
         class Broadcast {
@@ -3137,6 +3218,18 @@
                         return $instance->map($map);
         }
                     /**
+         * Specify the jobs that should be dispatched instead of faked.
+         *
+         * @param array|string $jobsToDispatch
+         * @return void 
+         * @static 
+         */ 
+        public static function except($jobsToDispatch)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        $instance->except($jobsToDispatch);
+        }
+                    /**
          * Assert if a job was dispatched based on a truth-test callback.
          *
          * @param string|\Closure $command
@@ -3314,6 +3407,17 @@
                         $instance->assertBatchCount($count);
         }
                     /**
+         * Assert that no batched jobs were dispatched.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function assertNothingBatched()
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        $instance->assertNothingBatched();
+        }
+                    /**
          * Get all of the jobs matching a truth-test callback.
          *
          * @param string $command
@@ -3399,6 +3503,18 @@
         {
                         /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
                         return $instance->hasDispatchedAfterResponse($command);
+        }
+                    /**
+         * Dispatch an empty job batch for testing.
+         *
+         * @param string $name
+         * @return \Illuminate\Bus\Batch 
+         * @static 
+         */ 
+        public static function dispatchFakeBatch($name = '')
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        return $instance->dispatchFakeBatch($name);
         }
                     /**
          * Record the fake pending batch dispatch.
@@ -6066,6 +6182,18 @@
                         \Illuminate\Events\Dispatcher::flushMacros();
         }
                     /**
+         * Specify the events that should be dispatched instead of faked.
+         *
+         * @param array|string $eventsToDispatch
+         * @return \Illuminate\Support\Testing\Fakes\EventFake 
+         * @static 
+         */ 
+        public static function except($eventsToDispatch)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\EventFake $instance */
+                        return $instance->except($eventsToDispatch);
+        }
+                    /**
          * Assert if an event has a listener attached to it.
          *
          * @param string $expectedEvent
@@ -7401,7 +7529,7 @@
                     /**
          * Register a stub callable that will intercept requests and be able to return stub responses.
          *
-         * @param callable|array $callback
+         * @param callable|array|null $callback
          * @return \Illuminate\Http\Client\Factory 
          * @static 
          */ 
@@ -8232,7 +8360,6 @@
      * @method static void alwaysReplyTo(string $address, string|null $name = null)
      * @method static void alwaysReturnPath(string $address)
      * @method static void alwaysTo(string $address, string|null $name = null)
-     * @method static \Illuminate\Mail\PendingMail cc($users)
      * @method static \Illuminate\Mail\SentMessage|null plain(string $view, array $data, $callback)
      * @method static \Illuminate\Mail\SentMessage|null html(string $html, $callback)
      * @method static mixed laterOn(string $queue, \DateTimeInterface|\DateInterval|int $delay, \Illuminate\Contracts\Mail\Mailable|string|array $view)
@@ -8519,6 +8646,18 @@
         {
                         /** @var \Illuminate\Support\Testing\Fakes\MailFake $instance */
                         return $instance->to($users);
+        }
+                    /**
+         * Begin the process of mailing a mailable class instance.
+         *
+         * @param mixed $users
+         * @return \Illuminate\Mail\PendingMail 
+         * @static 
+         */ 
+        public static function cc($users)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\MailFake $instance */
+                        return $instance->cc($users);
         }
                     /**
          * Begin the process of mailing a mailable class instance.
@@ -9219,6 +9358,18 @@
                         return $instance->setApplication($app);
         }
                     /**
+         * Specify the jobs that should be queued instead of faked.
+         *
+         * @param array|string $jobsToBeQueued
+         * @return \Illuminate\Support\Testing\Fakes\QueueFake 
+         * @static 
+         */ 
+        public static function except($jobsToBeQueued)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\QueueFake $instance */
+                        return $instance->except($jobsToBeQueued);
+        }
+                    /**
          * Assert if a job was pushed based on a truth-test callback.
          *
          * @param string|\Closure $job
@@ -9712,18 +9863,6 @@
                         return $instance->intended($default, $status, $headers, $secure);
         }
                     /**
-         * Set the intended url.
-         *
-         * @param string $url
-         * @return \Illuminate\Routing\Redirector 
-         * @static 
-         */ 
-        public static function setIntendedUrl($url)
-        {
-                        /** @var \Illuminate\Routing\Redirector $instance */
-                        return $instance->setIntendedUrl($url);
-        }
-                    /**
          * Create a new redirect response to the given path.
          *
          * @param string $path
@@ -9850,6 +9989,29 @@
         {
                         /** @var \Illuminate\Routing\Redirector $instance */
                         $instance->setSession($session);
+        }
+                    /**
+         * Get the "intended" URL from the session.
+         *
+         * @return string|null 
+         * @static 
+         */ 
+        public static function getIntendedUrl()
+        {
+                        /** @var \Illuminate\Routing\Redirector $instance */
+                        return $instance->getIntendedUrl();
+        }
+                    /**
+         * Set the "intended" URL in the session.
+         *
+         * @param string $url
+         * @return \Illuminate\Routing\Redirector 
+         * @static 
+         */ 
+        public static function setIntendedUrl($url)
+        {
+                        /** @var \Illuminate\Routing\Redirector $instance */
+                        return $instance->setIntendedUrl($url);
         }
                     /**
          * Register a custom macro.
@@ -11460,6 +11622,40 @@
                         return $instance->isFromTrustedProxy();
         }
                     /**
+         * Filter the given array of rules into an array of rules that are included in precognitive headers.
+         *
+         * @param array $rules
+         * @return array 
+         * @static 
+         */ 
+        public static function filterPrecognitiveRules($rules)
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->filterPrecognitiveRules($rules);
+        }
+                    /**
+         * Determine if the request is attempting to be precognitive.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function isAttemptingPrecognition()
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->isAttemptingPrecognition();
+        }
+                    /**
+         * Determine if the request is precognitive.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function isPrecognitive()
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->isPrecognitive();
+        }
+                    /**
          * Determine if the request is sending JSON.
          *
          * @return bool 
@@ -11871,12 +12067,39 @@
                         return $instance->boolean($key, $default);
         }
                     /**
+         * Retrieve input as an integer value.
+         *
+         * @param string $key
+         * @param int $default
+         * @return int 
+         * @static 
+         */ 
+        public static function integer($key, $default = 0)
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->integer($key, $default);
+        }
+                    /**
+         * Retrieve input as a float value.
+         *
+         * @param string $key
+         * @param float $default
+         * @return float 
+         * @static 
+         */ 
+        public static function float($key, $default = 0.0)
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->float($key, $default);
+        }
+                    /**
          * Retrieve input from the request as a Carbon instance.
          *
          * @param string $key
          * @param string|null $format
          * @param string|null $tz
          * @return \Illuminate\Support\Carbon|null 
+         * @throws \Carbon\Exceptions\InvalidFormatException
          * @static 
          */ 
         public static function date($key, $format = null, $tz = null)
@@ -11887,9 +12110,10 @@
                     /**
          * Retrieve input from the request as an enum.
          *
+         * @template TEnum
          * @param string $key
-         * @param string $enumClass
-         * @return mixed|null 
+         * @param \Illuminate\Http\class-string<TEnum> $enumClass
+         * @return \Illuminate\Http\TEnum|null 
          * @static 
          */ 
         public static function enum($key, $enumClass)
@@ -13485,6 +13709,16 @@
                         \Illuminate\Database\Schema\MySqlBuilder::morphUsingUuids();
         }
                     /**
+         * Set the default morph key type for migrations to ULIDs.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function morphUsingUlids()
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        \Illuminate\Database\Schema\MySqlBuilder::morphUsingUlids();
+        }
+                    /**
          * Determine if the given table has a given column.
          *
          * @param string $table
@@ -14456,6 +14690,18 @@
         {
                         /** @var \Illuminate\Filesystem\FilesystemManager $instance */
                         return $instance->createS3Driver($config);
+        }
+                    /**
+         * Create a scoped driver.
+         *
+         * @param array $config
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @static 
+         */ 
+        public static function createScopedDriver($config)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemManager $instance */
+                        return $instance->createScopedDriver($config);
         }
                     /**
          * Set the given disk instance.
@@ -15602,6 +15848,18 @@
         {
                         /** @var \Illuminate\Routing\UrlGenerator $instance */
                         return $instance->setKeyResolver($keyResolver);
+        }
+                    /**
+         * Clone a new instance of the URL generator with a different encryption key resolver.
+         *
+         * @param callable $keyResolver
+         * @return \Illuminate\Routing\UrlGenerator 
+         * @static 
+         */ 
+        public static function withKeyResolver($keyResolver)
+        {
+                        /** @var \Illuminate\Routing\UrlGenerator $instance */
+                        return $instance->withKeyResolver($keyResolver);
         }
                     /**
          * Get the root controller namespace.
@@ -17353,312 +17611,6 @@
      
 }
 
-    namespace Jackiedo\LogReader\Facades { 
-            /**
-     * The LogReader class.
-     *
-     * @package Jackiedo\LogReader
-     * @author Jackie Do <anhvudo@gmail.com>
-     * @copyright 2017
-     * @access public
-     */ 
-        class LogReader {
-                    /**
-         * Sets the path to directory storing the log files.
-         *
-         * @param string $path
-         * @return void 
-         * @static 
-         */ 
-        public static function setLogPath($path)
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        $instance->setLogPath($path);
-        }
-                    /**
-         * Setting the parser for structural analysis
-         *
-         * @param object $parser
-         * @return void 
-         * @static 
-         */ 
-        public static function setLogParser($parser)
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        $instance->setLogParser($parser);
-        }
-                    /**
-         * Get instance of Levelable
-         *
-         * @return \Jackiedo\LogReader\Levelable 
-         * @static 
-         */ 
-        public static function getLevelable()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->getLevelable();
-        }
-                    /**
-         * Retrieves the orderByField property.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getOrderByField()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->getOrderByField();
-        }
-                    /**
-         * Retrieves the orderByDirection property.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getOrderByDirection()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->getOrderByDirection();
-        }
-                    /**
-         * Retrieves the environment property.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getEnvironment()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->getEnvironment();
-        }
-                    /**
-         * Retrieves the level property.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getLevel()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->getLevel();
-        }
-                    /**
-         * Retrieves the currentLogPath property.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getCurrentLogPath()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->getCurrentLogPath();
-        }
-                    /**
-         * Retrieves the path to directory storing the log files.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getLogPath()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->getLogPath();
-        }
-                    /**
-         * Retrieves the log filename property.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getLogFilename()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->getLogFilename();
-        }
-                    /**
-         * Sets the environment to sort the log entries by.
-         *
-         * @param string $environment
-         * @return \Jackiedo\LogReader\LogReader 
-         * @static 
-         */ 
-        public static function environment($environment)
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->environment($environment);
-        }
-                    /**
-         * Sets the level to sort the log entries by.
-         *
-         * @param mixed $level
-         * @return \Jackiedo\LogReader\LogReader 
-         * @static 
-         */ 
-        public static function level($level)
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->level($level);
-        }
-                    /**
-         * Sets the filename to get log entries.
-         *
-         * @param string $filename
-         * @return \Jackiedo\LogReader\LogReader 
-         * @static 
-         */ 
-        public static function filename($filename)
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->filename($filename);
-        }
-                    /**
-         * Includes read entries in the log results.
-         *
-         * @return \Jackiedo\LogReader\LogReader 
-         * @static 
-         */ 
-        public static function withRead()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->withRead();
-        }
-                    /**
-         * Alias of the withRead() method.
-         *
-         * @return \Jackiedo\LogReader\LogReader 
-         * @static 
-         */ 
-        public static function includeRead()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->includeRead();
-        }
-                    /**
-         * Sets the direction to return the log entries in.
-         *
-         * @param string $field
-         * @param string $direction
-         * @return \Jackiedo\LogReader\LogReader 
-         * @static 
-         */ 
-        public static function orderBy($field, $direction = 'asc')
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->orderBy($field, $direction);
-        }
-                    /**
-         * Returns a Laravel collection of log entries.
-         *
-         * @throws \Jackiedo\LogReader\Exceptions\UnableToRetrieveLogFilesException
-         * @return \Illuminate\Support\Collection 
-         * @static 
-         */ 
-        public static function get()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->get();
-        }
-                    /**
-         * Returns total of log entries.
-         *
-         * @return int 
-         * @static 
-         */ 
-        public static function count()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->count();
-        }
-                    /**
-         * Finds a logged error by it's ID.
-         *
-         * @param string $id
-         * @return mixed|null 
-         * @static 
-         */ 
-        public static function find($id = '')
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->find($id);
-        }
-                    /**
-         * Marks all retrieved log entries as read and
-         * returns the number of entries that have been marked.
-         *
-         * @return int 
-         * @static 
-         */ 
-        public static function markAsRead()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->markAsRead();
-        }
-                    /**
-         * Alias of the markAsRead() method.
-         *
-         * @return int 
-         * @static 
-         */ 
-        public static function markRead()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->markRead();
-        }
-                    /**
-         * Deletes all retrieved log entries and returns
-         * the number of entries that have been deleted.
-         *
-         * @return int 
-         * @static 
-         */ 
-        public static function delete()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->delete();
-        }
-                    /**
-         * Deletes all retrieved log entries and returns
-         * the number of entries that have been deleted.
-         *
-         * @return int 
-         * @static 
-         */ 
-        public static function removeLogFile()
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->removeLogFile();
-        }
-                    /**
-         * Paginates the returned log entries.
-         *
-         * @param int $perPage
-         * @param int $currentPage
-         * @param array $options [path => '', query => [], fragment => '', pageName => '']
-         * @return mixed 
-         * @static 
-         */ 
-        public static function paginate($perPage = 25, $currentPage = null, $options = [])
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->paginate($perPage, $currentPage, $options);
-        }
-                    /**
-         * Returns an array of log filenames.
-         *
-         * @param null|string $filename
-         * @return array 
-         * @static 
-         */ 
-        public static function getLogFilenameList($filename = null)
-        {
-                        /** @var \Jackiedo\LogReader\LogReader $instance */
-                        return $instance->getLogFilenameList($filename);
-        }
-         
-    }
-     
-}
-
     namespace Laravel\Horizon { 
             /**
      * 
@@ -17996,6 +17948,182 @@
         {
                         /** @var \Livewire\LivewireManager $instance */
                         return $instance->flushState();
+        }
+         
+    }
+     
+}
+
+    namespace Opcodes\LogViewer\Facades { 
+            /**
+     * 
+     *
+     * @see \Opcodes\LogViewer\LogViewerService
+     */ 
+        class LogViewer {
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function basePathForLogs()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->basePathForLogs();
+        }
+                    /**
+         * 
+         *
+         * @return \Opcodes\LogViewer\LogFileCollection|\Opcodes\LogViewer\LogFile[] 
+         * @static 
+         */ 
+        public static function getFiles()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getFiles();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getFilesGroupedByFolder()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getFilesGroupedByFolder();
+        }
+                    /**
+         * Find the file with the given identifier or file name.
+         *
+         * @param string|null $fileIdentifier
+         * @return \Opcodes\LogViewer\LogFile|null 
+         * @static 
+         */ 
+        public static function getFile($fileIdentifier)
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getFile($fileIdentifier);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getFolder($folderIdentifier)
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getFolder($folderIdentifier);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function clearFileCache()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->clearFileCache();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRouteDomain()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getRouteDomain();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRoutePrefix()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getRoutePrefix();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRouteMiddleware()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getRouteMiddleware();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function auth($callback = null)
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->auth($callback);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function lazyScanChunkSize()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->lazyScanChunkSize();
+        }
+                    /**
+         * Get the maximum number of bytes of the log that we should display.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function maxLogSize()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->maxLogSize();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setMaxLogSize($bytes)
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->setMaxLogSize($bytes);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function laravelRegexPattern()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->laravelRegexPattern();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function logMatchPattern()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->logMatchPattern();
+        }
+                    /**
+         * Get the current version of the Log Viewer
+         *
+         * @static 
+         */ 
+        public static function version()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->version();
         }
          
     }
@@ -18569,48 +18697,6 @@
      
 }
 
-    namespace Spatie\SignalAwareCommand\Facades { 
-            /**
-     * 
-     *
-     * @see \Spatie\SignalAwareCommand\Signal
-     */ 
-        class Signal {
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function handle($signal, $callable)
-        {
-                        /** @var \Spatie\SignalAwareCommand\Signal $instance */
-                        return $instance->handle($signal, $callable);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function executeSignalHandlers($signal, $command)
-        {
-                        /** @var \Spatie\SignalAwareCommand\Signal $instance */
-                        return $instance->executeSignalHandlers($signal, $command);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function clearHandlers($signal = null)
-        {
-                        /** @var \Spatie\SignalAwareCommand\Signal $instance */
-                        return $instance->clearHandlers($signal);
-        }
-         
-    }
-     
-}
-
     namespace Illuminate\Http { 
             /**
      * 
@@ -18776,6 +18862,18 @@
                     /**
          * 
          *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionDoesNotExist()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionDoesNotExist($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionDoesNotExist($name);
+        }
+                    /**
+         * 
+         *
          * @see \Filament\Testing\TestsPageActions::assertPageActionVisible()
          * @param string $name
          * @return static 
@@ -18908,7 +19006,73 @@
                     /**
          * 
          *
-         * @see \Filament\Testing\TestsPageActions::assertPageActionHeld()
+         * @see \Filament\Testing\TestsPageActions::assertPageActionHasUrl()
+         * @param string $name
+         * @param string $url
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionHasUrl($name, $url, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionHasUrl($name, $url, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionDoesNotHaveUrl()
+         * @param string $name
+         * @param string $url
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionDoesNotHaveUrl($name, $url, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionDoesNotHaveUrl($name, $url, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionShouldOpenUrlInNewTab()
+         * @param string $name
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionShouldOpenUrlInNewTab($name, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionShouldOpenUrlInNewTab($name, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionShouldNotOpenUrlInNewTab()
+         * @param string $name
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionShouldNotOpenUrlInNewTab($name, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionShouldNotOpenUrlInNewTab($name, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionHalted()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionHalted($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionHalted($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionHalted()
          * @param string $name
          * @return static 
          * @static 
@@ -19157,6 +19321,18 @@
                     /**
          * 
          *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionDoesNotExist()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionDoesNotExist($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionDoesNotExist($name);
+        }
+                    /**
+         * 
+         *
          * @see \Filament\Tables\Testing\TestsActions::assertTableActionVisible()
          * @param string $name
          * @param mixed $record
@@ -19293,7 +19469,73 @@
                     /**
          * 
          *
-         * @see \Filament\Tables\Testing\TestsActions::assertTableActionHeld()
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionHasUrl()
+         * @param string $name
+         * @param string $url
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionHasUrl($name, $url, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionHasUrl($name, $url, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionDoesNotHaveUrl()
+         * @param string $name
+         * @param string $url
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionDoesNotHaveUrl($name, $url, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionDoesNotHaveUrl($name, $url, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionShouldOpenUrlInNewTab()
+         * @param string $name
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionShouldOpenUrlInNewTab($name, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionShouldOpenUrlInNewTab($name, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionShouldNotOpenUrlInNewTab()
+         * @param string $name
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionShouldNotOpenUrlInNewTab($name, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionShouldNotOpenUrlInNewTab($name, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionHalted()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionHalted($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionHalted($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionHalted()
          * @param string $name
          * @return static 
          * @static 
@@ -19401,6 +19643,18 @@
         public static function assertTableBulkActionExists($name)
         {
                         return \Livewire\Testing\TestableLivewire::assertTableBulkActionExists($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionDoesNotExist()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableBulkActionDoesNotExist($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableBulkActionDoesNotExist($name);
         }
                     /**
          * 
@@ -19537,7 +19791,19 @@
                     /**
          * 
          *
-         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionHeld()
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionHalted()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableBulkActionHalted($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableBulkActionHalted($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionHalted()
          * @param string $name
          * @return static 
          * @static 
@@ -19585,6 +19851,18 @@
                     /**
          * 
          *
+         * @see \Filament\Tables\Testing\TestsColumns::assertCanNotRenderTableColumn()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertCanNotRenderTableColumn($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertCanNotRenderTableColumn($name);
+        }
+                    /**
+         * 
+         *
          * @see \Filament\Tables\Testing\TestsColumns::assertTableColumnExists()
          * @param string $name
          * @return static 
@@ -19617,6 +19895,47 @@
         public static function assertTableColumnHidden($name)
         {
                         return \Livewire\Testing\TestableLivewire::assertTableColumnHidden($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsColumns::assertTableColumnStateSet()
+         * @param string $name
+         * @param mixed $value
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableColumnStateSet($name, $value, $record)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableColumnStateSet($name, $value, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsColumns::assertTableColumnStateNotSet()
+         * @param string $name
+         * @param mixed $value
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableColumnStateNotSet($name, $value, $record)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableColumnStateNotSet($name, $value, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsColumns::callTableColumnAction()
+         * @param string $name
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function callTableColumnAction($name, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::callTableColumnAction($name, $record);
         }
                     /**
          * 
@@ -19670,6 +19989,30 @@
                     /**
          * 
          *
+         * @see \Filament\Tables\Testing\TestsFilters::removeTableFilter()
+         * @param string $filter
+         * @param string|null $field
+         * @return static 
+         * @static 
+         */ 
+        public static function removeTableFilter($filter, $field = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::removeTableFilter($filter, $field);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsFilters::removeTableFilters()
+         * @return static 
+         * @static 
+         */ 
+        public static function removeTableFilters()
+        {
+                        return \Livewire\Testing\TestableLivewire::removeTableFilters();
+        }
+                    /**
+         * 
+         *
          * @see \Filament\Tables\Testing\TestsFilters::assertTableFilterExists()
          * @param string $name
          * @return static 
@@ -19678,18 +20021,6 @@
         public static function assertTableFilterExists($name)
         {
                         return \Livewire\Testing\TestableLivewire::assertTableFilterExists($name);
-        }
-                    /**
-         * 
-         *
-         * @see \Filament\Tables\Testing\TestsFilters::parseFilterName()
-         * @param string $name
-         * @return string 
-         * @static 
-         */ 
-        public static function parseFilterName($name)
-        {
-                        return \Livewire\Testing\TestableLivewire::parseFilterName($name);
         }
                     /**
          * 
@@ -19992,6 +20323,7 @@
             /**
      * 
      *
+     * @template TValue
      */ 
         class Enum {
                     /**
@@ -23104,7 +23436,7 @@ namespace  {
                 /**
              * Add a union statement to the query.
              *
-             * @param \Illuminate\Database\Query\Builder|\Closure $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $query
              * @param bool $all
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -23118,7 +23450,7 @@ namespace  {
                 /**
              * Add a union all statement to the query.
              *
-             * @param \Illuminate\Database\Query\Builder|\Closure $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $query
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -23759,13 +24091,12 @@ namespace  {
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
-            class LogReader extends \Jackiedo\LogReader\Facades\LogReader {}
             class Horizon extends \Laravel\Horizon\Horizon {}
             class Livewire extends \Livewire\Livewire {}
+            class LogViewer extends \Opcodes\LogViewer\Facades\LogViewer {}
             class Health extends \Spatie\Health\Facades\Health {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
             class ResponseCache extends \Spatie\ResponseCache\Facades\ResponseCache {}
-            class Signal extends \Spatie\SignalAwareCommand\Facades\Signal {}
      
 }
 

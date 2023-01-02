@@ -40,7 +40,6 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            // \ReadMe\Middleware::class,
             'bindings',
         ],
     ];

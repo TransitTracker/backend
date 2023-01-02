@@ -5,6 +5,7 @@ namespace App\Providers;
 use App;
 use BenSampo\Enum\Enum;
 use Filament\Facades\Filament;
+use Filament\Navigation\NavigationItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Schema;
@@ -69,6 +70,21 @@ class AppServiceProvider extends ServiceProvider
             Filament::registerTheme(
                 app(Vite::class)('resources/css/filament.css'),
             );
+
+            Filament::registerNavigationItems([
+                NavigationItem::make('Logs')
+                    ->url(route('blv.index'))
+                    ->icon('gmdi-error')
+                    ->group('System'),
+                NavigationItem::make('Horizon')
+                    ->url(route('horizon.index'))
+                    ->icon('gmdi-cloud-queue')
+                    ->group('System'),
+                NavigationItem::make('exo VIN')
+                    ->url(route('vin.index'))
+                    ->icon('gmdi-directions-bus')
+                    ->group('Special')
+            ]);
         });
     }
 }

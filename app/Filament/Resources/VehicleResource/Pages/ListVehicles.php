@@ -68,6 +68,11 @@ class ListVehicles extends ListRecords
             ])->query(function (Builder $query, array $data): Builder {
                 return $query->where('vehicle', 'LIKE', "{$data['refStartsWith']}%");
             }),
+            Filter::make('forceLabelStartsWith')->form([
+                TextInput::make('forceLabelStartsWith'),
+            ])->query(function (Builder $query, array $data): Builder {
+                return $query->where('force_label', 'LIKE', "{$data['forceLabelStartsWith']}%");
+            }),
         ];
     }
 }

@@ -5,8 +5,7 @@ namespace App\Models;
 use App\Events\ElectricStmVehicleUpdated;
 use App\Events\VehicleCreated;
 use App\Events\VehicleUpdated;
-use App\Services\Vin\VinInterface;
-use App\Services\Vin\VinManager;
+use App\Models\Vin\Information;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -18,9 +17,11 @@ use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Vehicle extends Model
 {
-    protected $fillable = ['agency_id', 'active', 'agency', 'gtfs_trip', 'route', 'start', 'vehicle', 'lat', 'lon',
+    protected $fillable = [
+        'agency_id', 'active', 'agency', 'gtfs_trip', 'route', 'start', 'vehicle', 'lat', 'lon',
         'trip_id', 'bearing', 'speed', 'stop_sequence', 'status', 'headsign', 'short_name', 'icon',
-        'relationship', 'label', 'force_label', 'plate', 'odometer', 'timestamp', 'congestion', 'occupancy', ];
+        'relationship', 'label', 'force_label', 'plate', 'odometer', 'timestamp', 'congestion', 'occupancy',
+    ];
 
     protected $casts = [
         'active' => 'boolean',
@@ -65,25 +66,17 @@ class Vehicle extends Model
         return $this->hasMany(self::class, 'vehicle', 'vehicle');
     }
 
+    public function vinInformation(): BelongsTo
+    {
+        return $this->belongsTo(Information::class, 'vehicle', 'vin')->withDefault();
+    }
+
     /*
      * Accessor
      */
     public function getDisplayedLabelAttribute(): string
     {
         return $this->force_label ?? $this->label ?? $this->vehicle;
-    }
-
-    protected function vinInfo(): Attribute
-    {
-        return Attribute::make(
-            get: function ($value, $attributes): VinInterface {
-                if (! $this->isExoVin()) {
-                    return new \App\Services\Vin\EmptyVinInterface();
-                }
-
-                return VinManager::getInfo($attributes['vehicle']);
-            },
-        )->shouldCache();
     }
 
     /*
@@ -115,7 +108,8 @@ class Vehicle extends Model
     public function scopeExoWithVin(Builder $query): Builder
     {
         return $query->where([['agency_id', '>=', 5], ['agency_id', '<=', 16]])
-            ->whereDate('created_at', '>=', '2021-04-27');
+            ->whereDate('created_at', '>=', '2021-04-27')
+            ->whereRaw('LENGTH(vehicle) = ?', [17]);
     }
 
     public function scopeExoLabelled(Builder $query): Builder
@@ -135,13 +129,13 @@ class Vehicle extends Model
      */
     public function isFirstAppearanceToday(): bool
     {
-        if (! $this->getOriginal('updated_at')) {
+        if (!$this->getOriginal('updated_at')) {
             return false;
         }
 
         // Use subHours(4) to not count 0 a.m. to 4 a.m. in the current day (night routes)
         if (
-            ! $this->getOriginal('updated_at')->subHours(4)->isCurrentDay() &&
+            !$this->getOriginal('updated_at')->subHours(4)->isCurrentDay() &&
             $this->updated_at->subHours(4)->isCurrentDay()
         ) {
             return true;

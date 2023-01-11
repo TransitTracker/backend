@@ -171,6 +171,7 @@ namespace App\Models{
  * @property string $link
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $url
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $agencies
  * @property-read int|null $agencies_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
@@ -185,6 +186,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Link whereUrl($value)
  */
 	class Link extends \Eloquent {}
 }
@@ -236,17 +238,17 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $slug
- * @property array|null $info_title
- * @property array|null $info_body
  * @property array $map_box
  * @property mixed $map_center
  * @property int $map_zoom
- * @property array $credits
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property array $description
  * @property array|null $meta_description
- * @property string|null $image
+ * @property array $credits
+ * @property string|null $photo
+ * @property string|null $photo_author
+ * @property string|null $photo_link
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $activeAgencies
  * @property-read int|null $active_agencies_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alert[] $activeAlerts
@@ -265,14 +267,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereCredits($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereInfoBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region whereInfoTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapBox($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapCenter($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapZoom($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Region wherePhoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Region wherePhotoAuthor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Region wherePhotoLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereUpdatedAt($value)
  */
@@ -341,10 +343,22 @@ namespace App\Models{
 /**
  * App\Models\Stat
  *
+ * @property int $id
+ * @property string $type
+ * @property object $data
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $region_id
  * @property-read \App\Models\Region|null $region
  * @method static \Illuminate\Database\Eloquent\Builder|Stat newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Stat newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Stat query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Stat whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Stat whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Stat whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Stat whereRegionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Stat whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Stat whereUpdatedAt($value)
  */
 	class Stat extends \Eloquent {}
 }
@@ -355,8 +369,6 @@ namespace App\Models{
  *
  * @property int $id
  * @property array $label
- * @property array|null $short_label
- * @property array|null $description
  * @property string|null $icon
  * @property string $color
  * @property string $dark_color
@@ -365,6 +377,8 @@ namespace App\Models{
  * @property int $show_on_map
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property array|null $short_label
+ * @property array|null $description
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $agencies
  * @property-read int|null $agencies_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
@@ -392,6 +406,20 @@ namespace App\Models{
 /**
  * App\Models\Trip
  *
+ * @property int $id
+ * @property int|null $agency_id
+ * @property string $trip_id
+ * @property string $trip_headsign
+ * @property string|null $trip_short_name
+ * @property string|null $route_color
+ * @property string|null $route_text_color
+ * @property string|null $route_short_name
+ * @property string|null $route_long_name
+ * @property string $expiration
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $service_id
+ * @property string|null $shape
  * @property-read \App\Models\Agency|null $agency
  * @property-read \App\Models\Service|null $service
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
@@ -399,6 +427,20 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Trip newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Trip newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Trip query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereAgencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereExpiration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereRouteColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereRouteLongName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereRouteShortName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereRouteTextColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereShape($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTripHeadsign($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTripId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTripShortName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereUpdatedAt($value)
  */
 	class Trip extends \Eloquent {}
 }
@@ -473,6 +515,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\Trip|null $trip
+ * @property-read \App\Models\Vin\Information|null $vinInformation
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle active()
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle downloadable()
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle exo()
@@ -510,6 +553,43 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle withoutTouch()
  */
 	class Vehicle extends \Eloquent {}
+}
+
+namespace App\Models\Vin{
+/**
+ * App\Models\Vin\Information
+ *
+ * @property string $vin
+ * @property string $make
+ * @property string $model
+ * @property int $year
+ * @property int|null $length
+ * @property string|null $engine
+ * @property string|null $assembly
+ * @property string|null $fuel
+ * @property string|null $sequence
+ * @property mixed|null $others
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
+ * @property-read int|null $vehicles_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Information newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Information newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Information query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereAssembly($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereEngine($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereFuel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereLength($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereMake($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereModel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereOthers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereSequence($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereVin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Information whereYear($value)
+ */
+	class Information extends \Eloquent {}
 }
 
 namespace App\Models\Vin{

@@ -11,6 +11,7 @@ use App\Events\VehicleUpdated;
 use App\Events\Vin\SuggestionCreated;
 use App\Listeners\AddTagIconToMapbox;
 use App\Listeners\DeactivateInactiveSubscription;
+use App\Listeners\DecodeVin;
 use App\Listeners\SendElectricStmNotification;
 use App\Listeners\SendNewVehicleNotification;
 use App\Listeners\SendNewVinSuggestionNotification;
@@ -40,6 +41,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         VehicleCreated::class => [
             SendNewVehicleNotification::class,
+            DecodeVin::class,
         ],
         VehicleUpdated::class => [
             SendUpdatedVehicleNotification::class,

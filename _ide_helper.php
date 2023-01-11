@@ -20323,7 +20323,6 @@
             /**
      * 
      *
-     * @template TValue
      */ 
         class Enum {
                     /**

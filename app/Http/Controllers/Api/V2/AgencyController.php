@@ -18,7 +18,7 @@ class AgencyController extends Controller
     {
         $totalAgencies = 3 * Agency::active()->count();
 
-        if (!App::environment('local')) {
+        if (! App::environment('local')) {
             $this->middleware("throttle:{$totalAgencies},1,v2-agencies");
         }
 
@@ -35,7 +35,7 @@ class AgencyController extends Controller
 
     public function show(Agency $agency)
     {
-        if (!$agency->is_active) {
+        if (! $agency->is_active) {
             return response()->json(['message' => 'Agency is inactive.'], 403);
         }
 
@@ -44,7 +44,7 @@ class AgencyController extends Controller
 
     public function vehicles(Request $request, Agency $agency)
     {
-        if (!$agency->is_active) {
+        if (! $agency->is_active) {
             return response()->json(['message' => 'Agency is inactive.'], 403);
         }
 
@@ -57,7 +57,7 @@ class AgencyController extends Controller
             ->where('agency_id', $agency->id)
             ->with(['trip', 'links:id', 'agency:id,slug,name', 'trip.service:id,service_id', 'tags:id']);
 
-        if (!$includeAll) {
+        if (! $includeAll) {
             $query->where('active', true);
 
             $vehicles = $query->get();

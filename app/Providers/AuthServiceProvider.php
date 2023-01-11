@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('viewLogViewer', fn (?User $user) => in_array($user->email, [
-                config('transittracker.admin_email'),
+            config('transittracker.admin_email'),
         ]));
     }
 }

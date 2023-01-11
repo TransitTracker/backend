@@ -2,9 +2,7 @@
 
 namespace App\Jobs\Vin;
 
-use App\Models\Vehicle;
 use App\Models\Vin\Information;
-use Http;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -22,7 +20,7 @@ class DecodeVin implements ShouldQueue
 
     public function handle()
     {
-        $assembly = $this->transformString($this->result['PlantCity']) . ', ' . $this->transformString($this->result['PlantState']) . ', ' . $this->transformString($this->result['PlantCountry']);
+        $assembly = $this->transformString($this->result['PlantCity']).', '.$this->transformString($this->result['PlantState']).', '.$this->transformString($this->result['PlantCountry']);
         $model = Information::updateOrCreate(['vin' => $this->result['VIN']], [
             'make' => $this->transformString($this->result['Make']),
             'model' => $this->result['Model'],
@@ -37,14 +35,14 @@ class DecodeVin implements ShouldQueue
         $model->others = collect($this->result)
             ->forget([
                 'VIN', 'VehicleDescriptor', 'ErrorCode', 'ErrorText', 'Make', 'MakeID', 'ManufacturerId', 'Model', 'ModelID', 'ModelYear', 'BusLength', 'EngineManufacturer', 'EngineModel',
-                'PlantCity', 'PlantState', 'PlantCountry', 'FuelTypePrimary'
+                'PlantCity', 'PlantState', 'PlantCountry', 'FuelTypePrimary',
             ])
             ->filter(function ($value) {
                 return $value !== '' && $value !== 'Not Applicable';
             })
             ->mapWithKeys(function ($item, $key) {
                 return [
-                    $this->transformString($key, true) => $item
+                    $this->transformString($key, true) => $item,
                 ];
             });
 
@@ -53,7 +51,7 @@ class DecodeVin implements ShouldQueue
 
     private function transformString(string $string, bool $ignoreOneWord = false): string
     {
-        if (Str::wordCount($string) === 1 && !$ignoreOneWord) {
+        if (Str::wordCount($string) === 1 && ! $ignoreOneWord) {
             return str($string)->lower()->ucfirst()->value;
         }
 

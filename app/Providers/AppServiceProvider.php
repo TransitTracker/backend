@@ -83,7 +83,7 @@ class AppServiceProvider extends ServiceProvider
                 NavigationItem::make('exo VIN')
                     ->url(route('vin.index'))
                     ->icon('gmdi-directions-bus')
-                    ->group('Special')
+                    ->group('Special'),
             ]);
         });
     }

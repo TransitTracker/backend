@@ -19,7 +19,7 @@ class VehicleController extends Controller
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        if (!$vehicles->count()) {
+        if (! $vehicles->count()) {
             return view('vin.error', ['vin' => $vin])->with('Invalid VIN');
         }
 

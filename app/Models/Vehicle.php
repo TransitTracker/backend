@@ -7,7 +7,6 @@ use App\Events\VehicleCreated;
 use App\Events\VehicleUpdated;
 use App\Models\Vin\Information;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -129,13 +128,13 @@ class Vehicle extends Model
      */
     public function isFirstAppearanceToday(): bool
     {
-        if (!$this->getOriginal('updated_at')) {
+        if (! $this->getOriginal('updated_at')) {
             return false;
         }
 
         // Use subHours(4) to not count 0 a.m. to 4 a.m. in the current day (night routes)
         if (
-            !$this->getOriginal('updated_at')->subHours(4)->isCurrentDay() &&
+            ! $this->getOriginal('updated_at')->subHours(4)->isCurrentDay() &&
             $this->updated_at->subHours(4)->isCurrentDay()
         ) {
             return true;

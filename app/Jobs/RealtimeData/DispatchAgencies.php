@@ -49,13 +49,13 @@ class DispatchAgencies implements ShouldQueue
         foreach ($this->agencies as $agency) {
             try {
                 // Check if refresh is activated
-                if (!$agency->refresh_is_active) {
+                if (! $agency->refresh_is_active) {
                     continue;
                 }
 
                 // Check if this agency should run now
                 $cron = new CronExpression($agency->cron_schedule);
-                if (!$cron->isDue()) {
+                if (! $cron->isDue()) {
                     continue;
                 }
 

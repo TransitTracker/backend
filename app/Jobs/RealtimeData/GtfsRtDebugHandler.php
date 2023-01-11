@@ -71,7 +71,7 @@ class GtfsRtDebugHandler implements ShouldQueue
              * Check if entity has vehiclePosition or if is not valid
              */
             $vehicle = $entity->getVehicle();
-            if (!$vehicle || !$vehicle->getTrip() || !$vehicle->getPosition()) {
+            if (! $vehicle || ! $vehicle->getTrip() || ! $vehicle->getPosition()) {
                 continue;
             }
 
@@ -82,7 +82,7 @@ class GtfsRtDebugHandler implements ShouldQueue
                 ->select('id')
                 ->first();
 
-            if (!$trip) {
+            if (! $trip) {
                 $vehiclesWithoutTrip += 1;
             }
 
@@ -128,7 +128,7 @@ class GtfsRtDebugHandler implements ShouldQueue
 
             // vehicle->label
             // Don't use the label feed for GO Transit
-            if ($vehicle->getVehicle()->getLabel() && (!in_array($this->agency->slug, ['go', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc']))) {
+            if ($vehicle->getVehicle()->getLabel() && (! in_array($this->agency->slug, ['go', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc']))) {
                 $newVehicle['label'] = $vehicle->getVehicle()->getLabel();
             } else {
                 $newVehicle['label'] = null;

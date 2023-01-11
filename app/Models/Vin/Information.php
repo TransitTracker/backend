@@ -14,7 +14,9 @@ class Information extends Model
     protected $guarded = [];
 
     protected $primaryKey = 'vin';
+
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected $casts = [

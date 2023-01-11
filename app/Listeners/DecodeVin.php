@@ -17,7 +17,7 @@ class DecodeVin implements ShouldQueue
 
     public function handle(VehicleCreated $event)
     {
-        if (!$event->vehicle->isExoVin()) {
+        if (! $event->vehicle->isExoVin()) {
             return false;
         }
 

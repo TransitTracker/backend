@@ -61,6 +61,7 @@ class AgencyResource extends Resource
 
                         Select::make('realtime_type')->required()->options([
                             'gtfsrt' => 'GTFS-RT',
+                            'gtfsrt-debug' => 'GTFS-RT Debug',
                             'nextbus-json' => 'NextBus JSON',
                         ]),
                         TextInput::make('realtime_url')->required()->columnSpan(2),
@@ -69,28 +70,28 @@ class AgencyResource extends Resource
                     // TODO: TextInput::make('realtime_options'),
                 ]),
                 Group::make()
-                ->schema([
-                    Section::make('Status')
                     ->schema([
-                        Toggle::make('is_active')
-                            ->required(),
-                        Toggle::make('refresh_is_active')
-                            ->required(),
-                    ]),
-                    Card::make()
-                    ->schema([
-                        Placeholder::make('created_at')
-                            ->label('Created')
-                            ->content(fn (Agency $record): string => $record->created_at->diffForHumans()),
-                        Placeholder::make('updated_at')
-                            ->label('Last modified')
-                            ->content(fn (Agency $record): string => $record->updated_at->diffForHumans()),
-                        Placeholder::make('timestamp')
-                        ->label('Lastest data from agency')
-                        ->content(fn (Agency $record): string => Carbon::createFromTimestamp($record->timestamp)->format('j M Y H:i')),
+                        Section::make('Status')
+                            ->schema([
+                                Toggle::make('is_active')
+                                    ->required(),
+                                Toggle::make('refresh_is_active')
+                                    ->required(),
+                            ]),
+                        Card::make()
+                            ->schema([
+                                Placeholder::make('created_at')
+                                    ->label('Created')
+                                    ->content(fn (Agency $record): string => $record->created_at->diffForHumans()),
+                                Placeholder::make('updated_at')
+                                    ->label('Last modified')
+                                    ->content(fn (Agency $record): string => $record->updated_at->diffForHumans()),
+                                Placeholder::make('timestamp')
+                                    ->label('Lastest data from agency')
+                                    ->content(fn (Agency $record): string => Carbon::createFromTimestamp($record->timestamp)->format('j M Y H:i')),
 
-                    ])->hidden(fn (?Agency $record) => $record === null),
-                ])->columnSpan(['lg' => 1]),
+                            ])->hidden(fn (?Agency $record) => $record === null),
+                    ])->columnSpan(['lg' => 1]),
             ])->columns(3);
     }
 

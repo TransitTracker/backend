@@ -7,8 +7,11 @@ use App\Enums\OccupancyStatus;
 use App\Enums\ScheduleRelationship;
 use App\Enums\VehicleStopStatus;
 use App\Filament\Resources\VehicleResource\Pages;
+use App\Filament\Resources\VehicleResource\RelationManagers\TagsRelationManager;
 use App\Models\Vehicle;
 use Filament\Forms\Components\BelongsToSelect;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
@@ -30,7 +33,12 @@ class VehicleResource extends Resource
     {
         return $form
             ->schema([
-                Tabs::make('')->columnSpan(2)->tabs([
+                Placeholder::make('agency')
+                    ->content(fn (Vehicle $record): string => $record->agency->name)->hidden(fn (?Vehicle $record) => $record === null),
+                Card::make()->columns(2)->schema([
+                    TextInput::make('force_label')->label('Fleet label')->columnSpan(1)->hint('force_label')->helperText('Use to replace the vehicle number provided by the agency'),
+                ]),
+                /* Tabs::make('')->columnSpan(2)->tabs([
                     Tabs\Tab::make('Static data')->schema([
                         TextInput::make('vehicle')
                             ->required(),
@@ -38,7 +46,6 @@ class VehicleResource extends Resource
                             ->required(),
                         BelongsToSelect::make('agency_id')->required()->relationship('agency', 'name'),
                         Select::make('icon')->options(['bus', 'tram', 'train'])->required(),
-                        TextInput::make('force_label'),
                     ]),
                     Tabs\Tab::make('Changing data')->schema([
                         TextInput::make('timestamp'),
@@ -60,7 +67,7 @@ class VehicleResource extends Resource
                         Select::make('congestion')->options(CongestionLevel::asFlippedArray()),
                         Select::make('occupancy')->options(OccupancyStatus::asFlippedArray()),
                     ]),
-                ]),
+                ]), */
             ]);
     }
 
@@ -68,11 +75,11 @@ class VehicleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('agency.short_name'),
+                Tables\Columns\TextColumn::make('agency.short_name')->label('Agency'),
                 Tables\Columns\BooleanColumn::make('active'),
                 Tables\Columns\TextColumn::make('icon'),
-                Tables\Columns\TextColumn::make('displayed_label'),
-                Tables\Columns\TextColumn::make('vehicle'),
+                Tables\Columns\TextColumn::make('displayed_label')->label('Label'),
+                Tables\Columns\TextColumn::make('vehicle')->label('Ref'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('M d, Y'),
                 Tables\Columns\TextColumn::make('updated_at')->dateTime('M d, Y'),
             ])
@@ -84,7 +91,7 @@ class VehicleResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TagsRelationManager::class,
         ];
     }
 

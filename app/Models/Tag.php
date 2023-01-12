@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\TagType;
 use App\Events\TagCreated;
 use App\Events\TagUpdated;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -14,9 +16,13 @@ class Tag extends Model
     use HasFactory;
     use HasTranslations;
 
-    protected $fillable = ['label', 'short_label', 'description', 'icon', 'color', 'dark_color', 'text_color', 'dark_text_color', 'show_on_map'];
+    protected $fillable = ['label', 'short_label', 'type', 'description', 'icon', 'color', 'dark_color', 'text_color', 'dark_text_color', 'show_on_map'];
 
     public $translatable = ['label', 'short_label', 'description'];
+
+    protected $casts = [
+        'type' => TagType::class,
+    ];
 
     public function agencies(): MorphToMany
     {
@@ -26,6 +32,11 @@ class Tag extends Model
     public function vehicles(): MorphToMany
     {
         return $this->morphedByMany(Vehicle::class, 'taggable');
+    }
+
+    public function scopeOfType(Builder $query, int $type): Builder
+    {
+        return $query->where('type', $type);
     }
 
     /*

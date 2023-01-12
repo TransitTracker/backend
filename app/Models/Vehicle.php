@@ -123,6 +123,11 @@ class Vehicle extends Model
             ->whereDate('created_at', '>=', '2021-04-27');
     }
 
+    public function scopeWithoutTypeOfTags(Builder $query, int $type): Builder
+    {
+        return $query->whereDoesntHave('tags', fn (Builder $query) => $query->where('type', $type));
+    }
+
     /*
      * Others
      */

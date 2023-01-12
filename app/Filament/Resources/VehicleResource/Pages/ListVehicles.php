@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\VehicleResource\Pages;
 
+use App\Enums\TagType;
 use App\Filament\Resources\VehicleResource;
 use App\Models\Link;
 use App\Models\Tag;
@@ -17,11 +18,6 @@ use Illuminate\Database\Eloquent\Collection;
 class ListVehicles extends ListRecords
 {
     protected static string $resource = VehicleResource::class;
-
-    public function isTableSearchable(): bool
-    {
-        return true;
-    }
 
     protected function getTableBulkActions(): array
     {
@@ -62,6 +58,11 @@ class ListVehicles extends ListRecords
     protected function getTableFilters(): array
     {
         return [
+            Filter::make('onlyExoVin')->query(fn (Builder $query): Builder => $query->exoWithVin())->toggle()->default(),
+            Filter::make('withoutOperators')
+                ->query(fn (Builder $query): Builder => $query->withoutTypeOfTags(TagType::Operator))
+                ->toggle()
+                ->default(),
             SelectFilter::make('agency')->relationship('agency', 'short_name'),
             Filter::make('refStartsWith')->form([
                 TextInput::make('refStartsWith'),

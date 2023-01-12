@@ -8,6 +8,7 @@ use Filament\Facades\Filament;
 use Filament\Navigation\NavigationItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Vite;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
@@ -71,20 +72,26 @@ class AppServiceProvider extends ServiceProvider
                 app(Vite::class)('resources/css/filament.css'),
             );
 
-            Filament::registerNavigationItems([
-                NavigationItem::make('Logs')
-                    ->url(route('blv.index'))
-                    ->icon('gmdi-error')
-                    ->group('System'),
-                NavigationItem::make('Horizon')
-                    ->url(route('horizon.index'))
-                    ->icon('gmdi-cloud-queue')
-                    ->group('System'),
+            $navigationItems = [
                 NavigationItem::make('exo VIN')
                     ->url(route('vin.index'))
                     ->icon('gmdi-directions-bus')
                     ->group('Special'),
-            ]);
+            ];
+
+            if (Auth::hasUser() && Auth::user()->email === config('transittracker.admin_email')) {
+                array_push($navigationItems,
+                    NavigationItem::make('Logs')
+                        ->url(route('blv.index'))
+                        ->icon('gmdi-error')
+                        ->group('System'),
+                    NavigationItem::make('Horizon')
+                        ->url(route('horizon.index'))
+                        ->icon('gmdi-cloud-queue')
+                        ->group('System'));
+            }
+
+            Filament::registerNavigationItems($navigationItems);
         });
     }
 }

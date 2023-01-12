@@ -30,6 +30,6 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessFilament(): bool
     {
-        return $this->email === config('transittracker.admin_email');
+        return true;
     }
 }

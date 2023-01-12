@@ -243,16 +243,6 @@
                             {{ __('Send') }}
                             <x-gmdi-send class="w-5 h-5 ml-2" />
                         </button>
-                        @auth
-                            @foreach ($vehicles as $vehicle)
-                                <button formaction="{{ route('vin.agency.store', ['agency' => $vehicle->agency->slug]) }}"
-                                    formmethod="POST" type="submit"
-                                    class="relative flex items-center h-10 px-6 ml-2 text-sm font-medium transition-colors rounded-full bg-m3-secondary-container text-m3-secondary-on-container dark:bg-m3-secondary-dark-container dark:text-m3-secondary-dark-on-container hover:bg-opacity-80 hover:bg-opacity-85 focus:bg-opacity-75">
-                                    <x-gmdi-save class="w-5 h-5 mr-2" />
-                                    Save to {{ $vehicle->agency->short_name }}
-                                </button>
-                            @endforeach
-                        @endauth
                     </div>
 
                 </form>
@@ -350,6 +340,17 @@
                 @endforeach
             </ul>
         </div>
+        @auth
+            <div class="col-span-full flex gap-x-2">
+                @foreach ($vehicles as $vehicle)
+                    <a href="{{ route('filament.resources.vehicles.edit', ['record' => $vehicle]) }}" target="_blank"
+                        class="relative flex items-center gap-2 h-10 pl-6 pr-4 text-sm font-medium transition-colors rounded-full bg-m3-secondary-container text-m3-secondary-on-container dark:bg-m3-secondary-dark-container dark:text-m3-secondary-dark-on-container hover:bg-opacity-80 hover:bg-opacity-85 focus:bg-opacity-75">
+                        {{ $vehicle->agency->short_name }} in admin
+                        <x-gmdi-open-in-new class="w-[1.125rem] h-[1.125rem]" />
+                    </a>
+                @endforeach
+            </div>
+        @endauth
     </div>
 
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>

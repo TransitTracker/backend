@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TagType;
 use App\Filament\Resources\TagResource\Pages;
 use App\Filament\Resources\TagResource\RelationManagers\AgenciesRelationManager;
 use App\Filament\Resources\TagResource\RelationManagers\VehiclesRelationManager;
@@ -12,6 +13,7 @@ use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Concerns\Translatable;
@@ -64,6 +66,13 @@ class TagResource extends Resource
                     ->schema([
                         Card::make()
                             ->schema([
+                                Select::make('type')->options(TagType::asFlippedArray()),
+                            ]),
+                        Card::make()
+                            ->schema([
+                                Placeholder::make('id')
+                                    ->label('ID')
+                                    ->content(fn (Tag $record): string => $record->id),
                                 Placeholder::make('created_at')
                                     ->label('Created')
                                     ->content(fn (Tag $record): string => $record->created_at->diffForHumans()),
@@ -86,6 +95,7 @@ class TagResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('label'),
+                TextColumn::make('type')->formatStateUsing(fn (TagType $state): string => $state->description),
             ])
             ->filters([
                 //

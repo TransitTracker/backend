@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\TagType;
+
 return [
     'App\\Enums\\CongestionLevel' => [
         '0' => 'Niveau de congestion inconnu',
@@ -27,5 +29,10 @@ return [
         '0' => 'Arrive au prochain arrêt',
         '1' => 'À l\'arrêt',
         '2' => 'En déplacement',
+    ],
+    TagType::class => [
+        TagType::Unspecified => 'Non spécifié',
+        TagType::StmGarage => 'Centre de transport de la STM',
+        TagType::Operator => 'Opérateur',
     ],
 ];

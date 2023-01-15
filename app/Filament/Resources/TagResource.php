@@ -66,10 +66,10 @@ class TagResource extends Resource
                             ->schema([
                                 Placeholder::make('created_at')
                                     ->label('Created')
-                                    ->content(fn (Tag $record): string => $record->created_at->diffForHumans()),
+                                    ->content(fn (Tag $record): ?string => $record->created_at?->diffForHumans()),
                                 Placeholder::make('updated_at')
                                     ->label('Last modified')
-                                    ->content(fn (Tag $record): string => $record->updated_at->diffForHumans()),
+                                    ->content(fn (Tag $record): ?string => $record->updated_at?->diffForHumans()),
 
                             ])->hidden(fn (?Tag $record) => $record === null),
                     ])->columnSpan(['lg' => 1]),

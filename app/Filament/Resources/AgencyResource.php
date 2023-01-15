@@ -82,13 +82,13 @@ class AgencyResource extends Resource
                             ->schema([
                                 Placeholder::make('created_at')
                                     ->label('Created')
-                                    ->content(fn (Agency $record): string => $record->created_at->diffForHumans()),
+                                    ->content(fn (Agency $record): ?string => $record->created_at?->diffForHumans()),
                                 Placeholder::make('updated_at')
                                     ->label('Last modified')
-                                    ->content(fn (Agency $record): string => $record->updated_at->diffForHumans()),
+                                    ->content(fn (Agency $record): ?string => $record->updated_at?->diffForHumans()),
                                 Placeholder::make('timestamp')
                                     ->label('Lastest data from agency')
-                                    ->content(fn (Agency $record): string => Carbon::createFromTimestamp($record->timestamp)->format('j M Y H:i')),
+                                    ->content(fn (Agency $record): ?string => Carbon::createFromTimestamp($record->timestamp ?? null)->format('j M Y H:i')),
 
                             ])->hidden(fn (?Agency $record) => $record === null),
                     ])->columnSpan(['lg' => 1]),

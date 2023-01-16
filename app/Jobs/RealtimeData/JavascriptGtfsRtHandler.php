@@ -65,7 +65,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         $vehiclesWithoutTrip = 0;
 
         // Go trough each vehicle
-        $collection->each(function ($entity) use ($vehiclesWithoutTrip) {
+        $collection->each(function ($entity) use ($vehiclesWithoutTrip, $activeArray) {
             /*
              * Check if entity has vehiclePosition or if is not valid
              */
@@ -77,8 +77,8 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             /*
              * Check if trip is in database
              */
-            $trip = Trip::where([['agency_id', '=', $this->agency->id], ['trip_id', '=', $vehicle->trip->trip_id]])
-                ->select('id')
+            $trip = Trip::where([['agency_id', $this->agency->id], ['trip_id', $vehicle->trip->trip_id]])
+                ->select(['id', 'route_short_name'])
                 ->first();
 
             if (! $trip) {
@@ -220,13 +220,14 @@ class JavascriptGtfsRtHandler implements ShouldQueue
              * Create or update the vehicle model
              */
             try {
-                $vehicle = Vehicle::updateOrCreate(['vehicle' => $vehicle->vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
+                $vehicleModel = Vehicle::updateOrCreate(['vehicle' => $vehicle->vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
 
-                array_push($activeArray, $vehicle->id);
+                array_push($activeArray, $vehicleModel->id);
             } catch (Exception $e) {
                 Log::error('Vehicle in the refresh failed', [
                     'agency' => $this->agency->slug,
                     'exception' => $e->getMessage(),
+                    'line' => $e->getLine(),
                 ]);
             }
         });

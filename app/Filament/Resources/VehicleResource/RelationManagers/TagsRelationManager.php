@@ -22,7 +22,7 @@ class TagsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make(),
+                Tables\Actions\AttachAction::make()->preloadRecordSelect(),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),
@@ -30,5 +30,10 @@ class TagsRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\DetachBulkAction::make(),
             ]);
+    }
+
+    public static function canViewForRecord($ownerRecord): bool
+    {
+        return true;
     }
 }

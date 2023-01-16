@@ -105,6 +105,10 @@ class DispatchAgencies implements ShouldQueue
                     GtfsRtDebugHandler::dispatch($agency, $fileName, $time)->onQueue('vehicles');
                 }
 
+                if ($agency->realtime_type === 'javascript-gtfsrt') {
+                    JavascriptGtfsRtHandler::dispatch($agency, $fileName, $time)->onQueue('vehicles');
+                }
+
                 if ($agency->realtime_type === 'nextbus-json') {
                     NextbusJsonHandler::dispatch($agency, $fileName, $time)->onQueue('vehicles');
                 }

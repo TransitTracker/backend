@@ -62,6 +62,7 @@ class AgencyResource extends Resource
                         Select::make('realtime_type')->required()->options([
                             'gtfsrt' => 'GTFS-RT',
                             'gtfsrt-debug' => 'GTFS-RT Debug',
+                            'javascript-gtfsrt' => 'Javascript GTFS-RT',
                             'nextbus-json' => 'NextBus JSON',
                         ]),
                         TextInput::make('realtime_url')->required()->columnSpan(2),

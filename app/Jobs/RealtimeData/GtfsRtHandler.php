@@ -129,7 +129,7 @@ class GtfsRtHandler implements ShouldQueue
 
             // vehicle->label
             // Don't use the label feed for GO Transit
-            if ($vehicle->getVehicle()->getLabel() && (! in_array($this->agency->slug, ['go', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc']))) {
+            if ($vehicle->getVehicle()->getLabel() && (! in_array($this->agency->slug, ['go', 'up', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc']))) {
                 $newVehicle['label'] = $vehicle->getVehicle()->getLabel();
             } else {
                 $newVehicle['label'] = null;

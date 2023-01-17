@@ -13,4 +13,5 @@ return [
         'light_style' => env('MAPBOX_LIGHT_STYLE'),
         'dark_style' => env('MAPBOX_DARK_STYLE'),
     ],
+    'print_gtfs_rt_bin' => env('PRINT_GTFS_RT_BIN'),
 ];

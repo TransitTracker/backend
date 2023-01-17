@@ -49,10 +49,11 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         $activeArray = [];
 
         $filePath = Storage::path($this->dataFile);
+        $printGtfsRt = config('transittracker.print_gtfs_rt_bin');
 
         // Convert protobuf to PHP object
         try {
-            $feed = shell_exec("cat '{$filePath}' | print-gtfs-rt -s");
+            $feed = shell_exec("cat '{$filePath}' | {$printGtfsRt} -s");
             $collection = collect(json_decode($feed));
             $count = $collection->count();
         } catch (Exception $e) {
@@ -63,17 +64,13 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         }
 
         $vehiclesWithoutTrip = 0;
-        Log::info("{$this->agency->slug}: Starting processing feed", [$collection->toArray()]);
 
         // Go trough each vehicle
         $collection->each(function ($entity) use ($vehiclesWithoutTrip, $activeArray) {
-            Log::info("{$this->agency->slug}: Starting with entity {$entity->id}", [$entity]);
-
             /*
              * Check if entity has vehiclePosition or if is not valid
              */
-            if (! property_exists($entity, 'vehicle') || !property_exists($entity->vehicle, 'trip') || !property_exists($entity->vehicle, 'position')) {
-                Log::info("{$this->agency->slug}: Skipping entity {$entity->id}");
+            if (!property_exists($entity, 'vehicle') || !property_exists($entity->vehicle, 'trip') || !property_exists($entity->vehicle, 'position')) {
                 return;
             }
             $vehicle = $entity->vehicle;
@@ -85,7 +82,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
                 ->select(['id', 'route_short_name'])
                 ->first();
 
-            if (! $trip) {
+            if (!$trip) {
                 $vehiclesWithoutTrip += 1;
             }
 
@@ -127,7 +124,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
 
             // vehicle->label
             // Don't use the label feed for GO Transit or exo
-            if (property_exists($vehicle->vehicle, 'label') && (! in_array($this->agency->slug, ['go', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc']))) {
+            if (property_exists($vehicle->vehicle, 'label') && (!in_array($this->agency->slug, ['go', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc']))) {
                 $newVehicle['label'] = $vehicle->vehicle->label;
             } else {
                 $newVehicle['label'] = null;

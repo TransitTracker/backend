@@ -63,13 +63,17 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         }
 
         $vehiclesWithoutTrip = 0;
+        Log::info("{$this->agency->slug}: Starting processing feed", [$collection->toArray()]);
 
         // Go trough each vehicle
         $collection->each(function ($entity) use ($vehiclesWithoutTrip, $activeArray) {
+            Log::info("{$this->agency->slug}: Starting with entity {$entity->id}", [$entity]);
+
             /*
              * Check if entity has vehiclePosition or if is not valid
              */
             if (! property_exists($entity, 'vehicle') || !property_exists($entity->vehicle, 'trip') || !property_exists($entity->vehicle, 'position')) {
+                Log::info("{$this->agency->slug}: Skipping entity {$entity->id}");
                 return;
             }
             $vehicle = $entity->vehicle;

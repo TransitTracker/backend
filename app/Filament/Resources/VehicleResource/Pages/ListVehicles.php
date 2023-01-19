@@ -63,6 +63,10 @@ class ListVehicles extends ListRecords
                 ->query(fn (Builder $query): Builder => $query->withoutTypeOfTags(TagType::Operator))
                 ->toggle()
                 ->default(),
+            Filter::make('onlyZenbus')
+                ->label('Only Zenbus')
+                ->query(fn (Builder $query): Builder => $query->where('vehicle', 'LIKE', 'zenbus:Vehicle:%'))
+                ->toggle(),
             SelectFilter::make('agency')->relationship('agency', 'short_name'),
             Filter::make('refStartsWith')->form([
                 TextInput::make('refStartsWith'),

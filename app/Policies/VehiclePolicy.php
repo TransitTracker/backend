@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Str;
 
 class VehiclePolicy
 {
@@ -57,10 +58,17 @@ class VehiclePolicy
      */
     public function update(User $user, Vehicle $vehicle)
     {
+        // Authorize if Zenbus
+        if ($user->email !== config('transittracker.admin_email') && Str::startsWith($vehicle->vehicle, 'zenbus:Vehicle:')) {
+            return true;
+        }
+
+        // Then, refuse if not exo Vin
         if ($user->email !== config('transittracker.admin_email') && ! $vehicle->isExoVin()) {
             return false;
         }
 
+        // Accept everything else (at this point it's exo Vin or Admin)
         return true;
     }
 

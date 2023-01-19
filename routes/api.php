@@ -77,6 +77,7 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::get('alerts/{alert}', [AlertController::class, 'show']);
 
     Route::get('landing', [LandingController::class, 'index']);
+    Route::get('landing/vehicles', [LandingController::class, 'vehicles']);
 
     Route::get('links', [LinkController::class, 'index']);
     Route::get('links/{link}', [LinkController::class, 'show']);

@@ -4,7 +4,7 @@ namespace App\Http\Resources\V2;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class GeoJsonLandingCollection extends ResourceCollection
+class GeoJsonLandingVehicleCollection extends ResourceCollection
 {
     public static $wrap = 'features';
 
@@ -12,7 +12,7 @@ class GeoJsonLandingCollection extends ResourceCollection
     {
         return [
             'type' => 'FeatureCollection',
-            'features' => GeoJsonLandingResource::collection($this->collection),
+            'features' => GeoJsonLandingVehicleResource::collection($this->collection),
         ];
     }
 }

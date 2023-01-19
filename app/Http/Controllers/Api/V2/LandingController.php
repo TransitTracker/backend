@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\GeoJsonLandingCollection;
+use App\Http\Resources\V2\GeoJsonLandingVehicleCollection;
 use App\Models\Region;
+use App\Models\Vehicle;
 use Illuminate\Support\Facades\App;
 
 class LandingController extends Controller
@@ -32,8 +34,19 @@ class LandingController extends Controller
      */
     public function index()
     {
-        $regions = Region::with(['activeAgencies:id,cities'])->withCount('activeAgencies')->get();
+        $regions = Region::query()
+            ->select(['id', 'name', 'slug', 'map_zoom', 'map_center'])
+            ->with(['activeAgencies:id,cities'])
+            ->withCount(['activeAgencies'])
+            ->get();
 
         return GeoJsonLandingCollection::make($regions);
+    }
+
+    public function vehicles()
+    {
+        return GeoJsonLandingVehicleCollection::make(
+            Vehicle::active()->select(['id', 'lat', 'lon'])->get()
+        );
     }
 }

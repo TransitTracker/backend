@@ -32,6 +32,8 @@ class JavascriptGtfsRtHandler implements ShouldQueue
     {
     }
 
+    private array $activeArray = [];
+
     /**
      * Execute the job.
      *
@@ -46,7 +48,6 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             ['active', true],
             ['agency_id', $this->agency->id],
         ])->select(['id', 'active'])->get();
-        $activeArray = [];
 
         $filePath = Storage::path($this->dataFile);
         $printGtfsRt = config('transittracker.print_gtfs_rt_bin');
@@ -66,7 +67,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         $vehiclesWithoutTrip = 0;
 
         // Go trough each vehicle
-        $collection->each(function ($entity, &$activeArray, $vehiclesWithoutTrip) {
+        $collection->each(function ($entity) use ($vehiclesWithoutTrip) {
             /*
              * Check if entity has vehiclePosition or if is not valid
              */
@@ -223,7 +224,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             try {
                 $vehicleModel = Vehicle::updateOrCreate(['vehicle' => $vehicle->vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
                 
-                $activeArray[] = $vehicleModel->id;
+                $this->activeArray[] = $vehicleModel->id;
             } catch (Exception $e) {
                 Log::error('Vehicle in the refresh failed', [
                     'agency' => $this->agency->slug,
@@ -234,8 +235,8 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         });
 
         // Update active information
-        if ($inactiveArray->except($activeArray)->count() > 0) {
-            $inactiveArray->except($activeArray)->toQuery()->update(['active' => false]);
+        if ($inactiveArray->except($this->activeArray)->count() > 0) {
+            $inactiveArray->except($this->activeArray)->toQuery()->update(['active' => false]);
         }
 
         // Replace timestamp

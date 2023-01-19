@@ -66,7 +66,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         $vehiclesWithoutTrip = 0;
 
         // Go trough each vehicle
-        $collection->each(function ($entity) use ($vehiclesWithoutTrip, $activeArray) {
+        $collection->each(function ($entity, &$activeArray, $vehiclesWithoutTrip) {
             /*
              * Check if entity has vehiclePosition or if is not valid
              */
@@ -222,8 +222,8 @@ class JavascriptGtfsRtHandler implements ShouldQueue
              */
             try {
                 $vehicleModel = Vehicle::updateOrCreate(['vehicle' => $vehicle->vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
-
-                array_push($activeArray, $vehicleModel->id);
+                
+                $activeArray[] = $vehicleModel->id;
             } catch (Exception $e) {
                 Log::error('Vehicle in the refresh failed', [
                     'agency' => $this->agency->slug,

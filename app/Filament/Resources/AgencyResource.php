@@ -19,7 +19,8 @@ use Filament\Forms\Components\Toggle;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Tables\Columns\BooleanColumn;
+use Filament\Tables\Actions\ReplicateAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 
 class AgencyResource extends Resource
@@ -81,6 +82,9 @@ class AgencyResource extends Resource
                             ]),
                         Card::make()
                             ->schema([
+                                Placeholder::make('id')
+                                    ->label('ID')
+                                    ->content(fn (Agency $record): ?string => $record->id),
                                 Placeholder::make('created_at')
                                     ->label('Created')
                                     ->content(fn (Agency $record): ?string => $record->created_at?->diffForHumans()),
@@ -102,11 +106,20 @@ class AgencyResource extends Resource
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('slug'),
-                BooleanColumn::make('is_active'),
-                BooleanColumn::make('refresh_is_active'),
+                IconColumn::make('is_active')->boolean(),
+                IconColumn::make('refresh_is_active')->boolean(),
             ])
-            ->filters([
-                //
+            ->actions([
+                ReplicateAction::make()
+                    ->excludeAttributes(['slug', 'is_active', 'refresh_is_active'])
+                    ->form([
+                        TextInput::make('slug')->required(),
+                        Toggle::make('is_active')->default(false),
+                        Toggle::make('refresh_is_active')->default(false),
+                    ])
+                    ->beforeReplicaSaved(function (Agency $replica, array $data): void {
+                        $replica->fill($data);
+                    }),
             ]);
     }
 

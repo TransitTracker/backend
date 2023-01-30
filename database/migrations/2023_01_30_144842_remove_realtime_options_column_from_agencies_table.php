@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('agencies', function (Blueprint $table) {
-            $table->json('headers')->nullable();
+            $table->dropColumn('realtime_options');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('agencies', function (Blueprint $table) {
-            $table->dropColumn('headers');
+            $table->json('realtime_options')->nullable();
         });
     }
 };

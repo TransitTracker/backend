@@ -15,7 +15,7 @@ use URL;
 class Agency extends Model
 {
     protected $fillable = ['name', 'short_name', 'slug', 'static_gtfs_url', 'realtime_url', 'realtime_type',
-        'realtime_options', 'color', 'text_color', 'vehicles_type', 'is_active', 'license',
+        'color', 'text_color', 'vehicles_type', 'is_active', 'license',
         'short_name', 'refresh_is_active', 'cron_schedule', 'cities', 'static_etag', 'headers', ];
 
     protected $casts = [
@@ -96,39 +96,6 @@ class Agency extends Model
     public function exoUnlabelledVehicles(): HasMany
     {
         return $this->hasMany(Vehicle::class)->exoUnlabelled();
-    }
-
-    /*
-     * Accessors
-     */
-    public function getRealtimeMethodAttribute()
-    {
-        return json_decode($this->realtime_options)->realtime_method;
-    }
-
-    public function getHeaderNameAttribute()
-    {
-        return json_decode($this->realtime_options)->header_name;
-    }
-
-    public function getHeaderValueAttribute()
-    {
-        return json_decode($this->realtime_options)->header_value;
-    }
-
-    public function getParamNameAttribute()
-    {
-        return json_decode($this->realtime_options)->param_name;
-    }
-
-    public function getParamValueAttribute()
-    {
-        return json_decode($this->realtime_options)->param_value;
-    }
-
-    public function getDownloadMethodAttribute()
-    {
-        return json_decode($this->realtime_options)->download_method ?? '';
     }
 
     /*

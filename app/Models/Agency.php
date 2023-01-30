@@ -25,6 +25,11 @@ class Agency extends Model
         'headers' => 'array',
     ];
 
+    // MySQL can't have default value, this sets headers to a empty array
+    protected $attributes = [
+        'headers' => '{}',
+    ];
+
     public function getRouteKeyName()
     {
         return 'slug';

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('agencies', function (Blueprint $table) {
-            $table->json('headers')->nullable()->default('[]');
+            $table->json('headers')->nullable();
         });
     }
 

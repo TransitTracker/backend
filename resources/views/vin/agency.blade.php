@@ -36,12 +36,12 @@
                 @foreach ($vehicles as $vehicle)
                     <tr class="h-[3.25rem]">
                         <td class="px-4 text-left">
-                            <a href="{{ route('vin.show', ['vin' => $vehicle->vehicle]) }}">
-                                {{ $vehicle->vehicle }}
+                            <a href="{{ route('vin.show', ['vin' => $vehicle->ref]) }}">
+                                {{ $vehicle->ref }}
                             </a>
                         </td>
                         <td class="px-4 text-left">
-                            <a href="{{ route('vin.show', ['vin' => $vehicle->vehicle]) }}">
+                            <a href="{{ route('vin.show', ['vin' => $vehicle->ref]) }}">
                                 @if ($vehicle->force_label)
                                     {{ $vehicle->force_label }}
                                 @else
@@ -62,12 +62,12 @@
                             @endforeach
                         </td>
                         <td class="px-4 text-left">
-                            <a href="{{ route('vin.show', ['vin' => $vehicle->vehicle]) }}">
+                            <a href="{{ route('vin.show', ['vin' => $vehicle->ref]) }}">
                                 {{ $vehicle->trip->route_short_name }} > {{ $vehicle->trip->trip_headsign }}
                             </a>
                         </td>
                         <td class="px-4 text-left">
-                            <a href="{{ route('vin.show', ['vin' => $vehicle->vehicle]) }}">
+                            <a href="{{ route('vin.show', ['vin' => $vehicle->ref]) }}">
                                 {{ $vehicle->updated_at->diffForHumans() }}
                             </a>
                         </td>

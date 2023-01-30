@@ -23,13 +23,13 @@ class VehicleResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'ref' => $this->vehicle,
+            'ref' => $this->ref,
             'agency_id' => $this->agency_id,
             'gtfs_trip' => $this->gtfs_trip,
             'route' => $this->route,
             'start' => $this->start,
             'relationship' => ScheduleRelationship::getDescription($this->relationship),
-            'label' => $this->force_label ?? $this->label,
+            'label' => $this->displayed_label,
             'plate' => $this->plate,
             'lat' => $this->lat,
             'lon' => $this->lon,

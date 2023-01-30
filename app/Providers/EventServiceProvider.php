@@ -7,6 +7,7 @@ use App\Events\NotificationUserCreated;
 use App\Events\TagCreated;
 use App\Events\TagUpdated;
 use App\Events\VehicleCreated;
+use App\Events\VehicleForceRefAdded;
 use App\Events\VehicleUpdated;
 use App\Events\Vin\SuggestionCreated;
 use App\Listeners\AddTagIconToMapbox;
@@ -45,6 +46,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         VehicleUpdated::class => [
             SendUpdatedVehicleNotification::class,
+        ],
+        VehicleForceRefAdded::class => [
+            DecodeVin::class,
         ],
         ElectricStmVehicleUpdated::class => [
             SendElectricStmNotification::class,

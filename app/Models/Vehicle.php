@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Events\ElectricStmVehicleUpdated;
 use App\Events\VehicleCreated;
+use App\Events\VehicleForceRefAdded;
 use App\Events\VehicleUpdated;
 use App\Models\Vin\Information;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -20,6 +22,7 @@ class Vehicle extends Model
         'agency_id', 'active', 'agency', 'gtfs_trip', 'route', 'start', 'vehicle', 'lat', 'lon',
         'trip_id', 'bearing', 'speed', 'stop_sequence', 'status', 'headsign', 'short_name', 'icon',
         'relationship', 'label', 'force_label', 'plate', 'odometer', 'timestamp', 'congestion', 'occupancy',
+        'force_ref',
     ];
 
     protected $casts = [
@@ -65,9 +68,29 @@ class Vehicle extends Model
         return $this->hasMany(self::class, 'vehicle', 'vehicle');
     }
 
-    public function vinInformation(): BelongsTo
+    public function vinInformationForceRef(): BelongsTo
+    {
+        return $this->belongsTo(Information::class, 'ref', 'vin')->withDefault();
+    }
+
+    public function vinInformationRef(): BelongsTo
     {
         return $this->belongsTo(Information::class, 'vehicle', 'vin')->withDefault();
+    }
+
+    public function vinInformation(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->relationLoaded('vinInformationForceRef')) {
+                    return $this->getRelation('vinInformationForceRef');
+                }
+
+                $this->load('vinInformationRef');
+
+                return $this->getRelation('vinInformationRef');
+            }
+        );
     }
 
     /*
@@ -76,6 +99,11 @@ class Vehicle extends Model
     public function getDisplayedLabelAttribute(): string
     {
         return $this->force_label ?? $this->label ?? $this->vehicle;
+    }
+
+    public function getRefAttribute(): string
+    {
+        return $this->force_ref ?? $this->vehicle;
     }
 
     /*
@@ -202,6 +230,7 @@ class Vehicle extends Model
                 ->forget();
 
             VehicleUpdated::dispatchIf($vehicle->isFirstAppearanceToday(), $vehicle);
+            VehicleForceRefAdded::dispatchIf(filled($vehicle->force_ref), $vehicle);
 
             ElectricStmVehicleUpdated::dispatchIf(($vehicle->isFirstAppearanceToday() && $vehicle->isElectricStm()), $vehicle);
         });

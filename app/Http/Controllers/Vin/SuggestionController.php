@@ -56,7 +56,6 @@ class SuggestionController extends Controller
             'vin' => [
                 'required',
                 'size:17',
-                'exists:vehicles,vehicle',
             ],
             'label' => [
                 'required',

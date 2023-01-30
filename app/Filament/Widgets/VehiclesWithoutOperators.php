@@ -31,7 +31,7 @@ class VehiclesWithoutOperators extends BaseWidget
         return [
             TextColumn::make('agency.short_name')->label('Agency'),
             TextColumn::make('displayed_label')->label('Label'),
-            TextColumn::make('vehicle')->label('Ref'),
+            TextColumn::make('ref'),
         ];
     }
 

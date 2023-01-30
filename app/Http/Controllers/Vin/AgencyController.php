@@ -17,7 +17,7 @@ class AgencyController extends Controller
         $agency->load('exoWithVin', 'exoWithVin.trip:id,route_short_name,trip_headsign');
 
         $vehicles = $agency->exoWithVin->sortBy('force_label');
-        $vehicles->load('tags:id,label', 'vinInformation:vin,make');
+        $vehicles->load('tags:id,label', 'vinInformationForceRef:vin,make');
 
         return view('vin.agency', compact('agency', 'vehicles'));
     }

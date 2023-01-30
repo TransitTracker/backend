@@ -68,6 +68,7 @@ class AgencyResource extends Resource
                         ]),
                         TextInput::make('realtime_url')->required()->columnSpan(2),
                         TextInput::make('cron_schedule')->columnSpan(3),
+                        KeyValue::make('headers')->columnSpan(3),
                     ])->collapsed()->columns(3),
                     // TODO: TextInput::make('realtime_options'),
                 ]),

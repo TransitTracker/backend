@@ -108,6 +108,7 @@ class AgencyResource extends Resource
                 TextColumn::make('slug'),
                 IconColumn::make('is_active')->boolean(),
                 IconColumn::make('refresh_is_active')->boolean(),
+                TextColumn::make('cron_schedule'),
             ])
             ->actions([
                 ReplicateAction::make()

@@ -38,6 +38,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('static:update')->dailyAt('03:00');
         $schedule->command('download:clean')->dailyAt('03:55');
         $schedule->job(new CleanFolders(), 'gtfs')->dailyAt('03:55');
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
 
     /**

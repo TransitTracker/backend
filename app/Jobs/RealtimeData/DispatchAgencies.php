@@ -46,7 +46,7 @@ class DispatchAgencies implements ShouldQueue
 
         $responses = Http::pool(function (Pool $pool) {
             return $this->agencies->map(function (Agency $agency) use ($pool) {
-                return $pool->as($agency->slug)->withHeaders($agency->headers)->get($agency->realtime_url);
+                return $pool->as($agency->slug)->withHeaders($agency->headers ?? [])->get($agency->realtime_url);
             });
         });
 

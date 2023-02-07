@@ -8,31 +8,44 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class DecodeVin implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private array $result)
+    public function __construct(private array $vins)
     {
     }
 
     public function handle()
     {
-        $assembly = $this->transformString($this->result['PlantCity']).', '.$this->transformString($this->result['PlantState']).', '.$this->transformString($this->result['PlantCountry']);
-        $model = Information::updateOrCreate(['vin' => $this->result['VIN']], [
-            'make' => $this->transformString($this->result['Make']),
-            'model' => $this->result['Model'],
-            'year' => intval($this->result['ModelYear']),
-            'length' => intval($this->result['BusLength']),
-            'engine' => "{$this->result['EngineManufacturer']} {$this->result['EngineModel']}",
-            'assembly' => $assembly,
-            'fuel' => $this->result['FuelTypePrimary'],
-            'sequence' => Str::substr($this->result['VIN'], strlen($this->result['VehicleDescriptor'])),
+        $response = Http::asForm()->post('https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVINValuesBatch/', [
+            'DATA' => implode(',', $this->vins),
+            'format' => 'JSON',
         ]);
 
-        $model->others = collect($this->result)
+        foreach ($response->json()['Results'] as $result) {
+            $this->decodeOne($result);
+        }
+    }
+
+    public function decodeOne(array $result)
+    {
+        $assembly = $this->transformString($result['PlantCity']) . ', ' . $this->transformString($result['PlantState']) . ', ' . $this->transformString($result['PlantCountry']);
+        $model = Information::updateOrCreate(['vin' => $result['VIN']], [
+            'make' => $this->transformString($result['Make']),
+            'model' => $result['Model'],
+            'year' => intval($result['ModelYear']),
+            'length' => intval($result['BusLength']),
+            'engine' => "{$result['EngineManufacturer']} {$result['EngineModel']}",
+            'assembly' => $assembly,
+            'fuel' => $result['FuelTypePrimary'],
+            'sequence' => Str::substr($result['VIN'], strlen($result['VehicleDescriptor'])),
+        ]);
+
+        $model->others = collect($result)
             ->forget([
                 'VIN', 'VehicleDescriptor', 'ErrorCode', 'ErrorText', 'Make', 'MakeID', 'ManufacturerId', 'Model', 'ModelID', 'ModelYear', 'BusLength', 'EngineManufacturer', 'EngineModel',
                 'PlantCity', 'PlantState', 'PlantCountry', 'FuelTypePrimary',
@@ -51,7 +64,7 @@ class DecodeVin implements ShouldQueue
 
     private function transformString(string $string, bool $ignoreOneWord = false): string
     {
-        if (Str::wordCount($string) === 1 && ! $ignoreOneWord) {
+        if (Str::wordCount($string) === 1 && !$ignoreOneWord) {
             return str($string)->lower()->ucfirst()->value;
         }
 

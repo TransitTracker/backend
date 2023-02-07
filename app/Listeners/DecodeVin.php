@@ -17,10 +17,10 @@ class DecodeVin implements ShouldQueue
 
     public function handle(VehicleCreated|VehicleForceRefAdded $event)
     {
-        if (!$event->vehicle->isExoVin()) {
+        if (! $event->vehicle->isExoVin()) {
             return false;
         }
 
-        DecodeVinJob::dispatchSync($event->vehicle->force_ref ?? $event->vehicle->vehicle);
+        DecodeVinJob::dispatchSync([$event->vehicle->force_ref ?? $event->vehicle->vehicle]);
     }
 }

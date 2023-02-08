@@ -25,6 +25,7 @@
         "laravel-notification-channels/webpush": "^7.0",
         "laravel/framework": "^9.25",
         "laravel/horizon": "^5.7",
+        "laravel/sanctum": "^3.2",
         "laravel/slack-notification-channel": "^2.1",
         "league/csv": "^9.6",
         "masbug/flysystem-google-drive-ext": "^2.2",

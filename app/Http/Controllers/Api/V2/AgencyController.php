@@ -33,9 +33,10 @@ class AgencyController extends Controller
         return AgencyResource::collection($agencies);
     }
 
-    public function show(Agency $agency)
+    public function show(Request $request, Agency $agency)
     {
-        if (! $agency->is_active) {
+        // If it's inactive and there is no user logged in, do not show
+        if (! $agency->is_active && ! $request->user('sanctum')) {
             return response()->json(['message' => 'Agency is inactive.'], 403);
         }
 

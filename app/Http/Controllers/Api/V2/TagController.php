@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\TagResource;
 use App\Models\Tag;
 use Illuminate\Support\Facades\App;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group('Tags')]
 class TagController extends Controller
 {
     /**
@@ -25,11 +27,6 @@ class TagController extends Controller
         $this->middleware('cacheResponse');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
     public function index()
     {
         $tags = Tag::all();
@@ -37,12 +34,6 @@ class TagController extends Controller
         return TagResource::collection($tags);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Tag  $tag
-     * @return TagResource
-     */
     public function show(Tag $tag)
     {
         return TagResource::make($tag);

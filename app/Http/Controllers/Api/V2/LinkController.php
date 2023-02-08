@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\LinkResource;
 use App\Models\Link;
 use Illuminate\Support\Facades\App;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group('Link')]
 class LinkController extends Controller
 {
     /**
@@ -25,11 +27,6 @@ class LinkController extends Controller
         $this->middleware('cacheResponse');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
     public function index()
     {
         $links = Link::all();
@@ -37,12 +34,6 @@ class LinkController extends Controller
         return LinkResource::collection($links);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Link  $link
-     * @return LinkResource
-     */
     public function show(Link $link)
     {
         return LinkResource::make($link);

@@ -7,7 +7,9 @@ use App\Http\Resources\V2\VehicleResource;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group('Vehicles')]
 class VehicleController extends Controller
 {
     public function __construct()

@@ -8,7 +8,9 @@ use App\Http\Resources\V2\GeoJsonLandingVehicleCollection;
 use App\Models\Region;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\App;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group('Landing', 'GeoJSON ressources used on the landing page')]
 class LandingController extends Controller
 {
     /**
@@ -27,11 +29,6 @@ class LandingController extends Controller
         $this->middleware('cacheResponse:600');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return GeoJsonLandingCollection
-     */
     public function index()
     {
         $regions = Region::query()

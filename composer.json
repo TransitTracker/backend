@@ -49,6 +49,7 @@
         "barryvdh/laravel-debugbar": "^3.5",
         "barryvdh/laravel-ide-helper": "^2.9",
         "fakerphp/faker": "^1.13",
+        "knuckleswtf/scribe": "^4.14",
         "laravel/pint": "^1.0",
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.6",

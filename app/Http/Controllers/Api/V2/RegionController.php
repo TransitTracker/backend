@@ -7,7 +7,9 @@ use App\Http\Resources\V2\AlertResource;
 use App\Http\Resources\V2\RegionResource;
 use App\Models\Region;
 use Illuminate\Support\Facades\App;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group('Regions')]
 class RegionController extends Controller
 {
     /**
@@ -26,11 +28,6 @@ class RegionController extends Controller
         $this->middleware('cacheResponse');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
     public function index()
     {
         $regions = Region::with(['activeAgencies', 'activeAgencies.regions:slug,name'])->get();
@@ -38,22 +35,14 @@ class RegionController extends Controller
         return RegionResource::collection($regions);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Region  $region
-     * @return RegionResource
-     */
     public function show(Region $region)
     {
+        $region->load(['activeAgencies', 'activeAgencies.regions:slug,name']);
+
         return RegionResource::make($region);
     }
 
-    /**
-     * Display a listing of alerts from the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
+    #[Group('Alerts')]
     public function alerts(Region $region)
     {
         return AlertResource::collection($region->activeAlerts);

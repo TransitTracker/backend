@@ -11,8 +11,10 @@ use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Knuckles\Scribe\Attributes\Group;
 use Storage;
 
+#[Group('Agencies')]
 class AgencyController extends Controller
 {
     public function __construct()
@@ -44,6 +46,7 @@ class AgencyController extends Controller
         return AgencyResource::make($agency);
     }
 
+    #[Group('Vehicles')]
     public function vehicles(Request $request, Agency $agency)
     {
         if (! $agency->is_active && ! Auth::check()) {
@@ -81,6 +84,7 @@ class AgencyController extends Controller
         return VehicleResource::collection($vehicles)->additional($additional)->preserveQuery();
     }
 
+    #[Group('Vehicles')]
     public function vehiclesShow(Agency $agency, string $vehicleRef)
     {
         $vehicle = Vehicle::firstWhere([

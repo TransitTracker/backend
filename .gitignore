@@ -5,6 +5,7 @@
 /storage/app/Transit-Tracker
 /vendor
 /.idea
+/.scribe
 .env
 .phpunit.result.cache
 Homestead.json
@@ -18,6 +19,7 @@ yarn-error.log
 !/public/service-worker.js
 /public/js
 /public/css
+/public/docs
 /public/packages
 /public/vendors~js
 /public/vendor

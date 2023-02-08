@@ -5,80 +5,86 @@
         <h1 class="text-2xl font-bold md:mb-4 md:text-4xl text-m3-primary-on-container dark:text-white col-span-full">
             VIN {{ $vin }}
         </h1>
-        <div class="col-span-full font-medium text-[1.375rem] leading-7 text-m3-primary-on-container dark:text-white -mt-6 md:-mt-10 flex items-center gap-x-2"
-            x-data="{ vinInfo: false }">
-            <h2>{{ $information->make }} {{ $information->model }} {{ $information->year }}</h2>
-            <x-icon-button.standard href="#" @click="vinInfo = true">
-                <x-gmdi-info class="h-6 w-6 text-current dark:text-white" />
-            </x-icon-button.standard>
-            <x-dialog.basic showProp="vinInfo">
-                <x-slot:title>{{ __('Aditionnal information based on VIN number') }}</x-slot>
-                    {{ __('This information is generated automatically from the NHTSA Product Information Catalog Vehicle Listing (vPIC).') }}
-                    <a href="https://vpic.nhtsa.dot.gov/api/Home" class=" inline-flex items-center gap-x-1 underline"
-                        target="_blank">
-                        <span>{{ __('Source') }}</span>
-                        <x-gmdi-open-in-new class="h-4 w-4 text-current" />
-                    </a>
-                    <x-slot:body>
-                        <dl class="text-sm">
-                            <dt class="text-xs">{{ __('Manufacturer') }}</dt>
-                            <dd class="mt-0.5">
-                                {{ $information->make }}
-                            </dd>
-                            <dt class="mt-2 text-xs">{{ __('Year') }}</dt>
-                            <dd class="mt-0.5">
-                                {{ $information->year }}
-                            </dd>
-                            <dt class="mt-2 text-xs">{{ __('Model') }}</dt>
-                            <dd class="mt-0.5">
-                                {{ $information->model }}
-                            </dd>
-                            @if (filled($information->engine))
-                                <dt class="mt-2 text-xs">{{ __('Engine') }}</dt>
+        @if ($information->make)
+            <div class="col-span-full font-medium text-[1.375rem] leading-7 text-m3-primary-on-container dark:text-white -mt-6 md:-mt-10 flex items-center gap-x-2"
+                x-data="{ vinInfo: false }">
+                <h2>{{ $information->make }} {{ $information->model }} {{ $information->year }}</h2>
+
+                <x-icon-button.standard href="#" @click="vinInfo = true">
+                    <x-gmdi-info class="h-6 w-6 text-current dark:text-white" />
+                </x-icon-button.standard>
+                <x-dialog.basic showProp="vinInfo">
+                    <x-slot:title>{{ __('Aditionnal information based on VIN number') }}</x-slot>
+                        {{ __('This information is generated automatically from the NHTSA Product Information Catalog Vehicle Listing (vPIC).') }}
+                        <a href="https://vpic.nhtsa.dot.gov/api/Home" class=" inline-flex items-center gap-x-1 underline"
+                            target="_blank">
+                            <span>{{ __('Source') }}</span>
+                            <x-gmdi-open-in-new class="h-4 w-4 text-current" />
+                        </a>
+                        <x-slot:body>
+                            <dl class="text-sm">
+                                <dt class="text-xs">{{ __('Manufacturer') }}</dt>
                                 <dd class="mt-0.5">
-                                    {{ $information->engine }}
+                                    {{ $information->make }}
                                 </dd>
-                            @endif
-                            @if ($information->fuel)
-                                <dt class="mt-2 text-xs">{{ __('Propulsion') }}</dt>
+                                <dt class="mt-2 text-xs">{{ __('Year') }}</dt>
                                 <dd class="mt-0.5">
-                                    {{ $information->fuel }}
+                                    {{ $information->year }}
                                 </dd>
-                            @endif
-                            @if ($information->length)
-                                <dt class="mt-2 text-xs">{{ __('Length') }}</dt>
+                                <dt class="mt-2 text-xs">{{ __('Model') }}</dt>
                                 <dd class="mt-0.5">
-                                    {{ $information->length }}
+                                    {{ $information->model }}
                                 </dd>
-                            @endif
-                            <dt class="mt-2 text-xs">{{ __('Assembly plant') }}</dt>
-                            <dd class="mt-0.5">
-                                {{ $information->assembly }}
-                            </dd>
-                            <dt class="mt-2 text-xs">{{ __('Sequence') }}</dt>
-                            <dd class="mt-0.5">
-                                {{ $information->sequence }}
-                            </dd>
-                            @foreach ($information->others as $label => $value)
-                                <dt class="mt-2 text-xs">{{ $label }}*</dt>
+                                @if (filled($information->engine))
+                                    <dt class="mt-2 text-xs">{{ __('Engine') }}</dt>
+                                    <dd class="mt-0.5">
+                                        {{ $information->engine }}
+                                    </dd>
+                                @endif
+                                @if ($information->fuel)
+                                    <dt class="mt-2 text-xs">{{ __('Propulsion') }}</dt>
+                                    <dd class="mt-0.5">
+                                        {{ $information->fuel }}
+                                    </dd>
+                                @endif
+                                @if ($information->length)
+                                    <dt class="mt-2 text-xs">{{ __('Length') }}</dt>
+                                    <dd class="mt-0.5">
+                                        {{ $information->length }}
+                                    </dd>
+                                @endif
+                                <dt class="mt-2 text-xs">{{ __('Assembly plant') }}</dt>
                                 <dd class="mt-0.5">
-                                    {{ $value }}
+                                    {{ $information->assembly }}
                                 </dd>
-                            @endforeach
-                            <p class="mt-4 italic">
-                                {{ __('* Additional information provided by NHTSA. May represent information about the vehicle model and not that vehicle exactly.') }}
-                            </p>
-                        </dl>
-                        </x-slot>
-                        <x-slot:actions>
-                            <div class="flex">
-                                <x-button.text href="#" :hasIcon="false" @click="vinInfo = false" class="ml-auto">
-                                    Close
-                                </x-button.text>
-                            </div>
+                                <dt class="mt-2 text-xs">{{ __('Sequence') }}</dt>
+                                <dd class="mt-0.5">
+                                    {{ $information->sequence }}
+                                </dd>
+                                @if ($information->others)
+                                    @foreach ($information->others as $label => $value)
+                                        <dt class="mt-2 text-xs">{{ $label }}*</dt>
+                                        <dd class="mt-0.5">
+                                            {{ $value }}
+                                        </dd>
+                                    @endforeach
+                                    <p class="mt-4 italic">
+                                        {{ __('* Additional information provided by NHTSA. May represent information about the vehicle model and not that vehicle exactly.') }}
+                                    </p>
+                                @endif
+                            </dl>
                             </x-slot>
-            </x-dialog.basic>
-        </div>
+                            <x-slot:actions>
+                                <div class="flex">
+                                    <x-button.text href="#" :hasIcon="false" @click="vinInfo = false"
+                                        class="ml-auto">
+                                        Close
+                                    </x-button.text>
+                                </div>
+                                </x-slot>
+                </x-dialog.basic>
+            </div>
+        @endif
 
         <div class="md:col-span-2">
             <ul class="space-y-2">

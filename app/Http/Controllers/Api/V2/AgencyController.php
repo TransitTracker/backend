@@ -10,6 +10,7 @@ use App\Models\Agency;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Storage;
 
 class AgencyController extends Controller
@@ -33,10 +34,10 @@ class AgencyController extends Controller
         return AgencyResource::collection($agencies);
     }
 
-    public function show(Request $request, Agency $agency)
+    public function show(Agency $agency)
     {
         // If it's inactive and there is no user logged in, do not show
-        if (! $agency->is_active && ! $request->user('sanctum')) {
+        if (! $agency->is_active && ! Auth::check()) {
             return response()->json(['message' => 'Agency is inactive.'], 403);
         }
 
@@ -45,7 +46,7 @@ class AgencyController extends Controller
 
     public function vehicles(Request $request, Agency $agency)
     {
-        if (! $agency->is_active) {
+        if (! $agency->is_active && ! Auth::check()) {
             return response()->json(['message' => 'Agency is inactive.'], 403);
         }
 

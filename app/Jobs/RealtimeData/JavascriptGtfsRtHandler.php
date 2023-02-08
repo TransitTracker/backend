@@ -71,7 +71,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             /*
              * Check if entity has vehiclePosition or if is not valid
              */
-            if (!property_exists($entity, 'vehicle') || !property_exists($entity->vehicle, 'trip') || !property_exists($entity->vehicle, 'position')) {
+            if (! property_exists($entity, 'vehicle') || ! property_exists($entity->vehicle, 'trip') || ! property_exists($entity->vehicle, 'position')) {
                 return;
             }
             $vehicle = $entity->vehicle;
@@ -83,7 +83,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
                 ->select(['id', 'route_short_name'])
                 ->first();
 
-            if (!$trip) {
+            if (! $trip) {
                 $vehiclesWithoutTrip += 1;
             }
 
@@ -125,7 +125,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
 
             // vehicle->label
             // Don't use the label feed for GO Transit or exo
-            if (property_exists($vehicle->vehicle, 'label') && (!in_array($this->agency->slug, ['go', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc']))) {
+            if (property_exists($vehicle->vehicle, 'label') && (! in_array($this->agency->slug, ['go', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc']))) {
                 $newVehicle['label'] = $vehicle->vehicle->label;
             } else {
                 $newVehicle['label'] = null;
@@ -223,7 +223,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
              */
             try {
                 $vehicleModel = Vehicle::updateOrCreate(['vehicle' => $vehicle->vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
-                
+
                 $this->activeArray[] = $vehicleModel->id;
             } catch (Exception $e) {
                 Log::error('Vehicle in the refresh failed', [

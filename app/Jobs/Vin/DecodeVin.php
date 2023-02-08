@@ -33,7 +33,7 @@ class DecodeVin implements ShouldQueue
 
     public function decodeOne(array $result)
     {
-        $assembly = $this->transformString($result['PlantCity']) . ', ' . $this->transformString($result['PlantState']) . ', ' . $this->transformString($result['PlantCountry']);
+        $assembly = $this->transformString($result['PlantCity']).', '.$this->transformString($result['PlantState']).', '.$this->transformString($result['PlantCountry']);
         $model = Information::updateOrCreate(['vin' => $result['VIN']], [
             'make' => $this->transformString($result['Make']),
             'model' => $result['Model'],
@@ -64,7 +64,7 @@ class DecodeVin implements ShouldQueue
 
     private function transformString(string $string, bool $ignoreOneWord = false): string
     {
-        if (Str::wordCount($string) === 1 && !$ignoreOneWord) {
+        if (Str::wordCount($string) === 1 && ! $ignoreOneWord) {
             return str($string)->lower()->ucfirst()->value;
         }
 

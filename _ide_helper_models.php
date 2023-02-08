@@ -23,47 +23,41 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $timestamp
  * @property string $text_color
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property int $is_active
  * @property string|null $static_gtfs_url
  * @property string|null $realtime_url
  * @property string|null $realtime_type
- * @property string|null $realtime_options
  * @property array|null $license
  * @property int $refresh_is_active
  * @property string|null $short_name
  * @property string $cron_schedule
  * @property array|null $cities
  * @property string|null $static_etag
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\NotificationUser[] $activeNotificationUsers
+ * @property array|null $headers
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\NotificationUser> $activeNotificationUsers
  * @property-read int|null $active_notification_users_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $exoLabelledVehicles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $exoLabelledVehicles
  * @property-read int|null $exo_labelled_vehicles_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $exoUnlabelledVehicles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $exoUnlabelledVehicles
  * @property-read int|null $exo_unlabelled_vehicles_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $exoWithVin
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $exoWithVin
  * @property-read int|null $exo_with_vin_count
- * @property-read mixed $download_method
- * @property-read mixed $header_name
- * @property-read mixed $header_value
- * @property-read mixed $param_name
- * @property-read mixed $param_value
  * @property-read array $random_cities
- * @property-read mixed $realtime_method
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Link[] $links
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Link> $links
  * @property-read int|null $links_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\NotificationUser[] $notificationUsers
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\NotificationUser> $notificationUsers
  * @property-read int|null $notification_users_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Region[] $regions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Region> $regions
  * @property-read int|null $regions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Route[] $routes
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Route> $routes
  * @property-read int|null $routes_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Service[] $services
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Service> $services
  * @property-read int|null $services_count
  * @property-read int|null $tags_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Trip[] $trips
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Trip> $trips
  * @property-read int|null $trips_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
  * @method static \Illuminate\Database\Eloquent\Builder|Agency active()
  * @method static \Illuminate\Database\Eloquent\Builder|Agency newModelQuery()
@@ -73,11 +67,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereCronSchedule($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Agency whereHeaders($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereLicense($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Agency whereRealtimeOptions($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereRealtimeType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereRealtimeUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereRefreshIsActive($value)
@@ -108,10 +102,10 @@ namespace App\Models{
  * @property array|null $title
  * @property array|null $body
  * @property string|null $action
- * @property mixed|null $action_parameters
+ * @property \Illuminate\Database\Eloquent\Casts\AsArrayObject|null $action_parameters
  * @property string|null $expiration
  * @property string|null $image
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Region[] $regions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Region> $regions
  * @property-read int|null $regions_count
  * @method static \Illuminate\Database\Eloquent\Builder|Alert active()
  * @method static \Illuminate\Database\Eloquent\Builder|Alert newModelQuery()
@@ -172,9 +166,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $url
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $agencies
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Agency> $agencies
  * @property-read int|null $agencies_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
  * @method static \Illuminate\Database\Eloquent\Builder|Link newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Link newQuery()
@@ -205,13 +199,13 @@ namespace App\Models{
  * @property bool $subscribed_electric_stm
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $agencies
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Agency> $agencies
  * @property-read int|null $agencies_count
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\NotificationChannels\WebPush\PushSubscription[] $pushSubscriptions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \NotificationChannels\WebPush\PushSubscription> $pushSubscriptions
  * @property-read int|null $push_subscriptions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
  * @method static \Illuminate\Database\Eloquent\Builder|NotificationUser active()
  * @method static \Illuminate\Database\Eloquent\Builder|NotificationUser newModelQuery()
@@ -239,7 +233,7 @@ namespace App\Models{
  * @property string $name
  * @property string $slug
  * @property array $map_box
- * @property mixed $map_center
+ * @property \Illuminate\Database\Eloquent\Casts\AsArrayObject $map_center
  * @property int $map_zoom
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -249,16 +243,16 @@ namespace App\Models{
  * @property string|null $photo
  * @property string|null $photo_author
  * @property string|null $photo_link
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $activeAgencies
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Agency> $activeAgencies
  * @property-read int|null $active_agencies_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alert[] $activeAlerts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Alert> $activeAlerts
  * @property-read int|null $active_alerts_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $agencies
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Agency> $agencies
  * @property-read int|null $agencies_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alert[] $alerts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Alert> $alerts
  * @property-read int|null $alerts_count
  * @property-read array $cities
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Stat[] $stats
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Stat> $stats
  * @property-read int|null $stats_count
  * @method static \Illuminate\Database\Eloquent\Builder|Region newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Region newQuery()
@@ -323,7 +317,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Agency|null $agency
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Trip[] $trips
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Trip> $trips
  * @property-read int|null $trips_count
  * @method static \Illuminate\Database\Eloquent\Builder|Service newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Service newQuery()
@@ -378,13 +372,15 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property array|null $short_label
+ * @property \App\Enums\TagType $type
  * @property array|null $description
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Agency[] $agencies
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Agency> $agencies
  * @property-read int|null $agencies_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag ofType(int $type)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag query()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereCreatedAt($value)
@@ -397,6 +393,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereShortLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereShowOnMap($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereTextColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
  */
 	class Tag extends \Eloquent {}
@@ -422,7 +419,7 @@ namespace App\Models{
  * @property string|null $shape
  * @property-read \App\Models\Agency|null $agency
  * @property-read \App\Models\Service|null $service
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
  * @method static \Illuminate\Database\Eloquent\Builder|Trip newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Trip newQuery()
@@ -457,9 +454,9 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
@@ -475,86 +472,6 @@ namespace App\Models{
 	class User extends \Eloquent implements \Filament\Models\Contracts\FilamentUser {}
 }
 
-namespace App\Models{
-/**
- * App\Models\Vehicle
- *
- * @property int $id
- * @property bool $active
- * @property int|null $agency_id
- * @property string|null $gtfs_trip
- * @property string $route
- * @property string|null $start
- * @property string $vehicle
- * @property float|null $lat
- * @property float|null $lon
- * @property float|null $bearing
- * @property float|null $speed
- * @property int|null $stop_sequence
- * @property int|null $status
- * @property int|null $trip_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $icon
- * @property int|null $relationship
- * @property string|null $label
- * @property string|null $force_label
- * @property string|null $plate
- * @property string|null $odometer
- * @property string|null $timestamp
- * @property int|null $congestion
- * @property int|null $occupancy
- * @property-read \App\Models\Agency|null $agency
- * @property-read string $displayed_label
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Link[] $links
- * @property-read int|null $links_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\NotificationUser[] $notificationUsers
- * @property-read int|null $notification_users_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Vehicle[] $relatedVehicles
- * @property-read int|null $related_vehicles_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
- * @property-read int|null $tags_count
- * @property-read \App\Models\Trip|null $trip
- * @property-read \App\Models\Vin\Information|null $vinInformation
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle active()
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle downloadable()
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle exo()
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle exoLabelled()
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle exoUnlabelled()
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle exoWithVin()
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle query()
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereAgencyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereBearing($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereCongestion($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereForceLabel($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereGtfsTrip($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereIcon($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereLabel($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereLat($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereLon($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereOccupancy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereOdometer($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle wherePlate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereRelationship($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereRoute($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereSpeed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereStart($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereStopSequence($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereTimestamp($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereTripId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereVehicle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Vehicle withoutTouch()
- */
-	class Vehicle extends \Eloquent {}
-}
-
 namespace App\Models\Vin{
 /**
  * App\Models\Vin\Information
@@ -568,10 +485,10 @@ namespace App\Models\Vin{
  * @property string|null $assembly
  * @property string|null $fuel
  * @property string|null $sequence
- * @property mixed|null $others
+ * @property \Illuminate\Database\Eloquent\Casts\AsCollection|null $others
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
  * @method static \Illuminate\Database\Eloquent\Builder|Information newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Information newQuery()
@@ -604,7 +521,7 @@ namespace App\Models\Vin{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property bool $is_rejected
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vehicle[] $vehicles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
  * @method static \Illuminate\Database\Eloquent\Builder|Suggestion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Suggestion newQuery()

@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\V2\RegionController;
 use App\Http\Controllers\Api\V2\TagController;
 use App\Http\Controllers\Api\V2\VehicleController;
 use App\Http\Middleware\Localization;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,6 +103,10 @@ Route::prefix('v2')->middleware(Localization::class)->group(function () {
     Route::delete('push/profile/vehicles', [ProfileVehiclesController::class, 'destroy']);
 
     Route::get('push/notifications/agencies', [NotificationsController::class, 'agencies']);
+
+    Route::middleware('auth:sanctum')->get('admin/user', function (Request $request) {
+        return $request->user();
+    });
 
     Route::fallback(fn () => response()->json(['message' => 'Route not found.'], 404));
 });

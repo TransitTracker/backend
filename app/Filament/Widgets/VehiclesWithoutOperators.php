@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class VehiclesWithoutOperators extends BaseWidget
 {
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getTableQuery(): Builder
     {

@@ -13,10 +13,9 @@ class Alert extends Model
 {
     use HasTranslations;
 
-    protected $fillable = ['title', 'body', 'color', 'icon', 'is_active', 'can_be_closed', 'action',
-        'action_parameters', 'expiration', 'image', ];
+    protected $guarded = [];
 
-    public $translatable = ['title', 'body'];
+    public $translatable = ['title', 'subtitle', 'body'];
 
     protected $casts = [
         'action_parameters' => AsArrayObject::class,

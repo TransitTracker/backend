@@ -28,6 +28,7 @@ class AlertResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')->columnSpan(2),
+                Forms\Components\TextInput::make('subtitle')->columnSpan(2),
                 Forms\Components\Toggle::make('is_active')
                     ->required(),
                 Forms\Components\Toggle::make('can_be_closed')

@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /*
  * @extends JsonResource<\App\Models\Alert>
  */
+
 class AlertResource extends JsonResource
 {
     public function toArray($request)
@@ -14,6 +15,7 @@ class AlertResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'subtitle' => $this->subtitle,
             'body' => $this->body,
             'color' => $this->color,
             'icon' => $this->icon,

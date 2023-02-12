@@ -161,13 +161,13 @@ class Vehicle extends Model
      */
     public function isFirstAppearanceToday(): bool
     {
-        if (! $this->getOriginal('updated_at')) {
+        if (!$this->getOriginal('updated_at')) {
             return false;
         }
 
         // Use subHours(4) to not count 0 a.m. to 4 a.m. in the current day (night routes)
         if (
-            ! $this->getOriginal('updated_at')->subHours(4)->isCurrentDay() &&
+            !$this->getOriginal('updated_at')->subHours(4)->isCurrentDay() &&
             $this->updated_at->subHours(4)->isCurrentDay()
         ) {
             return true;
@@ -230,7 +230,7 @@ class Vehicle extends Model
                 ->forget();
 
             VehicleUpdated::dispatchIf($vehicle->isFirstAppearanceToday(), $vehicle);
-            VehicleForceRefAdded::dispatchIf(filled($vehicle->force_ref), $vehicle);
+            VehicleForceRefAdded::dispatchIf($vehicle->wasChanged('force_ref'), $vehicle);
 
             ElectricStmVehicleUpdated::dispatchIf(($vehicle->isFirstAppearanceToday() && $vehicle->isElectricStm()), $vehicle);
         });

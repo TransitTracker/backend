@@ -10,6 +10,7 @@ use BenSampo\Enum\Enum;
  * @method static static StmGarage()
  * @method static static Operator()
  * @method static static Propulsion()
+ * @method static static TtcGarage()
  */
 final class TagType extends Enum implements LocalizedEnum
 {
@@ -20,4 +21,6 @@ final class TagType extends Enum implements LocalizedEnum
     const Operator = 2;
 
     const Propulsion = 3;
+    
+    const TtcGarage = 4;
 }

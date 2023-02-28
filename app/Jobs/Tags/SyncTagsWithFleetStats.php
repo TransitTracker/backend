@@ -54,7 +54,7 @@ class SyncTagsWithFleetStats implements ShouldQueue
         );
     }
 
-    private function sync(Agency $agency, integer $tagType, object $garages)
+    private function sync(Agency $agency, int $tagType, object $garages)
     {
         $response = Http::get("https://fleetstatsapp.com/api/vehicles/{$agency->slug}");
 

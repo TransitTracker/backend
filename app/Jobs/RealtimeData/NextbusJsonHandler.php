@@ -71,11 +71,13 @@ class NextbusJsonHandler implements ShouldQueue
             }
 
             /*
-             * Find a (fake) trip for this route
+             * Find a trip for this route, only compatible with STL
              */
-            $trip = Trip::where([['agency_id', $this->agency->id], ['shape', 'LIKE', "%{$vehicle->routeTag}%"]])
-                ->select('id')
-                ->first();
+            if ($this->agency->slug === 'stl') {
+                $trip = Trip::where([['agency_id', $this->agency->id], ['shape', 'LIKE', "%{$vehicle->routeTag}%"]])
+                    ->select('id')
+                    ->first();
+            }
 
             /*
              * Try each attribute

@@ -77,16 +77,15 @@ class NextbusJsonHandler implements ShouldQueue
                 $trip = Trip::where([['agency_id', $this->agency->id], ['shape', 'LIKE', "%{$vehicle->routeTag}%"]])
                     ->select('id')
                     ->first();
+
+                if ($trip) {
+                    $newVehicle['trip_id'] = $trip->id;
+                }
             }
 
             /*
              * Try each attribute
              */
-
-            // Trip
-            if ($trip) {
-                $newVehicle['trip_id'] = $trip->id;
-            }
 
             // Latitude
             if (isset($vehicle->lat)) {

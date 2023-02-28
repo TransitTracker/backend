@@ -2,6 +2,8 @@
 
 namespace App\Jobs\Tags;
 
+use App\Enums\TagType;
+use App\Models\Agency;
 use App\Models\Tag;
 use App\Models\Vehicle;
 use Illuminate\Bus\Queueable;
@@ -21,21 +23,43 @@ class SyncTagsWithFleetStats implements ShouldQueue
 
     public function handle()
     {
-        $garages = (object) [
-            'Anjou' => [],
-            'Frontenac' => [],
-            'LaSalle' => [],
-            'Legendre' => [],
-            'Mont-Royal' => [],
-            'Saint-Denis' => [],
-            'Saint-Laurent' => [],
-            'Stinson' => [],
-        ];
+        $this->sync(
+            Agency::firstWhere('slug', 'stm'),
+            TagType::StmGarage,
+            (object) [
+                'Anjou' => [],
+                'Frontenac' => [],
+                'LaSalle' => [],
+                'Legendre' => [],
+                'Mont-Royal' => [],
+                'Saint-Denis' => [],
+                'Saint-Laurent' => [],
+                'Stinson' => [],
+            ]
+        );
 
-        $response = Http::get('https://fleetstatsapp.com/api/vehicles/stm');
+        $this->sync(
+            Agency::firstWhere('slug', 'ttc'),
+            TagType::TtcGarage,
+            (object) [
+                'Arrow Road' => [],
+                'Birchmount' => [],
+                'Eglinton' => [],
+                'Malvern' => [],
+                'McNicoll' => [],
+                'Mount Dennis' => [],
+                'Queensway' => [],
+                'Wilson' => [],
+            ]
+        );
+    }
+
+    private function sync(Agency $agency, integer $tagType, object $garages)
+    {
+        $response = Http::get("https://fleetstatsapp.com/api/vehicles/{$agency->slug}");
 
         foreach ($response->json('vehicles') as $fsVehicle) {
-            $vehicle = Vehicle::select('id')->firstWhere(['vehicle' => $fsVehicle['fleet_number'], 'agency_id' => 1]);
+            $vehicle = Vehicle::select('id')->firstWhere(['vehicle' => $fsVehicle['fleet_number'], 'agency_id' => $agency->id]);
             if (! $vehicle) {
                 continue;
             }
@@ -44,7 +68,7 @@ class SyncTagsWithFleetStats implements ShouldQueue
         }
 
         foreach ($garages as $garage => $ids) {
-            $tag = Tag::firstWhere('label', 'LIKE', "%{$garage}%");
+            $tag = Tag::firstWhere([['label', 'LIKE', "%{$garage}%"], ['type', '=', $tagType]]);
             if (! $tag) {
                 continue;
             }

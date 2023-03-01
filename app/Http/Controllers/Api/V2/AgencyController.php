@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\QueryParam;
 use Storage;
 
 #[Group('Agencies')]
@@ -47,6 +48,7 @@ class AgencyController extends Controller
     }
 
     #[Group('Vehicles')]
+    #[QueryParam("geojson", "boolean", "Include a GeoJSON `FeatureCollection` to the response. Defaults to true.", example: false, required: false)]
     public function vehicles(Request $request, Agency $agency)
     {
         if (! $agency->is_active && ! Auth::check()) {

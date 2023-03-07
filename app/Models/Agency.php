@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Events\VehiclesUpdated;
+use App\Models\Gtfs\Stop;
+use App\Models\Gtfs\StopTime;
 use Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -61,6 +63,16 @@ class Agency extends Model
     public function services(): HasMany
     {
         return $this->hasMany(Service::class);
+    }
+
+    public function stops(): HasMany
+    {
+        return $this->hasMany(Stop::class);
+    }
+
+    public function stopTimes(): HasMany
+    {
+        return $this->hasMany(StopTime::class);
     }
 
     public function regions(): BelongsToMany

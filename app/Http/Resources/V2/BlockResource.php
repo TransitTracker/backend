@@ -3,10 +3,8 @@
 namespace App\Http\Resources\V2;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
-/* @extends JsonResource<\App\Models\Trip> */
-class TripResource extends JsonResource
+class BlockResource extends JsonResource
 {
     public function toArray($request)
     {
@@ -17,10 +15,7 @@ class TripResource extends JsonResource
             'routeColor' => $this->route_color,
             'routeTextColor' => $this->route_text_color,
             'routeShortName' => $this->route_short_name,
-            'routeLongName' => $this->route_long_name,
-            'shapeLink' => $this->shape ? Storage::url("shapes/{$this->additional['agencySlug']}/{$this->shape}.json") : null,
-            'serviceId' => $this->service->service_id,
-            'blockId' => $this->gtfs_block_id,
+            'departure' => $this->firstDeparture->departure,
         ];
     }
 }

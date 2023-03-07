@@ -261,13 +261,5 @@ class GtfsRtHandler implements ShouldQueue
             $action = new HandleExpiredGtfs($this->agency);
             $action->execute();
         }
-
-        // Delete the file
-        Storage::delete($this->dataFile);
-    }
-
-    public function fail()
-    {
-        Storage::delete($this->dataFile);
     }
 }

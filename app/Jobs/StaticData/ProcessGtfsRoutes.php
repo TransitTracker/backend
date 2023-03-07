@@ -35,7 +35,7 @@ class ProcessGtfsRoutes implements ShouldQueue
             // Prepare a new array to update or create the route model
             $newRoute = [];
 
-            if (!array_key_exists('route_id', $route)) {
+            if (! array_key_exists('route_id', $route)) {
                 continue;
             }
 
@@ -61,7 +61,7 @@ class ProcessGtfsRoutes implements ShouldQueue
     {
         $color = Str::squish($route[$field]);
 
-        if (!array_key_exists($field, $route)) {
+        if (! array_key_exists($field, $route)) {
             return $fallback;
         }
 

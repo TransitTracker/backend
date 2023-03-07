@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Notification;
 
 class Update extends Command
 {
-    protected $signature = 'static:update {agency? : The slug of the agency}';
+    protected $signature = 'static:update {agency? : The slug of the agency} {--f|force : Force the refresh, only works when agency is specified} {--s|select : Select which files to include}';
 
     protected $description = 'Update the static data of all agencies or the specified agency';
 
@@ -24,10 +24,29 @@ class Update extends Command
 
     public function handle()
     {
+        $files = [
+            'calendar.txt',
+            'routes.txt',
+            'stops.txt',
+            'stop_times.txt',
+            'trips.txt',
+            'shapes.txt',
+        ];
+
+        if ($this->option('select')) {
+            $files = $this->choice('Please select the files to update', $files, null, null, true);
+        }
+
         if ($agencySlug = $this->argument('agency')) {
             $agency = Agency::where('slug', $agencySlug)->firstOrFail();
 
-            $this->createBatch($agency);
+            if ($this->option('force')) {
+                $this->line('Removing latest etag to force download');
+                // Reset etag to force download
+                $agency->update(['static_etag' => '']);
+            }
+
+            $this->createBatch($agency, $files);
 
             $this->info("Updating {$agency->short_name}");
 
@@ -42,19 +61,19 @@ class Update extends Command
                 continue;
             }
 
-            $this->createBatch($agency);
+            $this->createBatch($agency, $files);
         }
 
         $this->newLine();
         $this->info('Refresh launched!');
     }
 
-    private function createBatch(Agency $agency)
+    private function createBatch(Agency $agency, array $files)
     {
         $time = now()->toDateString();
 
         Bus::batch([
-            new DownloadStatic($agency),
+            new DownloadStatic($agency, $files),
         ])
             ->onQueue('gtfs')
             ->name("{$agency->short_name} static refresh {$time}")

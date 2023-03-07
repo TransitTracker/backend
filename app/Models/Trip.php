@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Gtfs\StopTime;
+use Awobaz\Compoships\Database\Eloquent\Model;
+use Awobaz\Compoships\Database\Eloquent\Relations\BelongsTo;
+use Awobaz\Compoships\Database\Eloquent\Relations\HasMany;
+use Awobaz\Compoships\Database\Eloquent\Relations\HasOne;
 
 class Trip extends Model
 {
-    protected $fillable = ['agency_id', 'trip_id', 'trip_headsign', 'trip_short_name', 'route_color',
-        'route_text_color', 'route_short_name', 'route_long_name', 'service_id', 'shape', ];
+    protected $guarded = [];
 
     public function agency(): BelongsTo
     {
@@ -24,5 +25,15 @@ class Trip extends Model
     public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class)->withDefault();
+    }
+
+    public function stopTimes(): HasMany
+    {
+        return $this->hasMany(StopTime::class, ['agency_id', 'gtfs_trip_id'], ['agency_id', 'trip_id']);
+    }
+
+    public function firstDeparture(): HasOne
+    {
+        return $this->hasOne(StopTime::class, ['agency_id', 'gtfs_trip_id'], ['agency_id', 'trip_id'])->ofMany('sequence', 'min');
     }
 }

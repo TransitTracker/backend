@@ -15,7 +15,14 @@ class DownloadStatic implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private Agency $agency)
+    public function __construct(private Agency $agency, private array $files = [
+        'calendar.txt',
+        'routes.txt',
+        'stops.txt',
+        'stop_times.txt',
+        'trips.txt',
+        'shapes.txt',
+    ])
     {
     }
 
@@ -53,7 +60,7 @@ class DownloadStatic implements ShouldQueue
         }
 
         // Dispatch extraction
-        $this->batch()->add([new ExtractAndDispatchStaticGtfs($this->agency, $fileName)]);
+        $this->batch()->add([new ExtractAndDispatchStaticGtfs($this->agency, $fileName, $this->files)]);
 
         // Erase client
         $client = null;

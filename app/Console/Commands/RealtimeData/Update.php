@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 
 class Update extends Command
 {
-    protected $signature = 'realtime:update {agency? : The slug of the agency} {--force : Force the refresh (ignore Cron and refresh_is_active)}';
+    protected $signature = 'realtime:update {agency? : The slug of the agency} {--f|force : Force the refresh (ignore Cron and refresh_is_active)}';
 
     protected $description = 'Update the realtime data of all agencies or the specified agency';
 

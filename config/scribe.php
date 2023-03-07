@@ -78,6 +78,7 @@ return [
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Accept' => 'application/json',
+                    'Accept-Language' => 'en',
                 ],
 
                 /*
@@ -257,7 +258,7 @@ return [
      * Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
      */
     'intro_text' => <<<'INTRO'
-Welcome to the Transit Tracker API Documentation! The API is completely free, as long as it is used without excess. Transit Tracker data is free of charge, but it is mandatory to credit agency data when specified. Credits are registered in the <code>v2/agencies</code> API, in the <code>license</code> object.<br /></br />
+Welcome to the Transit Tracker API Documentation! The API is completely free, as long as it is used without excess. Transit Tracker data is free of charge, but it is mandatory to credit agency data when specified. Credits are registered in the <code>v2/agencies</code> API, in the <code>license</code> object.<br /><br />
 Bienvenue à la documentation de l'API de Transit Tracker! L'API est complètement gratuite, tant qu'elle est utilisée sans excès. Les données de Transit Tracker sont libre de droit, mais il est obligatoire de créditer les données des agences lorsque spécifié. Les crédits sont inscrit dans l'API <code>v2/agencies</code>, dans l'objet <code>license</code>.
 INTRO
     ,

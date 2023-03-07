@@ -3,6 +3,7 @@
 namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
+use App\Models\Trip;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,7 +33,7 @@ class ProcessGtfsShapes implements ShouldQueue
 
         foreach ($shapesReader->getRecords() as $shape) {
             $this->shapes[$shape['shape_id']][] = (object) [
-                'coordinates' => [$shape['shape_pt_lon'], $shape['shape_pt_lat']],
+                'coordinates' => [(float) $shape['shape_pt_lon'], (float) $shape['shape_pt_lat']],
                 'sequence' => $shape['shape_pt_sequence'],
             ];
         }
@@ -45,12 +46,28 @@ class ProcessGtfsShapes implements ShouldQueue
                 array_push($coordinates, $orderedPoint->coordinates);
             }
 
+            $trip = Trip::where(['agency_id' => $this->agency->id, 'shape' => $shapeId])->with(['stopTimes:agency_id,gtfs_trip_id,gtfs_stop_id', 'stopTimes.stop:agency_id,gtfs_stop_id,position'])->first();
+
+            $stops = $trip->stopTimes->map(function ($stopTime) {
+                return (object) [
+                    'type' => 'Feature',
+                    'properties' => (object) [],
+                    'geometry' => $stopTime->stop->position->toArray(),
+                ];
+            });
+
             $geojsonData = (object) [
-                'type' => 'Feature',
-                'properties' => (object) [],
-                'geometry' => (object) [
-                    'type' => 'LineString',
-                    'coordinates' => $coordinates,
+                'type' => 'FeatureCollection',
+                'features' => [
+                    (object) [
+                        'type' => 'Feature',
+                        'properties' => (object) [],
+                        'geometry' => (object) [
+                            'type' => 'LineString',
+                            'coordinates' => $coordinates,
+                        ],
+                    ],
+                    ...$stops,
                 ],
             ];
 

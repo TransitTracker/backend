@@ -3,6 +3,7 @@
 namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
+use App\Models\Gtfs\StopTime;
 use App\Models\Trip;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
@@ -10,6 +11,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
 use ZipArchive;
 
@@ -17,79 +20,97 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private Agency $agency, private string $zipFile)
+    private ?ZipArchive $zip = null;
+
+    private ?string $directory = null;
+
+    public function __construct(private Agency $agency, private string $zipFile, private array $files = [
+        'calendar.txt',
+        'routes.txt',
+        'stops.txt',
+        'stop_times.txt',
+        'trips.txt',
+        'shapes.txt',
+    ])
     {
     }
 
     public function handle()
     {
+        // For now, handle stop_times only for Sherbrooke as a test agency
+        if ($this->agency->slug !== 'stsh') {
+            $this->files = Arr::except($this->files, 'stop_times.txt');
+        }
+
         // Open (will only unzip needed files)
-        $zip = new ZipArchive();
-        $file = $zip->open($this->zipFile);
+        $this->zip = new ZipArchive();
+        $file = $this->zip->open($this->zipFile);
 
         if (! $file) {
             return false;
         }
 
         // Set and create extract folder
-        $cwd = getcwd();
-        $time = time();
-        $extractFolder = "{$cwd}/storage/app/static/{$this->agency->slug}-{$time}";
-        mkdir($extractFolder);
+        $time = now()->getTimestamp();
+        $this->directory = "static/{$this->agency->slug}-{$time}";
+        Storage::makeDirectory($this->directory);
 
-        // Extract and dispatch services
+        foreach ($this->files as $file) {
+            $job = match ($file) {
+                'calendar.txt' => ProcessGtfsServices::class,
+                'routes.txt' => ProcessGtfsRoutes::class,
+                'stops.txt' => ProcessGtfsStops::class,
+                'stop_times.txt' => ProcessGtfsStopTimes::class,
+                'trips.txt' => ProcessGtfsTrips::class,
+                'shapes.txt' => ProcessGtfsShapes::class,
+            };
+
+            [$shouldPaginate, $model] = match ($file) {
+                'stop_times.txt' => [true, StopTime::class],
+                'trips.txt' => [true, Trip::class],
+                default => [false, null],
+            };
+
+            $this->extractFile($file, $job, $shouldPaginate, $model);
+        }
+
+        $this->zip->close();
+
+        $this->zip = null;
+    }
+
+    private function extractFile(string $file, string $job, bool $shouldPaginate, string $model = null)
+    {
+        $filePath = "{$this->directory}/{$file}";
+
+        $content = $this->zip->getFromName($file);
+        Storage::put($filePath, $content);
+
         // If there is no calendar file, create an empty file.
-        $services = $zip->getFromName('calendar.txt');
-        if ($services) {
-            file_put_contents($extractFolder.'/calendar.txt', $services);
-
+        if (! $content && $file = 'calendar.txt') {
             $this->batch()->add([
-                new ProcessGtfsServices($this->agency, "{$extractFolder}/calendar.txt"),
-            ]);
-        } else {
-            $this->batch()->add([
-                new ProcessGtfsServices($this->agency, null),
+                new $job($this->agency, null),
             ]);
         }
 
-        // Open and dispatch routes
-        $routes = $zip->getFromName('routes.txt');
-        file_put_contents($extractFolder.'/routes.txt', $routes);
+        if ($shouldPaginate) {
+            // Remove old records
+            $model::where('agency_id', $this->agency->id)->delete();
+
+            $reader = Reader::createFromPath(Storage::path($filePath))->setHeaderOffset(0);
+            $size = ceil(count($reader) / 50000);
+
+            for ($i = 0; $i <= $size - 1; $i++) {
+                $this->batch()->add([
+                    new $job($this->agency, Storage::path($filePath), $i * 50000),
+                ]);
+            }
+
+            return;
+        }
 
         $this->batch()->add([
-            new ProcessGtfsRoutes($this->agency, "{$extractFolder}/routes.txt"),
+            new $job($this->agency, Storage::path($filePath)),
         ]);
-
-        // Remove old trips
-        Trip::whereAgencyId($this->agency->id)->delete();
-
-        // Open and dispatch trips
-        $trips = $zip->getFromName('trips.txt');
-        file_put_contents($extractFolder.'/trips.txt', $trips);
-        $tripsReader = Reader::createFromPath($extractFolder.'/trips.txt')->setHeaderOffset(0);
-
-        // Make sure there is never more than 50000 trips per job
-        $numberOfTripsStatement = ceil(count($tripsReader) / 50000);
-
-        for ($i = 0; $i <= $numberOfTripsStatement - 1; $i++) {
-            $this->batch()->add([
-                new ProcessGtfsTrips($this->agency, "{$extractFolder}/trips.txt", $i * 50000),
-            ]);
-        }
-
-        // Open and dispatch shapes (if any)
-        $shapes = $zip->getFromName('shapes.txt');
-
-        if ($shapes) {
-            file_put_contents("{$extractFolder}/shapes.txt", $shapes);
-
-            $this->batch()->add([
-                new ProcessGtfsShapes($this->agency, "{$extractFolder}/shapes.txt"),
-            ]);
-        }
-
-        $zip->close();
-
-        $zip = null;
     }
 }

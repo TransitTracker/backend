@@ -4,9 +4,7 @@ namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
 use App\Models\Route;
-use App\Models\Service;
 use App\Models\Trip;
-use Carbon\Carbon;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,7 +12,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use League\Csv\Reader;
 use League\Csv\Statement;
 
@@ -34,23 +31,15 @@ class ProcessGtfsTrips implements ShouldQueue
             ->limit(50000);
         $tripsRecords = $tripsStatement->process($tripsReader);
 
-        // Check if there is a fallback trip
-        $fallbackService = DB::table('services')
-            ->where('agency_id', $this->agency->id)
-            ->where('service_id', "FALLBACK-{$this->agency->slug}")
-            ->whereDate('end_date', '>=', Carbon::now())
-            ->first();
-
         $tripsToUpdate = [];
 
         foreach ($tripsRecords as $trip) {
             // Find the route and service matching this trip
             $route = Route::firstWhere([['agency_id', $this->agency->id], ['route_id', $trip['route_id']]]);
-            if ($fallbackService) {
-                $service = $fallbackService;
-            } else {
-                $service = Service::firstWhere([['agency_id', $this->agency->id], ['service_id', $trip['service_id']]]);
-            }
+            $service = $this->agency->services()->firstOrCreate(
+                ['service_id' => $trip['service_id']],
+                ['start_date' => now(), 'end_date' => now()->addYear()],
+            );
 
             // If there is no service, don't add it
             if ($service) {
@@ -80,6 +69,11 @@ class ProcessGtfsTrips implements ShouldQueue
                 // Fill optional service attribute
                 $newTrip['service_id'] = $service->id;
 
+                // Fill optional block attribute
+                if (array_key_exists('block_id', $trip)) {
+                    $newTrip['gtfs_block_id'] = $trip['block_id'];
+                }
+
                 // Fill optional shape attribute
                 if (array_key_exists('shape_id', $trip)) {
                     $newTrip['shape'] = $trip['shape_id'];
@@ -88,11 +82,6 @@ class ProcessGtfsTrips implements ShouldQueue
                 // Insert the trip into the array
                 array_push($tripsToUpdate, $newTrip);
             }
-        }
-
-        // STO route_long_name is not kept
-        if ($this->agency->slug === 'sto') {
-            $tripsToUpdate = collect($tripsToUpdate)->map(fn ($trip) => array_merge($trip, ['route_long_name' => '']))->all();
         }
 
         collect($tripsToUpdate)->chunk(1000)->each(function (Collection $chunk) {

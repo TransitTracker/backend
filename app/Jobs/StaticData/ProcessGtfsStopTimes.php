@@ -3,6 +3,7 @@
 namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
+use App\Models\Trip;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,6 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use League\Csv\Reader;
 use League\Csv\Statement;
 
@@ -24,16 +26,33 @@ class ProcessGtfsStopTimes implements ShouldQueue
 
     public function handle()
     {
+        $supportsBlocks = (bool) Trip::where('agency_id', $this->agency->id)->whereNotNull('gtfs_block_id')->count();
+        $tripIdToImport = Trip::select('shape', DB::raw('MIN(trip_id) as trip_id'))
+            ->where('agency_id', $this->agency->id)
+            ->groupBy('shape')
+            ->pluck('trip_id');
+
         $reader = Reader::createFromPath($this->file)->setHeaderOffset(0);
         $statement = (new Statement())
             ->offset($this->offset)
-            ->limit(50000);
+            ->limit(200000);
 
         $toCreate = [];
 
         foreach ($statement->process($reader) as $record) {
             // If there is no trip_id or arrival_time, skip
             if (! Arr::exists($record, 'trip_id') || ! Arr::exists($record, 'arrival_time')) {
+                continue;
+            }
+
+            $shouldNotImportThisTrip = $tripIdToImport->doesntContain($record['trip_id']);
+
+            // For agencies that do not support blocks, only import StopTimes for one trip per shape
+            // of for agencies that do support blocks, import first StopTimes for all trip
+            if (
+                (! $supportsBlocks && $shouldNotImportThisTrip) ||
+                ($supportsBlocks && $shouldNotImportThisTrip && $record['stop_sequence'] !== '1')
+            ) {
                 continue;
             }
 

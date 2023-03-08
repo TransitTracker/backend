@@ -11,7 +11,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
 use ZipArchive;
@@ -28,8 +27,8 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
         'calendar.txt',
         'routes.txt',
         'stops.txt',
-        'stop_times.txt',
         'trips.txt',
+        'stop_times.txt',
         'shapes.txt',
     ])
     {
@@ -37,11 +36,6 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
 
     public function handle()
     {
-        // For now, handle stop_times only for Sherbrooke as a test agency
-        if ($this->agency->slug !== 'stsh') {
-            $this->files = Arr::except($this->files, 'stop_times.txt');
-        }
-
         // Open (will only unzip needed files)
         $this->zip = new ZipArchive();
         $file = $this->zip->open($this->zipFile);
@@ -60,18 +54,18 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
                 'calendar.txt' => ProcessGtfsServices::class,
                 'routes.txt' => ProcessGtfsRoutes::class,
                 'stops.txt' => ProcessGtfsStops::class,
-                'stop_times.txt' => ProcessGtfsStopTimes::class,
                 'trips.txt' => ProcessGtfsTrips::class,
+                'stop_times.txt' => ProcessGtfsStopTimes::class,
                 'shapes.txt' => ProcessGtfsShapes::class,
             };
 
-            [$shouldPaginate, $model] = match ($file) {
-                'stop_times.txt' => [true, StopTime::class],
-                'trips.txt' => [true, Trip::class],
-                default => [false, null],
+            [$chunkSize, $model] = match ($file) {
+                'stop_times.txt' => [200_000, StopTime::class],
+                'trips.txt' => [50_000, Trip::class],
+                default => [0, null],
             };
 
-            $this->extractFile($file, $job, $shouldPaginate, $model);
+            $this->extractFile($file, $job, $chunkSize, $model);
         }
 
         $this->zip->close();
@@ -79,7 +73,7 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
         $this->zip = null;
     }
 
-    private function extractFile(string $file, string $job, bool $shouldPaginate, string $model = null)
+    private function extractFile(string $file, string $job, int $chunkSize, string $model = null)
     {
         $filePath = "{$this->directory}/{$file}";
 
@@ -93,16 +87,16 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
             ]);
         }
 
-        if ($shouldPaginate) {
+        if ($chunkSize) {
             // Remove old records
             $model::where('agency_id', $this->agency->id)->delete();
 
             $reader = Reader::createFromPath(Storage::path($filePath))->setHeaderOffset(0);
-            $size = ceil(count($reader) / 50000);
+            $size = ceil(count($reader) / $chunkSize);
 
             for ($i = 0; $i <= $size - 1; $i++) {
                 $this->batch()->add([
-                    new $job($this->agency, Storage::path($filePath), $i * 50000),
+                    new $job($this->agency, Storage::path($filePath), $i * $chunkSize),
                 ]);
             }
 

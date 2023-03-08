@@ -21,6 +21,6 @@ final class TagType extends Enum implements LocalizedEnum
     const Operator = 2;
 
     const Propulsion = 3;
-    
+
     const TtcGarage = 4;
 }

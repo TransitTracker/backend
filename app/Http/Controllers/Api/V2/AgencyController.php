@@ -48,7 +48,7 @@ class AgencyController extends Controller
     }
 
     #[Group('Vehicles')]
-    #[QueryParam("geojson", "boolean", "Include a GeoJSON `FeatureCollection` to the response. Defaults to true.", example: false, required: false)]
+    #[QueryParam('geojson', 'boolean', 'Include a GeoJSON `FeatureCollection` to the response. Defaults to true.', example: false, required: false)]
     public function vehicles(Request $request, Agency $agency)
     {
         if (! $agency->is_active && ! Auth::check()) {

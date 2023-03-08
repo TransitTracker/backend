@@ -28,8 +28,8 @@ class Update extends Command
             'calendar.txt',
             'routes.txt',
             'stops.txt',
-            'stop_times.txt',
             'trips.txt',
+            'stop_times.txt',
             'shapes.txt',
         ];
 

@@ -55,8 +55,8 @@ class ProcessGtfsTrips implements ShouldQueue
                     $newTrip['trip_headsign'] = $trip['trip_headsign'];
                 }
 
-                // Fill optional trip attribute
-                if (array_key_exists('trip_short_name', $trip)) {
+                // Fill optional trip attribute, do not keep trip_short_name for RTC
+                if (array_key_exists('trip_short_name', $trip) && $this->agency->slug !== 'rtc') {
                     $newTrip['trip_short_name'] = $trip['trip_short_name'];
                 }
 

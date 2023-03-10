@@ -48,10 +48,10 @@ class ProcessGtfsStopTimes implements ShouldQueue
             $shouldNotImportThisTrip = $tripIdToImport->doesntContain($record['trip_id']);
 
             // For agencies that do not support blocks, only import StopTimes for one trip per shape
-            // of for agencies that do support blocks, import first StopTimes for all trip
+            // of for agencies that do support blocks, import first StopTimes for all trip (normally 1, or 0 for some special agencies...)
             if (
                 (! $supportsBlocks && $shouldNotImportThisTrip) ||
-                ($supportsBlocks && $shouldNotImportThisTrip && $record['stop_sequence'] !== '1')
+                ($supportsBlocks && $shouldNotImportThisTrip && $record['stop_sequence'] !== '0' && $record['stop_sequence'] !== '1')
             ) {
                 continue;
             }

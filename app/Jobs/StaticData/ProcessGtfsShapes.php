@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use League\Csv\Reader;
 use Storage;
 
@@ -39,40 +40,44 @@ class ProcessGtfsShapes implements ShouldQueue
         }
 
         foreach ($this->shapes as $shapeId => $unorderedShape) {
-            usort($unorderedShape, fn ($a, $b) => $a->sequence <=> $b->sequence);
+            try {
+                usort($unorderedShape, fn ($a, $b) => $a->sequence <=> $b->sequence);
 
-            $coordinates = [];
-            foreach ($unorderedShape as $orderedPoint) {
-                array_push($coordinates, $orderedPoint->coordinates);
-            }
+                $coordinates = [];
+                foreach ($unorderedShape as $orderedPoint) {
+                    array_push($coordinates, $orderedPoint->coordinates);
+                }
 
-            $trip = Trip::where(['agency_id' => $this->agency->id, 'shape' => $shapeId])->with(['stopTimes:agency_id,gtfs_trip_id,gtfs_stop_id', 'stopTimes.stop:agency_id,gtfs_stop_id,position'])->first();
+                $trip = Trip::where(['agency_id' => $this->agency->id, 'shape' => $shapeId])->with(['stopTimes:agency_id,gtfs_trip_id,gtfs_stop_id', 'stopTimes.stop:agency_id,gtfs_stop_id,position'])->first();
 
-            $stops = $trip->stopTimes->map(function ($stopTime) {
-                return (object) [
-                    'type' => 'Feature',
-                    'properties' => (object) [],
-                    'geometry' => $stopTime->stop->position->toArray(),
-                ];
-            });
-
-            $geojsonData = (object) [
-                'type' => 'FeatureCollection',
-                'features' => [
-                    (object) [
+                $stops = $trip->stopTimes->map(function ($stopTime) {
+                    return (object) [
                         'type' => 'Feature',
                         'properties' => (object) [],
-                        'geometry' => (object) [
-                            'type' => 'LineString',
-                            'coordinates' => $coordinates,
-                        ],
-                    ],
-                    ...$stops,
-                ],
-            ];
+                        'geometry' => $stopTime->stop->position->toArray(),
+                    ];
+                });
 
-            Storage::disk('public')
-                ->put("shapes/{$this->agency->slug}/{$shapeId}.json", json_encode($geojsonData));
+                $geojsonData = (object) [
+                    'type' => 'FeatureCollection',
+                    'features' => [
+                        (object) [
+                            'type' => 'Feature',
+                            'properties' => (object) [],
+                            'geometry' => (object) [
+                                'type' => 'LineString',
+                                'coordinates' => $coordinates,
+                            ],
+                        ],
+                        ...$stops,
+                    ],
+                ];
+
+                Storage::disk('public')
+                    ->put("shapes/{$this->agency->slug}/{$shapeId}.json", json_encode($geojsonData));
+            } catch (\Exception $e) {
+                Log::error("Error when trying to create shape {$shapeId} for agency {$this->agency->slug}", ['what' => $e->getMessage(), 'where' => "{$e->getFile()}:{$e->getLine()}"]);
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Notification;
+use Symfony\Component\Console\Helper\Table;
 
 class Update extends Command
 {
@@ -22,6 +23,8 @@ class Update extends Command
         parent::__construct();
     }
 
+    private Table $table;
+
     public function handle()
     {
         $files = [
@@ -32,6 +35,9 @@ class Update extends Command
             'stop_times.txt',
             'shapes.txt',
         ];
+
+        $this->table = new Table($this->output);
+        $this->table->setHeaders(['Agency', 'View on Horizon']);
 
         if ($this->option('select')) {
             $files = $this->choice('Please select the files to update', $files, null, null, true);
@@ -48,9 +54,9 @@ class Update extends Command
 
             $this->createBatch($agency, $files);
 
-            $this->info("Updating {$agency->short_name}");
+            $this->table->render();
 
-            return false;
+            return;
         }
 
         foreach (Agency::all() as $agency) {
@@ -64,15 +70,15 @@ class Update extends Command
             $this->createBatch($agency, $files);
         }
 
+        $this->table->render();
         $this->newLine();
-        $this->info('Refresh launched!');
     }
 
     private function createBatch(Agency $agency, array $files)
     {
         $time = now()->toDateString();
 
-        Bus::batch([
+        $batch = Bus::batch([
             new DownloadStatic($agency, $files),
         ])
             ->onQueue('gtfs')
@@ -85,5 +91,12 @@ class Update extends Command
                 Notification::send([User::first()], new StaticDataUpdated($agency));
             })
             ->dispatch();
+
+        $this->table->addRow([
+            $agency->short_name,
+            route('horizon.jobs-batches.show', [
+                'id' => $batch->id,
+            ]),
+        ]);
     }
 }

@@ -72,6 +72,11 @@ class ProcessGtfsTrips implements ShouldQueue
                 // Fill optional block attribute
                 if (array_key_exists('block_id', $trip)) {
                     $newTrip['gtfs_block_id'] = $trip['block_id'];
+
+                    // For RTL, only use the block_id before the underscore
+                    if ($this->agency === 'rtl') {
+                        $newTrip['gtfs_block_id'] = substr($trip['block_id'], 0, strpos($trip['block_id'], '_'));
+                    }
                 }
 
                 // Fill optional shape attribute

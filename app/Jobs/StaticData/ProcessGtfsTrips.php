@@ -74,7 +74,7 @@ class ProcessGtfsTrips implements ShouldQueue
                     $newTrip['gtfs_block_id'] = $trip['block_id'];
 
                     // For RTL, only use the block_id before the underscore
-                    if ($this->agency === 'rtl') {
+                    if ($this->agency->slug === 'rtl') {
                         $newTrip['gtfs_block_id'] = substr($trip['block_id'], 0, strpos($trip['block_id'], '_'));
                     }
                 }

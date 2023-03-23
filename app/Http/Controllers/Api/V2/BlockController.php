@@ -45,6 +45,10 @@ class BlockController extends Controller
             ->get()
             ->sortBy('firstDeparture.departure')
             ->transform(function ($item) {
+                if (! $item->firstDeparture) {
+                    return $item;
+                }
+
                 $item->firstDeparture->departure = str($item->firstDeparture->departure)->substr(0, 5);
 
                 return $item;

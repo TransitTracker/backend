@@ -43,12 +43,11 @@ class BlockController extends Controller
             ->select(['id', 'agency_id', 'trip_id', 'trip_headsign', 'trip_short_name', 'route_color', 'route_text_color', 'route_short_name'])
             ->with('firstDeparture')
             ->get()
+            ->filter(function ($item) {
+                return $item->firstDeparture;
+            })
             ->sortBy('firstDeparture.departure')
             ->transform(function ($item) {
-                if (! $item->firstDeparture) {
-                    return $item;
-                }
-
                 $item->firstDeparture->departure = str($item->firstDeparture->departure)->substr(0, 5);
 
                 return $item;

@@ -17,7 +17,7 @@ class ProcessGtfsServices implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private Agency $agency, private ?string $file)
+    public function __construct(private Agency $agency, private string $file)
     {
     }
 
@@ -26,14 +26,9 @@ class ProcessGtfsServices implements ShouldQueue
         // Remove old services
         Service::whereAgencyId($this->agency->id)->delete();
 
-        if ($this->file) {
-            $servicesReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
-        } else {
-            $servicesReader = null;
-        }
+        $servicesReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
 
-        // Check if there is some services. If not, services will be added on the fly when parsing trips.
-        if ($servicesReader && count($servicesReader) >= 1) {
+        if (count($servicesReader) >= 1) {
             $services = [];
 
             foreach ($servicesReader->getRecords() as $service) {

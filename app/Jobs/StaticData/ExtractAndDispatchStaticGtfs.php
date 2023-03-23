@@ -79,14 +79,12 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
 
         $content = $this->zip->getFromName($file);
 
-        // If there is no calendar file, continue without (will create a fallback service)
-        if (! $content && $file = 'calendar.txt') {
-            $this->batch()->add([
-                new $job($this->agency, null),
-            ]);
-        } else {
-            Storage::put($filePath, $content);
+        // If there is no calendar file, continue without it
+        if (! $content && $file === 'calendar.txt') {
+            return;
         }
+
+        Storage::put($filePath, $content);
 
         if ($chunkSize) {
             // Remove old records

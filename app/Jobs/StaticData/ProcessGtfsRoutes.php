@@ -59,11 +59,11 @@ class ProcessGtfsRoutes implements ShouldQueue
 
     private function getColor(array $route, string $field, string $fallback)
     {
-        $color = Str::squish($route[$field]);
-
         if (! array_key_exists($field, $route)) {
             return $fallback;
         }
+
+        $color = Str::squish($route[$field]);
 
         if (Str::length($color) === 6) {
             return "#{$color}";

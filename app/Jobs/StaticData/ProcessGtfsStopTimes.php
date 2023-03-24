@@ -26,6 +26,8 @@ class ProcessGtfsStopTimes implements ShouldQueue
 
     public function handle()
     {
+        info("Processing StopTimes for {$this->agency->name} ({$this->agency->id})");
+
         $supportsBlocks = (bool) Trip::where('agency_id', $this->agency->id)->whereNotNull('gtfs_block_id')->count();
         $tripIdToImport = Trip::select('shape', DB::raw('MIN(trip_id) as trip_id'))
             ->where('agency_id', $this->agency->id)
@@ -69,5 +71,7 @@ class ProcessGtfsStopTimes implements ShouldQueue
         });
 
         $reader = null;
+
+        info("Finished processing StopTimes for {$this->agency->name} ({$this->agency->id})");
     }
 }

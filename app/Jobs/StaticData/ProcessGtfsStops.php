@@ -24,6 +24,8 @@ class ProcessGtfsStops implements ShouldQueue
 
     public function handle()
     {
+        info("Processing stops for agency {$this->agency->slug}");
+
         // Remove old stops
         Stop::whereAgencyId($this->agency->id)->delete();
 
@@ -57,5 +59,7 @@ class ProcessGtfsStops implements ShouldQueue
         });
 
         $stopsReader = null;
+
+        info("Finished processing stops for agency {$this->agency->slug}");
     }
 }

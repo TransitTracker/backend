@@ -26,7 +26,6 @@ class GtfsRtHandler implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param  Agency  $agency
      * @param  string  $dataFile
      * @param  int  $time
      */
@@ -230,7 +229,12 @@ class GtfsRtHandler implements ShouldQueue
 
                 array_push($activeArray, $vehicle->id);
             } catch (Exception $e) {
-                Log::error('Vehicle in the refresh failed', [
+                // London Transit Comission oftens have vehicles with invalid coordinates, ignore these
+                if ($this->agency->slug === 'ltc' && str($e->getMessage())->contains("1264 Out of range value for column 'lon'")) {
+                    return;
+                }
+
+                Log::warning('Vehicle in the refresh failed', [
                     'agency' => $this->agency->slug,
                     'exception' => $e->getMessage(),
                 ]);

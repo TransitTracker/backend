@@ -25,8 +25,6 @@ class ProcessGtfsTrips implements ShouldQueue
 
     public function handle()
     {
-        info("Processing trips for {$this->agency->name} ({$this->agency->id}), starting at offset {$this->offset}");
-
         $tripsReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
         $tripsStatement = (new Statement())
             ->offset($this->offset)
@@ -96,7 +94,5 @@ class ProcessGtfsTrips implements ShouldQueue
         });
 
         $tripsReader = null;
-
-        info("Finished processing trips for {$this->agency->name} ({$this->agency->id}), starting at offset {$this->offset}");
     }
 }

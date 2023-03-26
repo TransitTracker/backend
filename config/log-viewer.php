@@ -49,7 +49,10 @@ return [
     |
     */
 
-    'middleware' => ['web', 'auth'],
+    'middleware' => [
+        'web',
+        \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------

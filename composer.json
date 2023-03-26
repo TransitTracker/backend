@@ -13,7 +13,7 @@
     "ext-simplexml": "*",
     "ext-zip": "*",
     "awobaz/compoships": "^2.2",
-    "bensampo/laravel-enum": "^5.0",
+    "bensampo/laravel-enum": "^6.3",
     "beyondcode/laravel-websockets": "^1.11",
     "blade-ui-kit/blade-icons": "^1.4",
     "codeat3/blade-google-material-design-icons": "^1.2",
@@ -25,15 +25,15 @@
     "guzzlehttp/guzzle": "^7.2",
     "guzzlehttp/uri-template": "^1.0",
     "laravel-notification-channels/webpush": "^7.0",
-    "laravel/framework": "^9.25",
+    "laravel/framework": "^10.0",
     "laravel/horizon": "^5.7",
     "laravel/sanctum": "^3.2",
     "laravel/slack-notification-channel": "^2.1",
     "league/csv": "^9.6",
     "masbug/flysystem-google-drive-ext": "^2.2",
-    "matanyadaev/laravel-eloquent-spatial": "^2.0",
+    "matanyadaev/laravel-eloquent-spatial": "^3.1",
     "ohdearapp/ohdear-php-sdk": "^3.1",
-    "opcodesio/log-viewer": "^1.6",
+    "opcodesio/log-viewer": "^2.3",
     "predis/predis": "^2.0",
     "pusher/pusher-php-server": "^7.0",
     "spatie/cpu-load-health-check": "^1.0",
@@ -47,20 +47,19 @@
     "usmanhalalit/laracsv": "^2.1"
   },
   "require-dev": {
-    "amirami/localizator": "^0.9.1@alpha",
     "barryvdh/laravel-debugbar": "^3.5",
     "barryvdh/laravel-ide-helper": "^2.9",
     "fakerphp/faker": "^1.13",
     "knuckleswtf/scribe": "^4.14",
     "laravel/pint": "^1.0",
-    "laravel/telescope": "^4.6",
+    "laravel/telescope": "^4.14",
     "laravel/tinker": "^2.6",
     "laravel/ui": "^4.0",
     "mockery/mockery": "^1.4",
-    "nunomaduro/collision": "^6.1",
+    "nunomaduro/collision": "^7.0",
     "nunomaduro/larastan": "^2.1",
-    "phpunit/phpunit": "^9.2",
-    "spatie/laravel-ignition": "^1.0"
+    "phpunit/phpunit": "^10.0",
+    "spatie/laravel-ignition": "^2.0"
   },
   "config": {
     "optimize-autoloader": true,
@@ -91,7 +90,6 @@
       "Tests\\": "tests/"
     }
   },
-  "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
     "post-autoload-dump": [

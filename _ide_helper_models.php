@@ -177,32 +177,32 @@ namespace App\Models\Gtfs{
  * @property-read int|null $stop_times_count
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop newModelQuery()
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop newQuery()
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop orderByDistance(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $direction = 'asc')
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop orderByDistanceSphere(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $direction = 'asc')
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop orderByDistance(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $direction = 'asc')
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop orderByDistanceSphere(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $direction = 'asc')
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop query()
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereAgencyId($value)
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereCode($value)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereContains(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereContains(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereCreatedAt($value)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereCrosses(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereDisjoint(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereDistance(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $operator, int|float $value)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereDistanceSphere(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $operator, int|float $value)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereEquals(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereCrosses(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereDisjoint(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereDistance(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $operator, int|float $value)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereDistanceSphere(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $operator, int|float $value)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereEquals(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereGtfsStopId($value)
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereId($value)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereIntersects(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereIntersects(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereName($value)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereNotContains(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereNotWithin(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereOverlaps(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereNotContains(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereNotWithin(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereOverlaps(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop wherePosition($value)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereSrid(string $column, string $operator, int|float $value)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereTouches(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereSrid(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, string $operator, int|float $value)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereTouches(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereUpdatedAt($value)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereWithin(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop withDistance(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $alias = 'distance')
- * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop withDistanceSphere(string $column, \MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $alias = 'distance')
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereWithin(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop withDistance(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $alias = 'distance')
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop withDistanceSphere(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $alias = 'distance')
  */
 	class Stop extends \Eloquent {}
 }
@@ -218,7 +218,6 @@ namespace App\Models{
  * @property string $link
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $url
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Agency> $agencies
  * @property-read int|null $agencies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
@@ -233,7 +232,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Link whereUrl($value)
  */
 	class Link extends \Eloquent {}
 }
@@ -285,17 +283,17 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $slug
+ * @property array|null $info_title
+ * @property array|null $info_body
  * @property array $map_box
  * @property \Illuminate\Database\Eloquent\Casts\AsArrayObject $map_center
  * @property int $map_zoom
+ * @property array $credits
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property array $description
  * @property array|null $meta_description
- * @property array $credits
- * @property string|null $photo
- * @property string|null $photo_author
- * @property string|null $photo_link
+ * @property string|null $image
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Agency> $activeAgencies
  * @property-read int|null $active_agencies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Alert> $activeAlerts
@@ -314,14 +312,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereCredits($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Region whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Region whereInfoBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Region whereInfoTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapBox($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapCenter($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapZoom($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region wherePhoto($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region wherePhotoAuthor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Region wherePhotoLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereUpdatedAt($value)
  */
@@ -334,6 +332,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $agency_id
+ * @property string $gtfs_route_id
  * @property string $route_id
  * @property string $short_name
  * @property string $long_name
@@ -348,6 +347,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereAgencyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Route whereGtfsRouteId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereLongName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereRouteId($value)
@@ -367,6 +367,7 @@ namespace App\Models{
  * @property string $start_date
  * @property string $end_date
  * @property int $agency_id
+ * @property string $gtfs_service_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Agency|null $agency
@@ -378,6 +379,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Service whereAgencyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Service whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Service whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereGtfsServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Service whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Service whereServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Service whereStartDate($value)
@@ -416,6 +418,9 @@ namespace App\Models{
  *
  * @property int $id
  * @property array $label
+ * @property array|null $short_label
+ * @property \BenSampo\Enum\Enum|null $type
+ * @property array|null $description
  * @property string|null $icon
  * @property string $color
  * @property string $dark_color
@@ -424,9 +429,6 @@ namespace App\Models{
  * @property int $show_on_map
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property array|null $short_label
- * @property \App\Enums\TagType $type
- * @property array|null $description
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Agency> $agencies
  * @property-read int|null $agencies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
@@ -458,9 +460,15 @@ namespace App\Models{
  *
  * @property int $id
  * @property int|null $agency_id
+ * @property string $gtfs_trip_id
  * @property string $trip_id
+ * @property string $gtfs_route_id
+ * @property string $gtfs_service_id
  * @property string|null $gtfs_block_id
+ * @property string|null $gtfs_shape_id
  * @property string $trip_headsign
+ * @property string|null $headsign
+ * @property string|null $short_name
  * @property string|null $trip_short_name
  * @property string|null $route_color
  * @property string|null $route_text_color
@@ -485,6 +493,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereExpiration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereGtfsBlockId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereGtfsRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereGtfsServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereGtfsShapeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereGtfsTripId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereHeadsign($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereRouteColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereRouteLongName($value)
@@ -492,6 +505,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereRouteTextColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereShape($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereShortName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTripHeadsign($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTripId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTripShortName($value)
@@ -555,12 +569,26 @@ namespace App\Models{
  * @property string|null $label
  * @property string|null $force_label
  * @property string|null $plate
- * @property string|null $odometer
- * @property string|null $timestamp
+ * @property float|null $odometer
+ * @property int|null $timestamp
  * @property int|null $congestion
  * @property int|null $occupancy
  * @property string|null $force_ref
+ * @property int $is_active
+ * @property string $vehicle_id
+ * @property string|null $gtfs_trip_id
+ * @property string|null $gtfs_route_id
+ * @property string|null $start_time
+ * @property int|null $schedule_relationship
+ * @property string|null $license_plate
  * @property mixed|null $position
+ * @property int|null $current_stop_sequence
+ * @property string|null $gtfs_stop_id
+ * @property int|null $current_status
+ * @property int|null $congestion_level
+ * @property int|null $occupancy_status
+ * @property int|null $vehicle_type
+ * @property string|null $force_vehicle_id
  * @property-read \App\Models\Agency|null $agency
  * @property-read string $displayed_label
  * @property-read string $ref
@@ -588,29 +616,43 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereAgencyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereBearing($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereCongestion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereCongestionLevel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereCurrentStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereCurrentStopSequence($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereForceLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereForceRef($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereForceVehicleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereGtfsRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereGtfsStopId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereGtfsTrip($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereGtfsTripId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereIcon($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereLat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereLicensePlate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereLon($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereOccupancy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereOccupancyStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereOdometer($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle wherePlate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle wherePosition($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereRelationship($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereRoute($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereScheduleRelationship($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereSpeed($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereStart($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereStartTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereStopSequence($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereTimestamp($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereTripId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereVehicle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereVehicleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereVehicleType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle withoutTouch()
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle withoutTypeOfTags(int $type)
  */

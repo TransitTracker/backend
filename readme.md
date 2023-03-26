@@ -89,8 +89,8 @@ Used for some GTFS-RT feeds that do not work with the PHP implementation (so far
 5. `php artisan horizon:publish`
 6. `yarn install`
 7. `php artisan tinker` then create a user
-    1. `User::create(['name' => 'Admin', 'email' => 'admin@example.org', 'password' => bcrypt('password')]);`
-    2. Don’t forget to adjust the `.env` variables, `MAIL_TO`
+   1. `User::create(['name' => 'Admin', 'email' => 'admin@example.org', 'password' => bcrypt('password')]);`
+   2. Don’t forget to adjust the `.env` variables, `MAIL_TO`
 8. Go to `/admin` and create a region and an agency to get started
 
 ### Commands to run the server
@@ -116,6 +116,7 @@ php artisan config:cache
 php artisan event:cache
 php artisan horizon:terminate
 php artisan horizon:publish
+php artisan log-viewer:publish
 php artisan icons:cache
 php artisan route:cache
 php artisan schedule-monitor:sync

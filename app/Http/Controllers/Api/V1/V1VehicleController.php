@@ -15,7 +15,6 @@ class V1VehicleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Agency  $agency
      * @return VehiclesCollection|\Illuminate\Http\JsonResponse
      */
     public function show(Agency $agency)

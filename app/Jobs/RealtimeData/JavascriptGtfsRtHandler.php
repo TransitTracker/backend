@@ -24,7 +24,6 @@ class JavascriptGtfsRtHandler implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param  Agency  $agency
      * @param  string  $dataFile
      * @param  int  $time
      */

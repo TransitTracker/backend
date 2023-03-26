@@ -2,10 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\CongestionLevel;
-use App\Enums\OccupancyStatus;
-use App\Enums\ScheduleRelationship;
-use App\Enums\VehicleStopStatus;
 use App\Filament\Resources\VehicleResource\Pages;
 use App\Filament\Resources\VehicleResource\RelationManagers\TagsRelationManager;
 use App\Models\Vehicle;
@@ -37,36 +33,6 @@ class VehicleResource extends Resource
                     TextInput::make('force_label')->label('Fleet label')->columnSpan(1)->hint('force_label')->helperText('Use to replace the vehicle number provided by the agency'),
                     TextInput::make('force_ref')->label('Custom identifier')->columnSpan(1)->hint('force_ref')->helperText('Use to replace an incorrect vehicle identifier provided by the agency (like a wrong VIN). Remember to change this field for every vehicle with a wrong vin!'),
                 ]),
-                /* Tabs::make('')->columnSpan(2)->tabs([
-                    Tabs\Tab::make('Static data')->schema([
-                        TextInput::make('vehicle')
-                            ->required(),
-                        Toggle::make('active')
-                            ->required(),
-                        BelongsToSelect::make('agency_id')->required()->relationship('agency', 'name'),
-                        Select::make('icon')->options(['bus', 'tram', 'train'])->required(),
-                    ]),
-                    Tabs\Tab::make('Changing data')->schema([
-                        TextInput::make('timestamp'),
-                        TextInput::make('route')
-                            ->required(),
-                        TextInput::make('start'),
-                        TextInput::make('gtfs_trip')->label('Trip (from feed)'),
-                        TextInput::make('trip_id')->label('trip_id (relation)'),
-                        TextInput::make('lat')->numeric(),
-                        TextInput::make('lon')->numeric(),
-                        TextInput::make('bearing')->numeric(),
-                        TextInput::make('speed')->numeric(),
-                        TextInput::make('stop_sequence')->numeric(),
-                        TextInput::make('label'),
-                        TextInput::make('plate'),
-                        TextInput::make('odometer'),
-                        Select::make('status')->options(VehicleStopStatus::asFlippedArray()),
-                        Select::make('relationship')->options(ScheduleRelationship::asFlippedArray()),
-                        Select::make('congestion')->options(CongestionLevel::asFlippedArray()),
-                        Select::make('occupancy')->options(OccupancyStatus::asFlippedArray()),
-                    ]),
-                ]), */
             ]);
     }
 

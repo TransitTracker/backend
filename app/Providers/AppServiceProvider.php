@@ -8,9 +8,11 @@ use Filament\Facades\Filament;
 use Filament\Navigation\NavigationItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Vite;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Opcodes\LogViewer\Facades\LogViewer;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
 use Spatie\Health\Checks\Checks\CacheCheck;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
@@ -27,19 +29,15 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
     }
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Schema::defaultStringLength(191);
 
@@ -82,7 +80,7 @@ class AppServiceProvider extends ServiceProvider
             if (Auth::hasUser() && Auth::user()->email === config('transittracker.admin_email')) {
                 array_push($navigationItems,
                     NavigationItem::make('Logs')
-                        ->url(route('blv.index'))
+                        ->url(route('log-viewer.index'))
                         ->icon('gmdi-error')
                         ->group('System'),
                     NavigationItem::make('Horizon')
@@ -92,6 +90,11 @@ class AppServiceProvider extends ServiceProvider
             }
 
             Filament::registerNavigationItems($navigationItems);
+        });
+
+        LogViewer::auth(function (Request $request) {
+            return $request->user()
+                && $request->user()->email === config('transittracker.admin_email');
         });
     }
 }

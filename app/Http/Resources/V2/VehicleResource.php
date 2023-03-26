@@ -37,19 +37,19 @@ class VehicleResource extends JsonResource
             'currentStopSequence' => $this->stop_sequence,
             'currentStatus' => [
                 'data' => $this->status,
-                'label' => VehicleStopStatus::getDescription($this->status),
+                'label' => filled($this->status) ? VehicleStopStatus::getDescription($this->status) : null,
             ],
             'scheduleRelationship' => [
                 'data' => $this->relationship,
-                'label' => ScheduleRelationship::getDescription($this->relationship),
+                'label' => filled($this->relationship) ? ScheduleRelationship::getDescription($this->relationship) : null,
             ],
             'congestionLevel' => [
                 'data' => $this->congestion,
-                'label' => CongestionLevel::getDescription($this->congestion),
+                'label' => filled($this->congestion) ? CongestionLevel::getDescription($this->congestion) : null,
             ],
             'occupancyStatus' => [
                 'data' => $this->occupancy,
-                'label' => OccupancyStatus::getDescription($this->occupancy),
+                'label' => filled($this->occupancy) ? OccupancyStatus::getDescription($this->occupancy) : null,
             ],
             'agency' => $this->agency->slug,
             'links' => LinkSimpleResource::collection($this->links),

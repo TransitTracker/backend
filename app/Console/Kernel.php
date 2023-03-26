@@ -24,11 +24,8 @@ class Kernel extends ConsoleKernel
 
     /**
      * Define the application's command schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
         $schedule->job(new DispatchAgencies(Agency::active()->get()), 'vehicles')->everyMinute()->unlessBetween('03:54', '03:56');
         $schedule->job(new CheckTimestamps(), 'default')->everyThreeMinutes();
@@ -39,14 +36,13 @@ class Kernel extends ConsoleKernel
         $schedule->command('download:clean')->dailyAt('03:55');
         $schedule->job(new CleanFolders(), 'gtfs')->dailyAt('03:55');
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->command('cache:prune-stale-tags')->hourly();
     }
 
     /**
      * Register the commands for the application.
-     *
-     * @return void
      */
-    protected function commands()
+    protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
 

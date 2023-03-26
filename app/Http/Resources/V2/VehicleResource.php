@@ -52,7 +52,7 @@ class VehicleResource extends JsonResource
                 'label' => filled($this->occupancy) ? OccupancyStatus::getDescription($this->occupancy) : null,
             ],
             'agency' => $this->agency->slug,
-            'links' => LinkSimpleResource::collection($this->links),
+            'links' => $this->links->pluck('id')->unique()->sort(),
             'tags' => TagSimpleResource::collection($this->tags),
             'trip' => TripResource::make($this->trip)->additional(['agencySlug' => $this->agency->slug]),
             'createdAt' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),

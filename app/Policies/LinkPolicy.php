@@ -17,7 +17,7 @@ class LinkPolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->email !== config('transittracker.admin_email')) {
+        if (! $user->isAdmin()) {
             return false;
         }
 
@@ -41,7 +41,7 @@ class LinkPolicy
      */
     public function create(User $user)
     {
-        if ($user->email !== config('transittracker.admin_email')) {
+        if (! $user->isAdmin()) {
             return false;
         }
 
@@ -55,7 +55,7 @@ class LinkPolicy
      */
     public function update(User $user, Link $link)
     {
-        if ($user->email !== config('transittracker.admin_email')) {
+        if (! $user->isAdmin()) {
             return false;
         }
 
@@ -69,7 +69,7 @@ class LinkPolicy
      */
     public function delete(User $user, Link $link)
     {
-        if ($user->email !== config('transittracker.admin_email')) {
+        if (! $user->isAdmin()) {
             return false;
         }
 

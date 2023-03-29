@@ -77,7 +77,7 @@ class AppServiceProvider extends ServiceProvider
                     ->group('Special'),
             ];
 
-            if (Auth::hasUser() && Auth::user()->email === config('transittracker.admin_email')) {
+            if (Auth::hasUser() && Auth::user()->isAdmin())) {
                 array_push($navigationItems,
                     NavigationItem::make('Logs')
                         ->url(route('log-viewer.index'))
@@ -94,7 +94,7 @@ class AppServiceProvider extends ServiceProvider
 
         LogViewer::auth(function (Request $request) {
             return $request->user()
-                && $request->user()->email === config('transittracker.admin_email');
+                && $request->user()->isAdmin();
         });
     }
 }

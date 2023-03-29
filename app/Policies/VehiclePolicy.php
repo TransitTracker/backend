@@ -38,7 +38,7 @@ class VehiclePolicy
      */
     public function create(User $user)
     {
-        if ($user->email !== config('transittracker.admin_email')) {
+        if (! $user->isAdmin()) {
             return false;
         }
 
@@ -53,12 +53,12 @@ class VehiclePolicy
     public function update(User $user, Vehicle $vehicle)
     {
         // Authorize if Zenbus
-        if ($user->email !== config('transittracker.admin_email') && Str::startsWith($vehicle->vehicle, 'zenbus:Vehicle:')) {
+        if (! $user->isAdmin() && Str::startsWith($vehicle->vehicle, 'zenbus:Vehicle:')) {
             return true;
         }
 
         // Then, refuse if not exo Vin
-        if ($user->email !== config('transittracker.admin_email') && ! $vehicle->isExoVin()) {
+        if (! $user->isAdmin() && ! $vehicle->isExoVin()) {
             return false;
         }
 
@@ -73,7 +73,7 @@ class VehiclePolicy
      */
     public function delete(User $user, Vehicle $vehicle)
     {
-        if ($user->email !== config('transittracker.admin_email')) {
+        if (! $user->isAdmin()) {
             return false;
         }
 

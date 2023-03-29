@@ -17,7 +17,7 @@ class AgencyPolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->email !== config('transittracker.admin_email')) {
+        if (! $user->isAdmin()) {
             return false;
         }
 
@@ -41,7 +41,7 @@ class AgencyPolicy
      */
     public function create(User $user)
     {
-        if ($user->email !== config('transittracker.admin_email')) {
+        if (! $user->isAdmin()) {
             return false;
         }
 
@@ -55,7 +55,7 @@ class AgencyPolicy
      */
     public function update(User $user, Agency $agency)
     {
-        if ($user->email !== config('transittracker.admin_email')) {
+        if (! $user->isAdmin()) {
             return false;
         }
 
@@ -69,7 +69,7 @@ class AgencyPolicy
      */
     public function delete(User $user, Agency $agency)
     {
-        if ($user->email !== config('transittracker.admin_email')) {
+        if (! $user->isAdmin()) {
             return false;
         }
 

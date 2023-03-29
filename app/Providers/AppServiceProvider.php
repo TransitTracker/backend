@@ -77,7 +77,7 @@ class AppServiceProvider extends ServiceProvider
                     ->group('Special'),
             ];
 
-            if (Auth::hasUser() && Auth::user()->isAdmin())) {
+            if (Auth::hasUser() && Auth::user()->isAdmin()) {
                 array_push($navigationItems,
                     NavigationItem::make('Logs')
                         ->url(route('log-viewer.index'))

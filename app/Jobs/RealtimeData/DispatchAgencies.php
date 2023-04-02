@@ -51,7 +51,7 @@ class DispatchAgencies implements ShouldQueue
         });
 
         foreach ($responses as $agencySlug => $response) {
-            if (! $response->ok()) {
+            if (method_exists($response, 'ok') && ! $response->ok()) {
                 continue;
             }
 

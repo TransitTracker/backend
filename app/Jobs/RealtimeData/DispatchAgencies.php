@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Http\Client\Pool;
+use Illuminate\Http\Client\Response;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
@@ -51,7 +52,7 @@ class DispatchAgencies implements ShouldQueue
         });
 
         foreach ($responses as $agencySlug => $response) {
-            if (method_exists($response, 'ok') && ! $response->ok()) {
+            if (is_a($response, Response::class) || ! $response->ok()) {
                 continue;
             }
 

@@ -28,6 +28,11 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
+            Route::middleware('web')
+                ->domain('vin.transittracker.ca')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/vin.php'));
+
             Route::prefix('')
                 ->middleware('api')
                 ->namespace($this->namespace)

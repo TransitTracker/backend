@@ -77,6 +77,10 @@ class SuggestionController extends Controller
 
     public function vote(Request $request, Suggestion $suggestion)
     {
+        $request->validate([
+            'cf-turnstile-response' => ['required', 'string', new Turnstile],
+        ]);
+        
         $request->session()->put("vin-vote-{$suggestion->vin}", $suggestion->id);
 
         $suggestion->upvotes += 1;

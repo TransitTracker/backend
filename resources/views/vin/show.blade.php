@@ -206,9 +206,11 @@
                     class="p-4 mt-6 border rounded-2xl text-m3-surface-on dark:bg-m3-surface-dark dark:text-m3-surface-dark-on border-m3-background-outline dark:border-m3-background-dark-outline"
                     id="form-suggest">
                     @csrf
+                    
                     @env('local')
                     <input type="hidden" value="good" id="cf-turnstile-response" name="cf-turnstile-response" />
                     @endenv
+
                     <input type="hidden" value="{{ $vin }}" id="vin" name="vin">
 
                     <h2 class="text-[1.375rem] leading-8">{{ __('Submit a new fleet number') }}</h2>
@@ -236,6 +238,8 @@
                         </label>
                     </div>
 
+                    <div class="cf-turnstile" data-sitekey="{{ config('transittracker.turnstile.site_key') }}" data-size="compact"></div>
+
                     @error('cf-turnstile-response')
                         <div class="mb-4 text-xs font-medium text-red-500">
                             {{ __('The captcha validation has failed. Please try again.') }}
@@ -243,8 +247,7 @@
                     @enderror
 
                     <div class="flex">
-                        <button data-sitekey="{{ config('transittracker.turnstile.site_key') }}"
-                            data-callback='onSuggestSubmit'
+                        <button type="submit"
                             class="relative flex items-center h-10 px-6 text-sm font-medium transition-colors rounded-full bg-m3-primary text-m3-primary-on dark:bg-m3-primary-dark dark:text-m3-primary-dark-on hover:bg-opacity-85 focus:bg-opacity-75">
                             {{ __('Send') }}
                             <x-gmdi-send class="w-5 h-5 ml-2" />
@@ -291,10 +294,16 @@
                             @guest
                                 <form action="{{ route('vin.vote', ['suggestion' => $suggestion->id]) }}" method="POST"
                                     id="form-vote">
+                    
+                                    @env('local')
+                                    <input type="hidden" value="good" id="cf-turnstile-response" name="cf-turnstile-response" />
+                                    @endenv
+
+                                    <div class="cf-turnstile" data-sitekey="{{ config('transittracker.turnstile.site_key') }}" data-size="compact"></div>
+                                    
                                     @csrf
-                                    <button data-sitekey="{{ config('transittracker.turnsite.site_key') }}"
-                                        data-callback='onVoteSubmit' @if ($sessionVote) disabled @endif
-                                        class="relative flex items-center justify-center w-9 h-9 before:rounded-full before:absolute before:inset-0 before:bg-black dark:before:bg-white before:opacity-0 hover:before:opacity-5 dark:hover:before:opacity-10 disabled:before:opacity-0 focus:before:opacity-5 disabled:cursor-not-allowed group @if (!$sessionVote) g-recaptcha @endif">
+                                    <button @if ($sessionVote) disabled @endif
+                                        class="relative flex items-center justify-center w-9 h-9 before:rounded-full before:absolute before:inset-0 before:bg-black dark:before:bg-white before:opacity-0 hover:before:opacity-5 dark:hover:before:opacity-10 disabled:before:opacity-0 focus:before:opacity-5 disabled:cursor-not-allowed group">
                                         <x-gmdi-thumb-up
                                             class="w-6 h-6 text-green-700 fill-current group-disabled:text-gray-300" />
                                     </button>
@@ -360,15 +369,4 @@
     </div>
 
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <script>
-        function onSuggestSubmit(token) {
-            document.getElementById('form-suggest').submit()
-            console.log(token)
-        }
-        
-        function onVoteSubmit(token) {
-            document.getElementById('form-vote').submit()
-            console.log(token)
-        }
-    </script>
 @endsection

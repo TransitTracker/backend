@@ -4,7 +4,7 @@
     <div class="container grid grid-cols-6 px-4 mx-auto mt-8 md:grid-cols-12 gap-y-8 gap-x-12">
         <div class="flex items-center col-span-6 md:col-span-8 md:mb-4 gap-x-2">
             <span class="w-8 h-8 rounded-full" style="background-color: {{ $agency->color }};"></span>
-            <h1 class="text-2xl font-bold md:text-4xl text-primary-700 dark:text-white">{{ $agency->name }}</h1>
+            <h1 class="text-2xl font-bold md:text-4xl text-primary-700 dark:text-white font-heading">{{ $agency->name }}</h1>
         </div>
         <div class="flex items-start col-span-6 md:justify-end md:col-span-4" x-data="{ vin: '' }">
             <form x-bind:action="'/vin/' + vin" class="flex shadow">

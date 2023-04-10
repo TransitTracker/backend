@@ -2,7 +2,7 @@
 
 @section('body')
     <div class="container grid grid-cols-6 px-4 mx-auto mt-8 md:grid-cols-12 gap-y-8 gap-x-12">
-        <h1 class="col-span-6 text-2xl font-bold md:col-span-8 md:mb-4 md:text-4xl text-primary-700 dark:text-white">
+        <h1 class="col-span-6 text-2xl font-bold md:col-span-8 md:mb-4 md:text-4xl text-primary-700 dark:text-white font-heading">
             {{ __('exo VIN Database') }}</h1>
         <div class="flex items-start col-span-6 md:justify-end md:col-span-4" x-data="{ vin: '' }">
             <form x-bind:action="'/vin/' + vin" class="flex shadow">
@@ -55,7 +55,7 @@
         </ul>
 
         <div class="col-span-full">
-            <h2 class="mb-2 text-2xl leading-8 text-m3-surface-on dark:text-m3-background-dark-on">
+            <h2 class="mb-2 text-2xl leading-8 text-m3-surface-on dark:text-m3-background-dark-on font-heading">
                 {{ __('Latest suggestions') }}</h2>
             <table
                 class="overflow-x-auto whitespace-nowrap bg-white border border-black/[0.12] rounded dark:bg-m3-surface-dark dark:text-m3-surface-dark-on dark:border-m3-background-dark-outline border-collapse block">
@@ -107,7 +107,7 @@
         </div>
 
         <div class="col-span-full">
-            <h2 class="mb-2 text-2xl leading-8 text-m3-surface-on dark:text-m3-background-dark-on">
+            <h2 class="mb-2 text-2xl leading-8 text-m3-surface-on dark:text-m3-background-dark-on font-heading">
                 {{ __('Latest vehicles without a fleet number') }}</h2>
             <table
                 class="overflow-x-auto whitespace-nowrap bg-white border border-black/[0.12] rounded dark:bg-m3-surface-dark dark:text-m3-surface-dark-on dark:border-m3-background-dark-outline border-collapse block">

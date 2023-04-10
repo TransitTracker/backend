@@ -2,7 +2,7 @@
 
 @section('body')
     <div class="container grid grid-cols-1 px-4 mx-auto mt-8 md:grid-cols-3 gap-y-8 gap-x-12">
-        <h1 class="text-2xl font-bold md:mb-4 md:text-4xl text-m3-primary-on-container dark:text-white col-span-full">
+        <h1 class="text-2xl font-bold md:mb-4 md:text-4xl text-m3-primary-on-container dark:text-white col-span-full font-heading">
             VIN {{ $vin }}
         </h1>
         @if ($information->make)

@@ -5,8 +5,9 @@ namespace App\Rules;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Http;
 
-class Recaptcha implements Rule
+class Turnstile implements Rule
 {
     /**
      * Create a new rule instance.
@@ -31,24 +32,14 @@ class Recaptcha implements Rule
             return true;
         }
 
-        $client = new Client();
+        $response = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+            'secret' => config('transittracker.turnstile.secret'),
+            'response' => $value,
+            'remoteip' => request()->header('CF-Connecting-IP') ?? request()->ip(),
+        ]);
 
-        $response = $client->request(
-            'POST',
-            'https://www.google.com/recaptcha/api/siteverify',
-            [
-                'form_params' => [
-                    'secret' => config('transittracker.recaptcha.secret'),
-                    'response' => $value,
-                    'remoteIp' => request()->ip(),
-                ],
-            ],
-        );
-
-        if ($response->getStatusCode() === 200) {
-            $body = json_decode((string) $response->getBody());
-
-            return $body->success;
+        if ($response->ok()) {
+            return $response->json('success');
         }
 
         return false;
@@ -61,6 +52,6 @@ class Recaptcha implements Rule
      */
     public function message()
     {
-        return 'The reCAPTCHA validation has failed.';
+        return 'The Captcha validation has failed.';
     }
 }

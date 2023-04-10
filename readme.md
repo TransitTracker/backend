@@ -61,7 +61,7 @@ Optional.
 
 Used for monitoring on production, everything running well.
 
-### reCaptcha
+### Cloudflare Turnstile
 
 Optional.
 

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Agency;
 use App\Models\Vehicle;
 use App\Models\Vin\Suggestion;
-use App\Rules\Recaptcha;
+use App\Rules\Turnstile;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -65,7 +65,7 @@ class SuggestionController extends Controller
                 }),
             ],
             'note' => 'max:255',
-            'g-recaptcha-response' => ['required', 'string', new Recaptcha],
+            'cf-turnstile-response' => ['required', 'string', new Turnstile],
         ]);
 
         $request->session()->put("vin-{$vin}", $request->input('label'));
@@ -77,10 +77,6 @@ class SuggestionController extends Controller
 
     public function vote(Request $request, Suggestion $suggestion)
     {
-        $request->validate([
-            'g-recaptcha-response' => ['required', 'string', new Recaptcha],
-        ]);
-
         $request->session()->put("vin-vote-{$suggestion->vin}", $suggestion->id);
 
         $suggestion->upvotes += 1;

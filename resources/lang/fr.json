@@ -67,7 +67,7 @@
   "Submit a new fleet number": "Suggérer un nouveau numéro de flotte",
   "Submitted suggestions": "Suggestions soumises",
   "Thanks for your suggestion!": "Merci pour votre suggestion!",
-  "The reCAPTCHA validation has failed. Please try again.": "La validation reCAPTCHA a échoué. Veuillez réessayer.",
+  "The Captcha validation has failed. Please try again.": "La validation Captcha a échoué. Veuillez réessayer.",
   "There is no information for this trip.": "Il n'y a pas d'informations pour ce voyage.",
   "This field is required.": "Ce champ est requis.",
   "This information is generated automatically from data taken from the CPTDB wiki.": "Ces informations sont générées automatiquement à partir des données extraites du wiki CPTDB.",

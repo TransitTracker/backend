@@ -33,7 +33,7 @@ Route::get('locale/{locale}', function ($locale) {
     Session::put('locale', $locale);
 
     return redirect()->back();
-})->name('locale');
+});
 
 // Admin routes
 Route::prefix('admin')->group(function () {
@@ -42,14 +42,14 @@ Route::prefix('admin')->group(function () {
 
 // VIN routes
 Route::prefix('vin')->group(function () {
-    Route::get('', [SuggestionController::class, 'index'])->name('vin.index');
-    Route::get('{vin}', [VinVehicleController::class, 'show'])->name('vin.show');
-    Route::post('{vin}', [SuggestionController::class, 'store'])->name('vin.store');
-    Route::get('agency/{agency}', [VinAgencyController::class, 'show'])->name('vin.agency.show');
-    Route::post('agency/{agency}', [VinAgencyController::class, 'store'])->middleware('auth')->name('vin.agency.store');
-    Route::post('vin/{suggestion}/vote', [SuggestionController::class, 'vote'])->name('vin.vote');
-    Route::post('vin/{suggestion}/approve/{agency?}', [SuggestionController::class, 'approve'])->middleware('auth')->name('vin.approve');
-    Route::post('vin/{suggestion}/reject', [SuggestionController::class, 'reject'])->middleware('auth')->name('vin.reject');
+    Route::get('', [SuggestionController::class, 'index']);
+    Route::get('{vin}', [VinVehicleController::class, 'show']);
+    Route::post('{vin}', [SuggestionController::class, 'store']);
+    Route::get('agency/{agency}', [VinAgencyController::class, 'show']);
+    Route::post('agency/{agency}', [VinAgencyController::class, 'store'])->middleware('auth');
+    Route::post('vin/{suggestion}/vote', [SuggestionController::class, 'vote']);
+    Route::post('vin/{suggestion}/approve/{agency?}', [SuggestionController::class, 'approve'])->middleware('auth');
+    Route::post('vin/{suggestion}/reject', [SuggestionController::class, 'reject'])->middleware('auth');
 });
 
 Route::get('/failed-job/{failedJob}/snooze/{hours}', [SnoozeFailedJobController::class, 'snooze'])->middleware('signed')->name('signed.snooze');

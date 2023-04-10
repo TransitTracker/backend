@@ -52,7 +52,7 @@ class DispatchAgencies implements ShouldQueue
         });
 
         foreach ($responses as $agencySlug => $response) {
-            if (is_a($response, Response::class) || ! $response->ok()) {
+            if (! is_a($response, Response::class) || ! $response->ok()) {
                 continue;
             }
 

@@ -10,6 +10,8 @@ use URL;
 
 class FailedJob extends Model
 {
+    use Prunable;
+    
     protected $table = 'failed_jobs_histories';
 
     protected $fillable = ['name', 'agency_id', 'snooze', 'exception'];

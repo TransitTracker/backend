@@ -29,16 +29,19 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
             Route::middleware('web')
-                ->domain('vin.transittracker.ca')
+                ->domain(config('transittracker.domain.vin'))
+                ->prefix(config('transittracker.path.vin'))
                 ->namespace($this->namespace)
                 ->group(base_path('routes/vin.php'));
 
             Route::prefix('')
+                ->domain(config('transittracker.domain.api'))
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
+                ->domain(config('transittracker.domain.web'))
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });

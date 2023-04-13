@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'route_domain' => null,
+    'route_domain' => env('LOG_VIEWER_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ return [
     |
     */
 
-    'route_path' => 'admin/ext/log-viewer',
+    'route_path' => env('LOG_VIEWER_PATH', 'admin/ext/log-viewer'),
 
     /*
     |--------------------------------------------------------------------------

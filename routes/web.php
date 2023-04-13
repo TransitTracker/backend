@@ -40,18 +40,6 @@ Route::prefix('admin')->group(function () {
     Route::get('agencies/{agency}/update', [AgencyController::class, 'update'])->name('admin.agencies.update');
 });
 
-// VIN routes
-Route::prefix('vin')->group(function () {
-    Route::get('', [SuggestionController::class, 'index']);
-    Route::get('{vin}', [VinVehicleController::class, 'show']);
-    Route::post('{vin}', [SuggestionController::class, 'store']);
-    Route::get('agency/{agency}', [VinAgencyController::class, 'show']);
-    Route::post('agency/{agency}', [VinAgencyController::class, 'store'])->middleware('auth');
-    Route::post('vin/{suggestion}/vote', [SuggestionController::class, 'vote']);
-    Route::post('vin/{suggestion}/approve/{agency?}', [SuggestionController::class, 'approve'])->middleware('auth');
-    Route::post('vin/{suggestion}/reject', [SuggestionController::class, 'reject'])->middleware('auth');
-});
-
 Route::get('/failed-job/{failedJob}/snooze/{hours}', [SnoozeFailedJobController::class, 'snooze'])->middleware('signed')->name('signed.snooze');
 
 Route::view('/login', 'auth.login');

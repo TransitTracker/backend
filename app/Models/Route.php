@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Route extends Model
 {
-    protected $fillable = ['agency_id', 'route_id', 'short_name', 'long_name', 'color', 'text_color'];
+    protected $guarded = [];
 
     public function agency(): BelongsTo
     {

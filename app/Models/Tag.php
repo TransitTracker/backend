@@ -16,7 +16,7 @@ class Tag extends Model
     use HasFactory;
     use HasTranslations;
 
-    protected $fillable = ['label', 'short_label', 'type', 'description', 'icon', 'color', 'dark_color', 'text_color', 'dark_text_color', 'show_on_map'];
+    protected $guarded = [];
 
     public $translatable = ['label', 'short_label', 'description'];
 

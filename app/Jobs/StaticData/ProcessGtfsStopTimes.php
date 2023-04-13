@@ -26,11 +26,8 @@ class ProcessGtfsStopTimes implements ShouldQueue
 
     public function handle()
     {
-        $supportsBlocks = (bool) Trip::where('agency_id', $this->agency->id)->whereNotNull('gtfs_block_id')->count();
-        $tripIdToImport = Trip::select('shape', DB::raw('MIN(trip_id) as trip_id'))
-            ->where('agency_id', $this->agency->id)
-            ->groupBy('shape')
-            ->pluck('trip_id');
+        $supportsBlocks = (bool) Trip::where('agency_id', 4)->whereNotNull('gtfs_block_id')->count();
+        $tripIdToImport = Trip::select('shape', DB::raw('MIN(trip_id) as trip_id'))->where('agency_id', 4)->groupBy('shape')->pluck('trip_id');
 
         $reader = Reader::createFromPath($this->file)->setHeaderOffset(0);
         $statement = (new Statement())
@@ -56,12 +53,12 @@ class ProcessGtfsStopTimes implements ShouldQueue
                 continue;
             }
 
-            array_push($toCreate, [
+            $toCreate[] = [
                 'gtfs_trip_id' => $record['trip_id'],
                 'gtfs_stop_id' => $record['stop_id'],
                 'departure' => $record['departure_time'],
                 'sequence' => $record['stop_sequence'],
-            ]);
+            ];
         }
 
         collect($toCreate)->chunk(1000)->each(function (Collection $chunk) {

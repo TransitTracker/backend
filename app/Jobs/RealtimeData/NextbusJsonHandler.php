@@ -13,6 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
+use MatanYadaev\EloquentSpatial\Objects\Point;
 
 class NextbusJsonHandler implements ShouldQueue
 {
@@ -39,9 +40,9 @@ class NextbusJsonHandler implements ShouldQueue
     {
         // Put all previously active vehicle as inactive
         $inactiveArray = Vehicle::where([
-            ['active', true],
+            ['is_active', true],
             ['agency_id', $this->agency->id],
-        ])->select(['id', 'active'])->get();
+        ])->select(['id', 'is_active', 'active'])->get();
         $activeArray = [];
 
         $data = Storage::get($this->dataFile);
@@ -49,86 +50,46 @@ class NextbusJsonHandler implements ShouldQueue
         // Convert JSON to PHP object
         $json = json_decode($data);
 
-        $timestamp = floor($json->lastTime->time / 1000);
+        $timestamp = floor($json?->lastTime?->time / 1000);
 
         // Return early if there is no vehicles
-        if (! property_exists($json, 'vehicle')) {
+        if (! $json?->vehicle) {
             return;
         }
 
         // Go trough each vehicle
         foreach ($json->vehicle as $vehicle) {
-            /*
-             * Prepare a new array to update the vehicle model
-             */
-            $newVehicle = [];
-            $newVehicle['active'] = 1;
-
             // Continue if there is no routeTag
-            if (! isset($vehicle->routeTag) || ! isset($vehicle->id)) {
+            if (! $vehicle?->routeTag || ! $vehicle?->id) {
                 continue;
             }
 
-            /*
-             * Find a trip for this route, only compatible with STL
-             */
-            if ($this->agency->slug === 'stl') {
-                $trip = Trip::where([['agency_id', $this->agency->id], ['shape', 'LIKE', "%{$vehicle->routeTag}%"]])
-                    ->select('id')
-                    ->first();
-
-                if ($trip) {
-                    $newVehicle['trip_id'] = $trip->id;
-                }
+            // Continue if outdated
+            if ((int) $vehicle?->secsSinceReport > 120) {
+                continue;
             }
 
-            /*
-             * Try each attribute
-             */
+            $vehicle = Vehicle::updateOrCreate(['vehicle_id' => $vehicle->id, 'agency_id' => $this->agency->id], [
+                'agency_id' => $this->agency->id,
+                'active' => true,
+                'is_active' => true,
+                'lat' => $this->processField(round((float) $vehicle?->lat, 5)),
+                'lon' => $this->processField(round((float) $vehicle?->lon, 5)),
+                'position' => $this->processField(['lat' => $vehicle?->lat, 'lon' => $vehicle?->lon], 'position'),
+                'route' => $this->processField($vehicle?->routeTag),
+                'gtfs_route_id' => $this->processField($vehicle?->routeTag),
+                'bearing' => $this->processField($vehicle?->heading),
+                'speed' => $this->processField($vehicle?->speedKmHr),
+                'timestamp' => $this->processField(strval($timestamp - (int) $vehicle?->secsSinceReport)),
+                'trip_id' => $this->retrieveTrip($vehicle?->routeTag),
+            ]);
 
-            // Latitude
-            if (isset($vehicle->lat)) {
-                $newVehicle['lat'] = round((float) $vehicle->lat, 5);
-            }
-
-            // Longitude
-            if (isset($vehicle->lon)) {
-                $newVehicle['lon'] = round((float) $vehicle->lon, 5);
-            }
-
-            // Route
-            if (isset($vehicle->routeTag)) {
-                $newVehicle['route'] = $vehicle->routeTag;
-            }
-
-            // Bearing
-            if (isset($vehicle->heading)) {
-                $newVehicle['bearing'] = $vehicle->heading;
-            }
-
-            // Speed
-            if (isset($vehicle->speedKmHr)) {
-                $newVehicle['speed'] = $vehicle->speedKmHr;
-            }
-
-            // Timestamp
-            if (isset($vehicle->secsSinceReport)) {
-                $newVehicle['timestamp'] = strval($timestamp - $vehicle->secsSinceReport);
-            }
-
-            /*
-             * Check if vehicle is recent, then create or update the vehicle model
-             */
-            if (isset($vehicle->secsSinceReport) && $vehicle->secsSinceReport < 180) {
-                $vehicle = Vehicle::updateOrCreate(['vehicle' => $vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
-
-                array_push($activeArray, $vehicle->id);
-            }
+            array_push($activeArray, $vehicle->id);
         }
 
         // Update active information
         if ($inactiveArray->except($activeArray)->count() > 0) {
-            $inactiveArray->except($activeArray)->toQuery()->update(['active' => false]);
+            $inactiveArray->except($activeArray)->toQuery()->update(['is_active' => false, 'active' => false]);
         }
 
         // Replace timestamp
@@ -153,5 +114,30 @@ class NextbusJsonHandler implements ShouldQueue
 
         // Delete the file
         Storage::delete($this->dataFile);
+    }
+
+    private function processField($value, string $transformer = null)
+    {
+        if (! filled($value)) {
+            return null;
+        }
+
+        if ($transformer === 'position' && filled($value['lat']) && filled($value['lon'])) {
+            return new Point(round((float) $value['lat'], 5), round((float) $value['lon'], 5));
+        }
+
+        return $value;
+    }
+
+    private function retrieveTrip(string $routeTag)
+    {
+        if (! $this->agency->slug === 'stl') {
+            return null;
+        }
+
+        return Trip::where([['agency_id', $this->agency->id], ['gtfs_shape_id', 'LIKE', "%{$routeTag}%"]])
+            ->select('id')
+            ->pluck('id')
+            ->first();
     }
 }

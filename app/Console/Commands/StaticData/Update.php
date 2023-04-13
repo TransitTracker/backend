@@ -10,6 +10,7 @@ use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Helper\Table;
 
 class Update extends Command
@@ -94,9 +95,9 @@ class Update extends Command
 
         $this->table->addRow([
             $agency->short_name,
-            route('horizon.jobs-batches.show', [
+            Str::replace('/api', '', route('horizon.jobs-batches.show', [
                 'id' => $batch->id,
-            ]),
+            ])),
         ]);
     }
 }

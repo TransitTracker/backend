@@ -38,15 +38,23 @@ class ProcessGtfsServices implements ShouldQueue
                 }
 
                 // Add the service to array
-                array_push($services, [
+                $services[] = [
                     'agency_id' => $this->agency->id,
-                    'service_id' => $service['service_id'],
+                    'service_id' => $service['service_id'], // REMOVEP2
+                    'gtfs_service_id' => $service['service_id'],
+                    'monday' => $service['monday'],
+                    'tuesday' => $service['tuesday'],
+                    'wednesday' => $service['wednesday'],
+                    'thursday' => $service['thursday'],
+                    'friday' => $service['friday'],
+                    'saturday' => $service['saturday'],
+                    'sunday' => $service['sunday'],
                     'start_date' => new Carbon($service['start_date']),
                     'end_date' => new Carbon($service['end_date']),
-                ]);
+                ];
             }
 
-            Service::upsert($services, ['agency_id', 'service_id'], ['start_date', 'end_date']);
+            Service::upsert($services, ['agency_id', 'gtfs_service_id'], ['start_date', 'end_date']);
         }
 
         $servicesReader = null;

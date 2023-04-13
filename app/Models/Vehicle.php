@@ -14,20 +14,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use MatanYadaev\EloquentSpatial\Objects\Point;
+use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Vehicle extends Model
 {
-    protected $fillable = [
-        'agency_id', 'active', 'agency', 'gtfs_trip', 'route', 'start', 'vehicle', 'lat', 'lon',
-        'trip_id', 'bearing', 'speed', 'stop_sequence', 'status', 'headsign', 'short_name', 'icon',
-        'relationship', 'label', 'force_label', 'plate', 'odometer', 'timestamp', 'congestion', 'occupancy',
-        'force_ref',
-    ];
+    use HasSpatial;
+
+    protected $guarded = [];
 
     protected $casts = [
+        'is_active' => 'boolean',
         'active' => 'boolean',
-        'coordinates' => 'array',
+        'position' => Point::class,
     ];
 
     /*
@@ -103,7 +103,7 @@ class Vehicle extends Model
 
     public function getRefAttribute(): string
     {
-        return $this->force_ref ?? $this->vehicle;
+        return $this->force_vehicle_id ?? $this->vehicle;
     }
 
     /*
@@ -230,7 +230,7 @@ class Vehicle extends Model
                 ->forget();
 
             VehicleUpdated::dispatchIf($vehicle->isFirstAppearanceToday(), $vehicle);
-            VehicleForceRefAdded::dispatchIf($vehicle->wasChanged('force_ref'), $vehicle);
+            VehicleForceRefAdded::dispatchIf($vehicle->wasChanged('force_vehicle_id'), $vehicle);
 
             ElectricStmVehicleUpdated::dispatchIf(($vehicle->isFirstAppearanceToday() && $vehicle->isElectricStm()), $vehicle);
         });

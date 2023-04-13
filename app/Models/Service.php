@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Service extends Model
 {
-    protected $fillable = ['service_id', 'start_date', 'end_date', 'agency_id'];
+    protected $guarded = [];
 
     protected $dateFormat = 'Ymd';
 

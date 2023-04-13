@@ -16,7 +16,7 @@ class Region extends Model
 {
     use HasTranslations;
 
-    protected $fillable = ['name', 'slug', 'info_title', 'info_body', 'map_box', 'map_center', 'map_zoom', 'credits', 'description', 'meta_description', 'image'];
+    protected $guarded = [];
 
     protected $casts = [
         'map_box' => 'array',

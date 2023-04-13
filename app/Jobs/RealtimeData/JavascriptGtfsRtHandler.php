@@ -7,7 +7,6 @@ use App\Models\Agency;
 use App\Models\Stat;
 use App\Models\Trip;
 use App\Models\Vehicle;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,7 +14,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
+use MatanYadaev\EloquentSpatial\Objects\Point;
 
 class JavascriptGtfsRtHandler implements ShouldQueue
 {
@@ -23,11 +24,8 @@ class JavascriptGtfsRtHandler implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
-     * @param  string  $dataFile
-     * @param  int  $time
      */
-    public function __construct(private Agency $agency, private $dataFile, private $time)
+    public function __construct(private Agency $agency, private $dataFile, private int $time)
     {
     }
 
@@ -35,26 +33,22 @@ class JavascriptGtfsRtHandler implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
-     *
-     * @throws Exception
      */
-    public function handle()
+    public function handle(): void
     {
         // Put all previously active vehicle as inactive
         $inactiveArray = Vehicle::where([
-            ['active', true],
+            ['is_active', true],
             ['agency_id', $this->agency->id],
-        ])->select(['id', 'active'])->get();
+        ])->select(['id', 'is_active', 'active'])->get();
 
         $filePath = Storage::path($this->dataFile);
         $printGtfsRt = config('transittracker.print_gtfs_rt_bin');
 
         // Convert protobuf to PHP object
         try {
-            $feed = shell_exec("cat '{$filePath}' | {$printGtfsRt} -s");
-            $collection = collect(json_decode($feed));
+            $result = Process::run("cat '{$filePath}' | {$printGtfsRt} -s");
+            $collection = collect(json_decode($result->output()));
             $count = $collection->count();
         } catch (Exception $e) {
             Log::error("Error while decoding GTFS-RT feed from {$this->agency->slug}: {$e->getMessage()}");
@@ -70,7 +64,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             /*
              * Check if entity has vehiclePosition or if is not valid
              */
-            if (! property_exists($entity, 'vehicle') || ! property_exists($entity->vehicle, 'trip') || ! property_exists($entity->vehicle, 'position')) {
+            if (! $entity->vehicle || ! $entity->vehicle?->trip || ! $entity->vehicle?->position) {
                 return;
             }
             $vehicle = $entity->vehicle;
@@ -78,7 +72,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             /*
              * Check if trip is in database
              */
-            $trip = Trip::where([['agency_id', $this->agency->id], ['trip_id', $vehicle->trip->trip_id]])
+            $trip = Trip::where(['agency_id' => $this->agency->id, 'gtfs_trip_id' => $vehicle->trip?->trip_id])
                 ->select(['id', 'route_short_name'])
                 ->first();
 
@@ -89,143 +83,38 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             /*
              * Prepare a new array to update the vehicle model
              */
-            $newVehicle = [];
-            $newVehicle['active'] = 1;
-
-            /*
-             * Try each GTFS RT attribute
-             */
-
-            // trip->trip_id
-            $newVehicle['gtfs_trip'] = $vehicle->trip->trip_id;
-
-            // trip->route_id
-            if (property_exists($vehicle->trip, 'route_id')) {
-                $newVehicle['route'] = $vehicle->trip->route_id;
-            } elseif ($trip) {
-                $newVehicle['route'] = $trip->route_short_name;
-            } else {
-                $newVehicle['route'] = 'null';
-            }
-
-            // trip->start_time
-            if (property_exists($vehicle->trip, 'start_time')) {
-                $newVehicle['start'] = $vehicle->trip->start_time;
-            } else {
-                $newVehicle['start'] = null;
-            }
-
-            // trip->schedule_relationship
-            if (property_exists($vehicle->trip, 'schedule_relationship')) {
-                $newVehicle['relationship'] = $vehicle->trip->schedule_relationship;
-            } else {
-                $newVehicle['relationship'] = null;
-            }
-
-            // vehicle->label
-            // Don't use the label feed for GO Transit or exo
-            if (property_exists($vehicle->vehicle, 'label') && (! in_array($this->agency->slug, ['go', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc']))) {
-                $newVehicle['label'] = $vehicle->vehicle->label;
-            } else {
-                $newVehicle['label'] = null;
-            }
-
-            // vehicle->plate
-            if (property_exists($vehicle->vehicle, 'license_plate')) {
-                $newVehicle['plate'] = $vehicle->vehicle->license_plate;
-            } else {
-                $newVehicle['plate'] = null;
-            }
-
-            // position->latitude
-            if (property_exists($vehicle->position, 'latitude')) {
-                $newVehicle['lat'] = round($vehicle->position->latitude, 5);
-            } else {
-                $newVehicle['lat'] = null;
-            }
-
-            // position->longitude
-            if (property_exists($vehicle->position, 'longitude')) {
-                $newVehicle['lon'] = round($vehicle->position->longitude, 5);
-            } else {
-                $newVehicle['lon'] = null;
-            }
-
-            // position->bearing
-            if (property_exists($vehicle->position, 'bearing')) {
-                $newVehicle['bearing'] = $vehicle->position->bearing;
-            } else {
-                $newVehicle['bearing'] = null;
-            }
-
-            // position->odometer
-            if (property_exists($vehicle->position, 'odometer')) {
-                $newVehicle['odometer'] = round($vehicle->position->odometer / 1000, 0);
-            } else {
-                $newVehicle['odometer'] = null;
-            }
-
-            // position->speed
-            if (property_exists($vehicle->position, 'speed')) {
-                $newVehicle['speed'] = round($vehicle->position->speed * 3.6, 0);
-            } else {
-                $newVehicle['speed'] = null;
-            }
-
-            // current_stop_sequence
-            if (property_exists($vehicle, 'current_stop_sequence')) {
-                $newVehicle['stop_sequence'] = $vehicle->current_stop_sequence;
-            } else {
-                $newVehicle['stop_sequence'] = null;
-            }
-            // current_status
-            if (property_exists($vehicle, 'current_status')) {
-                $newVehicle['status'] = $vehicle->current_status;
-            } else {
-                $newVehicle['status'] = null;
-            }
-
-            // timestamp
-            if (property_exists($vehicle, 'timestamp')) {
-                $newVehicle['timestamp'] = $vehicle->timestamp->low;
-
-                if (now()->diffInMinutes(new Carbon($vehicle->timestamp->low)) > 3) {
-                    return;
-                }
-            } else {
-                $newVehicle['timestamp'] = null;
-            }
-
-            // congestion_level
-            if (property_exists($vehicle, 'congestion_level')) {
-                $newVehicle['congestion'] = $vehicle->congestion_level;
-            } else {
-                $newVehicle['congestion'] = null;
-            }
-
-            // occupancy_status
-            if (property_exists($vehicle, 'occupancy_status')) {
-                $newVehicle['occupancy'] = $vehicle->occupancy_status;
-            } else {
-                $newVehicle['occupancy'] = null;
-            }
-
-            // Trip ID (from model)
-            if ($trip) {
-                $newVehicle['trip_id'] = $trip->id;
-            } else {
-                $newVehicle['trip_id'] = null;
-            }
+            $newVehicle = [
+                'active' => 1,
+                'is_active' => 1,
+                'gtfs_trip' => $this->processField($vehicle->trip?->trip_id), // old
+                'gtfs_trip_trip' => $this->processField($vehicle->trip?->trip_id),
+                'route' => $this->processField($vehicle->trip?->route_id ?? $trip?->route_short_name), // old
+                'gtfs_route_id' => $this->processField($vehicle->trip?->route_id, 'route', $trip?->route_short_name),
+                'start' => $this->processField($vehicle->trip?->start_time), // old
+                'start_time' => $this->processField($vehicle->trip?->start_time),
+                'relationship' => $this->processField($vehicle->trip?->schedule_relationship), // old
+                'schedule_relationship' => $this->processField($vehicle->trip?->schedule_relationship),
+                'lat' => $this->processField(round($vehicle->position?->latitude, 5)), //old
+                'lon' => $this->processField(round($vehicle->position?->longitude, 5)), //old
+                'position' => $this->processField(['lat' => $vehicle->position?->latitude, 'lon' => $vehicle->position?->longitude], 'position'), //old
+                'stop_sequence' => $this->processField($vehicle->current_stop_sequence), // old
+                'current_stop_sequence' => $this->processField($vehicle->current_stop_sequence),
+                'status' => $this->processField($vehicle->current_status), // old
+                'current_status' => $this->processField($vehicle->current_status),
+                'timestamp' => $this->processField($vehicle->timestamp->low ?? $this->time),
+                'gtfs_stop_id' => $this->processField($vehicle->stop_id),
+                'trip_id' => $this->processField($trip?->id),
+            ];
 
             /*
              * Create or update the vehicle model
              */
             try {
-                $vehicleModel = Vehicle::updateOrCreate(['vehicle' => $vehicle->vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
+                $vehicleModel = Vehicle::updateOrCreate(['vehicle_id' => $vehicle->vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
 
                 $this->activeArray[] = $vehicleModel->id;
             } catch (Exception $e) {
-                Log::error('Vehicle in the refresh failed', [
+                Log::warning('Vehicle in the refresh failed', [
                     'agency' => $this->agency->slug,
                     'exception' => $e->getMessage(),
                     'line' => $e->getLine(),
@@ -235,7 +124,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
 
         // Update active information
         if ($inactiveArray->except($this->activeArray)->count() > 0) {
-            $inactiveArray->except($this->activeArray)->toQuery()->update(['active' => false]);
+            $inactiveArray->except($this->activeArray)->toQuery()->update(['active' => false, 'is_active' => true]);
         }
 
         // Replace timestamp
@@ -257,13 +146,22 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             $action = new HandleExpiredGtfs($this->agency);
             $action->execute();
         }
-
-        // Delete the file
-        Storage::delete($this->dataFile);
     }
 
-    public function fail()
+    private function processField($value, string $transformer = null)
     {
-        Storage::delete($this->dataFile);
+        if (! filled($value)) {
+            return null;
+        }
+
+        if ($transformer === 'label' && in_array($this->agency->slug, ['go', 'up', 'la', 'vr', 'lr', 'lasso', 'sju', 'so', 'hsl', 'pi', 'rous', 'sv', 'tm', 'crc'])) {
+            return null;
+        }
+
+        if ($transformer === 'position' && filled($value['lat']) && filled($value['lat'])) {
+            return new Point($value['lat'], $value['lon']);
+        }
+
+        return $value;
     }
 }

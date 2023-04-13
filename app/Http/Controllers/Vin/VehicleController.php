@@ -13,8 +13,8 @@ class VehicleController extends Controller
         $suggestions = Suggestion::where('vin', $vin)->get();
 
         $vehicles = Vehicle::query()
-            ->where(['vehicle' => $vin, 'force_ref' => null])
-            ->orWhere('force_ref', $vin)
+            ->where(['vehicle_id' => $vin, 'force_vehicle_id' => null])
+            ->orWhere('force_vehicle_id', $vin)
             ->exo()
             ->with(['agency:id,slug,short_name,color,text_color', 'trip:id,route_short_name,route_long_name,trip_headsign,trip_short_name,trip_id', 'tags:id,label,description,color,text_color', 'vinInformationForceRef'])
             ->orderBy('updated_at', 'desc')

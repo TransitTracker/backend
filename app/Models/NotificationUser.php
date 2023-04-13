@@ -16,15 +16,7 @@ class NotificationUser extends Model implements HasLocalePreference
     use Notifiable;
     use HasPushSubscriptions;
 
-    protected $fillable = [
-        'uuid',
-        'is_active',
-        'is_french',
-        'endpoint',
-        'expiration',
-        'subscribed_general_news',
-        'subscribed_electric_stm',
-    ];
+    protected $guarded = [];
 
     protected $hidden = [
         'endpoint',

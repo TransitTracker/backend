@@ -1,699 +1,628 @@
 {
-    "_readme": [
-        "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-        "This file is @generated automatically"
-    ],
-    "content-hash": "66af106c7eed6d938db7f1ed6be053c4",
-    "packages": [
-        {
-            "name": "google/protobuf",
-            "version": "v3.10.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/protocolbuffers/protobuf-php.git",
-                "reference": "5dffdd2c84112e6c91fd84f92e3df96649426881"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/5dffdd2c84112e6c91fd84f92e3df96649426881",
-                "reference": "5dffdd2c84112e6c91fd84f92e3df96649426881",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": ">=4.8.0"
-            },
-            "suggest": {
-                "ext-bcmath": "Need to support JSON deserialization"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Google\\Protobuf\\": "src/Google/Protobuf",
-                    "GPBMetadata\\Google\\Protobuf\\": "src/GPBMetadata/Google/Protobuf"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "proto library for PHP",
-            "homepage": "https://developers.google.com/protocol-buffers/",
-            "keywords": [
-                "proto"
-            ],
-            "time": "2019-10-03T20:08:37+00:00"
-        },
-        {
-            "name": "protobuf-php/protobuf",
-            "version": "v0.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/protobuf-php/protobuf.git",
-                "reference": "c0da95f75ea418b39b02ff4528ca9926cc246a8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/protobuf-php/protobuf/zipball/c0da95f75ea418b39b02ff4528ca9926cc246a8c",
-                "reference": "c0da95f75ea418b39b02ff4528ca9926cc246a8c",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": ">=5.5.0"
-            },
-            "require-dev": {
-                "instaclick/coding-standard": "^1.1",
-                "instaclick/object-calisthenics-sniffs": "dev-master",
-                "instaclick/symfony2-coding-standard": "dev-remaster",
-                "php-mock/php-mock-phpunit": "^0.2",
-                "phpunit/phpunit": "^4",
-                "protobuf-php/protobuf-plugin": ">=0.1",
-                "satooshi/php-coveralls": "^0.6",
-                "squizlabs/php_codesniffer": "^1.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Protobuf\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabio B. Silva",
-                    "email": "fabio.bat.silva@gmail.com",
-                    "homepage": "https://github.com/FabioBatSilva"
-                },
-                {
-                    "name": "Iván -DrSlump- Montes",
-                    "email": "drslump@pollinimini.net",
-                    "homepage": "https://github.com/drslump"
-                }
-            ],
-            "description": "PHP implementation of Google's Protocol Buffers",
-            "homepage": "https://github.com/protobuf-php/protobuf",
-            "keywords": [
-                "protobuf",
-                "protocol buffer",
-                "serializing"
-            ],
-            "time": "2016-09-21T23:47:34+00:00"
+  "_readme": [
+    "This file locks the dependencies of your project to a known state",
+    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+    "This file is @generated automatically"
+  ],
+  "content-hash": "66af106c7eed6d938db7f1ed6be053c4",
+  "packages": [
+    {
+      "name": "google/protobuf",
+      "version": "v3.10.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/protocolbuffers/protobuf-php.git",
+        "reference": "5dffdd2c84112e6c91fd84f92e3df96649426881"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/5dffdd2c84112e6c91fd84f92e3df96649426881",
+        "reference": "5dffdd2c84112e6c91fd84f92e3df96649426881",
+        "shasum": ""
+      },
+      "require": {
+        "php": ">=5.5.0"
+      },
+      "require-dev": {
+        "phpunit/phpunit": ">=4.8.0"
+      },
+      "suggest": {
+        "ext-bcmath": "Need to support JSON deserialization"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Google\\Protobuf\\": "src/Google/Protobuf",
+          "GPBMetadata\\Google\\Protobuf\\": "src/GPBMetadata/Google/Protobuf"
         }
-    ],
-    "packages-dev": [
-        {
-            "name": "doctrine/inflector",
-            "version": "v1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/inflector.git",
-                "reference": "5527a48b7313d15261292c149e55e26eae771b0a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/5527a48b7313d15261292c149e55e26eae771b0a",
-                "reference": "5527a48b7313d15261292c149e55e26eae771b0a",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^6.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Common\\Inflector\\": "lib/Doctrine/Common/Inflector"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
-                },
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
-                {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com"
-                },
-                {
-                    "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com"
-                }
-            ],
-            "description": "Common String Manipulations with regard to casing and singular/plural rules.",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "inflection",
-                "pluralize",
-                "singularize",
-                "string"
-            ],
-            "time": "2018-01-09T20:05:19+00:00"
-        },
-        {
-            "name": "protobuf-php/google-protobuf-proto",
-            "version": "v0.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/protobuf-php/google-protobuf-proto.git",
-                "reference": "da1827b4a23fccd4eb998a8d4bcd972f2330bc29"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/protobuf-php/google-protobuf-proto/zipball/da1827b4a23fccd4eb998a8d4bcd972f2330bc29",
-                "reference": "da1827b4a23fccd4eb998a8d4bcd972f2330bc29",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.0"
-            },
-            "require-dev": {
-                "protobuf-php/protobuf-plugin": ">=0.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "google\\protobuf": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabio B. Silva",
-                    "email": "fabio.bat.silva@gmail.com",
-                    "homepage": "https://github.com/FabioBatSilva"
-                }
-            ],
-            "description": "Protocol Buffers classes from Google's Protocol Buffers Compiler",
-            "homepage": "https://github.com/protobuf-php/google-protobuf-proto",
-            "keywords": [
-                "protobuf",
-                "protocol buffer",
-                "serializing"
-            ],
-            "time": "2016-08-04T03:14:12+00:00"
-        },
-        {
-            "name": "protobuf-php/protobuf-plugin",
-            "version": "v0.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/protobuf-php/protobuf-plugin.git",
-                "reference": "cd8d138fd91bc18df1a8812d9448bb3d7dce0996"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/protobuf-php/protobuf-plugin/zipball/cd8d138fd91bc18df1a8812d9448bb3d7dce0996",
-                "reference": "cd8d138fd91bc18df1a8812d9448bb3d7dce0996",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/inflector": "^1.0",
-                "php": ">=5.5.0",
-                "protobuf-php/google-protobuf-proto": ">=0.1",
-                "protobuf-php/protobuf": ">=0.1",
-                "psr/log": "^1.0",
-                "symfony/console": "^2.5|^3.0",
-                "symfony/process": "^2.5|^3.0",
-                "zendframework/zend-code": "^2.6"
-            },
-            "require-dev": {
-                "instaclick/coding-standard": "~1.1",
-                "instaclick/object-calisthenics-sniffs": "dev-master",
-                "instaclick/symfony2-coding-standard": "dev-remaster",
-                "mikey179/vfsstream": "~1",
-                "php-mock/php-mock-phpunit": "^0.2",
-                "phpunit/phpunit": "~4",
-                "satooshi/php-coveralls": "~0.6",
-                "squizlabs/php_codesniffer": "~1.5"
-            },
-            "bin": [
-                "bin/protobuf"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Protobuf\\Compiler\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabio B. Silva",
-                    "email": "fabio.bat.silva@gmail.com",
-                    "homepage": "https://github.com/FabioBatSilva"
-                }
-            ],
-            "description": "PHP Code generator plugin from Google's Protocol Buffers",
-            "homepage": "https://github.com/protobuf-php/protobuf-plugin",
-            "keywords": [
-                "protobuf",
-                "protocol buffer",
-                "serializing"
-            ],
-            "time": "2016-11-03T18:34:52+00:00"
-        },
-        {
-            "name": "psr/log",
-            "version": "1.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/446d54b4cb6bf489fc9d75f55843658e6f25d801",
-                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for logging libraries",
-            "homepage": "https://github.com/php-fig/log",
-            "keywords": [
-                "log",
-                "psr",
-                "psr-3"
-            ],
-            "time": "2019-11-01T11:05:21+00:00"
-        },
-        {
-            "name": "symfony/console",
-            "version": "v3.4.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/console.git",
-                "reference": "c7edffb26b29cae972ca4afccb610a38ce8d0ccf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/c7edffb26b29cae972ca4afccb610a38ce8d0ccf",
-                "reference": "c7edffb26b29cae972ca4afccb610a38ce8d0ccf",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9|>=7.0.8",
-                "symfony/debug": "~2.8|~3.0|~4.0",
-                "symfony/polyfill-mbstring": "~1.0"
-            },
-            "conflict": {
-                "symfony/dependency-injection": "<3.4",
-                "symfony/process": "<3.3"
-            },
-            "provide": {
-                "psr/log-implementation": "1.0"
-            },
-            "require-dev": {
-                "psr/log": "~1.0",
-                "symfony/config": "~3.3|~4.0",
-                "symfony/dependency-injection": "~3.4|~4.0",
-                "symfony/event-dispatcher": "~2.8|~3.0|~4.0",
-                "symfony/lock": "~3.4|~4.0",
-                "symfony/process": "~3.3|~4.0"
-            },
-            "suggest": {
-                "psr/log": "For using the console logger",
-                "symfony/event-dispatcher": "",
-                "symfony/lock": "",
-                "symfony/process": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Console\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Console Component",
-            "homepage": "https://symfony.com",
-            "time": "2019-10-24T15:33:53+00:00"
-        },
-        {
-            "name": "symfony/debug",
-            "version": "v4.3.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/debug.git",
-                "reference": "5ea9c3e01989a86ceaa0283f21234b12deadf5e2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/5ea9c3e01989a86ceaa0283f21234b12deadf5e2",
-                "reference": "5ea9c3e01989a86ceaa0283f21234b12deadf5e2",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.3",
-                "psr/log": "~1.0"
-            },
-            "conflict": {
-                "symfony/http-kernel": "<3.4"
-            },
-            "require-dev": {
-                "symfony/http-kernel": "~3.4|~4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Debug\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Debug Component",
-            "homepage": "https://symfony.com",
-            "time": "2019-10-28T17:07:32+00:00"
-        },
-        {
-            "name": "symfony/polyfill-mbstring",
-            "version": "v1.12.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/b42a2f66e8f1b15ccf25652c3424265923eb4f17",
-                "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "suggest": {
-                "ext-mbstring": "For best performance"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.12-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Mbstring\\": ""
-                },
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill for the Mbstring extension",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "mbstring",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "time": "2019-08-06T08:03:45+00:00"
-        },
-        {
-            "name": "symfony/process",
-            "version": "v3.4.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/process.git",
-                "reference": "c19da50bc3e8fa7d60628fdb4ab5d67de534cf3e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/c19da50bc3e8fa7d60628fdb4ab5d67de534cf3e",
-                "reference": "c19da50bc3e8fa7d60628fdb4ab5d67de534cf3e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9|>=7.0.8"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Process\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Process Component",
-            "homepage": "https://symfony.com",
-            "time": "2019-10-24T15:33:53+00:00"
-        },
-        {
-            "name": "zendframework/zend-code",
-            "version": "2.6.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zendframework/zend-code.git",
-                "reference": "95033f061b083e16cdee60530ec260d7d628b887"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-code/zipball/95033f061b083e16cdee60530ec260d7d628b887",
-                "reference": "95033f061b083e16cdee60530ec260d7d628b887",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5 || 7.0.0 - 7.0.4 || ^7.0.6",
-                "zendframework/zend-eventmanager": "^2.6 || ^3.0"
-            },
-            "require-dev": {
-                "doctrine/annotations": "~1.0",
-                "fabpot/php-cs-fixer": "1.7.*",
-                "phpunit/phpunit": "^4.8.21",
-                "zendframework/zend-stdlib": "^2.7 || ^3.0"
-            },
-            "suggest": {
-                "doctrine/annotations": "Doctrine\\Common\\Annotations >=1.0 for annotation features",
-                "zendframework/zend-stdlib": "Zend\\Stdlib component"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.6-dev",
-                    "dev-develop": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Zend\\Code\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "provides facilities to generate arbitrary code using an object oriented interface",
-            "homepage": "https://github.com/zendframework/zend-code",
-            "keywords": [
-                "code",
-                "zf2"
-            ],
-            "time": "2016-04-20T17:26:42+00:00"
-        },
-        {
-            "name": "zendframework/zend-eventmanager",
-            "version": "3.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zendframework/zend-eventmanager.git",
-                "reference": "a5e2583a211f73604691586b8406ff7296a946dd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-eventmanager/zipball/a5e2583a211f73604691586b8406ff7296a946dd",
-                "reference": "a5e2583a211f73604691586b8406ff7296a946dd",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6 || ^7.0"
-            },
-            "require-dev": {
-                "athletic/athletic": "^0.1",
-                "container-interop/container-interop": "^1.1.0",
-                "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.2",
-                "zendframework/zend-coding-standard": "~1.0.0",
-                "zendframework/zend-stdlib": "^2.7.3 || ^3.0"
-            },
-            "suggest": {
-                "container-interop/container-interop": "^1.1.0, to use the lazy listeners feature",
-                "zendframework/zend-stdlib": "^2.7.3 || ^3.0, to use the FilterChain feature"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.2-dev",
-                    "dev-develop": "3.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Zend\\EventManager\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Trigger and listen to events within a PHP application",
-            "homepage": "https://github.com/zendframework/zend-eventmanager",
-            "keywords": [
-                "event",
-                "eventmanager",
-                "events",
-                "zf2"
-            ],
-            "time": "2018-04-25T15:33:34+00:00"
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["BSD-3-Clause"],
+      "description": "proto library for PHP",
+      "homepage": "https://developers.google.com/protocol-buffers/",
+      "keywords": ["proto"],
+      "time": "2019-10-03T20:08:37+00:00"
+    },
+    {
+      "name": "protobuf-php/protobuf",
+      "version": "v0.1.3",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/protobuf-php/protobuf.git",
+        "reference": "c0da95f75ea418b39b02ff4528ca9926cc246a8c"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/protobuf-php/protobuf/zipball/c0da95f75ea418b39b02ff4528ca9926cc246a8c",
+        "reference": "c0da95f75ea418b39b02ff4528ca9926cc246a8c",
+        "shasum": ""
+      },
+      "require": {
+        "ext-mbstring": "*",
+        "php": ">=5.5.0"
+      },
+      "require-dev": {
+        "instaclick/coding-standard": "^1.1",
+        "instaclick/object-calisthenics-sniffs": "dev-master",
+        "instaclick/symfony2-coding-standard": "dev-remaster",
+        "php-mock/php-mock-phpunit": "^0.2",
+        "phpunit/phpunit": "^4",
+        "protobuf-php/protobuf-plugin": ">=0.1",
+        "satooshi/php-coveralls": "^0.6",
+        "squizlabs/php_codesniffer": "^1.5"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "0.1.x-dev"
         }
-    ],
-    "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
-    "prefer-stable": false,
-    "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": []
+      },
+      "autoload": {
+        "psr-4": {
+          "Protobuf\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["MIT"],
+      "authors": [
+        {
+          "name": "Fabio B. Silva",
+          "email": "fabio.bat.silva@gmail.com",
+          "homepage": "https://github.com/FabioBatSilva"
+        },
+        {
+          "name": "Iván -DrSlump- Montes",
+          "email": "drslump@pollinimini.net",
+          "homepage": "https://github.com/drslump"
+        }
+      ],
+      "description": "PHP implementation of Google's Protocol Buffers",
+      "homepage": "https://github.com/protobuf-php/protobuf",
+      "keywords": ["protobuf", "protocol buffer", "serializing"],
+      "time": "2016-09-21T23:47:34+00:00"
+    }
+  ],
+  "packages-dev": [
+    {
+      "name": "doctrine/inflector",
+      "version": "v1.3.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/doctrine/inflector.git",
+        "reference": "5527a48b7313d15261292c149e55e26eae771b0a"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/doctrine/inflector/zipball/5527a48b7313d15261292c149e55e26eae771b0a",
+        "reference": "5527a48b7313d15261292c149e55e26eae771b0a",
+        "shasum": ""
+      },
+      "require": {
+        "php": "^7.1"
+      },
+      "require-dev": {
+        "phpunit/phpunit": "^6.2"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "1.3.x-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Doctrine\\Common\\Inflector\\": "lib/Doctrine/Common/Inflector"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["MIT"],
+      "authors": [
+        {
+          "name": "Roman Borschel",
+          "email": "roman@code-factory.org"
+        },
+        {
+          "name": "Benjamin Eberlei",
+          "email": "kontakt@beberlei.de"
+        },
+        {
+          "name": "Guilherme Blanco",
+          "email": "guilhermeblanco@gmail.com"
+        },
+        {
+          "name": "Jonathan Wage",
+          "email": "jonwage@gmail.com"
+        },
+        {
+          "name": "Johannes Schmitt",
+          "email": "schmittjoh@gmail.com"
+        }
+      ],
+      "description": "Common String Manipulations with regard to casing and singular/plural rules.",
+      "homepage": "http://www.doctrine-project.org",
+      "keywords": ["inflection", "pluralize", "singularize", "string"],
+      "time": "2018-01-09T20:05:19+00:00"
+    },
+    {
+      "name": "protobuf-php/google-protobuf-proto",
+      "version": "v0.1.3",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/protobuf-php/google-protobuf-proto.git",
+        "reference": "da1827b4a23fccd4eb998a8d4bcd972f2330bc29"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/protobuf-php/google-protobuf-proto/zipball/da1827b4a23fccd4eb998a8d4bcd972f2330bc29",
+        "reference": "da1827b4a23fccd4eb998a8d4bcd972f2330bc29",
+        "shasum": ""
+      },
+      "require": {
+        "php": ">=5.5.0"
+      },
+      "require-dev": {
+        "protobuf-php/protobuf-plugin": ">=0.1"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "0.1.x-dev"
+        }
+      },
+      "autoload": {
+        "psr-0": {
+          "google\\protobuf": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["MIT"],
+      "authors": [
+        {
+          "name": "Fabio B. Silva",
+          "email": "fabio.bat.silva@gmail.com",
+          "homepage": "https://github.com/FabioBatSilva"
+        }
+      ],
+      "description": "Protocol Buffers classes from Google's Protocol Buffers Compiler",
+      "homepage": "https://github.com/protobuf-php/google-protobuf-proto",
+      "keywords": ["protobuf", "protocol buffer", "serializing"],
+      "time": "2016-08-04T03:14:12+00:00"
+    },
+    {
+      "name": "protobuf-php/protobuf-plugin",
+      "version": "v0.1.3",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/protobuf-php/protobuf-plugin.git",
+        "reference": "cd8d138fd91bc18df1a8812d9448bb3d7dce0996"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/protobuf-php/protobuf-plugin/zipball/cd8d138fd91bc18df1a8812d9448bb3d7dce0996",
+        "reference": "cd8d138fd91bc18df1a8812d9448bb3d7dce0996",
+        "shasum": ""
+      },
+      "require": {
+        "doctrine/inflector": "^1.0",
+        "php": ">=5.5.0",
+        "protobuf-php/google-protobuf-proto": ">=0.1",
+        "protobuf-php/protobuf": ">=0.1",
+        "psr/log": "^1.0",
+        "symfony/console": "^2.5|^3.0",
+        "symfony/process": "^2.5|^3.0",
+        "zendframework/zend-code": "^2.6"
+      },
+      "require-dev": {
+        "instaclick/coding-standard": "~1.1",
+        "instaclick/object-calisthenics-sniffs": "dev-master",
+        "instaclick/symfony2-coding-standard": "dev-remaster",
+        "mikey179/vfsstream": "~1",
+        "php-mock/php-mock-phpunit": "^0.2",
+        "phpunit/phpunit": "~4",
+        "satooshi/php-coveralls": "~0.6",
+        "squizlabs/php_codesniffer": "~1.5"
+      },
+      "bin": ["bin/protobuf"],
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "0.1.x-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Protobuf\\Compiler\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["MIT"],
+      "authors": [
+        {
+          "name": "Fabio B. Silva",
+          "email": "fabio.bat.silva@gmail.com",
+          "homepage": "https://github.com/FabioBatSilva"
+        }
+      ],
+      "description": "PHP Code generator plugin from Google's Protocol Buffers",
+      "homepage": "https://github.com/protobuf-php/protobuf-plugin",
+      "keywords": ["protobuf", "protocol buffer", "serializing"],
+      "time": "2016-11-03T18:34:52+00:00"
+    },
+    {
+      "name": "psr/log",
+      "version": "1.1.2",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/php-fig/log.git",
+        "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/php-fig/log/zipball/446d54b4cb6bf489fc9d75f55843658e6f25d801",
+        "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801",
+        "shasum": ""
+      },
+      "require": {
+        "php": ">=5.3.0"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "1.1.x-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Psr\\Log\\": "Psr/Log/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["MIT"],
+      "authors": [
+        {
+          "name": "PHP-FIG",
+          "homepage": "http://www.php-fig.org/"
+        }
+      ],
+      "description": "Common interface for logging libraries",
+      "homepage": "https://github.com/php-fig/log",
+      "keywords": ["log", "psr", "psr-3"],
+      "time": "2019-11-01T11:05:21+00:00"
+    },
+    {
+      "name": "symfony/console",
+      "version": "v3.4.33",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/symfony/console.git",
+        "reference": "c7edffb26b29cae972ca4afccb610a38ce8d0ccf"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/symfony/console/zipball/c7edffb26b29cae972ca4afccb610a38ce8d0ccf",
+        "reference": "c7edffb26b29cae972ca4afccb610a38ce8d0ccf",
+        "shasum": ""
+      },
+      "require": {
+        "php": "^5.5.9|>=7.0.8",
+        "symfony/debug": "~2.8|~3.0|~4.0",
+        "symfony/polyfill-mbstring": "~1.0"
+      },
+      "conflict": {
+        "symfony/dependency-injection": "<3.4",
+        "symfony/process": "<3.3"
+      },
+      "provide": {
+        "psr/log-implementation": "1.0"
+      },
+      "require-dev": {
+        "psr/log": "~1.0",
+        "symfony/config": "~3.3|~4.0",
+        "symfony/dependency-injection": "~3.4|~4.0",
+        "symfony/event-dispatcher": "~2.8|~3.0|~4.0",
+        "symfony/lock": "~3.4|~4.0",
+        "symfony/process": "~3.3|~4.0"
+      },
+      "suggest": {
+        "psr/log": "For using the console logger",
+        "symfony/event-dispatcher": "",
+        "symfony/lock": "",
+        "symfony/process": ""
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "3.4-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Component\\Console\\": ""
+        },
+        "exclude-from-classmap": ["/Tests/"]
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["MIT"],
+      "authors": [
+        {
+          "name": "Fabien Potencier",
+          "email": "fabien@symfony.com"
+        },
+        {
+          "name": "Symfony Community",
+          "homepage": "https://symfony.com/contributors"
+        }
+      ],
+      "description": "Symfony Console Component",
+      "homepage": "https://symfony.com",
+      "time": "2019-10-24T15:33:53+00:00"
+    },
+    {
+      "name": "symfony/debug",
+      "version": "v4.3.6",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/symfony/debug.git",
+        "reference": "5ea9c3e01989a86ceaa0283f21234b12deadf5e2"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/symfony/debug/zipball/5ea9c3e01989a86ceaa0283f21234b12deadf5e2",
+        "reference": "5ea9c3e01989a86ceaa0283f21234b12deadf5e2",
+        "shasum": ""
+      },
+      "require": {
+        "php": "^7.1.3",
+        "psr/log": "~1.0"
+      },
+      "conflict": {
+        "symfony/http-kernel": "<3.4"
+      },
+      "require-dev": {
+        "symfony/http-kernel": "~3.4|~4.0"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "4.3-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Component\\Debug\\": ""
+        },
+        "exclude-from-classmap": ["/Tests/"]
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["MIT"],
+      "authors": [
+        {
+          "name": "Fabien Potencier",
+          "email": "fabien@symfony.com"
+        },
+        {
+          "name": "Symfony Community",
+          "homepage": "https://symfony.com/contributors"
+        }
+      ],
+      "description": "Symfony Debug Component",
+      "homepage": "https://symfony.com",
+      "time": "2019-10-28T17:07:32+00:00"
+    },
+    {
+      "name": "symfony/polyfill-mbstring",
+      "version": "v1.12.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/symfony/polyfill-mbstring.git",
+        "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/b42a2f66e8f1b15ccf25652c3424265923eb4f17",
+        "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17",
+        "shasum": ""
+      },
+      "require": {
+        "php": ">=5.3.3"
+      },
+      "suggest": {
+        "ext-mbstring": "For best performance"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "1.12-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Polyfill\\Mbstring\\": ""
+        },
+        "files": ["bootstrap.php"]
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["MIT"],
+      "authors": [
+        {
+          "name": "Nicolas Grekas",
+          "email": "p@tchwork.com"
+        },
+        {
+          "name": "Symfony Community",
+          "homepage": "https://symfony.com/contributors"
+        }
+      ],
+      "description": "Symfony polyfill for the Mbstring extension",
+      "homepage": "https://symfony.com",
+      "keywords": ["compatibility", "mbstring", "polyfill", "portable", "shim"],
+      "time": "2019-08-06T08:03:45+00:00"
+    },
+    {
+      "name": "symfony/process",
+      "version": "v3.4.33",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/symfony/process.git",
+        "reference": "c19da50bc3e8fa7d60628fdb4ab5d67de534cf3e"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/symfony/process/zipball/c19da50bc3e8fa7d60628fdb4ab5d67de534cf3e",
+        "reference": "c19da50bc3e8fa7d60628fdb4ab5d67de534cf3e",
+        "shasum": ""
+      },
+      "require": {
+        "php": "^5.5.9|>=7.0.8"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "3.4-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Component\\Process\\": ""
+        },
+        "exclude-from-classmap": ["/Tests/"]
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["MIT"],
+      "authors": [
+        {
+          "name": "Fabien Potencier",
+          "email": "fabien@symfony.com"
+        },
+        {
+          "name": "Symfony Community",
+          "homepage": "https://symfony.com/contributors"
+        }
+      ],
+      "description": "Symfony Process Component",
+      "homepage": "https://symfony.com",
+      "time": "2019-10-24T15:33:53+00:00"
+    },
+    {
+      "name": "zendframework/zend-code",
+      "version": "2.6.3",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/zendframework/zend-code.git",
+        "reference": "95033f061b083e16cdee60530ec260d7d628b887"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/zendframework/zend-code/zipball/95033f061b083e16cdee60530ec260d7d628b887",
+        "reference": "95033f061b083e16cdee60530ec260d7d628b887",
+        "shasum": ""
+      },
+      "require": {
+        "php": "^5.5 || 7.0.0 - 7.0.4 || ^7.0.6",
+        "zendframework/zend-eventmanager": "^2.6 || ^3.0"
+      },
+      "require-dev": {
+        "doctrine/annotations": "~1.0",
+        "fabpot/php-cs-fixer": "1.7.*",
+        "phpunit/phpunit": "^4.8.21",
+        "zendframework/zend-stdlib": "^2.7 || ^3.0"
+      },
+      "suggest": {
+        "doctrine/annotations": "Doctrine\\Common\\Annotations >=1.0 for annotation features",
+        "zendframework/zend-stdlib": "Zend\\Stdlib component"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "2.6-dev",
+          "dev-develop": "2.7-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Zend\\Code\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["BSD-3-Clause"],
+      "description": "provides facilities to generate arbitrary code using an object oriented interface",
+      "homepage": "https://github.com/zendframework/zend-code",
+      "keywords": ["code", "zf2"],
+      "time": "2016-04-20T17:26:42+00:00"
+    },
+    {
+      "name": "zendframework/zend-eventmanager",
+      "version": "3.2.1",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/zendframework/zend-eventmanager.git",
+        "reference": "a5e2583a211f73604691586b8406ff7296a946dd"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/zendframework/zend-eventmanager/zipball/a5e2583a211f73604691586b8406ff7296a946dd",
+        "reference": "a5e2583a211f73604691586b8406ff7296a946dd",
+        "shasum": ""
+      },
+      "require": {
+        "php": "^5.6 || ^7.0"
+      },
+      "require-dev": {
+        "athletic/athletic": "^0.1",
+        "container-interop/container-interop": "^1.1.0",
+        "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.2",
+        "zendframework/zend-coding-standard": "~1.0.0",
+        "zendframework/zend-stdlib": "^2.7.3 || ^3.0"
+      },
+      "suggest": {
+        "container-interop/container-interop": "^1.1.0, to use the lazy listeners feature",
+        "zendframework/zend-stdlib": "^2.7.3 || ^3.0, to use the FilterChain feature"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "3.2-dev",
+          "dev-develop": "3.3-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Zend\\EventManager\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": ["BSD-3-Clause"],
+      "description": "Trigger and listen to events within a PHP application",
+      "homepage": "https://github.com/zendframework/zend-eventmanager",
+      "keywords": ["event", "eventmanager", "events", "zf2"],
+      "time": "2018-04-25T15:33:34+00:00"
+    }
+  ],
+  "aliases": [],
+  "minimum-stability": "stable",
+  "stability-flags": [],
+  "prefer-stable": false,
+  "prefer-lowest": false,
+  "platform": [],
+  "platform-dev": []
 }

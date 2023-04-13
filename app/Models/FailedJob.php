@@ -11,7 +11,7 @@ use URL;
 class FailedJob extends Model
 {
     use Prunable;
-    
+
     protected $table = 'failed_jobs_histories';
 
     protected $fillable = ['name', 'agency_id', 'snooze', 'exception'];
@@ -28,7 +28,7 @@ class FailedJob extends Model
 
     public function signedSnoozeUrl(int $hours): string
     {
-        return URL::temporarySignedRoute('signed.snooze', now()->addHours(5), [
+        return URL::temporarySignedRoute('internal.failed-jobs.snooze', now()->addHours(5), [
             'failedJob' => $this,
             'hours' => $hours,
         ]);

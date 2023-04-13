@@ -2,7 +2,7 @@
 /public/hot
 /public/storage
 /storage/*.key
-/storage/app/Transit-Tracker
+/storage/app/scribe
 /vendor
 /.idea
 /.scribe
@@ -29,4 +29,5 @@ yarn-error.log
 .phpstorm.meta.php
 .editorconfig
 /invoker
+/resources/views/scribe
 /data.ms

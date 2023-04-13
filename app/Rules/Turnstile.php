@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-use GuzzleHttp\Client;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;

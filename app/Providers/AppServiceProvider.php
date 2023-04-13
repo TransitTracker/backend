@@ -7,7 +7,6 @@ use BenSampo\Enum\Enum;
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationItem;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Vite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
@@ -66,10 +65,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Filament::serving(function () {
-            Filament::registerTheme(
-                app(Vite::class)('resources/css/filament.css'),
-            );
-
             $navigationItems = [
                 NavigationItem::make('exo VIN')
                     ->url(route('vin.index'))

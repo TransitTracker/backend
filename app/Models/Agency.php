@@ -137,7 +137,7 @@ class Agency extends Model
 
     public function signedUpdateGtfsUrl(): string
     {
-        return URL::temporarySignedRoute('admin.agencies.update', now()->addHours(12), [
+        return URL::temporarySignedRoute('internal.agencies.static-update', now()->addHours(12), [
             'agency' => $this,
         ]);
     }

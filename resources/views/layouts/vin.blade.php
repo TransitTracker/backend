@@ -8,10 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Transit Tracker') }}</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -20,7 +18,7 @@
         class="w-full text-xl bg-m3-primary text-m3-primary-on dark:bg-m3-primary-dark-container dark:text-m3-primary-dark-on-container drop-shadow">
         <div class="container flex items-center justify-between px-4 py-4 mx-auto">
             <a
-                href="{{ route('vin.index') }}"class="flex items-center justify-center text-sm font-medium tracking-wider bg-white bg-opacity-0 rounded h-9 w-9 hover:bg-opacity-10">
+                href="{{ route('vin.index') }}" class="flex items-center justify-center text-sm font-medium tracking-wider bg-white bg-opacity-0 rounded h-9 w-9 hover:bg-opacity-10">
                 @if (Route::currentRouteName() === 'vin.index')
                     <x-gmdi-home class="w-6 h-6" />
                 @else
@@ -84,8 +82,6 @@
 
     <!-- Alpine Core -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     @production
     <script async defer data-website-id="4e8482d0-2870-42ab-92d3-02854e972369" data-cache="true" src="https://stats.felixinx.me/umami.js"></script>

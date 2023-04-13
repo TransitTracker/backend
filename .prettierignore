@@ -1,0 +1,7 @@
+.scribe
+packages
+public/docs
+public/storage
+public/vendor
+storage
+vendor

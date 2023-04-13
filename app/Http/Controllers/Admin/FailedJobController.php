@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\FailedJob;
 
-class SnoozeFailedJobController extends Controller
+class FailedJobController extends Controller
 {
     public function snooze(FailedJob $failedJob, int $hours)
     {

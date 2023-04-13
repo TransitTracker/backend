@@ -11,7 +11,7 @@ class Link extends Model
 {
     use HasTranslations;
 
-    protected $fillable = ['internal_title', 'title', 'description', 'link'];
+    protected $guarded = [];
 
     protected $translatable = ['title', 'description'];
 

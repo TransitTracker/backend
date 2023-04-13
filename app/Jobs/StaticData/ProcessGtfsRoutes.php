@@ -2,6 +2,7 @@
 
 namespace App\Jobs\StaticData;
 
+use App\Enums\VehicleType;
 use App\Models\Agency;
 use App\Models\Route;
 use Illuminate\Bus\Batchable;
@@ -22,7 +23,7 @@ class ProcessGtfsRoutes implements ShouldQueue
     {
     }
 
-    public function handle()
+    public function handle(): void
     {
         // Remove old routes
         Route::whereAgencyId($this->agency->id)->delete();
@@ -32,26 +33,24 @@ class ProcessGtfsRoutes implements ShouldQueue
         $routesToUpdate = [];
 
         foreach ($routesReader->getRecords() as $route) {
-            // Prepare a new array to update or create the route model
-            $newRoute = [];
-
             if (! array_key_exists('route_id', $route)) {
                 continue;
             }
 
-            // Fill each required attribute
-            $newRoute['agency_id'] = $this->agency->id;
-            $newRoute['route_id'] = $route['route_id'];
-            $newRoute['short_name'] = $route['route_short_name'];
-            $newRoute['long_name'] = $route['route_long_name'];
-            $newRoute['color'] = $this->getColor($route, 'route_color', $this->agency->color);
-            $newRoute['text_color'] = $this->getColor($route, 'route_text_color', $this->agency->text_color);
-
-            array_push($routesToUpdate, $newRoute);
+            $routesToUpdate[] = [
+                'agency_id' => $this->agency->id,
+                'gtfs_route_id' => $route['route_id'],
+                'route_id' => $route['route_id'], // REMOVEP2
+                'type' => VehicleType::coerce($route['route_type'])?->value,
+                'short_name' => $route['route_short_name'],
+                'long_name' => $route['route_long_name'],
+                'color' => $this->getColor($route, 'color', $this->agency->color),
+                'text_color' => $this->getColor($route, 'route_text_color', $this->agency->text_color),
+            ];
         }
 
         collect($routesToUpdate)->chunk(1000)->each(function (Collection $chunk) {
-            Route::upsert($chunk->all(), ['agency_id', 'route_id']);
+            Route::upsert($chunk->all(), ['agency_id', 'gtfs_route_id']);
         });
 
         $routesReader = null;

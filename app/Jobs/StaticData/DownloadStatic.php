@@ -35,11 +35,10 @@ class DownloadStatic implements ShouldQueue
 
         // Download GTFS
         $client = new Client();
+        $headers = filled($this->agency->static_etag) ? ['If-None-Match' => $this->agency->static_etag] : [];
         $response = $client->get($this->agency->static_gtfs_url, [
             'sink' => $fileName,
-            'headers' => [
-                'If-None-Match' => $this->agency->static_etag,
-            ],
+            'headers' => $headers,
             'verify' => $this->agency->slug === 'stm' ? false : true,
         ]);
 

@@ -10,7 +10,7 @@ class FailedJob extends Model
 {
     protected $table = 'failed_jobs_histories';
 
-    protected $fillable = ['name', 'agency_id', 'snooze', 'exception'];
+    protected $guarded = [];
 
     public function agency(): BelongsTo
     {

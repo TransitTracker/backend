@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Stat extends Model
 {
-    protected $fillable = ['type', 'data', 'region_id'];
+    protected $guarded = [];
 
     protected $casts = [
         'data' => 'object',

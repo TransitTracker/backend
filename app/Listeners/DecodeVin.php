@@ -21,6 +21,6 @@ class DecodeVin implements ShouldQueue
             return false;
         }
 
-        DecodeVinJob::dispatchSync([$event->vehicle->force_ref ?? $event->vehicle->vehicle]);
+        DecodeVinJob::dispatchSync([$event->vehicle->force_vehicle_id ?? $event->vehicle->vehicle_id]);
     }
 }

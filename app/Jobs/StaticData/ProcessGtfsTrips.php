@@ -35,39 +35,45 @@ class ProcessGtfsTrips implements ShouldQueue
 
         foreach ($tripsRecords as $trip) {
             // Find the route and service matching this trip
-            $route = Route::firstWhere([['agency_id', $this->agency->id], ['route_id', $trip['route_id']]]);
+            $route = Route::firstWhere([['agency_id', $this->agency->id], ['gtfs_route_id', $trip['route_id']]]); // REMOVEP2
             $service = $this->agency->services()->firstOrCreate(
-                ['service_id' => $trip['service_id']],
+                ['gtfs_service_id' => $trip['service_id']],
                 ['start_date' => now(), 'end_date' => now()->addYear()],
-            );
+            ); // REMOVEP2
 
             // If there is no service, don't add it
-            if ($service) {
+            if ($service) { // REMOVEP2
                 // Prepare a new array to update or create the trip model
                 $newTrip = [];
 
                 // Fill each required attribute
                 $newTrip['agency_id'] = $this->agency->id;
-                $newTrip['trip_id'] = $trip['trip_id'];
+                $newTrip['trip_id'] = $trip['trip_id']; // REMOVEP2
+                $newTrip['gtfs_trip_id'] = $trip['trip_id'];
                 if (array_key_exists('trip_direction_headsign', $trip)) {
-                    $newTrip['trip_headsign'] = "{$trip['trip_direction_headsign']} ({$trip['trip_headsign']})";
+                    $newTrip['trip_headsign'] = "{$trip['trip_direction_headsign']} ({$trip['trip_headsign']})"; // REMOVEP2
+                    $newTrip['headsign'] = "{$trip['trip_direction_headsign']} ({$trip['trip_headsign']})";
                 } else {
-                    $newTrip['trip_headsign'] = $trip['trip_headsign'];
+                    $newTrip['trip_headsign'] = $trip['trip_headsign']; // REMOVEP2
+                    $newTrip['headsign'] = $trip['trip_headsign'];
                 }
 
                 // Fill optional trip attribute, do not keep trip_short_name for RTC
                 if (array_key_exists('trip_short_name', $trip) && $this->agency->slug !== 'rtc') {
-                    $newTrip['trip_short_name'] = $trip['trip_short_name'];
+                    $newTrip['trip_short_name'] = $trip['trip_short_name']; // REMOVEP2
+                    $newTrip['short_name'] = $trip['trip_short_name']; // REMOVEP2
                 }
 
                 // Fill optional route attributes
-                $newTrip['route_color'] = $route->color;
-                $newTrip['route_text_color'] = $route->text_color;
-                $newTrip['route_short_name'] = $route->short_name;
-                $newTrip['route_long_name'] = $route->long_name;
+                $newTrip['gtfs_route_id'] = $trip['route_id'];
+                $newTrip['route_color'] = $route->color; // REMOVEP2
+                $newTrip['route_text_color'] = $route->text_color; // REMOVEP2
+                $newTrip['route_short_name'] = $route->short_name; // REMOVEP2
+                $newTrip['route_long_name'] = $route->long_name; // REMOVEP2
 
-                // Fill optional service attribute
-                $newTrip['service_id'] = $service->id;
+                // Fill service attribute
+                $newTrip['service_id'] = $service->id; // REMOVEP2
+                $newTrip['gtfs_service_id'] = $trip['service_id'];
 
                 // Fill optional block attribute
                 if (array_key_exists('block_id', $trip)) {
@@ -81,7 +87,8 @@ class ProcessGtfsTrips implements ShouldQueue
 
                 // Fill optional shape attribute
                 if (array_key_exists('shape_id', $trip)) {
-                    $newTrip['shape'] = $trip['shape_id'];
+                    $newTrip['shape'] = $trip['shape_id']; // REMOVEP2
+                    $newTrip['gtfs_shape_id'] = $trip['shape_id'];
                 }
 
                 // Insert the trip into the array
@@ -90,7 +97,7 @@ class ProcessGtfsTrips implements ShouldQueue
         }
 
         collect($tripsToUpdate)->chunk(1000)->each(function (Collection $chunk) {
-            Trip::upsert($chunk->all(), ['agency_id', 'trip_id']);
+            Trip::upsert($chunk->all(), ['agency_id', 'gtfs_trip_id']);
         });
 
         $tripsReader = null;

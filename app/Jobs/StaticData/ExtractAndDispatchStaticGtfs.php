@@ -5,6 +5,7 @@ namespace App\Jobs\StaticData;
 use App\Models\Agency;
 use App\Models\Gtfs\StopTime;
 use App\Models\Trip;
+use Bus;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -49,6 +50,8 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
         $this->directory = "static/{$this->agency->slug}-{$time}";
         Storage::makeDirectory($this->directory);
 
+        $jobsChains = [];
+
         foreach ($this->files as $file) {
             $job = match ($file) {
                 'calendar.txt' => ProcessGtfsServices::class,
@@ -65,15 +68,17 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
                 default => [0, null],
             };
 
-            $this->extractFile($file, $job, $chunkSize, $model);
+            $jobsChains[] = $this->extractFile($file, $job, $chunkSize, $model);
         }
+
+        Bus::batch($jobsChains)->dispatch();
 
         $this->zip->close();
 
         $this->zip = null;
     }
 
-    private function extractFile(string $file, string $job, int $chunkSize, string $model = null)
+    private function extractFile(string $file, string $job, int $chunkSize, string $model = null): array
     {
         $filePath = "{$this->directory}/{$file}";
 
@@ -93,17 +98,14 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
             $reader = Reader::createFromPath(Storage::path($filePath))->setHeaderOffset(0);
             $size = ceil(count($reader) / $chunkSize);
 
+            $jobs = [];
             for ($i = 0; $i <= $size - 1; $i++) {
-                $this->batch()->add([
-                    new $job($this->agency, Storage::path($filePath), $i * $chunkSize),
-                ]);
+                $jobs[] = new $job($this->agency, Storage::path($filePath), $i * $chunkSize);
             }
 
-            return;
+            return $jobs;
         }
 
-        $this->batch()->add([
-            new $job($this->agency, Storage::path($filePath)),
-        ]);
+        return [new $job($this->agency, Storage::path($filePath))];
     }
 }

@@ -7,11 +7,9 @@ use BenSampo\Enum\Enum;
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationItem;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Opcodes\LogViewer\Facades\LogViewer;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
 use Spatie\Health\Checks\Checks\CacheCheck;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
@@ -85,11 +83,6 @@ class AppServiceProvider extends ServiceProvider
             }
 
             Filament::registerNavigationItems($navigationItems);
-        });
-
-        LogViewer::auth(function (Request $request) {
-            return $request->user()
-                && $request->user()->isAdmin();
         });
     }
 }

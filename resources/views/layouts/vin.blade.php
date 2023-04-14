@@ -42,6 +42,14 @@
             </a>
         </div>
     </nav>
+    @if (session('from-api'))
+        <div class="bg-m3-error-container text-m3-error-on-container dark:bg-m3-error-dark-container dark:text-m3-error-dark-on-container">
+            <div class="container p-4 mx-auto">
+                <p class="text-lg font-bold">{{ __('The VIN project has moved!') }}</p>
+                <p class="mt-1">{{ __('It is now accessible at ') }}<a class="font-medium underline" href="{{ route('vin.index') }}">{{ route('vin.index') }}</a>.</p>
+            </div>
+        </div>
+    @endif
     @if (session('status'))
         <div class="text-white bg-secondary-700">
             <div class="container p-4 mx-auto text-sm font-medium tracking-wide">

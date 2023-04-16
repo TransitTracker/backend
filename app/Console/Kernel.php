@@ -33,7 +33,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('schedule-monitor:sync')->dailyAt('02:45');
         $schedule->command('model:prune', ['--model' => MonitoredScheduledTaskLogItem::class])->dailyAt('02:50');
         $schedule->command('static:update')->dailyAt('03:00');
-        $schedule->command('download:clean')->dailyAt('03:55');
         $schedule->job(new CleanFolders(), 'gtfs')->dailyAt('03:55');
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
         $schedule->command('cache:prune-stale-tags')->hourly();

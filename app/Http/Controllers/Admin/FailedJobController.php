@@ -12,6 +12,6 @@ class FailedJobController extends Controller
         $failedJob->snooze = now()->addHours($hours);
         $failedJob->save();
 
-        return redirect('/admin/dashboard');
+        return redirect()->route('filament.pages.dashboard');
     }
 }

@@ -38,5 +38,10 @@ class CleanFolders implements ShouldQueue
         collect(Storage::directories('static'))->each(function ($directory) {
             Storage::deleteDirectory($directory);
         });
+
+        $gitignore = "*\n.gitignore";
+
+        Storage::put('downloads/.gitignore', $gitignore);
+        Storage::put('static/.gitignore', $gitignore);
     }
 }

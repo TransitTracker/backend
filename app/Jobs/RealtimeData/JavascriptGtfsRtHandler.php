@@ -87,7 +87,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
                 'active' => 1,
                 'is_active' => 1,
                 'gtfs_trip' => $this->processField($vehicle->trip?->trip_id), // old
-                'gtfs_trip_trip' => $this->processField($vehicle->trip?->trip_id),
+                'gtfs_trip_id' => $this->processField($vehicle->trip?->trip_id),
                 'route' => $this->processField($vehicle->trip?->route_id ?? $trip?->route_short_name), // old
                 'gtfs_route_id' => $this->processField($vehicle->trip?->route_id, 'route', $trip?->route_short_name),
                 'start' => $this->processField($vehicle->trip?->start_time), // old

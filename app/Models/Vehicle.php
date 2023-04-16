@@ -98,12 +98,14 @@ class Vehicle extends Model
      */
     public function getDisplayedLabelAttribute(): string
     {
-        return $this->force_label ?? $this->label ?? $this->vehicle;
+        // TODO: REMOVEP2 : Remove vehicle and ''
+        return $this->force_label ?? $this->label ?? $this->vehicle_id ?? $this->vehicle ?? '';
     }
 
     public function getRefAttribute(): string
     {
-        return $this->force_vehicle_id ?? $this->vehicle;
+        // TODO: REMOVEP2 : Remove vehicle and ''
+        return $this->force_vehicle_id ?? $this->vehicle_id ?? $this->vehicle ?? '';
     }
 
     /*

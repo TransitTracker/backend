@@ -54,6 +54,8 @@ class ProcessGtfsRoutes implements ShouldQueue
         });
 
         $routesReader = null;
+
+        return;
     }
 
     private function getColor(array $route, string $field, string $fallback)

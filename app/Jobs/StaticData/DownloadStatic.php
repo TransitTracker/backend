@@ -26,7 +26,7 @@ class DownloadStatic implements ShouldQueue
     {
     }
 
-    public function handle()
+    public function handle(): void
     {
         // Set path
         $cwd = getcwd();
@@ -63,5 +63,7 @@ class DownloadStatic implements ShouldQueue
 
         // Erase client
         $client = null;
+
+        return;
     }
 }

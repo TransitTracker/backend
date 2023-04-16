@@ -21,7 +21,7 @@ class ProcessGtfsServices implements ShouldQueue
     {
     }
 
-    public function handle()
+    public function handle(): void
     {
         // Remove old services
         Service::whereAgencyId($this->agency->id)->delete();
@@ -58,5 +58,7 @@ class ProcessGtfsServices implements ShouldQueue
         }
 
         $servicesReader = null;
+
+        return;
     }
 }

@@ -25,7 +25,7 @@ class ProcessGtfsShapes implements ShouldQueue
         $this->shapes = [];
     }
 
-    public function handle()
+    public function handle(): void
     {
         // Remove old shapes
         Storage::disk('public')->delete(Storage::disk('public')->files("shapes/{$this->agency->slug}"));
@@ -79,5 +79,7 @@ class ProcessGtfsShapes implements ShouldQueue
                 Log::error("Error when trying to create shape {$shapeId} for agency {$this->agency->slug}", ['what' => $e->getMessage(), 'where' => "{$e->getFile()}:{$e->getLine()}"]);
             }
         }
+
+        return;
     }
 }

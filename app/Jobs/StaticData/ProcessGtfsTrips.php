@@ -23,7 +23,7 @@ class ProcessGtfsTrips implements ShouldQueue
     {
     }
 
-    public function handle()
+    public function handle(): void
     {
         $tripsReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
         $tripsStatement = (new Statement())
@@ -101,5 +101,7 @@ class ProcessGtfsTrips implements ShouldQueue
         });
 
         $tripsReader = null;
+
+        return;
     }
 }

@@ -35,7 +35,7 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
     {
     }
 
-    public function handle()
+    public function handle(): void
     {
         // Open (will only unzip needed files)
         $this->zip = new ZipArchive();
@@ -76,6 +76,8 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
         $this->zip->close();
 
         $this->zip = null;
+
+        return;
     }
 
     private function extractFile(string $file, string $job, int $chunkSize, string $model = null): array

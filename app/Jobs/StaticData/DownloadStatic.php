@@ -55,7 +55,7 @@ class DownloadStatic implements ShouldQueue
 
             $this->batch()->cancel();
 
-            return false;
+            return;
         }
 
         // Dispatch extraction

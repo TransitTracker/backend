@@ -42,7 +42,7 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
         $file = $this->zip->open($this->zipFile);
 
         if (! $file) {
-            return false;
+            return;
         }
 
         // Set and create extract folder

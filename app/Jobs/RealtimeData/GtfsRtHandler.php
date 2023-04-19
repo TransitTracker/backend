@@ -143,7 +143,7 @@ class GtfsRtHandler implements ShouldQueue
 
         // Update active information
         if ($inactiveArray->except($activeArray)->count() > 0) {
-            $inactiveArray->except($activeArray)->toQuery()->update(['active' => false, 'is_active' => true]);
+            $inactiveArray->except($activeArray)->toQuery()->update(['active' => false, 'is_active' => false]);
         }
 
         // Replace timestamp

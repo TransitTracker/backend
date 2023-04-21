@@ -48,6 +48,7 @@ class ProcessGtfsTrips implements ShouldQueue
                     'wednesday' => true,
                     'tuesday' => true,
                     'monday' => true,
+                    'service_id' => $trip['service_id'],
                 ],
             ); // REMOVEP2
 

@@ -91,6 +91,7 @@ class GtfsRtHandler implements ShouldQueue
             $newVehicle = [
                 'active' => 1,
                 'is_active' => 1,
+                'vehicle' => $vehicle->getVehicle()->getId(), // old
                 'gtfs_trip' => $this->processField($vehicle->getTrip()->getTripId()), // old
                 'gtfs_trip_id' => $this->processField($vehicle->getTrip()->getTripId()),
                 'route' => $this->processField($vehicle->getTrip()->getRouteId() ?? $trip?->route_short_name), // old

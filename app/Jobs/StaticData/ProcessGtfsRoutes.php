@@ -41,7 +41,7 @@ class ProcessGtfsRoutes implements ShouldQueue
                 'agency_id' => $this->agency->id,
                 'gtfs_route_id' => $route['route_id'],
                 'route_id' => $route['route_id'], // REMOVEP2
-                'type' => VehicleType::coerce($route['route_type'])?->value,
+                'type' => VehicleType::coerce($route['route_type'])?->value ?? 3, // Assume bus if none (required field per spec - bus most common)
                 'short_name' => $route['route_short_name'],
                 'long_name' => $route['route_long_name'],
                 'color' => $this->getColor($route, 'color', $this->agency->color),

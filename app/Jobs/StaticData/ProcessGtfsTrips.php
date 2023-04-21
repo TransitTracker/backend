@@ -38,7 +38,17 @@ class ProcessGtfsTrips implements ShouldQueue
             $route = Route::firstWhere([['agency_id', $this->agency->id], ['gtfs_route_id', $trip['route_id']]]); // REMOVEP2
             $service = $this->agency->services()->firstOrCreate(
                 ['gtfs_service_id' => $trip['service_id']],
-                ['start_date' => now(), 'end_date' => now()->addYear()],
+                [
+                    'start_date' => now(),
+                    'end_date' => now()->addYear(),
+                    'sunday' => true,
+                    'saturday' => true,
+                    'friday' => true,
+                    'thursday' => true,
+                    'wednesday' => true,
+                    'tuesday' => true,
+                    'monday' => true,
+                ],
             ); // REMOVEP2
 
             // If there is no service, don't add it
@@ -66,10 +76,10 @@ class ProcessGtfsTrips implements ShouldQueue
 
                 // Fill optional route attributes
                 $newTrip['gtfs_route_id'] = $trip['route_id'];
-                $newTrip['route_color'] = $route->color; // REMOVEP2
-                $newTrip['route_text_color'] = $route->text_color; // REMOVEP2
-                $newTrip['route_short_name'] = $route->short_name; // REMOVEP2
-                $newTrip['route_long_name'] = $route->long_name; // REMOVEP2
+                $newTrip['route_color'] = $route?->color; // REMOVEP2
+                $newTrip['route_text_color'] = $route?->text_color; // REMOVEP2
+                $newTrip['route_short_name'] = $route?->short_name; // REMOVEP2
+                $newTrip['route_long_name'] = $route?->long_name; // REMOVEP2
 
                 // Fill service attribute
                 $newTrip['service_id'] = $service->id; // REMOVEP2

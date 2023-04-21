@@ -88,7 +88,7 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
 
         // If there is no calendar file, continue without it
         if (! $content && $file === 'calendar.txt') {
-            return;
+            return [];
         }
 
         Storage::put($filePath, $content);

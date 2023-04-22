@@ -5,7 +5,6 @@ namespace App\Jobs\StaticData;
 use App\Models\Agency;
 use App\Models\Gtfs\StopTime;
 use App\Models\Trip;
-use Bus;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,7 +34,7 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
     {
     }
 
-    public function handle(): void
+    public function handle()
     {
         // Open (will only unzip needed files)
         $this->zip = new ZipArchive();
@@ -49,8 +48,6 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
         $time = now()->getTimestamp();
         $this->directory = "static/{$this->agency->slug}-{$time}";
         Storage::makeDirectory($this->directory);
-
-        $jobsChains = [];
 
         foreach ($this->files as $file) {
             $job = match ($file) {
@@ -68,10 +65,8 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
                 default => [0, null],
             };
 
-            $jobsChains[] = $this->extractFile($file, $job, $chunkSize, $model);
+            $this->extractFile($file, $job, $chunkSize, $model);
         }
-
-        Bus::batch(array_filter($jobsChains))->dispatch();
 
         $this->zip->close();
 
@@ -80,7 +75,7 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
         return;
     }
 
-    private function extractFile(string $file, string $job, int $chunkSize, string $model = null): array|void
+    private function extractFile(string $file, string $job, int $chunkSize, string $model = null)
     {
         $filePath = "{$this->directory}/{$file}";
 
@@ -100,14 +95,17 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
             $reader = Reader::createFromPath(Storage::path($filePath))->setHeaderOffset(0);
             $size = ceil(count($reader) / $chunkSize);
 
-            $jobs = [];
             for ($i = 0; $i <= $size - 1; $i++) {
-                $jobs[] = new $job($this->agency, Storage::path($filePath), $i * $chunkSize);
+                $this->batch()->add([
+                    new $job($this->agency, Storage::path($filePath), $i * $chunkSize),
+                ]);
             }
 
-            return $jobs;
+            return;
         }
 
-        return [new $job($this->agency, Storage::path($filePath))];
+        $this->batch()->add([
+            new $job($this->agency, Storage::path($filePath)),
+        ]);
     }
 }

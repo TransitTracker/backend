@@ -71,7 +71,7 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
             $jobsChains[] = $this->extractFile($file, $job, $chunkSize, $model);
         }
 
-        Bus::batch($jobsChains)->dispatch();
+        Bus::batch(array_filter($jobsChains))->dispatch();
 
         $this->zip->close();
 
@@ -80,7 +80,7 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
         return;
     }
 
-    private function extractFile(string $file, string $job, int $chunkSize, string $model = null): array
+    private function extractFile(string $file, string $job, int $chunkSize, string $model = null): array|void
     {
         $filePath = "{$this->directory}/{$file}";
 
@@ -88,7 +88,7 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
 
         // If there is no calendar file, continue without it
         if (! $content && $file === 'calendar.txt') {
-            return [];
+            return;
         }
 
         Storage::put($filePath, $content);

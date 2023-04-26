@@ -15,9 +15,9 @@ return [
     ],
     'print_gtfs_rt_bin' => env('PRINT_GTFS_RT_BIN'),
     'domain' => [
-        'web' => env('WEB_DOMAIN'),
-        'api' => env('API_DOMAIN'),
-        'vin' => env('VIN_DOMAIN'),
+        'web' => env('WEB_DOMAIN', null),
+        'api' => env('API_DOMAIN', null),
+        'vin' => env('VIN_DOMAIN', null),
     ],
     'path' => [
         'vin' => env('VIN_PATH', 'vin'),

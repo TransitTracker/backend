@@ -3,12 +3,14 @@
 namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
+use App\Models\Gtfs\Shape;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 use League\Csv\Reader;
 use MatanYadaev\EloquentSpatial\Objects\LineString;
 use MatanYadaev\EloquentSpatial\Objects\Point;
@@ -32,16 +34,17 @@ class ProcessGtfsShapes implements ShouldQueue
             $this->shapes[$shape['shape_id']][] = (object) [
                 'coordinates' => new Point((float) $shape['shape_pt_lat'], (float) $shape['shape_pt_lon']),
                 'sequence' => $shape['shape_pt_sequence'],
-                'dist_traveled' => $shape['shape_dist_traveled'],
+                'dist_traveled' => (float) $shape['shape_dist_traveled'],
             ];
         }
 
-        $this->agency->shapes()->upsert(collect($this->shapes)->map(function (array $points, string $shapeId) {
+        Shape::upsert(collect($this->shapes)->map(function (array $points, string $shapeId) {
             return [
+                'agency_id' => $this->agency->id,
                 'gtfs_shape_id' => $shapeId,
-                'shape' => new LineString(collect($points)->sortBy('sequence')->pluck('coordinates')->all()),
-                'total_distance' => collect($points)->sum('dist_traveled'),
+                'shape' => (new LineString(collect($points)->sortBy('sequence')->pluck('coordinates')->all()))->toSqlExpression(DB::connection()),
+                'total_distance' => collect($points)->max('dist_traveled'),
             ];
-        })->all(), ['gtfs_shape_id']);
+        })->all(), ['agency_id', 'gtfs_shape_id']);
     }
 }

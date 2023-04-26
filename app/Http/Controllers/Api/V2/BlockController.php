@@ -23,8 +23,7 @@ class BlockController extends Controller
 
     public function show(Agency $agency, string $tripId)
     {
-        $trip = Trip::select(['id', 'agency_id', 'trip_id', 'service_id', 'gtfs_block_id'])->where(['agency_id' => $agency->id, 'trip_id' => $tripId])->first();
-
+        $trip = Trip::select(['id', 'agency_id', 'trip_id', 'gtfs_service_id', 'gtfs_block_id'])->where(['agency_id' => $agency->id, 'trip_id' => $tripId])->first();
         if (! $trip) {
             return response()->json(['message' => 'Trip not found.', 'errors' => (object) [
                 'trip_id' => ['Trip not found.'],
@@ -39,9 +38,9 @@ class BlockController extends Controller
         ])->validate();
 
         $trips = Trip::query()
-            ->where(['agency_id' => $agency->id, 'gtfs_block_id' => $trip->gtfs_block_id, 'service_id' => $trip->service_id])
-            ->select(['id', 'agency_id', 'trip_id', 'trip_headsign', 'trip_short_name', 'route_color', 'route_text_color', 'route_short_name'])
-            ->with('firstDeparture')
+            ->where(['agency_id' => $agency->id, 'gtfs_block_id' => $trip->gtfs_block_id, 'gtfs_service_id' => $trip->gtfs_service_id])
+            ->select(['agency_id', 'gtfs_trip_id', 'headsign', 'short_name', 'route_color', 'route_text_color', 'route_short_name'])
+            ->with('firstDeparture:stop_times.agency_id,stop_times.gtfs_trip_id,departure')
             ->get()
             ->filter(function ($item) {
                 return $item->firstDeparture;

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('gtfs_shape_id');
             $table->lineString('shape');
             $table->unsignedFloat('total_distance')->nullable();
-            $table->index(['agency_id', 'gtfs_shape_id']);
+            $table->unique(['agency_id', 'gtfs_shape_id']);
             $table->timestamps();
         });
     }

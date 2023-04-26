@@ -60,16 +60,12 @@ class NextbusJsonHandler implements ShouldQueue
 
         $vehiclesToUpdate = [];
 
-        info('Before foreach');
-
         // Go trough each vehicle
         foreach ($json->vehicle as $vehicle) {
             // Continue if there is no routeTag
             if (! $vehicle?->routeTag || ! $vehicle?->id) {
                 continue;
             }
-
-            info("Vehicle {$vehicle->id}");
 
             // Continue if outdated
             if ((int) $vehicle?->secsSinceReport > 120) {
@@ -93,16 +89,10 @@ class NextbusJsonHandler implements ShouldQueue
                 'trip_id' => $this->retrieveTrip($vehicle->routeTag),
             ];
 
-            info("Added vehicle {$vehicle->id} to array");
-
             $activeArray[] = $vehicle->id;
         }
-        info("After foreach");
 
         Vehicle::upsert($vehiclesToUpdate, ['agency_id', 'vehicle_id']);
-
-        info("After upsert");
-
 
         // Update active information
         if ($inactiveArray->except($activeArray)->count() > 0) {

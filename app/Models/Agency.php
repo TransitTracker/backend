@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\VehiclesUpdated;
-use App\Models\Gtfs\Shape;
 use App\Models\Gtfs\Stop;
 use App\Models\Gtfs\StopTime;
 use Arr;
@@ -62,11 +61,6 @@ class Agency extends Model
     public function services(): HasMany
     {
         return $this->hasMany(Service::class);
-    }
-
-    public function shapes(): HasMany
-    {
-        return $this->hasMany(Shape::class);
     }
 
     public function stops(): HasMany

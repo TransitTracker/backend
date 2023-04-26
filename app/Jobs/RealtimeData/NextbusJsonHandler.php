@@ -53,7 +53,7 @@ class NextbusJsonHandler implements ShouldQueue
         $timestamp = floor($json?->lastTime?->time / 1000);
 
         // Return early if there is no vehicles
-        if (! $json?->vehicle) {
+        if (!property_exists($json, 'vehicle') || gettype($json?->vehicle) !== 'array') {
             return;
         }
 
@@ -84,7 +84,7 @@ class NextbusJsonHandler implements ShouldQueue
                 'trip_id' => $this->retrieveTrip($vehicle?->routeTag),
             ]);
 
-            array_push($activeArray, $vehicle->id);
+            $activeArray[] = $vehicle->id;
         }
 
         // Update active information
@@ -97,10 +97,7 @@ class NextbusJsonHandler implements ShouldQueue
         $this->agency->save();
 
         // Get count
-        $count = 1;
-        if (gettype($json->vehicle) === 'array') {
-            $count = count($json->vehicle);
-        }
+        $count = count($json->vehicle);
 
         // Add statistics
         $stat = new Stat();

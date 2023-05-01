@@ -4,7 +4,6 @@ namespace App\Jobs\RealtimeData;
 
 use App\Models\Agency;
 use App\Models\Stat;
-use App\Models\Trip;
 use App\Models\Vehicle;
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -58,10 +57,6 @@ class NextbusJsonHandler implements ShouldQueue
             return;
         }
 
-        $vehiclesToUpdate = [];
-
-        info('Before foreach');
-
         // Go trough each vehicle
         foreach ($json->vehicle as $vehicle) {
             // Continue if there is no routeTag
@@ -69,44 +64,36 @@ class NextbusJsonHandler implements ShouldQueue
                 continue;
             }
 
-            info("Vehicle {$vehicle->id}");
-
             // Continue if outdated
             if ((int) $vehicle?->secsSinceReport > 120) {
                 continue;
             }
 
-            $vehiclesToUpdate[] = [
-                'agency_id' => $this->agency->id,
-                'vehicle' => $vehicle->id,
-                'vehicle_id' => $vehicle->id,
-                'active' => true,
-                'is_active' => true,
-                'lat' => $this->processField(round((float) $vehicle->lat, 5)),
-                'lon' => $this->processField(round((float) $vehicle->lon, 5)),
-                'position' => $this->processField(['lat' => $vehicle->lat, 'lon' => $vehicle->lon], 'position'),
-                'route' => $this->processField($vehicle->routeTag),
-                'gtfs_route_id' => $this->processField($vehicle->routeTag),
-                'bearing' => $this->processField($vehicle->heading),
-                'speed' => $this->processField($vehicle->speedKmHr),
-                'timestamp' => $this->processField(strval($timestamp - (int) $vehicle->secsSinceReport)),
-                'trip_id' => $this->retrieveTrip($vehicle->routeTag),
-            ];
+            $vehicleModel = Vehicle::updateOrCreate(['agency_id' => $this->agency->id, 'vehicle_id' => $vehicle->id],
+                [
+                    'agency_id' => $this->agency->id,
+                    'vehicle' => $vehicle->id,
+                    'vehicle_id' => $vehicle->id,
+                    'active' => true,
+                    'is_active' => true,
+                    'lat' => $this->processField(round((float) $vehicle->lat, 5)),
+                    'lon' => $this->processField(round((float) $vehicle->lon, 5)),
+                    'position' => $this->processField(['lat' => $vehicle->lat, 'lon' => $vehicle->lon], 'position'),
+                    'route' => $this->processField($vehicle->routeTag),
+                    'gtfs_route_id' => $this->processField($vehicle->routeTag),
+                    'bearing' => $this->processField($vehicle->heading),
+                    'speed' => $this->processField($vehicle->speedKmHr),
+                    'timestamp' => $this->processField(strval($timestamp - (int) $vehicle->secsSinceReport)),
+                    'trip_id' => $this->retrieveTrip($vehicle->routeTag),
+                ]
+            );
 
-            info("Added vehicle {$vehicle->id} to array");
-
-            $activeArray[] = $vehicle->id;
+            $activeArray[] = $vehicleModel->id;
         }
-        info("After foreach");
-
-        Vehicle::upsert($vehiclesToUpdate, ['agency_id', 'vehicle_id']);
-
-        info("After upsert");
-
 
         // Update active information
         if ($inactiveArray->except($activeArray)->count() > 0) {
-            $inactiveArray->except($activeArray)->toQuery()->update(['is_active' => false, 'active' => false]);
+            $inactiveArray->except($activeArray)->toQuery()->update(['active' => false, 'is_active' => false]);
         }
 
         // Replace timestamp
@@ -125,9 +112,6 @@ class NextbusJsonHandler implements ShouldQueue
             'time' => $this->time,
         ];
         $stat->save();
-
-        // Delete the file
-        Storage::delete($this->dataFile);
     }
 
     private function processField($value, string $transformer = null)

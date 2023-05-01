@@ -133,7 +133,7 @@ class NextbusJsonHandler implements ShouldQueue
             return null;
         }
 
-        return Trip::where([['agency_id', $this->agency->id], ['gtfs_shape_id', 'LIKE', "%{$routeTag}%"]])
+        return \App\Models\Trip::where([['agency_id', $this->agency->id], ['gtfs_shape_id', 'LIKE', "%{$routeTag}%"]])
             ->select('id')
             ->pluck('id')
             ->first();

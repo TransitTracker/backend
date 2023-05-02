@@ -41,7 +41,7 @@ class EventServiceProvider extends ServiceProvider
             SendWelcomeNotification::class,
         ],
         VehicleCreated::class => [
-            SendNewVehicleNotification::class,
+            //            SendNewVehicleNotification::class,
             DecodeVin::class,
         ],
         VehicleUpdated::class => [

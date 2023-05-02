@@ -16,7 +16,7 @@ class VehiclePushResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'vehicleType' => $this->icon,
+            'vehicleType' => $this->vehicle_type,
             'label' => $this->displayed_label,
             'agency' => $this->agency->slug,
         ];

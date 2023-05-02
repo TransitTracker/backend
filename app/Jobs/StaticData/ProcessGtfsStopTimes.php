@@ -3,7 +3,8 @@
 namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
-use App\Models\Trip;
+use App\Models\Gtfs\StopTime;
+use App\Models\Gtfs\Trip;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -26,13 +27,13 @@ class ProcessGtfsStopTimes implements ShouldQueue
 
     public function handle(): void
     {
-        $supportsBlocks = (bool) Trip::where('agency_id', 4)->whereNotNull('gtfs_block_id')->count();
-        $tripIdToImport = Trip::select('shape', DB::raw('MIN(trip_id) as trip_id'))->where('agency_id', 4)->groupBy('shape')->pluck('trip_id');
+        $supportsBlocks = (bool) Trip::where('agency_id', $this->agency->id)->whereNotNull('gtfs_block_id')->count();
+        $tripIdToImport = Trip::select(['shape', DB::raw('MIN(trip_id) as trip_id')])->where('agency_id', $this->agency->id)->groupBy('shape')->pluck('trip_id');
 
         $reader = Reader::createFromPath($this->file)->setHeaderOffset(0);
         $statement = (new Statement())
             ->offset($this->offset)
-            ->limit(200000);
+            ->limit(100_000);
 
         $toCreate = [];
 
@@ -54,19 +55,19 @@ class ProcessGtfsStopTimes implements ShouldQueue
             }
 
             $toCreate[] = [
+                'agency_id' => $this->agency->id,
                 'gtfs_trip_id' => $record['trip_id'],
                 'gtfs_stop_id' => $record['stop_id'],
                 'departure' => $record['departure_time'],
-                'sequence' => $record['stop_sequence'],
+                'sequence' => (int) $record['stop_sequence'],
             ];
         }
 
-        collect($toCreate)->chunk(1000)->each(function (Collection $chunk) {
-            $this->agency->stopTimes()->createMany($chunk->all());
+        collect($toCreate)->chunk(500)->each(function (Collection $chunk) {
+            info('Chunk of '.$chunk->count());
+            StopTime::upsert($chunk->all(), ['agency_id', 'gtfs_trip_id', 'sequence'], ['gtfs_stop_id', 'departure']);
         });
 
         $reader = null;
-        
-        return;
     }
 }

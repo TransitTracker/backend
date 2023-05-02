@@ -63,7 +63,7 @@
                         </td>
                         <td class="px-4 text-left">
                             <a href="{{ route('vin.show', ['vin' => $vehicle->ref]) }}">
-                                {{ $vehicle->trip->route_short_name }} > {{ $vehicle->trip->trip_headsign }}
+                                {{ $vehicle->gtfsRoute?->short_name }} > {{ $vehicle->trip?->headsign }}
                             </a>
                         </td>
                         <td class="px-4 text-left">

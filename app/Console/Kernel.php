@@ -7,6 +7,8 @@ use App\Jobs\RealtimeData\CheckTimestamps;
 use App\Jobs\RealtimeData\DispatchAgencies;
 use App\Jobs\Tags\SyncTagsWithFleetStats;
 use App\Models\Agency;
+use App\Models\FailedJob;
+use App\Models\Gtfs\Shape;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Spatie\ScheduleMonitor\Models\MonitoredScheduledTaskLogItem;
@@ -31,12 +33,13 @@ class Kernel extends ConsoleKernel
         $schedule->job(new CheckTimestamps(), 'default')->everyThreeMinutes();
         $schedule->job(new SyncTagsWithFleetStats(), 'misc')->everyTwoHours();
         $schedule->command('schedule-monitor:sync')->dailyAt('02:45');
-        $schedule->command('model:prune', ['--model' => MonitoredScheduledTaskLogItem::class])->dailyAt('02:50');
+        $schedule->command('model:prune', ['--model' => [Shape::class, FailedJob::class, MonitoredScheduledTaskLogItem::class]])->dailyAt('02:50');
         $schedule->command('static:update')->dailyAt('03:00');
-        $schedule->command('download:clean')->dailyAt('03:55');
         $schedule->job(new CleanFolders(), 'gtfs')->dailyAt('03:55');
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
         $schedule->command('cache:prune-stale-tags')->hourly();
+        $schedule->command('queue:prune-batches')->daily();
+        $schedule->command('queue:prune-failed')->daily();
     }
 
     /**

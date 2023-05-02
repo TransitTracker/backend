@@ -1,9 +1,9 @@
 <?php
 
 use App\Enums\VehicleType;
-use App\Models\Route;
-use App\Models\Service;
-use App\Models\Trip;
+use App\Models\Gtfs\Route;
+use App\Models\Gtfs\Service;
+use App\Models\Gtfs\Trip;
 use App\Models\Vehicle;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

@@ -57,9 +57,10 @@ class SyncTagsWithFleetStats implements ShouldQueue
     private function sync(Agency $agency, int $tagType, object $garages)
     {
         $response = Http::get("https://fleetstatsapp.com/api/vehicles/{$agency->slug}");
+        $tags = Tag::whereType($tagType)->select(['id', 'label'])->get();
 
         foreach ($response->json('vehicles') as $fsVehicle) {
-            $vehicle = Vehicle::select('id')->firstWhere(['vehicle' => $fsVehicle['fleet_number'], 'agency_id' => $agency->id]);
+            $vehicle = Vehicle::select('id')->firstWhere(['agency_id' => $agency->id, 'vehicle_id' => $fsVehicle['fleet_number']]);
             if (! $vehicle) {
                 continue;
             }
@@ -68,6 +69,7 @@ class SyncTagsWithFleetStats implements ShouldQueue
         }
 
         foreach ($garages as $garage => $ids) {
+            // TODO: retrieve tags only once to optimize
             $tag = Tag::firstWhere([['label', 'LIKE', "%{$garage}%"], ['type', '=', $tagType]]);
             if (! $tag) {
                 continue;

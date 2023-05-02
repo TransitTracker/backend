@@ -44,6 +44,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->domain(config('transittracker.domain.web'))
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+
+            Route::middleware('web')
+                ->domain(config('filament.domain'))
+                ->namespace($this->namespace)
+                ->group(base_path('routes/admin.php'));
         });
 
         Route::bind('agencySlug', function (string $value) {

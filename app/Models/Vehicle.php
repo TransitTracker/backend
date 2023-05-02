@@ -6,11 +6,13 @@ use App\Events\ElectricStmVehicleUpdated;
 use App\Events\VehicleCreated;
 use App\Events\VehicleForceRefAdded;
 use App\Events\VehicleUpdated;
+use App\Models\Gtfs\Route;
+use App\Models\Gtfs\Trip;
 use App\Models\Vin\Information;
+use Awobaz\Compoships\Database\Eloquent\Model;
+use Awobaz\Compoships\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -60,22 +62,28 @@ class Vehicle extends Model
 
     public function trip(): BelongsTo
     {
-        return $this->belongsTo(Trip::class)->withDefault();
+        return $this->belongsTo(Trip::class, ['agency_id', 'gtfs_trip_id'], ['agency_id', 'gtfs_trip_id'])->withDefault();
     }
 
     public function relatedVehicles(): HasMany
     {
-        return $this->hasMany(self::class, 'vehicle', 'vehicle');
+        return $this->hasMany(self::class, 'vehicle_id', 'vehicle_id');
+    }
+
+    // TODO: Rename to route once field has been removed
+    public function gtfsRoute(): BelongsTo
+    {
+        return $this->belongsTo(Route::class, ['agency_id', 'gtfs_route_id'], ['agency_id', 'gtfs_route_id']);
     }
 
     public function vinInformationForceRef(): BelongsTo
     {
-        return $this->belongsTo(Information::class, 'ref', 'vin')->withDefault();
+        return $this->belongsTo(Information::class, 'force_vehicle_id', 'vin')->withDefault();
     }
 
     public function vinInformationRef(): BelongsTo
     {
-        return $this->belongsTo(Information::class, 'vehicle', 'vin')->withDefault();
+        return $this->belongsTo(Information::class, 'vehicle_id', 'vin')->withDefault();
     }
 
     public function vinInformation(): Attribute

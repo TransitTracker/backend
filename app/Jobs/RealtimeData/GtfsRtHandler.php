@@ -4,8 +4,8 @@ namespace App\Jobs\RealtimeData;
 
 use App\Actions\HandleExpiredGtfs;
 use App\Models\Agency;
+use App\Models\Gtfs\Trip;
 use App\Models\Stat;
-use App\Models\Trip;
 use App\Models\Vehicle;
 use Exception;
 use FelixINX\TransitRealtime\FeedMessage;
@@ -45,7 +45,7 @@ class GtfsRtHandler implements ShouldQueue
         $inactiveArray = Vehicle::where([
             ['is_active', true],
             ['agency_id', $this->agency->id],
-        ])->select(['id', 'is_active', 'active'])->get();
+        ])->select(['id', 'is_active'])->get();
         $activeArray = [];
 
         $data = Storage::get($this->dataFile);
@@ -77,8 +77,8 @@ class GtfsRtHandler implements ShouldQueue
             /*
              * Check if trip is in database
              */
-            $trip = Trip::where([['agency_id', '=', $this->agency->id], ['gtfs_trip_id', '=', $vehicle->getTrip()->getTripId()]])
-                ->select('id')
+            $trip = Trip::where(['agency_id' => $this->agency->id, 'gtfs_trip_id' => $vehicle->getTrip()->getTripId()])
+                ->select(['gtfs_route_id'])
                 ->first();
 
             if (! $trip) {
@@ -89,48 +89,34 @@ class GtfsRtHandler implements ShouldQueue
              * Prepare a new array to update the vehicle model
              */
             $newVehicle = [
-                'active' => 1,
-                'is_active' => 1,
-                'vehicle' => $vehicle->getVehicle()->getId(), // old
-                'gtfs_trip' => $this->processField($vehicle->getTrip()->getTripId()), // old
+                'is_active' => true,
                 'gtfs_trip_id' => $this->processField($vehicle->getTrip()->getTripId()),
-                'route' => $this->processField($vehicle->getTrip()->getRouteId() ?? $trip?->route_short_name), // old
-                'gtfs_route_id' => $this->processField($vehicle->getTrip()->getRouteId(), 'route', $trip?->route_short_name),
-                'start' => $this->processField($vehicle->getTrip()->getStartTime()), // old
+                'gtfs_route_id' => $this->processField($vehicle->getTrip()->getRouteId() ?? $trip?->gtfs_route_id, 'route'),
                 'start_time' => $this->processField($vehicle->getTrip()->getStartTime()),
-                'relationship' => $this->processField($vehicle->getTrip()->getScheduleRelationship()), // old
                 'schedule_relationship' => $this->processField($vehicle->getTrip()->getScheduleRelationship()),
                 'label' => $this->processField($vehicle->getVehicle()->getLabel(), 'label'),
-                'plate' => $this->processField($vehicle->getVehicle()->getLicensePlate()),  // old
                 'license_plate' => $this->processField($vehicle->getVehicle()->getLicensePlate()),
-                'lat' => $this->processField(round($vehicle->getPosition()->getLatitude(), 5)), //old
-                'lon' => $this->processField(round($vehicle->getPosition()->getLongitude(), 5)), //old
-                'position' => $this->processField(['lat' => $vehicle->getPosition()->getLatitude(), 'lon' => $vehicle->getPosition()->getLongitude()], 'position'), //old
+                'position' => $this->processField(['lat' => $vehicle->getPosition()->getLatitude(), 'lon' => $vehicle->getPosition()->getLongitude()], 'position'),
                 'bearing' => $this->processField($vehicle->getPosition()->getBearing()),
                 'odometer' => $this->processField(round($vehicle->getPosition()->getOdometer() / 1000, 0)),
                 'speed' => $this->processField(round($vehicle->getPosition()->getSpeed() * 3.6, 0)),
-                'stop_sequence' => $this->processField($vehicle->getCurrentStopSequence()), // old
                 'current_stop_sequence' => $this->processField($vehicle->getCurrentStopSequence()),
-                'status' => $this->processField($vehicle->getCurrentStatus()), // old
                 'current_status' => $this->processField($vehicle->getCurrentStatus()),
                 'timestamp' => $this->processField($vehicle->getTimestamp() ?? $this->time),
-                'congestion' => $this->processField($vehicle->getCongestionLevel()), // old
                 'congestion_level' => $this->processField($vehicle->getCongestionLevel()),
-                'occupancy' => $this->processField($vehicle->getOccupancyStatus()), // old
                 'occupancy_status' => $this->processField($vehicle->getOccupancyStatus()),
                 'gtfs_stop_id' => $this->processField($vehicle->getStopId()),
-                'trip_id' => $this->processField($trip?->id),
             ];
 
             /*
              * Create or update the vehicle model
              */
             try {
-                $vehicle = Vehicle::updateOrCreate(['vehicle_id' => $vehicle->getVehicle()->getId(), 'agency_id' => $this->agency->id], $newVehicle);
+                $vehicle = Vehicle::updateOrCreate(['agency_id' => $this->agency->id, 'vehicle_id' => $vehicle->getVehicle()->getId()], $newVehicle);
 
-                array_push($activeArray, $vehicle->id);
+                $activeArray[] = $vehicle->id;
             } catch (Exception $e) {
-                // London Transit Comission oftens have vehicles with invalid coordinates, ignore these
+                // London Transit Commission often have vehicles with invalid coordinates, ignore these
                 if ($this->agency->slug === 'ltc' && str($e->getMessage())->contains("1264 Out of range value for column 'lon'")) {
                     return;
                 }

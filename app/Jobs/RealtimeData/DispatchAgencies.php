@@ -59,15 +59,13 @@ class DispatchAgencies implements ShouldQueue
             $agency = $this->agencies->firstWhere('slug', $agencySlug);
 
             // Save the feed
-            $fileName = "feeds/{$agency->slug}";
+            // TODO: Remove file name variable, automatically find the file in the job
+            // TODO: Store failed refresh
+            $fileName = "realtime/{$agency->slug}";
             Storage::put($fileName, (string) $response->body());
 
             if ($agency->realtime_type === 'gtfsrt') {
                 GtfsRtHandler::dispatch($agency, $fileName, $time)->onQueue('vehicles');
-            }
-
-            if ($agency->realtime_type === 'gtfsrt-debug') {
-                GtfsRtDebugHandler::dispatch($agency, $fileName, $time)->onQueue('vehicles');
             }
 
             if ($agency->realtime_type === 'javascript-gtfsrt') {

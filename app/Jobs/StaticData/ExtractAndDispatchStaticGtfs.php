@@ -4,7 +4,7 @@ namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
 use App\Models\Gtfs\StopTime;
-use App\Models\Trip;
+use App\Models\Gtfs\Trip;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -60,8 +60,8 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
             };
 
             [$chunkSize, $model] = match ($file) {
-                'stop_times.txt' => [200_000, StopTime::class],
-                'trips.txt' => [50_000, Trip::class],
+                'stop_times.txt' => [100_000, StopTime::class],
+                'trips.txt' => [25_000, Trip::class],
                 default => [0, null],
             };
 
@@ -72,7 +72,6 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
 
         $this->zip = null;
 
-        return;
     }
 
     private function extractFile(string $file, string $job, int $chunkSize, string $model = null)

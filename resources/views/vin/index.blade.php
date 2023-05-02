@@ -144,7 +144,7 @@
                                 </a>
                             </td>
                             <td class="px-4 text-left">
-                                {{ $vehicle->last_trip->route_short_name }} > {{ $vehicle->last_trip->trip_headsign }}
+                                {{ $vehicle->last_route?->short_name }} > {{ $vehicle->last_trip?->headsign }}
                             </td>
                             <td class="px-4 text-left">
                                 <a href="{{ route('vin.show', ['vin' => $vehicle->ref]) }}">

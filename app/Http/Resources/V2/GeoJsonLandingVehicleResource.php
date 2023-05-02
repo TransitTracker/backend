@@ -10,13 +10,7 @@ class GeoJsonLandingVehicleResource extends JsonResource
     {
         return [
             'type' => 'Feature',
-            'geometry' => [
-                'type' => 'Point',
-                'coordinates' => [
-                    $this->lon,
-                    $this->lat,
-                ],
-            ],
+            'geometry' => $this->position,
         ];
     }
 }

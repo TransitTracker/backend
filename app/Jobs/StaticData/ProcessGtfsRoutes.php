@@ -4,7 +4,7 @@ namespace App\Jobs\StaticData;
 
 use App\Enums\VehicleType;
 use App\Models\Agency;
-use App\Models\Route;
+use App\Models\Gtfs\Route;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -40,11 +40,10 @@ class ProcessGtfsRoutes implements ShouldQueue
             $routesToUpdate[] = [
                 'agency_id' => $this->agency->id,
                 'gtfs_route_id' => $route['route_id'],
-                'route_id' => $route['route_id'], // REMOVEP2
                 'type' => VehicleType::coerce($route['route_type'])?->value ?? 3, // Assume bus if none (required field per spec - bus most common)
                 'short_name' => $route['route_short_name'],
                 'long_name' => $route['route_long_name'],
-                'color' => $this->getColor($route, 'color', $this->agency->color),
+                'color' => $this->getColor($route, 'route_color', $this->agency->color),
                 'text_color' => $this->getColor($route, 'route_text_color', $this->agency->text_color),
             ];
         }
@@ -55,7 +54,6 @@ class ProcessGtfsRoutes implements ShouldQueue
 
         $routesReader = null;
 
-        return;
     }
 
     private function getColor(array $route, string $field, string $fallback)

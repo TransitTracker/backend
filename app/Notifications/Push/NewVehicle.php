@@ -20,8 +20,6 @@ class NewVehicle extends Notification implements ShouldQueue
 
     public function __construct(private Vehicle $vehicle)
     {
-        $this->label = $vehicle->force_label ?? $vehicle->label ?? $vehicle->vehicle;
-
         $emoji = '🚌';
         if ($vehicle->icon === 'train') {
             $emoji = '🚆';
@@ -49,16 +47,16 @@ class NewVehicle extends Notification implements ShouldQueue
         return (new WebPushMessage)
             ->icon('https://api.transittracker.ca/img/icon-192.png')
             ->badge('https://api.transittracker.ca/img/badge.png')
-            ->title(__('push.new_vehicle.title', ['emoji' => $this->emoji, 'type' => $this->vehicle->icon, 'label' => $this->label, 'agency' => $this->vehicle->agency->short_name]))
-            ->body(__('push.new_vehicle.body', ['label' => $this->label, 'route' => $this->vehicle->trip->route_short_name ?? $this->vehicle->route]))
+            ->title(__('push.new_vehicle.title', ['emoji' => $this->emoji, 'type' => $this->vehicle->vehicle_type, 'label' => $this->vehicle->displayed_label, 'agency' => $this->vehicle->agency->short_name]))
+            ->body(__('push.new_vehicle.body', ['label' => $this->vehicle->displayed_label, 'route' => $this->vehicle->gtfsRoute->short_name ?? $this->vehicle->gtfs_route_id]))
             ->action(__('push.new_vehicle.action', []), "open_vehicle.{$this->vehicle->agency->regions[0]->slug}.{$this->vehicle->id}");
     }
 
     public function toArray()
     {
         return [
-            'title' => __('push.new_vehicle.title', ['emoji' => $this->emoji, 'type' => $this->vehicle->icon, 'label' => $this->label, 'agency' => $this->vehicle->agency->short_name]),
-            'body' => __('push.new_vehicle.body', ['label' => $this->label, 'route' => $this->vehicle->trip->route_short_name ?? $this->vehicle->route]),
+            'title' => __('push.new_vehicle.title', ['emoji' => $this->emoji, 'type' => $this->vehicle->vehicle_type, 'label' => $this->label, 'agency' => $this->vehicle->agency->short_name]),
+            'body' => __('push.new_vehicle.body', ['label' => $this->label, 'route' => $this->vehicle->gtfsRoute->short_name ?? $this->vehicle->gtfs_route_id]),
         ];
     }
 }

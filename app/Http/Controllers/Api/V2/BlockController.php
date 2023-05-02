@@ -6,7 +6,7 @@ use App;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\BlockResource;
 use App\Models\Agency;
-use App\Models\Trip;
+use App\Models\Gtfs\Trip;
 use Illuminate\Support\Facades\Validator;
 
 class BlockController extends Controller
@@ -23,25 +23,25 @@ class BlockController extends Controller
 
     public function show(Agency $agency, string $tripId)
     {
-        $trip = Trip::select(['id', 'agency_id', 'trip_id', 'service_id', 'gtfs_block_id'])->where(['agency_id' => $agency->id, 'trip_id' => $tripId])->first();
+        $trip = Trip::select(['id', 'agency_id', 'gtfs_trip_id', 'gtfs_service_id', 'gtfs_block_id'])->where(['agency_id' => $agency->id, 'gtfs_trip_id' => $tripId])->first();
 
         if (! $trip) {
             return response()->json(['message' => 'Trip not found.', 'errors' => (object) [
-                'trip_id' => ['Trip not found.'],
+                'gtfs_trip_id' => ['Trip not found.'],
             ]], 404);
         }
 
         // Make sure the agency support blocks, otherwise it will throw an error
         Validator::make($trip->toArray(), [
-            'tripId' => 'required_without_all:block_id,trip_id',
+            'tripId' => 'required_without_all:gtfs_block_id,gtfs_trip_id',
             'gtfs_block_id' => 'required',
-            'trip_id' => 'required',
+            'gtfs_trip_id' => 'required',
         ])->validate();
 
         $trips = Trip::query()
-            ->where(['agency_id' => $agency->id, 'gtfs_block_id' => $trip->gtfs_block_id, 'service_id' => $trip->service_id])
-            ->select(['id', 'agency_id', 'trip_id', 'trip_headsign', 'trip_short_name', 'route_color', 'route_text_color', 'route_short_name'])
-            ->with('firstDeparture')
+            ->where(['agency_id' => $agency->id, 'gtfs_block_id' => $trip->gtfs_block_id, 'gtfs_service_id' => $trip->gtfs_service_id])
+            ->select(['id', 'agency_id', 'gtfs_trip_id', 'headsign', 'short_name', 'gtfs_route_id'])
+            ->with(['firstDeparture', 'route:agency_id,gtfs_route_id,short_name,color,text_color'])
             ->get()
             ->filter(function ($item) {
                 return $item->firstDeparture;

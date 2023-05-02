@@ -56,7 +56,7 @@ class AlertResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->dateTime('M d, Y'),
             ])
             ->filters([
-                Filter::make('is_active')->query(fn (Builder $query): Builder => $query->active()),
+                Filter::make('is_active')->query(fn (Builder $query): Builder => $query->active())->default(),
             ]);
     }
 

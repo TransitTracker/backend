@@ -43,7 +43,7 @@ class LandingController extends Controller
     public function vehicles()
     {
         return GeoJsonLandingVehicleCollection::make(
-            Vehicle::active()->select(['id', 'lat', 'lon'])->get()
+            Vehicle::active()->select(['id', 'position'])->get()
         );
     }
 }

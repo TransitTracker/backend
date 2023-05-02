@@ -31,12 +31,17 @@ class CleanFolders implements ShouldQueue
     public function handle()
     {
         Storage::delete([
-            ...Storage::files('downloads'),
+            ...Storage::files('realtime'),
             ...Storage::allFiles('static'),
         ]);
 
         collect(Storage::directories('static'))->each(function ($directory) {
             Storage::deleteDirectory($directory);
         });
+
+        $gitignore = "*\n.gitignore";
+
+        Storage::put('realtime/.gitignore', $gitignore);
+        Storage::put('static/.gitignore', $gitignore);
     }
 }

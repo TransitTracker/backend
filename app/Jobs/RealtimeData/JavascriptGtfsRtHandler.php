@@ -4,8 +4,8 @@ namespace App\Jobs\RealtimeData;
 
 use App\Actions\HandleExpiredGtfs;
 use App\Models\Agency;
+use App\Models\Gtfs\Trip;
 use App\Models\Stat;
-use App\Models\Trip;
 use App\Models\Vehicle;
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -40,7 +40,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         $inactiveArray = Vehicle::where([
             ['is_active', true],
             ['agency_id', $this->agency->id],
-        ])->select(['id', 'is_active', 'active'])->get();
+        ])->select(['id', 'is_active'])->get();
 
         $filePath = Storage::path($this->dataFile);
         $printGtfsRt = config('transittracker.print_gtfs_rt_bin');
@@ -73,7 +73,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
              * Check if trip is in database
              */
             $trip = Trip::where(['agency_id' => $this->agency->id, 'gtfs_trip_id' => $vehicle->trip?->trip_id])
-                ->select(['id', 'route_short_name'])
+                ->select(['gtfs_route_id'])
                 ->first();
 
             if (! $trip) {
@@ -84,22 +84,13 @@ class JavascriptGtfsRtHandler implements ShouldQueue
              * Prepare a new array to update the vehicle model
              */
             $newVehicle = [
-                'active' => 1,
-                'is_active' => 1,
-                'gtfs_trip' => $this->processField($vehicle->trip?->trip_id), // old
+                'is_active' => true,
                 'gtfs_trip_id' => $this->processField($vehicle->trip?->trip_id),
-                'route' => $this->processField($vehicle->trip?->route_id ?? $trip?->route_short_name), // old
-                'gtfs_route_id' => $this->processField($vehicle->trip?->route_id, 'route', $trip?->route_short_name),
-                'start' => $this->processField($vehicle->trip?->start_time), // old
+                'gtfs_route_id' => $this->processField($vehicle->trip?->route_id ?? $trip?->gtfs_route_id),
                 'start_time' => $this->processField($vehicle->trip?->start_time),
-                'relationship' => $this->processField($vehicle->trip?->schedule_relationship), // old
                 'schedule_relationship' => $this->processField($vehicle->trip?->schedule_relationship),
-                'lat' => $this->processField(round($vehicle->position?->latitude, 5)), //old
-                'lon' => $this->processField(round($vehicle->position?->longitude, 5)), //old
-                'position' => $this->processField(['lat' => $vehicle->position?->latitude, 'lon' => $vehicle->position?->longitude], 'position'), //old
-                'stop_sequence' => $this->processField($vehicle->current_stop_sequence), // old
+                'position' => $this->processField(['lat' => $vehicle->position?->latitude, 'lon' => $vehicle->position?->longitude], 'position'),
                 'current_stop_sequence' => $this->processField($vehicle->current_stop_sequence),
-                'status' => $this->processField($vehicle->current_status), // old
                 'current_status' => $this->processField($vehicle->current_status),
                 'timestamp' => $this->processField($vehicle->timestamp->low ?? $this->time),
                 'gtfs_stop_id' => $this->processField($vehicle->stop_id),
@@ -110,7 +101,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
              * Create or update the vehicle model
              */
             try {
-                $vehicleModel = Vehicle::updateOrCreate(['vehicle_id' => $vehicle->vehicle->id, 'agency_id' => $this->agency->id], $newVehicle);
+                $vehicleModel = Vehicle::updateOrCreate(['agency_id' => $this->agency->id, 'vehicle_id' => $vehicle->vehicle->id], $newVehicle);
 
                 $this->activeArray[] = $vehicleModel->id;
             } catch (Exception $e) {

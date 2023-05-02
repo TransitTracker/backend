@@ -20,6 +20,7 @@ class Alert extends Model
     protected $casts = [
         'action_parameters' => AsArrayObject::class,
         'can_be_closed' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     public function regions(): BelongsToMany

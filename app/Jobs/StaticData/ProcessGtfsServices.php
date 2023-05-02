@@ -3,7 +3,7 @@
 namespace App\Jobs\StaticData;
 
 use App\Models\Agency;
-use App\Models\Service;
+use App\Models\Gtfs\Service;
 use Carbon\Carbon;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
@@ -40,7 +40,6 @@ class ProcessGtfsServices implements ShouldQueue
                 // Add the service to array
                 $services[] = [
                     'agency_id' => $this->agency->id,
-                    'service_id' => $service['service_id'], // REMOVEP2
                     'gtfs_service_id' => $service['service_id'],
                     'monday' => $service['monday'],
                     'tuesday' => $service['tuesday'],
@@ -59,6 +58,5 @@ class ProcessGtfsServices implements ShouldQueue
 
         $servicesReader = null;
 
-        return;
     }
 }

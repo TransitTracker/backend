@@ -52,12 +52,11 @@ class ProcessGtfsStops implements ShouldQueue
 
         $stopsReader = null;
 
-        return;
     }
 
     private function getPosition(array $stop): Point|null
     {
-        if (!filled($stop['stop_lat']) || !filled($stop['stop_lon'])) {
+        if (! filled($stop['stop_lat']) || ! filled($stop['stop_lon'])) {
             return null;
         }
 
@@ -66,7 +65,7 @@ class ProcessGtfsStops implements ShouldQueue
 
     private function getValue(array $stop, string $field)
     {
-        if (!Arr::exists($stop, $field) || filled($stop[$field])) {
+        if (! Arr::exists($stop, $field) || filled($stop[$field])) {
             return null;
         }
 

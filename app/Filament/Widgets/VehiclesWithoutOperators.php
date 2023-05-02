@@ -22,7 +22,7 @@ class VehiclesWithoutOperators extends BaseWidget
         return Vehicle::query()
             ->exoWithVin()
             ->withoutTypeOfTags(TagType::Operator)
-            ->select('id', 'vehicle_id', 'force_label', 'label', 'agency_id')
+            ->select(['id', 'vehicle_id', 'force_label', 'label', 'agency_id'])
             ->with('agency:id,short_name');
     }
 

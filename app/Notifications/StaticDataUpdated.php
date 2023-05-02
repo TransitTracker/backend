@@ -23,7 +23,7 @@ class StaticDataUpdated extends Notification
 
     public function toSlack($notifiable)
     {
-        $agency = $this->agency->loadCount(['trips', 'routes', 'services']);
+        $agency = $this->agency->loadCount(['routes', 'services', 'trips', 'shapes', 'stops', 'stopTimes']);
 
         return (new SlackMessage)
             ->success()
@@ -31,9 +31,12 @@ class StaticDataUpdated extends Notification
             ->content("Successfully updated static GTFS data of *{$this->agency->short_name}*")
             ->attachment(function (SlackAttachment $attachment) use ($agency) {
                 $attachment->fields([
-                    'Trips' => $agency->trips_count,
                     'Routes' => $agency->routes_count,
                     'Services' => $agency->services_count,
+                    'Trips' => $agency->trips_count,
+                    'Shapes' => $agency->shapes_count,
+                    'Stops' => $agency->stops_count,
+                    'StopTimes' => $agency->stop_times_count,
                 ]);
             });
     }

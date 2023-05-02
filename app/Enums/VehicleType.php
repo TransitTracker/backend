@@ -7,6 +7,7 @@ use BenSampo\Enum\Enum;
 /**
  * Route type defined by the GTFS Static standard
  * Source: https://gtfs.org/schedule/reference/#routestxt (under route_type field)
+ *
  * @method static static Bus()
  * @method static static Train()
  * @method static static Tram()

@@ -3,8 +3,12 @@
 namespace App\Models;
 
 use App\Events\VehiclesUpdated;
+use App\Models\Gtfs\Route;
+use App\Models\Gtfs\Service;
+use App\Models\Gtfs\Shape;
 use App\Models\Gtfs\Stop;
 use App\Models\Gtfs\StopTime;
+use App\Models\Gtfs\Trip;
 use Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -25,9 +29,13 @@ class Agency extends Model
         'headers' => 'array',
     ];
 
-    // MySQL can't have default value, this sets headers to a empty array
+    // MySQL can't have default value, this sets headers to an empty array
     protected $attributes = [
         'headers' => '{}',
+    ];
+
+    protected $hidden = [
+        'realtime_url', 'headers',
     ];
 
     public function getRouteKeyName()
@@ -61,6 +69,11 @@ class Agency extends Model
     public function services(): HasMany
     {
         return $this->hasMany(Service::class);
+    }
+
+    public function shapes(): HasMany
+    {
+        return $this->hasMany(Shape::class);
     }
 
     public function stops(): HasMany

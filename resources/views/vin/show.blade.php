@@ -81,7 +81,7 @@
                                         Close
                                     </x-button.text>
                                 </div>
-                                </x-slot>
+                            </x-slot>
                 </x-dialog.basic>
             </div>
         @endif
@@ -135,28 +135,24 @@
                                 class="border-t border-m3-surface-on-variant/25 dark:border-m3-surface-dark-on-variant/25 px-4 py-2">
                                 <dt class="text-xs mb-0.5">{{ __('Last trip') }}</dt>
                                 <dd>
-                                    @if ($vehicle->trip->route_short_name)
-                                        <b class="font-medium leading-6 tracking-wide">{{ $vehicle->trip->route_short_name }}
-                                            {{ $vehicle->trip->route_long_name }}</b>
-                                        @if ($vehicle->trip->trip_headsign)
-                                            <div class="flex gap-x-1 items-center">
-                                                <x-gmdi-arrow-forward class="w-4 h-4 text-current" />
-                                                {{ $vehicle->trip->trip_headsign }}
-                                            </div>
-                                        @endif
-                                        @if ($vehicle->trip->trip_short_name)
-                                            <div class="flex gap-x-1 items-center">
-                                                <x-gmdi-view-timeline class="w-4 h-4 text-current" />
-                                                {{ __('Departure #') }}{{ $vehicle->trip->trip_short_name }}
-                                            </div>
-                                        @endif
+                                    <b class="font-medium leading-6 tracking-wide">{{ $vehicle->gtfsRoute->short_name }}
+                                        {{ $vehicle->gtfsRoute->long_name }}</b>
+                                    @if ($vehicle->trip->headsign)
                                         <div class="flex gap-x-1 items-center">
-                                            <x-gmdi-numbers class="w-4 h-4 text-current" />
-                                            {{ $vehicle->trip->trip_id }}
+                                            <x-gmdi-arrow-forward class="w-4 h-4 text-current" />
+                                            {{ $vehicle->trip->headsign }}
                                         </div>
-                                    @else
-                                        <i>{{ __('There is no information for this trip.') }}</i>
                                     @endif
+                                    @if ($vehicle->trip->short_name)
+                                        <div class="flex gap-x-1 items-center">
+                                            <x-gmdi-view-timeline class="w-4 h-4 text-current" />
+                                            {{ __('Departure #') }}{{ $vehicle->trip->short_name }}
+                                        </div>
+                                    @endif
+                                    <div class="flex gap-x-1 items-center">
+                                        <x-gmdi-numbers class="w-4 h-4 text-current" />
+                                        {{ $vehicle->gtfs_trip_id }}
+                                    </div>
                                 </dd>
                             </dl>
                             <dl

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\QueryParam;
+use MatanYadaev\EloquentSpatial\SpatialBuilder;
 use Storage;
 
 #[Group('Agencies')]
@@ -32,13 +33,15 @@ class AgencyController extends Controller
 
     public function index()
     {
-        $agencies = Agency::active()->with('regions:slug')->get();
+        $agencies = Agency::active()->select(['id', 'name', 'short_name', 'slug', 'cities', 'vehicles_type', 'color', 'text_color', 'license'])->with('regions:slug')->get();
 
         return AgencyResource::collection($agencies);
     }
 
     public function show(Agency $agency)
     {
+        $agency->load('regions:slug');
+
         // If it's inactive and there is no user logged in, do not show
         if (! $agency->is_active && ! Auth::check()) {
             return response()->json(['message' => 'Agency is inactive.'], 403);
@@ -56,16 +59,15 @@ class AgencyController extends Controller
         }
 
         $includeAll = $request->input('include', null) === 'all';
-        $includeGeojson = $request->input('geojson', null) !== 'false';
-
-        $vehicles = null;
+        $includeGeoJson = $request->input('geojson', null) !== 'false';
 
         $query = Vehicle::query()
             ->where('agency_id', $agency->id)
-            ->with(['trip', 'links:id', 'agency:id,slug,name', 'trip.service:id,service_id', 'tags:id']);
+            ->select(['id', 'vehicle_id', 'force_vehicle_id', 'is_active', 'label', 'force_label', 'timestamp', 'gtfs_trip_id', 'gtfs_route_id', 'start_time', 'position', 'bearing', 'speed', 'vehicle_type', 'license_plate', 'current_stop_sequence', 'current_status', 'schedule_relationship', 'congestion_level', 'occupancy_status', 'agency_id', 'created_at', 'updated_at'])
+            ->with(['trip:agency_id,gtfs_trip_id,headsign,short_name,gtfs_block_id,gtfs_service_id,gtfs_shape_id', 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color', 'links:id', 'agency:id,slug,name', 'tags:id']);
 
         if (! $includeAll) {
-            $query->where('active', true);
+            $query->where('is_active', true);
 
             $vehicles = $query->get();
         } else {
@@ -79,7 +81,7 @@ class AgencyController extends Controller
             'count' => count($vehicles),
         ];
 
-        if ($includeGeojson) {
+        if ($includeGeoJson) {
             $additional['geojson'] = GeoJsonVehiclesCollection::make($vehicles);
         }
 
@@ -89,10 +91,14 @@ class AgencyController extends Controller
     #[Group('Vehicles')]
     public function vehiclesShow(Agency $agency, string $vehicleRef)
     {
-        $vehicle = Vehicle::firstWhere([
-            'agency_id' => $agency->id,
-            'vehicle' => $vehicleRef,
-        ]);
+        $vehicle = Vehicle::query()
+            ->where(['agency_id' => $agency->id, 'vehicle_id' => $vehicleRef, 'force_vehicle_id' => null])
+            ->orWhere(function (SpatialBuilder $query) use ($agency, $vehicleRef) {
+                $query->where(['agency_id' => $agency->id, 'force_vehicle_id' => $vehicleRef]);
+            })
+            ->select(['id', 'vehicle_id', 'force_vehicle_id', 'is_active', 'label', 'force_label', 'timestamp', 'gtfs_trip_id', 'gtfs_route_id', 'start_time', 'position', 'bearing', 'speed', 'vehicle_type', 'license_plate', 'current_stop_sequence', 'current_status', 'schedule_relationship', 'congestion_level', 'occupancy_status', 'agency_id', 'created_at', 'updated_at'])
+            ->with(['trip:agency_id,gtfs_trip_id,headsign,short_name,gtfs_block_id,gtfs_service_id,gtfs_shape_id', 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color', 'links:id', 'agency:id,slug,name', 'tags:id'])
+            ->first();
 
         return VehicleResource::make($vehicle);
     }
@@ -103,6 +109,6 @@ class AgencyController extends Controller
             return response()->json(['message' => 'Wrong API key!'], 401);
         }
 
-        return Storage::download("feeds/{$agency->slug}");
+        return Storage::download("realtime/{$agency->slug}");
     }
 }

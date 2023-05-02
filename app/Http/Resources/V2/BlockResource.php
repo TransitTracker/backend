@@ -9,12 +9,12 @@ class BlockResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->trip_id,
-            'headsign' => $this->trip_headsign,
-            'shortName' => $this->trip_short_name,
-            'routeColor' => $this->route_color,
-            'routeTextColor' => $this->route_text_color,
-            'routeShortName' => $this->route_short_name,
+            'id' => $this->gtfs_trip_id,
+            'headsign' => $this->headsign,
+            'shortName' => $this->short_name,
+            'routeColor' => $this->route->color,
+            'routeTextColor' => $this->route->text_color,
+            'routeShortName' => $this->route->short_name,
             'departure' => $this->firstDeparture->departure,
         ];
     }

@@ -50,16 +50,16 @@ namespace App\Models{
  * @property-read int|null $notification_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Region> $regions
  * @property-read int|null $regions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Route> $routes
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Gtfs\Route> $routes
  * @property-read int|null $routes_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Service> $services
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Gtfs\Service> $services
  * @property-read int|null $services_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Gtfs\StopTime> $stopTimes
  * @property-read int|null $stop_times_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Gtfs\Stop> $stops
  * @property-read int|null $stops_count
  * @property-read int|null $tags_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Trip> $trips
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Gtfs\Trip> $trips
  * @property-read int|null $trips_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
@@ -341,19 +341,19 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Agency|null $agency
- * @method static \Illuminate\Database\Eloquent\Builder|Route newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Route newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Route query()
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereAgencyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereGtfsRouteId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereLongName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereRouteId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereShortName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereTextColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route whereAgencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route whereColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route whereGtfsRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route whereLongName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route whereRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route whereShortName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route whereTextColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Route whereUpdatedAt($value)
  */
 	class Route extends \Eloquent {}
 }
@@ -371,19 +371,19 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Agency|null $agency
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Trip> $trips
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Gtfs\Trip> $trips
  * @property-read int|null $trips_count
- * @method static \Illuminate\Database\Eloquent\Builder|Service newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Service newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Service query()
- * @method static \Illuminate\Database\Eloquent\Builder|Service whereAgencyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Service whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Service whereEndDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Service whereGtfsServiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Service whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Service whereServiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Service whereStartDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Service whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Service newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Service newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Service query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Service whereAgencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Service whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Service whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Service whereGtfsServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Service whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Service whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Service whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Service whereUpdatedAt($value)
  */
 	class Service extends \Eloquent {}
 }
@@ -481,35 +481,35 @@ namespace App\Models{
  * @property string|null $shape
  * @property-read \App\Models\Agency|null $agency
  * @property-read \App\Models\Gtfs\StopTime|null $firstDeparture
- * @property-read \App\Models\Service|null $service
+ * @property-read \App\Models\Gtfs\Service|null $service
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Gtfs\StopTime> $stopTimes
  * @property-read int|null $stop_times_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
- * @method static \Illuminate\Database\Eloquent\Builder|Trip newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Trip newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Trip query()
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereAgencyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereExpiration($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereGtfsBlockId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereGtfsRouteId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereGtfsServiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereGtfsShapeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereGtfsTripId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereHeadsign($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereRouteColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereRouteLongName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereRouteShortName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereRouteTextColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereServiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereShape($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereShortName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTripHeadsign($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTripId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTripShortName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trip whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereAgencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereExpiration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereGtfsBlockId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereGtfsRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereGtfsServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereGtfsShapeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereGtfsTripId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereHeadsign($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereRouteColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereRouteLongName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereRouteShortName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereRouteTextColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereShape($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereShortName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereTripHeadsign($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereTripId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereTripShortName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Gtfs\Trip whereUpdatedAt($value)
  */
 	class Trip extends \Eloquent {}
 }
@@ -600,7 +600,7 @@ namespace App\Models{
  * @property-read int|null $related_vehicles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property-read int|null $tags_count
- * @property-read \App\Models\Trip|null $trip
+ * @property-read \App\Models\Gtfs\Trip|null $trip
  * @property-read \App\Models\Vin\Information|null $vinInformationForceRef
  * @property-read \App\Models\Vin\Information|null $vinInformationRef
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle active()

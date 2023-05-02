@@ -14,15 +14,15 @@ class SuggestionController extends Controller
 {
     public function index()
     {
-        $suggestions = Suggestion::with(['vehicles:vehicle,agency_id', 'vehicles.agency:id,color,short_name'])->latest()->limit(15)->get();
+        $suggestions = Suggestion::with(['vehicles:agency_id,vehicle_id,force_vehicle_id', 'vehicles.agency:id,color,short_name'])->latest()->limit(15)->get();
 
         $unlabelledVehicles = Vehicle::query()
             ->latest()
-            ->where([['force_label', '=', null]])
+            ->whereNull('force_label')
             ->exoWithVin()
             ->orderBy('updated_at')
-            ->select('id', 'vehicle', 'trip_id', 'force_label', 'agency_id', 'updated_at')
-            ->with(['relatedVehicles:id,vehicle,agency_id,updated_at,trip_id,active', 'relatedVehicles.agency:id,color,short_name', 'relatedVehicles.trip:id,route_short_name,trip_headsign'])
+            ->select(['id', 'agency_id', 'vehicle_id', 'force_vehicle_id', 'gtfs_route_id', 'gtfs_trip_id', 'force_label', 'updated_at'])
+            ->with(['relatedVehicles:id,vehicle_id,agency_id,updated_at,gtfs_trip_id,gtfs_route_id,is_active', 'relatedVehicles.agency:id,color,short_name', 'relatedVehicles.trip:agency_id,gtfs_trip_id,headsign', 'relatedVehicles.gtfsRoute:agency_id,gtfs_route_id,short_name'])
             ->limit(15)
             ->get();
 
@@ -30,14 +30,15 @@ class SuggestionController extends Controller
             $lastVehicle = $table->relatedVehicles->sortByDesc('updated_at')->first();
             $table->last_seen_at_with_related = $lastVehicle->updated_at;
             $table->last_trip = $lastVehicle->trip;
-            $table->one_is_active = in_array(true, $table->relatedVehicles->pluck('active')->all());
+            $table->last_route = $lastVehicle->gtfsRoute;
+            $table->one_is_active = in_array(true, $table->relatedVehicles->pluck('is_active')->all());
 
             return $table;
         })->sortByDesc('last_seen_at_with_related');
 
         $unsortedAgencies = Agency::query()
             ->where([['id', '>=', 5], ['id', '<=', 16]])
-            ->withCount('exoLabelledVehicles', 'exoUnlabelledVehicles')
+            ->withCount(['exoLabelledVehicles', 'exoUnlabelledVehicles'])
             ->get();
 
         $agencies = $unsortedAgencies->sortByDesc('exo_unlabelled_vehicles_count');
@@ -102,7 +103,7 @@ class SuggestionController extends Controller
 
         Vehicle::query()
             ->withoutTouch()
-            ->where(['vehicle' => $suggestion->vin, 'agency_id' => $agency->id])
+            ->where(['agency_id' => $agency->id, 'vehicle_id' => $suggestion->vin])
             ->update(['force_label' => $suggestion->label]);
 
         return back()->with('status', 'Suggestion approved.');

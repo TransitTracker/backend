@@ -15,12 +15,12 @@ class GeoJsonVehicleResource extends JsonResource
             'type' => 'Feature',
             'properties' => [
                 'id' => $this->id,
-                'label' => $this->label ? $this->label : $this->vehicle,
-                'marker-symbol' => "tt-{$this->agency->slug}-{$this->icon}",
+                'label' => $this->displayed_label,
+                'marker-symbol' => "tt-{$this->agency->slug}-{$this->vehicle_type}",
             ],
             'geometry' => [
                 'type' => 'Point',
-                'coordinates' => [$this->lon, $this->lat],
+                'coordinates' => $this->position,
             ],
         ];
     }

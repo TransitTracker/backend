@@ -6,8 +6,11 @@ use App;
 use BenSampo\Enum\Enum;
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationItem;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
@@ -39,6 +42,10 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Model::preventLazyLoading(App::environment('local'));
+
+        DB::whenQueryingForLongerThan(500, function (Connection $connection, QueryExecuted $queryExecuted) {
+            info('Detected long query', ['time' => $queryExecuted->time, 'sql' => $queryExecuted->sql, 'bindings' => $queryExecuted->bindings]);
+        });
 
         Health::checks([
             CacheCheck::new(),

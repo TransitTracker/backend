@@ -20,7 +20,7 @@ class ProfileVehiclesController extends Controller
 
         $user->vehicles()->syncWithoutDetaching([$validated['vehicleId']]);
 
-        $user->load('vehicles:id,label,force_label,vehicle,icon,agency_id', 'vehicles.agency:id,slug');
+        $user->load('vehicles:id,label,force_label,vehicle_id,force_vehicle_id,icon,agency_id', 'vehicles.agency:id,slug');
 
         return NotificationUserResource::make($user);
     }
@@ -36,7 +36,7 @@ class ProfileVehiclesController extends Controller
 
         $user->vehicles()->detach($validated['vehicleId']);
 
-        $user->load('vehicles:id,label,force_label,vehicle,icon,agency_id', 'vehicles.agency:id,slug');
+        $user->load('vehicles:id,label,force_label,vehicle_id,force_vehicle_id,icon,agency_id', 'vehicles.agency:id,slug');
 
         return NotificationUserResource::make($user);
     }

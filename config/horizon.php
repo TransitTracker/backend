@@ -215,7 +215,7 @@ return [
                 'balance' => 'simple',
                 'processes' => 5,
                 'tries' => 1,
-                'timeout' => 600,
+                //                'timeout' => 600,
             ],
         ],
     ],

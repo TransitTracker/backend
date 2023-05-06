@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\VehicleType;
 use App\Events\ElectricStmVehicleUpdated;
 use App\Events\VehicleCreated;
 use App\Events\VehicleForceRefAdded;
@@ -30,6 +31,7 @@ class Vehicle extends Model
         'is_active' => 'boolean',
         'active' => 'boolean',
         'position' => Point::class,
+        'vehicle_type' => VehicleType::class,
     ];
 
     /*

@@ -18,6 +18,8 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
         parent::boot();
 
         Horizon::routeMailNotificationsTo(config('transittracker.admin_email'));
+
+        Horizon::night();
     }
 
     /**

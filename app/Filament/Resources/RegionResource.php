@@ -20,7 +20,7 @@ class RegionResource extends Resource
 
     protected static ?string $model = Region::class;
 
-    protected static ?string $navigationIcon = 'gmdi-location-city';
+    protected static ?string $navigationIcon = 'gmdi-location-city-tt';
 
     protected static ?string $recordTitleAttribute = 'name';
 

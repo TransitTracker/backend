@@ -73,19 +73,19 @@ class AppServiceProvider extends ServiceProvider
             $navigationItems = [
                 NavigationItem::make('exo VIN')
                     ->url(route('vin.index'))
-                    ->icon('gmdi-directions-bus')
+                    ->icon('gmdi-directions-bus-tt')
                     ->group('Special'),
             ];
 
             if (Auth::hasUser() && Auth::user()->isAdmin()) {
                 array_push($navigationItems,
                     NavigationItem::make('Logs')
-                        ->url(route('log-viewer.index'))
-                        ->icon('gmdi-error')
+                        ->url(route('filament.pages.logs'))
+                        ->icon('gmdi-error-tt')
                         ->group('System'),
                     NavigationItem::make('Horizon')
-                        ->url(route('horizon.index'))
-                        ->icon('gmdi-cloud-queue')
+                        ->url(route('filament.pages.horizon'))
+                        ->icon('gmdi-cloud-queue-tt')
                         ->group('System'));
             }
 

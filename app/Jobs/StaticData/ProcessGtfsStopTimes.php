@@ -28,7 +28,7 @@ class ProcessGtfsStopTimes implements ShouldQueue
     public function handle(): void
     {
         $supportsBlocks = (bool) Trip::where('agency_id', $this->agency->id)->whereNotNull('gtfs_block_id')->count();
-        $tripIdToImport = Trip::select(['shape', DB::raw('MIN(trip_id) as trip_id')])->where('agency_id', $this->agency->id)->groupBy('shape')->pluck('trip_id');
+        $tripIdToImport = Trip::select(['gtfs_shape_id', DB::raw('MIN(gtfs_trip_id) as gtfs_trip_id')])->where('agency_id', $this->agency->id)->groupBy('gtfs_shape_id')->pluck('gtfs_trip_id');
 
         $reader = Reader::createFromPath($this->file)->setHeaderOffset(0);
         $statement = (new Statement())

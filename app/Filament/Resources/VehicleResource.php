@@ -17,7 +17,7 @@ class VehicleResource extends Resource
 {
     protected static ?string $model = Vehicle::class;
 
-    protected static ?string $navigationIcon = 'gmdi-directions-bus';
+    protected static ?string $navigationIcon = 'gmdi-directions-bus-tt';
 
     protected static ?string $recordTitleAttribute = 'vehicle';
 

@@ -18,7 +18,7 @@ class LinkResource extends Resource
 
     protected static ?string $model = Link::class;
 
-    protected static ?string $navigationIcon = 'gmdi-link';
+    protected static ?string $navigationIcon = 'gmdi-link-tt';
 
     protected static ?string $recordTitleAttribute = 'title';
 

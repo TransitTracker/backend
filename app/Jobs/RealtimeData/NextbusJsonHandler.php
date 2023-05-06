@@ -3,6 +3,7 @@
 namespace App\Jobs\RealtimeData;
 
 use App\Models\Agency;
+use App\Models\Gtfs\Route;
 use App\Models\Gtfs\Trip;
 use App\Models\Stat;
 use App\Models\Vehicle;
@@ -76,7 +77,8 @@ class NextbusJsonHandler implements ShouldQueue
                     'agency_id' => $this->agency->id,
                     'vehicle_id' => $vehicle->id,
                     'position' => $this->processField(['lat' => $vehicle->lat, 'lon' => $vehicle->lon], 'position'),
-                    'gtfs_route_id' => $this->processField($vehicle->routeTag),
+                    'gtfs_route_id' => $this->retrieveRoute($vehicle->routeTag),
+                    'gtfs_trip_id' => $this->retrieveTrip($vehicle->routeTag),
                     'bearing' => $this->processField($vehicle->heading),
                     'speed' => $this->processField($vehicle->speedKmHr),
                     'timestamp' => $this->processField(strval($timestamp - (int) $vehicle->secsSinceReport)),
@@ -122,15 +124,40 @@ class NextbusJsonHandler implements ShouldQueue
         return $value;
     }
 
-    private function retrieveTrip(string $routeTag)
+    // TODO: Improve because trip_id should not be visible to the user as it is just a random one
+    // Only possible with STL since it's simple, one route direction = one shape
+    private function retrieveTrip(string $routeTag): string|null
     {
         if ($this->agency->slug !== 'stl') {
             return null;
         }
 
         return Trip::where([['agency_id', $this->agency->id], ['gtfs_shape_id', 'LIKE', "%{$routeTag}%"]])
-            ->select('id')
-            ->pluck('id')
+            ->select('gtfs_trip_id')
+            ->pluck('gtfs_trip_id')
             ->first();
+    }
+
+    private function retrieveRoute(string $routeTag): string
+    {
+        if ($this->agency->slug === 'stl') {
+            return Route::where([
+                ['agency_id', $this->agency->id],
+                ['gtfs_route_id', 'LIKE', "%{$routeTag}"],
+                ['short_name', substr($routeTag, 0, -1)]
+            ])
+                ->select('gtfs_route_id')
+                ->pluck('gtfs_route_id')
+                ->first() ?? $routeTag;
+        }
+
+        if ($this->agency->slug === 'ttc') {
+            return Route::where(['agency_id' => $this->agency->id, 'short_name' => $routeTag])
+                ->select('gtfs_route_id')
+                ->pluck('gtfs_route_id')
+                ->first() ?? $routeTag;
+        }
+
+        return $routeTag;
     }
 }

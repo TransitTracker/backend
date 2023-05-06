@@ -21,6 +21,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
 
 class TagResource extends Resource
 {
@@ -28,7 +29,7 @@ class TagResource extends Resource
 
     protected static ?string $model = Tag::class;
 
-    protected static ?string $navigationIcon = 'gmdi-label';
+    protected static ?string $navigationIcon = 'gmdi-label-tt';
 
     public static function form(Form $form): Form
     {
@@ -94,7 +95,7 @@ class TagResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('label'),
+                ViewColumn::make('label')->view('tables.columns.tag-preview'),
                 TextColumn::make('type')->formatStateUsing(fn (TagType $state): string => $state->description),
             ])
             ->filters([

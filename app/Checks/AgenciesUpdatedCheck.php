@@ -9,6 +9,7 @@ use Spatie\Health\Checks\Result;
 
 class AgenciesUpdatedCheck extends Check
 {
+    // TODO: Improve with a per-agency delay
     public function run(): Result
     {
         $result = Result::make();

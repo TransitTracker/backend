@@ -10,6 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 
 class VehiclesUpdated implements ShouldBroadcast
 {
+    // TODO: Refactor this in event with agency
     use Dispatchable, InteractsWithSockets;
 
     /**

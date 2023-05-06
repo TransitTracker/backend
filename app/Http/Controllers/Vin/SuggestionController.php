@@ -26,7 +26,7 @@ class SuggestionController extends Controller
             ->limit(15)
             ->get();
 
-        $sortedUnlabbeledVehicles = $unlabelledVehicles->map(function ($table) {
+        $sortedUnlabeledVehicles = $unlabelledVehicles->map(function ($table) {
             $lastVehicle = $table->relatedVehicles->sortByDesc('updated_at')->first();
             $table->last_seen_at_with_related = $lastVehicle->updated_at;
             $table->last_trip = $lastVehicle->trip;
@@ -46,7 +46,7 @@ class SuggestionController extends Controller
         $allLabelled = $agencies->sum('exo_labelled_vehicles_count');
         $allUnlabelled = $agencies->sum('exo_unlabelled_vehicles_count');
 
-        return view('vin.index', compact('suggestions', 'sortedUnlabbeledVehicles', 'agencies', 'allLabelled', 'allUnlabelled'));
+        return view('vin.index', compact('suggestions', 'sortedUnlabeledVehicles', 'agencies', 'allLabelled', 'allUnlabelled'));
     }
 
     public function store(Request $request, string $vin)

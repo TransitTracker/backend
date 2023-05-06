@@ -19,7 +19,7 @@ class AlertResource extends Resource
 
     protected static ?string $model = Alert::class;
 
-    protected static ?string $navigationIcon = 'gmdi-warning';
+    protected static ?string $navigationIcon = 'gmdi-warning-tt';
 
     protected static ?string $recordTitleAttribute = 'title';
 

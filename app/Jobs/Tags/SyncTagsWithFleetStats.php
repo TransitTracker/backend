@@ -57,7 +57,7 @@ class SyncTagsWithFleetStats implements ShouldQueue
     private function sync(Agency $agency, int $tagType, object $garages)
     {
         $response = Http::get("https://fleetstatsapp.com/api/vehicles/{$agency->slug}");
-        $tags = Tag::whereType($tagType)->select(['id', 'label'])->get();
+//        $tags = Tag::whereType($tagType)->select(['id', 'label'])->get();
 
         foreach ($response->json('vehicles') as $fsVehicle) {
             $vehicle = Vehicle::select('id')->firstWhere(['agency_id' => $agency->id, 'vehicle_id' => $fsVehicle['fleet_number']]);

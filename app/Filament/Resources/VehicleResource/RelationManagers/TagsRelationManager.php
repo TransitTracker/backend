@@ -16,7 +16,7 @@ class TagsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('label'),
+                Tables\Columns\ViewColumn::make('label')->view('tables.columns.tag-preview'),
             ])
             ->filters([
                 //

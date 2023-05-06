@@ -27,7 +27,7 @@ class AgencyResource extends Resource
 {
     protected static ?string $model = Agency::class;
 
-    protected static ?string $navigationIcon = 'gmdi-other-houses';
+    protected static ?string $navigationIcon = 'gmdi-other-houses-tt';
 
     protected static ?string $recordTitleAttribute = 'name';
 

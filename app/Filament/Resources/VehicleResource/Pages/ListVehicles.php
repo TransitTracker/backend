@@ -65,7 +65,7 @@ class ListVehicles extends ListRecords
                 ->default(),
             Filter::make('onlyZenbus')
                 ->label('Only Zenbus')
-                ->query(fn (Builder $query): Builder => $query->where('vehicle', 'LIKE', 'zenbus:Vehicle:%'))
+                ->query(fn (Builder $query): Builder => $query->where('vehicle_id', 'LIKE', 'zenbus:Vehicle:%'))
                 ->toggle(),
             SelectFilter::make('agency')->relationship('agency', 'short_name'),
             Filter::make('refStartsWith')->form([
@@ -75,7 +75,7 @@ class ListVehicles extends ListRecords
                     return $query;
                 }
 
-                return $query->where('vehicle', 'LIKE', "{$data['refStartsWith']}%");
+                return $query->where('vehicle_id', 'LIKE', "{$data['refStartsWith']}%");
             }),
             Filter::make('forceLabelStartsWith')->form([
                 TextInput::make('forceLabelStartsWith'),

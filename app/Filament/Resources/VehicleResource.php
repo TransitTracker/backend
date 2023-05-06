@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\VehicleType;
 use App\Filament\Resources\VehicleResource\Pages;
 use App\Filament\Resources\VehicleResource\RelationManagers\TagsRelationManager;
 use App\Models\Vehicle;
@@ -42,7 +43,7 @@ class VehicleResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('agency.short_name')->label('Agency'),
                 Tables\Columns\IconColumn::make('is_active')->boolean(),
-                Tables\Columns\TextColumn::make('vehicle_type'),
+                Tables\Columns\TextColumn::make('vehicle_type')->formatStateUsing(fn (VehicleType $state): string => $state->description),
                 Tables\Columns\TextColumn::make('displayed_label')->label('Label'),
                 Tables\Columns\TextColumn::make('ref'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('M d, Y'),

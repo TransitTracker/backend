@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\VehicleResource\Pages;
 
 use App\Enums\TagType;
+use App\Enums\VehicleType;
 use App\Filament\Resources\VehicleResource;
 use App\Models\Link;
 use App\Models\Tag;
@@ -22,15 +23,15 @@ class ListVehicles extends ListRecords
     protected function getTableBulkActions(): array
     {
         return [
-            BulkAction::make('changeIcon')
+            BulkAction::make('changeType')
                 ->action(function (Collection $records, array $data): void {
                     foreach ($records as $record) {
-                        $record->icon = $data['icon'];
+                        $record->vehicle_type = $data['vehicle_type'];
                         $record->saveQuietly();
                     }
                 })
                 ->form([
-                    Select::make('icon')->options(['bus' => 'Bus', 'train' => 'Train', 'tram' => 'Tram', 'bus-electric' => 'Electric bus'])->required(),
+                    Select::make('vehicle_type')->options(VehicleType::asFlippedArray())->required(),
                 ])->icon('gmdi-switch-access-shortcut'),
             BulkAction::make('attachLink')
                 ->action(function (Collection $records, array $data): void {

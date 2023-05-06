@@ -226,7 +226,7 @@ class Vehicle extends Model
     protected static function booted()
     {
         static::created(function (self $vehicle) {
-            $vehicle->icon = $vehicle->agency->vehicles_type;
+            $vehicle->vehicle_type = $vehicle->agency->vehicles_type;
             $vehicle->links()->attach($vehicle->agency->links->pluck('id'));
             $vehicle->save();
         });

@@ -30,7 +30,7 @@ class ShapeController extends Controller
                     'firstTrip.stopTimes:stop_times.agency_id,stop_times.gtfs_trip_id,gtfs_stop_id',
                     'firstTrip.stopTimes.stop:stops.agency_id,stops.gtfs_stop_id,position',
                 ])
-                ->first()
+                ->firstOrFail()
         );
     }
 }

@@ -31,7 +31,7 @@ class VehicleResource extends JsonResource
             ],
             'bearing' => $this->bearing,
             'speed' => $this->speed,
-            'vehicleType' => $this->vehicle_type,
+            'vehicleType' => strtolower($this->vehicle_type?->key),
             'plate' => $this->license_plate,
             'odometer' => $this->odometer,
             'currentStopSequence' => $this->current_stop_sequence,

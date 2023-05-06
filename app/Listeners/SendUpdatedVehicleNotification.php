@@ -7,7 +7,7 @@ use App\Notifications\Push\UpdatedVehicle;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Notification;
 
-class SendUpdatedVehicleNotification implements ShouldQueue
+class SendUpdatedVehicleNotification
 {
     public $queue = 'notifications';
 

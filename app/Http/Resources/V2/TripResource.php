@@ -20,7 +20,7 @@ class TripResource extends JsonResource
             'routeLongName' => $this->gtfsRoute?->long_name,
             'shapeLink' => $this->trip?->gtfs_shape_id ? Storage::url("shapes/{$this->additional['agencySlug']}/{$this->trip?->gtfs_shape_id}.json") : null,
             'shapeId' => $this->trip?->gtfs_shape_id,
-            'serviceId' => $this->trip?->gtfs_shape_id,
+            'serviceId' => $this->trip?->gtfs_service_id,
             'blockId' => $this->trip?->gtfs_block_id,
         ];
     }

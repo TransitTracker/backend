@@ -29,7 +29,6 @@ class Vehicle extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
-        'active' => 'boolean',
         'position' => Point::class,
         'vehicle_type' => VehicleType::class,
     ];
@@ -108,14 +107,12 @@ class Vehicle extends Model
      */
     public function getDisplayedLabelAttribute(): string
     {
-        // TODO: REMOVEP2 : Remove vehicle and ''
-        return $this->force_label ?? $this->label ?? $this->vehicle_id ?? $this->vehicle ?? '';
+        return $this->force_label ?? $this->label ?? $this->force_vehicle_id ?? $this->vehicle_id;
     }
 
     public function getRefAttribute(): string
     {
-        // TODO: REMOVEP2 : Remove vehicle and ''
-        return $this->force_vehicle_id ?? $this->vehicle_id ?? $this->vehicle ?? '';
+        return $this->force_vehicle_id ?? $this->vehicle_id;
     }
 
     /*
@@ -148,7 +145,7 @@ class Vehicle extends Model
     {
         return $query->where([['agency_id', '>=', 5], ['agency_id', '<=', 16]])
             ->whereDate('created_at', '>=', '2021-04-27')
-            ->whereRaw('LENGTH(vehicle) = ?', [17]);
+            ->whereRaw('LENGTH(vehicle_id) = ?', [17]);
     }
 
     public function scopeExoLabelled(Builder $query): Builder
@@ -194,7 +191,7 @@ class Vehicle extends Model
             return false;
         }
 
-        $vehicle = intval($this->vehicle);
+        $vehicle = intval($this->vehicle_id);
 
         if ((40901 <= $vehicle) && ($vehicle <= 40930)) {
             return true;

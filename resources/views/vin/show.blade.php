@@ -135,15 +135,15 @@
                                 class="border-t border-m3-surface-on-variant/25 dark:border-m3-surface-dark-on-variant/25 px-4 py-2">
                                 <dt class="text-xs mb-0.5">{{ __('Last trip') }}</dt>
                                 <dd>
-                                    <b class="font-medium leading-6 tracking-wide">{{ $vehicle->gtfsRoute->short_name }}
-                                        {{ $vehicle->gtfsRoute->long_name }}</b>
-                                    @if ($vehicle->trip->headsign)
+                                    <b class="font-medium leading-6 tracking-wide">{{ $vehicle->gtfsRoute?->short_name }}
+                                        {{ $vehicle->gtfsRoute?->long_name }}</b>
+                                    @if ($vehicle->trip?->headsign)
                                         <div class="flex gap-x-1 items-center">
                                             <x-gmdi-arrow-forward class="w-4 h-4 text-current" />
                                             {{ $vehicle->trip->headsign }}
                                         </div>
                                     @endif
-                                    @if ($vehicle->trip->short_name)
+                                    @if ($vehicle->trip?->short_name)
                                         <div class="flex gap-x-1 items-center">
                                             <x-gmdi-view-timeline class="w-4 h-4 text-current" />
                                             {{ __('Departure #') }}{{ $vehicle->trip->short_name }}
@@ -159,10 +159,10 @@
                                 class="border-t border-m3-surface-on-variant/25 dark:border-m3-surface-dark-on-variant/25 px-4 py-2">
                                 <dt class="text-xs mb-0.5">{{ __('Last position') }}</dt>
                                 <dd>
-                                    <a href="https://www.openstreetmap.org/?mlat={{ $vehicle->lat }}&mlon={{ $vehicle->lon }}#map=16/{{ $vehicle->lat }}/{{ $vehicle->lon }}&layers=T"
+                                    <a href="https://www.openstreetmap.org/?mlat={{ $vehicle->position->latitude }}&mlon={{ $vehicle->position->longitude }}#map=16/{{ $vehicle->position->latitude }}/{{ $vehicle->position->longitude }}&layers=T"
                                         target="_blank" class="flex gap-x-1 items-center underline">
-                                        <x-gmdi-pin-drop class="w-4 h-4 text-current" /> {{ $vehicle->lat }},
-                                        {{ $vehicle->lon }}
+                                        <x-gmdi-pin-drop class="w-4 h-4 text-current" /> {{ $vehicle->position->latitude }},
+                                        {{ $vehicle->position->longitude }}
                                         @if ($vehicle->bearing)
                                             <x-gmdi-north class="w-4 h-4 text-current"
                                                 style="transform:rotate({{ $vehicle->bearing }}deg)" />

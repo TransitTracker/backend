@@ -120,7 +120,7 @@
                     </tr>
                 </thead>
                 <tbody class="border-t divide-y divide-black/[0.12] dark:divide-m3-background-dark-outline">
-                    @foreach ($sortedUnlabbeledVehicles as $vehicle)
+                    @foreach ($sortedUnlabeledVehicles as $vehicle)
                         <tr class="h-[3.25rem]">
                             <td class="px-4 text-left">
                                 <a href="{{ route('vin.show', ['vin' => $vehicle->ref]) }}">

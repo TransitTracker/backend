@@ -22,7 +22,7 @@ class Suggestion extends Model
 
     public function vehicles(): HasMany
     {
-        return $this->hasMany(Vehicle::class, 'vehicle', 'vin');
+        return $this->hasMany(Vehicle::class, 'vehicle_id', 'vin');
     }
 
     protected $dispatchesEvents = [

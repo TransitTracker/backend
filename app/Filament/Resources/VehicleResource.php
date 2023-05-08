@@ -20,7 +20,7 @@ class VehicleResource extends Resource
 
     protected static ?string $navigationIcon = 'gmdi-directions-bus-tt';
 
-    protected static ?string $recordTitleAttribute = 'vehicle';
+    protected static ?string $recordTitleAttribute = 'vehicle_id';
 
     public static function form(Form $form): Form
     {
@@ -28,8 +28,8 @@ class VehicleResource extends Resource
             ->schema([
                 Placeholder::make('agency')
                     ->content(fn (Vehicle $record): string => $record->agency->name)->hidden(fn (?Vehicle $record) => $record === null),
-                Placeholder::make('original_ref')
-                    ->content(fn (Vehicle $record): string => $record->vehicle)->hidden(fn (?Vehicle $record) => $record === null),
+                Placeholder::make('original_vehicle_id')
+                    ->content(fn (Vehicle $record): string => $record->vehicle_id)->hidden(fn (?Vehicle $record) => $record === null),
                 Card::make()->columns(2)->schema([
                     TextInput::make('force_label')->label('Fleet label')->columnSpan(1)->hint('force_label')->helperText('Use to replace the vehicle number provided by the agency'),
                     TextInput::make('force_vehicle_id')->label('Custom identifier')->columnSpan(1)->hint('force_vehicle_id')->helperText('Use to replace an incorrect vehicle identifier provided by the agency (like a wrong VIN). Remember to change this field for every vehicle with a wrong vin!'),

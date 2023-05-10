@@ -70,31 +70,19 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             $vehicle = $entity->vehicle;
 
             /*
-             * Check if trip is in database
-             */
-            $trip = Trip::where(['agency_id' => $this->agency->id, 'gtfs_trip_id' => $vehicle->trip?->trip_id])
-                ->select(['gtfs_route_id'])
-                ->first();
-
-            if (! $trip) {
-                $vehiclesWithoutTrip += 1;
-            }
-
-            /*
              * Prepare a new array to update the vehicle model
              */
             $newVehicle = [
                 'is_active' => true,
                 'gtfs_trip_id' => $this->processField($vehicle->trip?->trip_id),
-                'gtfs_route_id' => $this->processField($vehicle->trip?->route_id ?? $trip?->gtfs_route_id),
+                'gtfs_route_id' => $this->processField($vehicle->trip?->route_id),
                 'start_time' => $this->processField($vehicle->trip?->start_time),
-                'schedule_relationship' => $this->processField($vehicle->trip?->schedule_relationship),
+                'schedule_relationship' => $this->processField($vehic$le->trip?->schedule_relationship),
                 'position' => $this->processField(['lat' => $vehicle->position?->latitude, 'lon' => $vehicle->position?->longitude], 'position'),
                 'current_stop_sequence' => $this->processField($vehicle->current_stop_sequence),
                 'current_status' => $this->processField($vehicle->current_status),
                 'timestamp' => $this->processField($vehicle->timestamp->low ?? $this->time),
                 'gtfs_stop_id' => $this->processField($vehicle->stop_id),
-                'trip_id' => $this->processField($trip?->id),
             ];
 
             /*

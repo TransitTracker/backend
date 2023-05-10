@@ -77,7 +77,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
                 'gtfs_trip_id' => $this->processField($vehicle->trip?->trip_id),
                 'gtfs_route_id' => $this->processField($vehicle->trip?->route_id),
                 'start_time' => $this->processField($vehicle->trip?->start_time),
-                'schedule_relationship' => $this->processField($vehic$le->trip?->schedule_relationship),
+                'schedule_relationship' => $this->processField($vehicle->trip?->schedule_relationship),
                 'position' => $this->processField(['lat' => $vehicle->position?->latitude, 'lon' => $vehicle->position?->longitude], 'position'),
                 'current_stop_sequence' => $this->processField($vehicle->current_stop_sequence),
                 'current_status' => $this->processField($vehicle->current_status),

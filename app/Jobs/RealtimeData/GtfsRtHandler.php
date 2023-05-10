@@ -73,17 +73,8 @@ class GtfsRtHandler implements ShouldQueue
             if (! $vehicle || ! $vehicle->getTrip() || ! $vehicle->getPosition()) {
                 continue;
             }
-
-            /*
-             * Check if trip is in database
-             */
-            $trip = Trip::where(['agency_id' => $this->agency->id, 'gtfs_trip_id' => $vehicle->getTrip()->getTripId()])
-                ->select(['gtfs_route_id'])
-                ->first();
-
-            if (! $trip) {
-                $vehiclesWithoutTrip += 1;
-            }
+            
+            // TODO: For the gtfs_route_id, the Vehicle model should retreive it through the Trip if this field is not filled
 
             /*
              * Prepare a new array to update the vehicle model
@@ -91,7 +82,7 @@ class GtfsRtHandler implements ShouldQueue
             $newVehicle = [
                 'is_active' => true,
                 'gtfs_trip_id' => $this->processField($vehicle->getTrip()->getTripId()),
-                'gtfs_route_id' => $this->processField($vehicle->getTrip()->getRouteId() ?? $trip?->gtfs_route_id, 'route'),
+                'gtfs_route_id' => $this->processField($vehicle->getTrip()->getRouteId()),
                 'start_time' => $this->processField($vehicle->getTrip()->getStartTime()),
                 'schedule_relationship' => $this->processField($vehicle->getTrip()->getScheduleRelationship()),
                 'label' => $this->processField($vehicle->getVehicle()->getLabel(), 'label'),

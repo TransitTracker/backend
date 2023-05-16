@@ -31,6 +31,11 @@ class TagResource extends Resource
 
     protected static ?string $navigationIcon = 'gmdi-label-tt';
 
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['label', 'short_label'];
+    }
+
     public static function form(Form $form): Form
     {
         return $form

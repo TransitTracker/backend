@@ -10,11 +10,19 @@ class Logs extends Page
 
     protected static string $view = 'filament.pages.logs';
 
-    protected static ?string $navigationIcon = 'gmdi-text-snippet';
+    protected static ?string $navigationIcon = 'gmdi-error-tt';
 
     protected static ?string $navigationGroup = 'System';
 
-    protected static bool $shouldRegisterNavigation = false;
-
     protected ?string $heading = '';
+
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
+    public function mount(): void
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+    }
 }

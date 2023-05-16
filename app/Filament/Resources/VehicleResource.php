@@ -13,6 +13,8 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class VehicleResource extends Resource
 {
@@ -21,6 +23,24 @@ class VehicleResource extends Resource
     protected static ?string $navigationIcon = 'gmdi-directions-bus-tt';
 
     protected static ?string $recordTitleAttribute = 'vehicle_id';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['vehicle_id', 'force_vehicle_id', 'label', 'force_label'];
+    }
+
+    protected static function getGlobalSearchEloquentQuery(): Builder
+    {
+        return parent::getGlobalSearchEloquentQuery()->with(['agency:id,short_name']);
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Displayed label' => $record->displayed_label,
+            'Agency' => $record->agency->short_name,
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -66,7 +86,6 @@ class VehicleResource extends Resource
     {
         return [
             'index' => Pages\ListVehicles::route('/'),
-            'create' => Pages\CreateVehicle::route('/create'),
             'edit' => Pages\EditVehicle::route('/{record}/edit'),
         ];
     }

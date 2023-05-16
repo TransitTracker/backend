@@ -66,26 +66,12 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Filament::serving(function () {
-            $navigationItems = [
+            Filament::registerNavigationItems([
                 NavigationItem::make('exo VIN')
                     ->url(route('vin.index'))
                     ->icon('gmdi-directions-bus-tt')
                     ->group('Special'),
-            ];
-
-            if (Auth::hasUser() && Auth::user()->isAdmin()) {
-                array_push($navigationItems,
-                    NavigationItem::make('Logs')
-                        ->url(route('filament.pages.logs'))
-                        ->icon('gmdi-error-tt')
-                        ->group('System'),
-                    NavigationItem::make('Horizon')
-                        ->url(route('filament.pages.horizon'))
-                        ->icon('gmdi-cloud-queue-tt')
-                        ->group('System'));
-            }
-
-            Filament::registerNavigationItems($navigationItems);
+            ]);
         });
     }
 }

@@ -34,6 +34,11 @@ class AlertResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title', 'subtitle'];
+    }
+
     public static function form(Form $form): Form
     {
         return $form

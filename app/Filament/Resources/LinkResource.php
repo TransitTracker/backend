@@ -11,6 +11,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Model;
 
 class LinkResource extends Resource
 {
@@ -20,7 +21,12 @@ class LinkResource extends Resource
 
     protected static ?string $navigationIcon = 'gmdi-link-tt';
 
-    protected static ?string $recordTitleAttribute = 'title';
+    protected static ?string $recordTitleAttribute = 'internal_title';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['internal_title', 'title'];
+    }
 
     public static function form(Form $form): Form
     {

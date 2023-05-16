@@ -138,7 +138,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         }
 
         if ($transformer === 'position' && filled($value['lat']) && filled($value['lat'])) {
-            return new Point($value['lat'], $value['lon']);
+            return new Point(round($value['lat'], 5), round($value['lon'], 5));
         }
 
         return $value;

@@ -13,10 +13,6 @@ class DeactivateInactiveSubscription
 
     public function handle(NotificationFailed $event)
     {
-        // @phpstan-ignore-next-line
-        Log::info('Push user has been deactivated', ['uuid' => $event->subscription->subscribable->uuid, 'reason' => $event->report->getReason()]);
-
-        // @phpstan-ignore-next-line
         $event->subscription->subscribable->is_active = false;
         $event->subscription->subscribable->save();
     }

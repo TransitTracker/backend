@@ -43,10 +43,6 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading(App::environment('local'));
 
-        DB::whenQueryingForLongerThan(500, function (Connection $connection, QueryExecuted $queryExecuted) {
-            info('Detected long query', ['time' => $queryExecuted->time, 'sql' => $queryExecuted->sql, 'bindings' => $queryExecuted->bindings]);
-        });
-
         Health::checks([
             CacheCheck::new(),
             CpuLoadCheck::new()->failWhenLoadIsHigherInTheLast5Minutes(0.75),

@@ -224,7 +224,6 @@ class Vehicle extends Model
     protected static function booted(): void
     {
         static::created(function (self $vehicle) {
-            info('Creating vehicle');
             $vehicle->loadMissing(['agency:id,vehicles_type', 'agency.links:id']);
             $vehicle->vehicle_type = VehicleType::coerce(Str::ucfirst($vehicle->agency->vehicles_type));
             $vehicle->save();

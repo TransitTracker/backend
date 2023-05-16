@@ -64,7 +64,6 @@ class ProcessGtfsStopTimes implements ShouldQueue
         }
 
         collect($toCreate)->chunk(500)->each(function (Collection $chunk) {
-            info('Chunk of '.$chunk->count());
             StopTime::upsert($chunk->all(), ['agency_id', 'gtfs_trip_id', 'sequence'], ['gtfs_stop_id', 'departure']);
         });
 

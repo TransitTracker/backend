@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\AgencyResource\Pages;
 
 use App\Filament\Resources\AgencyResource;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Actions\Action;
 use Filament\Pages\Actions\ActionGroup;
@@ -18,7 +20,34 @@ class EditAgency extends EditRecord
     {
         return [
             ActionGroup::make([
-                Action::make('staticUpdate')->action('staticUpdate')->color('secondary'),
+                Action::make('staticUpdate')->form([
+                    Toggle::make('forceRefresh'),
+                    CheckboxList::make('files')->options([
+                        'calendar.txt' => 'calendar.txt',
+                        'routes.txt' => 'routes.txt',
+                        'stops.txt' => 'stops.txt',
+                        'trips.txt' => 'trips.txt',
+                        'stop_times.txt' => 'stop_times.txt',
+                        'shapes.txt' => 'shapes.txt',
+                    ])->bulkToggleable()->helperText('You must select at least one file.'),
+                ])->action(function (array $data) {
+                    $countFiles = count($data['files']);
+
+                    if (! $countFiles) {
+                        return Notification::make()
+                            ->title('You must choose at least one file to update.')
+                            ->danger()
+                            ->send();
+                    }
+
+                    Artisan::call('static:update', ['agency' => $this->record->slug, '--force' => $data['forceRefresh'], '--file' => $data['files']]);
+
+                    return Notification::make()
+                        ->title('Static data refresh launched!')
+                        ->body("The server will update {$countFiles} files for {$this->record->short_name}")
+                        ->success()
+                        ->send();
+                }),
                 Action::make('realtimeUpdate')->action('realtimeUpdate')->color('secondary'),
                 Action::make('downloadBusIcon')->action('downloadBus')->color('secondary'),
             ]),
@@ -52,7 +81,7 @@ class EditAgency extends EditRecord
                 <metadata id='metadata6016' />
                 <g id='layer1' transform='translate(0,-287.73957)'>
                     <path
-                        style='fill:{$this->record->color};fill-opacity:1;stroke:{$this->record->text_color};stroke-width:0.09146457;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal'
+                        style='fill:{$this->record->color};fill-opacity:1;stroke:{$this->record->text_color};stroke-width:0.09146457;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal;'
                         d='m 4.6302083,287.7853 c -1.76984,0 -3.20126,1.43142 -3.20126,3.20126 0,2.40095 3.20126,5.9452 3.20126,5.9452 0,0 3.20126,-3.54425 3.20126,-5.9452 0,-1.76984 -1.43142,-3.20126 -3.20126,-3.20126 z'
                         id='path7283' />
                     <path style='fill:{$this->record->text_color};fill-opacity:1;stroke:none;stroke-width:0.17149599' id='path959'

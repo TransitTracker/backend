@@ -21,7 +21,7 @@ class AlertResource extends JsonResource
             'icon' => $this->icon,
             'action' => $this->action,
             'actionParameters' => $this->action_parameters,
-            'image' => $this->image,
+            'image' => basename($this->image),
             'canBeClosed' => $this->can_be_closed,
         ];
     }

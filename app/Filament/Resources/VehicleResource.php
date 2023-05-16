@@ -42,12 +42,13 @@ class VehicleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('agency.short_name')->label('Agency'),
-                Tables\Columns\IconColumn::make('is_active')->boolean(),
-                Tables\Columns\TextColumn::make('vehicle_type')->formatStateUsing(fn (VehicleType $state): string => $state->description),
-                Tables\Columns\TextColumn::make('displayed_label')->label('Label'),
+                Tables\Columns\TagsColumn::make('tags.label')->toggleable(),
+                Tables\Columns\IconColumn::make('is_active')->boolean()->toggleable(),
+                Tables\Columns\TextColumn::make('vehicle_type')->formatStateUsing(fn (VehicleType $state): string => $state->description)->toggleable(),
+                Tables\Columns\TextColumn::make('displayed_label')->label('Label')->toggleable(),
                 Tables\Columns\TextColumn::make('ref'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime('M d, Y'),
-                Tables\Columns\TextColumn::make('updated_at')->dateTime('M d, Y'),
+                Tables\Columns\TextColumn::make('created_at')->dateTime('M d, Y')->toggleable(),
+                Tables\Columns\TextColumn::make('updated_at')->dateTime('M d, Y')->toggleable(),
             ])
             ->filters([
                 //

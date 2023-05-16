@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AgencyResource\Pages;
+use App\Filament\Resources\AgencyResource\RelationManagers\LinksRelationManager;
 use App\Filament\Resources\AgencyResource\RelationManagers\RegionsRelationManager;
 use App\Models\Agency;
 use Carbon\Carbon;
@@ -21,7 +22,9 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TagsColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 
 class AgencyResource extends Resource
 {
@@ -108,7 +111,8 @@ class AgencyResource extends Resource
                 TextColumn::make('slug'),
                 IconColumn::make('is_active')->boolean(),
                 IconColumn::make('refresh_is_active')->boolean(),
-                TextColumn::make('cron_schedule'),
+                TextColumn::make('cron_schedule')->toggleable(),
+                TagsColumn::make('regions.name'),
             ])
             ->actions([
                 ReplicateAction::make()
@@ -121,12 +125,16 @@ class AgencyResource extends Resource
                     ->beforeReplicaSaved(function (Agency $replica, array $data): void {
                         $replica->fill($data);
                     }),
+            ])
+            ->filters([
+                SelectFilter::make('regions')->relationship('regions', 'name'),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
+            LinksRelationManager::class,
             RegionsRelationManager::class,
         ];
     }

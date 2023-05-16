@@ -3,11 +3,14 @@
 namespace App\Filament\Widgets;
 
 use App\Enums\TagType;
+use App\Filament\Resources\VehicleResource;
 use App\Models\Tag;
 use App\Models\Vehicle;
 use Filament\Forms\Components\Select;
+use Filament\Notifications\Actions\Action as NotificationsAction;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
@@ -54,7 +57,29 @@ class VehiclesWithoutOperators extends BaseWidget
     protected function getTableActions(): array
     {
         return [
-            EditAction::make(),
+            Action::make('Edit')
+                ->url(fn (Vehicle $record): string => VehicleResource::getUrl('edit', $record))
+                ->icon('heroicon-s-pencil'),
+            Action::make('attachTag')
+                ->form([
+                    Select::make('tagId')->options(Tag::pluck('label', 'id'))->label('Tag')->required(),
+                ])
+                ->icon('gmdi-label')
+                ->action(function (Vehicle $record, array $data) {
+                    $record->tags()->attach($data['tagId']);
+                    $record->saveQuietly();
+
+                    Notification::make()
+                        ->title("Tag attached to {$record->agency->short_name} {$record->ref}")
+                        ->success()
+                        ->actions([
+                            NotificationsAction::make('view')
+                                ->button()
+                                ->url(VehicleResource::getUrl('edit', $record), shouldOpenInNewTab: true),
+                        ])
+                        ->send();
+                }),
+
         ];
     }
 }

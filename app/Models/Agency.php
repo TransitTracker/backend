@@ -20,7 +20,7 @@ use URL;
 
 class Agency extends Model
 {
-    protected $guarded = ['static_gtfs_url', 'realtime_url', 'headers'];
+    protected $guarded = [];
 
     protected $casts = [
         'tags' => 'array',
@@ -32,10 +32,6 @@ class Agency extends Model
     // MySQL can't have default value, this sets headers to an empty array
     protected $attributes = [
         'headers' => '{}',
-    ];
-
-    protected $hidden = [
-        'realtime_url', 'headers',
     ];
 
     public function getRouteKeyName()

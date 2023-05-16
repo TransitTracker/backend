@@ -15,7 +15,11 @@ use Symfony\Component\Console\Helper\Table;
 
 class Update extends Command
 {
-    protected $signature = 'static:update {agency? : The slug of the agency} {--f|force : Force the refresh, only works when agency is specified} {--s|select : Select which files to include}';
+    protected $signature = 'static:update
+        {agency? : The slug of the agency}
+        {--f|force : Force the refresh, only works when agency is specified}
+        {--s|select : Select interactively which files to include}
+        {--file=* : Directly choose files to include}';
 
     protected $description = 'Update the static data of all agencies or the specified agency';
 
@@ -40,7 +44,9 @@ class Update extends Command
         $this->table = new Table($this->output);
         $this->table->setHeaders(['Agency', 'View on Horizon']);
 
-        if ($this->option('select')) {
+        if ($chosenFiles = $this->option('file')) {
+            $files = $chosenFiles;
+        } elseif ($this->option('select')) {
             $files = $this->choice('Please select the files to update', $files, null, null, true);
         }
 

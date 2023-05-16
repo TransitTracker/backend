@@ -73,7 +73,7 @@ class GtfsRtHandler implements ShouldQueue
             if (! $vehicle || ! $vehicle->getTrip() || ! $vehicle->getPosition()) {
                 continue;
             }
-            
+
             // TODO: For the gtfs_route_id, the Vehicle model should retreive it through the Trip if this field is not filled
 
             /*

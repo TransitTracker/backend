@@ -51,7 +51,6 @@ class ProcessGtfsStops implements ShouldQueue
         });
 
         $stopsReader = null;
-
     }
 
     private function getPosition(array $stop): Point|null

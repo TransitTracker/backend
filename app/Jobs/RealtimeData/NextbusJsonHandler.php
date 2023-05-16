@@ -144,7 +144,7 @@ class NextbusJsonHandler implements ShouldQueue
             return Route::where([
                 ['agency_id', $this->agency->id],
                 ['gtfs_route_id', 'LIKE', "%{$routeTag}"],
-                ['short_name', substr($routeTag, 0, -1)]
+                ['short_name', substr($routeTag, 0, -1)],
             ])
                 ->select('gtfs_route_id')
                 ->pluck('gtfs_route_id')

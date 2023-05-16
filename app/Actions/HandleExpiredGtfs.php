@@ -32,6 +32,7 @@ class HandleExpiredGtfs
             // Update but do not send
             $failedJob->snooze = now()->addDay();
             $failedJob->save();
+
             return;
         }
 
@@ -40,6 +41,7 @@ class HandleExpiredGtfs
             $failedJob->snooze = now()->addDay();
             $failedJob->save();
             $this->sendNotification();
+
             return;
         }
 

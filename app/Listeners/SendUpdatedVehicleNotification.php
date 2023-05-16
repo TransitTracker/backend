@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\VehicleUpdated;
 use App\Notifications\Push\UpdatedVehicle;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Notification;
 
 class SendUpdatedVehicleNotification

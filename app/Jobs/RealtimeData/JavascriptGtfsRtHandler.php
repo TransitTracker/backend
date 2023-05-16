@@ -60,7 +60,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         $vehiclesWithoutTrip = 0;
 
         // Go trough each vehicle
-        $collection->each(function ($entity) use ($vehiclesWithoutTrip) {
+        $collection->each(function ($entity) {
             /*
              * Check if entity has vehiclePosition or if is not valid
              */

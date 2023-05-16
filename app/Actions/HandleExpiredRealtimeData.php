@@ -32,6 +32,7 @@ class HandleExpiredRealtimeData
             // Update but do not send
             $failedJob->snooze = now()->addMinutes(30);
             $failedJob->save();
+
             return;
         }
 
@@ -40,6 +41,7 @@ class HandleExpiredRealtimeData
             $failedJob->snooze = now()->addMinutes(30);
             $failedJob->save();
             $this->sendNotification();
+
             return;
         }
 

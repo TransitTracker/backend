@@ -57,6 +57,5 @@ class ProcessGtfsServices implements ShouldQueue
         }
 
         $servicesReader = null;
-
     }
 }

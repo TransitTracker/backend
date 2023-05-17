@@ -32,7 +32,7 @@ class NotificationUser extends Model implements HasLocalePreference
     protected $with = [
         'pushSubscriptions',
         'agencies:id,slug',
-        'vehicles:id,label,force_label,vehicle,icon,agency_id',
+        'vehicles:agency_id,vehicle_id,id,label,force_label,force_vehicle_id,vehicle_type',
         'vehicles.agency:id,slug',
     ];
 

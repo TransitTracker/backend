@@ -65,7 +65,6 @@ class ProfileController extends Controller
         $request->validate([
             'uuid' => 'required|uuid',
             'generalNews' => 'present|boolean',
-            'electricStm' => 'present|boolean',
             'agencies' => 'present|array',
             'isFrench' => 'required|boolean',
         ]);
@@ -77,7 +76,8 @@ class ProfileController extends Controller
         $user->agencies()->sync($agencies);
 
         $user->subscribed_general_news = $request->generalNews;
-        $user->subscribed_electric_stm = $request->electricStm;
+        // TODO: Remove electric STM agross the app
+        $user->subscribed_electric_stm = false;
         $user->is_french = $request->isFrench;
         $user->save();
 

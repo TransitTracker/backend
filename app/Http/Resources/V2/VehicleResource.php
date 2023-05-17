@@ -22,7 +22,8 @@ class VehicleResource extends JsonResource
             'isActive' => $this->is_active,
             'label' => $this->displayed_label,
             'timestamp' => $this->timestamp,
-            'tripId' => $this->gtfs_trip_id,
+            // Do not display trip_id for STL since it's not accurate
+            'tripId' => $this->agency->slug !== 'stl' ? $this->gtfs_trip_id : null,
             'routeId' => $this->gtfs_route_id,
             'startTime' => $this->start_time,
             'position' => [

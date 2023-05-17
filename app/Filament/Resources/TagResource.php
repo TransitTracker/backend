@@ -22,6 +22,8 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Support\Str;
 
 class TagResource extends Resource
 {
@@ -33,7 +35,7 @@ class TagResource extends Resource
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['label', 'short_label'];
+        return ['label', 'short_label', 'slug'];
     }
 
     public static function form(Form $form): Form
@@ -45,9 +47,14 @@ class TagResource extends Resource
                         TextInput::make('label')
                             ->required()
                             ->columnSpan(2),
-                        TextInput::make('short_label'),
+                        TextInput::make('short_label')
+                            ->reactive()
+                            ->afterStateUpdated(function (Closure $set, $state) {
+                                $set('slug', Str::slug($state));
+                            }),
                         TextInput::make('description')
-                            ->columnSpan(3),
+                            ->columnSpan(2),
+                        TextInput::make('slug'),
                     ]),
                     Section::make('Appearance')->schema([
                         TextInput::make('icon')->columnSpan(2),
@@ -102,9 +109,11 @@ class TagResource extends Resource
             ->columns([
                 ViewColumn::make('label')->view('tables.columns.tag-preview'),
                 TextColumn::make('type')->formatStateUsing(fn (TagType $state): string => $state->description),
+                TextColumn::make('slug')->toggleable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('type')
+                    ->options(TagType::asFlippedArray()),
             ]);
     }
 

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Vin;
 
+use App\Enums\TagType;
 use App\Http\Controllers\Controller;
 use App\Models\Agency;
+use App\Models\Tag;
 use App\Models\Vehicle;
 use App\Models\Vin\Suggestion;
 use App\Rules\Turnstile;
@@ -46,7 +48,14 @@ class SuggestionController extends Controller
         $allLabelled = $agencies->sum('exo_labelled_vehicles_count');
         $allUnlabelled = $agencies->sum('exo_unlabelled_vehicles_count');
 
-        return view('vin.index', compact('suggestions', 'sortedUnlabeledVehicles', 'agencies', 'allLabelled', 'allUnlabelled'));
+        $operators = Tag::query()
+            ->select(['slug', 'label', 'color', 'text_color'])
+            ->ofType(TagType::Operator)
+            ->withCount('vehicles')
+            ->get()
+            ->sortByDesc('vehicles_count');
+
+        return view('vin.index', compact('suggestions', 'sortedUnlabeledVehicles', 'agencies', 'allLabelled', 'allUnlabelled', 'operators'));
     }
 
     public function store(Request $request, string $vin)

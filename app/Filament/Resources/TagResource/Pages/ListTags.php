@@ -4,12 +4,14 @@ namespace App\Filament\Resources\TagResource\Pages;
 
 use App\Enums\TagType;
 use App\Filament\Resources\TagResource;
+use App\Models\Tag;
 use Filament\Forms\Components\Select;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Pages\ListRecords\Concerns\Translatable;
 use Filament\Tables\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
 
 class ListTags extends ListRecords
 {
@@ -30,6 +32,13 @@ class ListTags extends ListRecords
                 ->form([
                     Select::make('type')->options(TagType::asFlippedArray()),
                 ])->icon('gmdi-category'),
+            BulkAction::make('generateSlug')
+                ->action(function (Collection $records) {
+                    $records->each(function (Tag $tag) {
+                        $tag->slug = Str::slug($tag->short_label);
+                        $tag->save();
+                    });
+                }),
         ];
     }
 

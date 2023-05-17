@@ -78,12 +78,12 @@ class Vehicle extends Model
         return $this->belongsTo(Route::class, ['agency_id', 'gtfs_route_id'], ['agency_id', 'gtfs_route_id']);
     }
 
-    public function vinInformationForceRef(): BelongsTo
+    public function vinInformationForce(): BelongsTo
     {
         return $this->belongsTo(Information::class, 'force_vehicle_id', 'vin')->withDefault();
     }
 
-    public function vinInformationRef(): BelongsTo
+    public function vinInformationOriginal(): BelongsTo
     {
         return $this->belongsTo(Information::class, 'vehicle_id', 'vin')->withDefault();
     }
@@ -92,13 +92,13 @@ class Vehicle extends Model
     {
         return Attribute::make(
             get: function () {
-                if ($this->relationLoaded('vinInformationForceRef')) {
-                    return $this->getRelation('vinInformationForceRef');
+                if (blank($this->force_vehicle_id)) {
+                    return $this->getRelation('vinInformationOriginal');
                 }
 
-                $this->load('vinInformationRef');
+                $this->loadMissing('vinInformationForce');
 
-                return $this->getRelation('vinInformationRef');
+                return $this->getRelation('vinInformationForce');
             }
         );
     }
@@ -146,6 +146,12 @@ class Vehicle extends Model
     {
         return $query->where([['agency_id', '>=', 5], ['agency_id', '<=', 16]])
             ->whereDate('created_at', '>=', '2021-04-27')
+            ->whereRaw('LENGTH(vehicle_id) = ?', [17]);
+    }
+
+    public function scopeVin(Builder $query): Builder
+    {
+        return $query->whereDate('created_at', '>=', '2021-04-27')
             ->whereRaw('LENGTH(vehicle_id) = ?', [17]);
     }
 

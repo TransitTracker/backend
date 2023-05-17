@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Agency;
+use App\Models\Tag;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -52,7 +53,11 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         Route::bind('agencySlug', function (string $value) {
-            return Agency::select('id', 'slug')->where('slug', $value)->firstOrFail();
+            return Agency::select(['id', 'slug'])->where('slug', $value)->firstOrFail();
+        });
+
+        Route::bind('tagSlug', function (string $value) {
+            return Tag::where('slug', $value)->firstOrFail();
         });
     }
 

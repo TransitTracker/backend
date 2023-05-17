@@ -96,9 +96,9 @@
                                 {{ $vehicle->force_label ? $vehicle->force_label : __('Unknown') }}
                             </b>
                             @foreach ($vehicle->tags as $tag)
-                                <div class="items-center rounded px-2 py-1" title="{{ $tag->description }}"
+                                <a href="{{ route('vin.operator.show', ['tagSlug' => $tag->slug]) }}" class="block rounded px-2 py-1" title="{{ $tag->description }}"
                                     style="background-color: {{ $tag->color }};color: {{ $tag->text_color }}">
-                                    {{ $tag->label }}</div>
+                                    {{ $tag->label }}</a>
                             @endforeach
                             <div class="grow"></div>
                             <x-button.text :has-icon="true"
@@ -115,6 +115,16 @@
                                 {{ __('Last seen') }}
                                 {{ now()->parse($vehicle->updated_at)->diffForHumans() }}
                             </span>
+                            @auth()
+                                @if($vehicle->force_vehicle_id)
+                                    <span class="px-0.5"></span>
+                                    <x-gmdi-error class="w-4 h-4 fill-m3-error dark:fill-m3-error-dark" />
+                                    <span class="text-m3-error dark:text-m3-error-dark">
+                                        Note to admin - original Vehicle ID:
+                                        {{ $vehicle->vehicle_id }}
+                                    </span>
+                                @endif
+                            @endauth
                             <div class="flex-grow"></div>
                             @if ($vehicle->active)
                                 <a href="https://transittracker.ca/regions/mtl/map?vehicle={{ $vehicle->id }}"

@@ -31,5 +31,5 @@ class VehiclesRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\DissociateBulkAction::make(),
             ]);
-    }    
+    }
 }

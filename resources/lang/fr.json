@@ -86,5 +86,8 @@
   "This information is generated automatically from the NHTSA Product Information Catalog Vehicle Listing (vPIC).": "Ces informations sont générées automatiquement à partir de la liste des véhicules du catalogue d'informations sur les produits de la NHTSA (vPIC).",
   "* Additional information provided by NHTSA. May represent information about the vehicle model and not that vehicle exactly.": "* Informations supplémentaires fournies par la NHTSA. Peut représenter des informations sur le modèle de véhicule et non sur ce véhicule exactement.",
   "The VIN project has moved!": "Le projet VIN a déménagé!",
-  "It is now accessible at ": "Sa nouvelle maison est le "
+  "It is now accessible at ": "Sa nouvelle maison est le ",
+  "buses": "bus",
+  "Show all": "Afficher tout",
+  "Operators": "Opérateurs"
 }

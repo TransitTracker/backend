@@ -55,6 +55,20 @@
         </ul>
 
         <div class="col-span-full">
+            <h2 class="mb-2 text-2xl leading-8 text-m3-surface-on dark:text-m3-background-dark-on font-heading">{{ __('Operators') }}</h2>
+            <ul class="flex flex-wrap gap-2 col-span-full">
+                @foreach($operators as $operator)
+                    <li>
+                        <a class="rounded px-2 py-1 cursor-pointer flex flex-col" style="background-color: {{ $operator->color }};color: {{ $operator->text_color }}" href="{{ route('vin.operator.show', ['tagSlug' => $operator->slug]) }}">
+                            <p>{{ $operator->label }}</p>
+                            <small class="text-xs">{{ $operator->vehicles_count }} {{ __('buses') }}</small>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+
+        <div class="col-span-full">
             <h2 class="mb-2 text-2xl leading-8 text-m3-surface-on dark:text-m3-background-dark-on font-heading">
                 {{ __('Latest suggestions') }}</h2>
             <table

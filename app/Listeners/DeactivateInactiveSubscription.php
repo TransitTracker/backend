@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-use Illuminate\Support\Facades\Log;
 use NotificationChannels\WebPush\Events\NotificationFailed;
 
 class DeactivateInactiveSubscription

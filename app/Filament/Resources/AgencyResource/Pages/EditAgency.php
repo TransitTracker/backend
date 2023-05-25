@@ -20,58 +20,58 @@ class EditAgency extends EditRecord
     {
         return [
             ActionGroup::make([
-                Action::make('staticUpdate')->form([
-                    Toggle::make('forceRefresh'),
-                    CheckboxList::make('files')->options([
-                        'calendar.txt' => 'calendar.txt',
-                        'routes.txt' => 'routes.txt',
-                        'stops.txt' => 'stops.txt',
-                        'trips.txt' => 'trips.txt',
-                        'stop_times.txt' => 'stop_times.txt',
-                        'shapes.txt' => 'shapes.txt',
-                    ])->bulkToggleable()->helperText('You must select at least one file.'),
-                ])->action(function (array $data) {
-                    $countFiles = count($data['files']);
+                Action::make('staticUpdate')
+                    ->form([
+                        Toggle::make('forceRefresh'),
+                        CheckboxList::make('files')->options([
+                            'calendar.txt' => 'calendar.txt',
+                            'routes.txt' => 'routes.txt',
+                            'stops.txt' => 'stops.txt',
+                            'trips.txt' => 'trips.txt',
+                            'stop_times.txt' => 'stop_times.txt',
+                            'shapes.txt' => 'shapes.txt',
+                        ])->bulkToggleable()->helperText('You must select at least one file.'),
+                    ])
+                    ->action(function (array $data) {
+                        $countFiles = count($data['files']);
 
-                    if (! $countFiles) {
+                        if (! $countFiles) {
+                            return Notification::make()
+                                ->title('You must choose at least one file to update.')
+                                ->danger()
+                                ->send();
+                        }
+
+                        Artisan::call('static:update', ['agency' => $this->record->slug, '--force' => $data['forceRefresh'], '--file' => $data['files']]);
+
                         return Notification::make()
-                            ->title('You must choose at least one file to update.')
-                            ->danger()
+                            ->title('Static data refresh launched!')
+                            ->body("The server will update {$countFiles} files for {$this->record->short_name}.")
+                            ->success()
                             ->send();
-                    }
+                    }),
+                Action::make('realtimeUpdate')
+                    ->action(function () {
+                        Artisan::call('realtime:update', ['agency' => $this->record->slug]);
 
-                    Artisan::call('static:update', ['agency' => $this->record->slug, '--force' => $data['forceRefresh'], '--file' => $data['files']]);
+                        return Notification::make()
+                            ->title('Realtime refresh launched!')
+                            ->success()
+                            ->send();
+                    }),
+                Action::make('forceRealtimeUpdate')
+                    ->action(function () {
+                        Artisan::call('realtime:update', ['agency' => $this->record->slug, '--force' => true]);
 
-                    return Notification::make()
-                        ->title('Static data refresh launched!')
-                        ->body("The server will update {$countFiles} files for {$this->record->short_name}")
-                        ->success()
-                        ->send();
-                }),
-                Action::make('realtimeUpdate')->action('realtimeUpdate')->color('secondary'),
+                        return Notification::make()
+                            ->title('Realtime refresh launched!')
+                            ->body('With force option activated.')
+                            ->success()
+                            ->send();
+                    }),
                 Action::make('downloadBusIcon')->action('downloadBus')->color('secondary'),
             ]),
         ];
-    }
-
-    public function staticUpdate(): void
-    {
-        Artisan::call('static:update', ['agency' => $this->record->slug]);
-
-        Notification::make()
-            ->title('Static refresh launched!')
-            ->success()
-            ->send();
-    }
-
-    public function realtimeUpdate(): void
-    {
-        Artisan::call('agency:refresh', ['agency' => $this->record->slug]);
-
-        Notification::make()
-            ->title('Realtime refresh launched!')
-            ->success()
-            ->send();
     }
 
     public function downloadBus(): StreamedResponse

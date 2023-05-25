@@ -7,7 +7,7 @@
             <h1 class="text-2xl font-bold md:text-4xl text-primary-700 dark:text-white font-heading">{{ $agency->name }}</h1>
         </div>
         <div class="flex items-start col-span-6 md:justify-end md:col-span-4" x-data="{ vin: '' }">
-            <form x-bind:action="'/vin/' + vin" class="flex shadow">
+            <form x-bind:action="'/' + vin" class="flex shadow">
                 <input x-model="vin" type="text" placeholder="VIN"
                     class="border-transparent rounded-l dark:bg-m3-surface-dark-variant focus:border-transparent focus:outline-none focus:ring-0 dark:text-m3-surface-dark-on-variant"
                     maxlength="17" minlength="17" required>

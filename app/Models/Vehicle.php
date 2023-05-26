@@ -229,6 +229,12 @@ class Vehicle extends Model
 
     protected static function booted(): void
     {
+        static::creating(function (self $vehicle) {
+            if (Str::startsWith($event->vehicle->vehicle_id, 'zenbus:Vehicle:')) {
+                $event->vehicle->force_label = Str::of($event->vehicle->vehicle_id)->remove('enbus:Vehicle')->remove(':LOC')->value;
+            }
+        });
+
         static::created(function (self $vehicle) {
             $vehicle->loadMissing(['agency:id,vehicles_type', 'agency.links:id']);
             $vehicle->vehicle_type = VehicleType::coerce(Str::ucfirst($vehicle->agency->vehicles_type));

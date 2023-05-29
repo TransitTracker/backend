@@ -21,7 +21,7 @@ Route::get('locale/{locale}', function ($locale) {
 Route::get('', [SuggestionController::class, 'index'])->name('vin.index');
 Route::get('{vin}', [VehicleController::class, 'show'])->name('vin.show');
 Route::post('{vin}', [SuggestionController::class, 'store'])->name('vin.store');
-Route::get('agency/{agency}', [AgencyController::class, 'show'])->name('vin.agency.show');
+Route::get('sector/{sector}', [AgencyController::class, 'show'])->name('vin.agency.show');
 Route::get('operator/{tagSlug}', [OperatorController::class, 'show'])->name('vin.operator.show');
 Route::post('vin/{suggestion}/vote', [SuggestionController::class, 'vote'])->name('vin.vote');
 Route::post('vin/{suggestion}/approve/{agency?}', [SuggestionController::class, 'approve'])->middleware('auth')->name('vin.approve');

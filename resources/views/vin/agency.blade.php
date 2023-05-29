@@ -20,7 +20,7 @@
         </div>
 
         <table
-            class="overflow-x-auto whitespace-nowrap bg-white border border-black/[0.12] rounded dark:bg-m3-surface-dark dark:text-m3-surface-dark-on dark:border-m3-background-dark-outline border-collapse block col-span-full">
+            class="overflow-x-auto whitespace-nowrap border rounded bg-neutral-96 dark:bg-neutral-10 border-neutralVariant-50 text-neutral-10 dark:text-neutral-90 dark:border-neutralVariant-60 border-collapse block col-span-full">
             <thead>
                 <tr class="h-14">
                     <th class="px-4 font-medium text-left w-[99%]">VIN</th>
@@ -46,7 +46,7 @@
                                     {{ $vehicle->force_label }}
                                 @else
                                     <span
-                                        class="inline-flex items-center text-sm italic text-gray-500 dark:bg-m3-surface-dark-variant dark:text-m3-surface-dark-on-variant gap-x-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
+                                        class="inline-flex items-center text-sm italic bg-neutral-90 dark:bg-neutral-24 gap-x-1 px-1.5 py-0.5 rounded-full">
                                         {{ __('Contribute') }}
                                         <x-gmdi-edit-note class="w-4 h-4" />
                                     </span>
@@ -58,7 +58,9 @@
                         </td>
                         <td class="px-4 text-left">
                             @foreach ($vehicle->tags as $tag)
-                                {{ $tag->label }}
+                                <a href="{{ route('vin.operator.show', ['tagSlug' => $tag->slug]) }}">
+                                    {{ $tag->label }}
+                                </a>
                             @endforeach
                         </td>
                         <td class="px-4 text-left">

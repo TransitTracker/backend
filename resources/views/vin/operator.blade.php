@@ -31,7 +31,7 @@
                                                     x-bind:class="expanded ? 'rotate-180' : ''" />
                     </button>
                 </div>
-                <table class="!overflow-x-auto whitespace-nowrap bg-white border border-black/[0.12] rounded-b dark:bg-m3-surface-dark dark:text-m3-surface-dark-on dark:border-m3-background-dark-outline border-collapse block"
+                <table class="!overflow-x-auto whitespace-nowrap border rounded-b bg-neutral-96 dark:bg-neutral-10 border-neutralVariant-50 text-neutral-10 dark:text-neutral-90 dark:border-neutralVariant-60 border-collapse block border-t-0"
                        x-show="expanded" x-collapse>
                     <thead>
                     <tr class="h-14">

@@ -8,8 +8,13 @@ use App\Models\Vehicle;
 
 class AgencyController extends Controller
 {
-    public function show(Agency $agency)
+    public function show(string $sector)
     {
+        $agency = Agency::query()
+            ->where('name_slug', $sector)
+            ->select(['id', 'name', 'color'])
+            ->firstOrFail();
+
         $vehicles = Vehicle::query()
             ->vin()
             ->where('agency_id', $agency->id)
@@ -17,7 +22,7 @@ class AgencyController extends Controller
             ->with([
                 'trip:agency_id,gtfs_trip_id,headsign',
                 'gtfsRoute:agency_id,gtfs_route_id,short_name',
-                'tags:id,label',
+                'tags:id,label,slug',
                 'vinInformationOriginal:vin,make',
             ])
             ->orderBy('force_label')

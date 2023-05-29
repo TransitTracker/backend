@@ -10,11 +10,13 @@ use App\Models\Gtfs\Stop;
 use App\Models\Gtfs\StopTime;
 use App\Models\Gtfs\Trip;
 use Arr;
+use Google\Service\CloudBuild\Build;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\Cache;
 use Spatie\ResponseCache\Facades\ResponseCache;
 use URL;
 
@@ -27,6 +29,9 @@ class Agency extends Model
         'license' => 'array',
         'cities' => 'array',
         'headers' => 'array',
+        'is_active' => 'bool',
+        'refresh_is_active' => 'bool',
+        'is_exo_sector' => 'bool',
     ];
 
     // MySQL can't have default value, this sets headers to an empty array
@@ -107,22 +112,17 @@ class Agency extends Model
         return $this->hasMany(Vehicle::class)->exoWithVin();
     }
 
-    public function exoLabelledVehicles(): HasMany
-    {
-        return $this->hasMany(Vehicle::class)->exoLabelled();
-    }
-
-    public function exoUnlabelledVehicles(): HasMany
-    {
-        return $this->hasMany(Vehicle::class)->exoUnlabelled();
-    }
-
     /*
      * Scopes
      */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', 1);
+    }
+
+    public function scopeExo(Builder $query): Builder
+    {
+        return $query->whereIn('id', Cache::get('exoAgenciesId', []));
     }
 
     /*
@@ -172,6 +172,11 @@ class Agency extends Model
                 ->usingSuffix('fr')
                 ->forUrls('/v2/agencies', "/v2/agencies/{$agency->slug}", "/v2/agencies/{$agency->slug}/vehicles", '/v2/regions')
                 ->forget();
+
+            if ($agency->wasChanged('is_exo_sector')) {
+                // TODO: Verify it works test?
+                Cache::forever('exoAgenciesId', Agency::where('is_exo_sector', true)->select('id')->get()->pluck('id')->all());
+            }
         });
     }
 }

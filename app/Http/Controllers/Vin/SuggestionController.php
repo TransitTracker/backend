@@ -16,46 +16,46 @@ class SuggestionController extends Controller
 {
     public function index()
     {
-        $suggestions = Suggestion::with(['vehicles:agency_id,vehicle_id,force_vehicle_id', 'vehicles.agency:id,color,short_name'])->latest()->limit(15)->get();
 
-        $unlabelledVehicles = Vehicle::query()
-            ->latest()
-            ->whereNull('force_label')
-            ->exoWithVin()
-            ->orderBy('updated_at')
-            ->select(['id', 'agency_id', 'vehicle_id', 'force_vehicle_id', 'gtfs_route_id', 'gtfs_trip_id', 'force_label', 'updated_at'])
-            ->with(['relatedVehicles:id,vehicle_id,agency_id,updated_at,gtfs_trip_id,gtfs_route_id,is_active', 'relatedVehicles.agency:id,color,short_name', 'relatedVehicles.trip:agency_id,gtfs_trip_id,headsign', 'relatedVehicles.gtfsRoute:agency_id,gtfs_route_id,short_name'])
-            ->limit(15)
+        $agencies = Agency::query()
+            ->select(['id', 'short_name', 'color', 'name_slug', 'area_path'])
+            ->withCount('exoWithVin')
+            ->orderBy('exo_order_id')
+            ->exo()
             ->get();
-
-        $sortedUnlabeledVehicles = $unlabelledVehicles->map(function ($table) {
-            $lastVehicle = $table->relatedVehicles->sortByDesc('updated_at')->first();
-            $table->last_seen_at_with_related = $lastVehicle->updated_at;
-            $table->last_trip = $lastVehicle->trip;
-            $table->last_route = $lastVehicle->gtfsRoute;
-            $table->one_is_active = in_array(true, $table->relatedVehicles->pluck('is_active')->all());
-
-            return $table;
-        })->sortByDesc('last_seen_at_with_related');
-
-        $unsortedAgencies = Agency::query()
-            ->where([['id', '>=', 5], ['id', '<=', 16]])
-            ->withCount(['exoLabelledVehicles', 'exoUnlabelledVehicles'])
-            ->get();
-
-        $agencies = $unsortedAgencies->sortByDesc('exo_unlabelled_vehicles_count');
-
-        $allLabelled = $agencies->sum('exo_labelled_vehicles_count');
-        $allUnlabelled = $agencies->sum('exo_unlabelled_vehicles_count');
 
         $operators = Tag::query()
             ->select(['slug', 'label', 'color', 'text_color'])
             ->ofType(TagType::Operator)
-            ->withCount('vehicles')
+            ->withCount('exoVinVehicles')
             ->get()
-            ->sortByDesc('vehicles_count');
+            ->sortByDesc('exo_vin_vehicles_count');
 
-        return view('vin.index', compact('suggestions', 'sortedUnlabeledVehicles', 'agencies', 'allLabelled', 'allUnlabelled', 'operators'));
+        $suggestions = Suggestion::query()
+            ->select(['vin', 'label', 'upvotes', 'created_at'])
+            ->with(['vehicles:agency_id,vehicle_id,force_vehicle_id', 'vehicles.agency:id,color,short_name'])
+            ->latest()
+            ->limit(10)
+            ->get();
+
+        $unlabelledVehicles = Vehicle::query()
+            ->select(['id', 'agency_id', 'vehicle_id', 'force_vehicle_id', 'gtfs_route_id', 'gtfs_trip_id', 'force_label', 'updated_at'])
+            ->whereNull('force_label')
+            ->exoWithVin()
+            ->latest()
+            ->with(['relatedVehicles:id,vehicle_id,agency_id,updated_at,gtfs_trip_id,gtfs_route_id,is_active', 'relatedVehicles.agency:id,color,short_name', 'relatedVehicles.trip:agency_id,gtfs_trip_id,headsign', 'relatedVehicles.gtfsRoute:agency_id,gtfs_route_id,short_name'])
+            ->orderBy('updated_at')
+            ->limit(10)
+            ->get()
+            ->map(function (Vehicle $vehicle) {
+                $vehicle->lastVehicle = $vehicle->relatedVehicles->sortByDesc('updated_at')->first();
+                $vehicle->one_is_active = in_array(true, $vehicle->relatedVehicles->pluck('is_active')->all());
+
+                return $vehicle;
+            })
+            ->sortByDesc('last_seen_at');
+
+        return view('vin.index', compact('agencies', 'operators', 'suggestions', 'unlabelledVehicles'));
     }
 
     public function store(Request $request, string $vin)

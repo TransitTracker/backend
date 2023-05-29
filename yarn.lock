@@ -108,7 +108,7 @@
   dependencies:
     mini-svg-data-uri "^1.2.3"
 
-"@tailwindcss/typography@^0.5.4":
+"@tailwindcss/typography@^0.5.9":
   version "0.5.9"
   resolved "https://registry.yarnpkg.com/@tailwindcss/typography/-/typography-0.5.9.tgz#027e4b0674929daaf7c921c900beee80dbad93e8"
   integrity sha512-t8Sg3DyynFysV9f4JDOVISGsjazNb48AeIYQwcL+Bsq5uf4RYL75C1giZ43KISjeDGBaTN3Kxh7Xj/vRSMJUUg==
@@ -785,10 +785,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-tailwind-m3-colors@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/tailwind-m3-colors/-/tailwind-m3-colors-0.0.4.tgz#d82316b31b110f662ed30ba019bc1c3f4d368c2f"
-  integrity sha512-zzD7B4VA2Uky+Pg0xe4x3TJb8rJrXxwrnoD9yAyh8TeZ+bNHbDbwPHLiWdVufjBdM/gZzs2jB2Esfk+KBKuBxQ==
+tailwind-m3-colors@^0.0.6-git:
+  version "0.0.6-git"
+  resolved "https://registry.yarnpkg.com/tailwind-m3-colors/-/tailwind-m3-colors-0.0.6-git.tgz#a12785d443f22abdc2d4abc8ae57a0060c32f308"
+  integrity sha512-Xs9PGcKf3HSzDbGUJStmNOeIXy2reV/n9WWEzTJZ1QUtWCWgnoxt9YQijVpi6burf+MFwjayTe4BvyGt2ae+CA==
   dependencies:
     "@material/material-color-utilities" "^0.1.2"
 

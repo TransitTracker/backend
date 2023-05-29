@@ -15,6 +15,7 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Form;
@@ -67,7 +68,6 @@ class AgencyResource extends Resource
                         Placeholder::make('static_etag')->label('Latest ETAG')->content(fn (Agency $record): string => $record->static_etag),
                     ])->collapsed(),
                     Section::make('Realtime data')->schema([
-
                         Select::make('realtime_type')->required()->options([
                             'gtfsrt' => 'GTFS-RT',
                             'gtfsrt-debug' => 'GTFS-RT Debug',
@@ -78,6 +78,16 @@ class AgencyResource extends Resource
                         TextInput::make('cron_schedule')->columnSpan(3),
                         KeyValue::make('headers')->columnSpan(3),
                     ])->collapsed()->columns(3),
+                    Section::make('exo Vin settings')
+                        ->schema([
+                            Toggle::make('is_exo_sector')->helperText('Enabling this feature allows an agency to be visible in the VIN directory, receive suggestions, and generate vehicle information from the VIN.')->columnSpan(3),
+                            TextInput::make('name_slug')->columnSpan(2),
+                            TextInput::make('exo_order_id')->numeric(),
+                            Textarea::make('area_path')->columnSpan(3),
+                        ])
+                        ->description('This section is intended for the bus sectors of exo, an agency in Montreal.')
+//                        ->collapsed()
+                        ->columns(3),
                 ]),
                 Group::make()
                     ->schema([

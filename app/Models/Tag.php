@@ -34,6 +34,11 @@ class Tag extends Model
         return $this->morphedByMany(Vehicle::class, 'taggable');
     }
 
+    public function exoVinVehicles(): MorphToMany
+    {
+        return $this->morphedByMany(Vehicle::class, 'taggable')->exoWithVin();
+    }
+
     public function scopeOfType(Builder $query, int $type): Builder
     {
         return $query->where('type', $type);

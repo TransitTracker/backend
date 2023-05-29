@@ -6,37 +6,9 @@ module.exports = {
     "./resources/**/*.js",
     "./resources/**/*.vue",
   ],
-  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        primary: {
-          100: "#eef6fc",
-          500: "#2374ab",
-          700: "#00497b",
-          900: "#00224e",
-        },
-        secondary: {
-          500: "#4dccbd",
-          700: "#009a8d",
-          900: "#006b60",
-        },
-        green: {
-          500: "#059669",
-          700: "#10b981",
-        },
-        orange: {
-          500: "#a16207",
-          700: "#facc15",
-        },
-        grey: {
-          DEFAULT: "#1e1e1e",
-          500: "#757575",
-          600: "#616161",
-          700: "#424242",
-          800: "#212121",
-          900: "#121212",
-        },
         m3: {
           primary: {
             DEFAULT: "#00639A",
@@ -113,6 +85,9 @@ module.exports = {
   plugins: [
     require("@tailwindcss/forms"),
     require("@tailwindcss/typography"),
-    m3("#2374ab", "#009a8d"),
+    m3("#2374ab", "#009a8d", "", {
+      stepTonesBy10: true,
+      inverseSteps: false,
+    }),
   ],
 };

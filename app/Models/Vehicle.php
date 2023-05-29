@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
@@ -139,12 +140,13 @@ class Vehicle extends Model
 
     public function scopeExo(Builder $query): Builder
     {
+        // TODO: Verify if still needed
         return $query->where([['agency_id', '>=', 5], ['agency_id', '<=', 16]]);
     }
 
     public function scopeExoWithVin(Builder $query): Builder
     {
-        return $query->where([['agency_id', '>=', 5], ['agency_id', '<=', 16]])
+        return $query->whereIn('agency_id', Cache::get('exoAgenciesId', []))
             ->whereDate('created_at', '>=', '2021-04-27')
             ->whereRaw('LENGTH(vehicle_id) = ?', [17]);
     }
@@ -153,18 +155,6 @@ class Vehicle extends Model
     {
         return $query->whereDate('created_at', '>=', '2021-04-27')
             ->whereRaw('LENGTH(vehicle_id) = ?', [17]);
-    }
-
-    public function scopeExoLabelled(Builder $query): Builder
-    {
-        return $query->where([['force_label', '<>', null], ['agency_id', '>=', 5], ['agency_id', '<=', 16]])
-            ->whereDate('created_at', '>=', '2021-04-27');
-    }
-
-    public function scopeExoUnlabelled(Builder $query): Builder
-    {
-        return $query->where([['force_label', '=', null], ['agency_id', '>=', 5], ['agency_id', '<=', 16]])
-            ->whereDate('created_at', '>=', '2021-04-27');
     }
 
     public function scopeWithoutTypeOfTags(Builder $query, int $type): Builder

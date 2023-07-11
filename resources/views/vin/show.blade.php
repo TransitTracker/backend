@@ -1,10 +1,10 @@
 <x-layout>
     <div class="container grid grid-cols-1 px-4 mx-auto mt-8 md:grid-cols-3 gap-y-8 gap-x-12">
-        <h1 class="text-2xl font-bold md:mb-4 md:text-4xl text-m3-primary-on-container dark:text-white col-span-full font-heading">
+        <h1 class="text-2xl font-bold md:mb-4 md:text-4xl text-primary-10 dark:text-white col-span-full font-heading">
             VIN {{ $vin }}
         </h1>
         @if ($information->make)
-        <div class="col-span-full font-medium text-[1.375rem] leading-7 text-m3-primary-on-container dark:text-white -mt-6 md:-mt-10 flex items-center gap-x-2" x-data="{ vinInfo: false }">
+        <div class="col-span-full font-medium text-[1.375rem] leading-7 text-primary-10 dark:text-white -mt-6 md:-mt-10 flex items-center gap-x-2" x-data="{ vinInfo: false }">
             <h2>{{ $information->make }} {{ $information->model }} {{ $information->year }}</h2>
 
             <x-icon-button.standard href="#" @click="vinInfo = true">
@@ -73,7 +73,7 @@
                         <x-slot:actions>
                             <div class="flex">
                                 <x-button.text href="#" :hasIcon="false" @click="vinInfo = false" class="ml-auto">
-                                    Close
+                                    {{ __('Close') }}
                                 </x-button.text>
                             </div>
                             </x-slot>
@@ -84,17 +84,17 @@
         <div class="md:col-span-2">
             <ul class="space-y-2">
                 @foreach ($vehicles as $vehicle)
-                <li class="flex-shrink-0 py-2 px-4 mb-2 space-y-2 rounded-2xl bg-m3-surface-variant text-m3-surface-on-variant dark:bg-m3-surface-dark-variant dark:text-m3-surface-dark-on-variant" x-data="{ open: false }">
+                <li class="flex-shrink-0 py-2 px-4 mb-2 space-y-2 rounded-2xl bg-neutralVariant-90 text-neutralVariant-30 dark:bg-neutralVariant-30 dark:text-neutralVariant-80" x-data="{ open: false }">
                     <div class="flex items-center gap-x-2 md:gap-x-4">
                         <b class="mb-0 font-medium leading-6 tracking-wide">
-                            {{ $vehicle->force_label ? $vehicle->force_label : __('Unknown') }}
+                            {{ $vehicle->force_label ?? __('Unknown') }}
                         </b>
                         @foreach ($vehicle->tags as $tag)
                         <a href="{{ route('vin.operator.show', ['tagSlug' => $tag->slug]) }}" class="block rounded py-0.5 px-1 md:px-2 md:py-1 text-sm" title="{{ $tag->description }}" style="background-color: {{ $tag->color }};color: {{ $tag->text_color }}">
                             {{ $tag->label }}</a>
                         @endforeach
                         <div class="grow"></div>
-                        <x-button.text :has-icon="true" href="{{ route('vin.agency.show', ['sector' => $vehicle->agency->slug]) }}" class="text-m3-surface-on-variant dark:text-m3-surface-dark-on-variant">
+                        <x-button.text :has-icon="true" href="{{ route('vin.agency.show', ['sector' => $vehicle->agency->name_slug]) }}" class="text-neutralVariant-30 dark:text-neutralVariant-80">
                             <span class="inline-block w-4 h-4 rounded-full shrink-0" style="background-color: {{ $vehicle->agency->color }}"></span>
                             <span>{{ $vehicle->agency->short_name }}</span>
                         </x-button.text>
@@ -103,13 +103,13 @@
                         <x-gmdi-access-time class="w-4 h-4 fill-current" />
                         <span>
                             {{ __('Last seen') }}
-                            {{ now()->parse($vehicle->updated_at)->diffForHumans() }}
+                            {{ now()->parse($vehicle->timestamp)->diffForHumans() }}
                         </span>
                         @auth()
                         @if($vehicle->force_vehicle_id)
                         <span class="px-0.5"></span>
-                        <x-gmdi-error class="w-4 h-4 fill-m3-error dark:fill-m3-error-dark" />
-                        <span class="text-m3-error dark:text-m3-error-dark">
+                        <span class="bg-error-90 dark:bg-error-30 text-error-10 dark:text-error-90 flex items-center gap-1 py-0.5 px-1">
+                            <x-gmdi-error class="w-4 h-4" />
                             Note to admin - original Vehicle ID:
                             {{ $vehicle->vehicle_id }}
                         </span>
@@ -117,7 +117,7 @@
                         @endauth
                         <div class="flex-grow"></div>
                         @if ($vehicle->active)
-                        <a href="https://transittracker.ca/regions/mtl/map?vehicle={{ $vehicle->id }}" class="bg-m3-primary text-m3-primary-on dark:bg-m3-primary-dark dark:text-m3-primary-dark-on pl-1 pr-2 flex items-center gap-x-1 rounded min-h-[1.5rem]">
+                        <a href="https://transittracker.ca/regions/mtl/map?vehicle={{ $vehicle->id }}" class="bg-primary-40 text-white dark:bg-primary-80 dark:text-primary-20 pl-1 pr-2 flex items-center gap-x-1 rounded min-h-[1.5rem]">
                             <x-gmdi-pin-drop class="w-4 h-4 text-current" />
                             <span>{{ __('Live on') }} <b>Transit Tracker</b></span>
                         </a>
@@ -128,7 +128,7 @@
                         @endif
                     </div>
                     <div class="-mx-4 mt-2" x-show="open" x-collapse>
-                        <dl class="border-t border-m3-surface-on-variant/25 dark:border-m3-surface-dark-on-variant/25 px-4 py-2">
+                        <dl class="border-t border-neutralVariant-30/25 dark:border-neutralVariant-80/25 px-4 py-2">
                             <dt class="text-xs mb-0.5">{{ __('Last trip') }}</dt>
                             <dd>
                                 <b class="font-medium leading-6 tracking-wide">{{ $vehicle->gtfsRoute?->short_name }}
@@ -151,7 +151,7 @@
                                 </div>
                             </dd>
                         </dl>
-                        <dl class="border-t border-m3-surface-on-variant/25 dark:border-m3-surface-dark-on-variant/25 px-4 py-2">
+                        <dl class="border-t border-neutralVariant-30/25 dark:border-neutralVariant-80/25 px-4 py-2">
                             <dt class="text-xs mb-0.5">{{ __('Last position') }}</dt>
                             <dd>
                                 <a href="https://www.openstreetmap.org/?mlat={{ $vehicle->position->latitude }}&mlon={{ $vehicle->position->longitude }}#map=16/{{ $vehicle->position->latitude }}/{{ $vehicle->position->longitude }}&layers=T" target="_blank" class="flex gap-x-1 items-center underline">
@@ -169,28 +169,23 @@
                                 @endif
                             </dd>
                         </dl>
-                        @if (App::currentLocale() === 'en')
                         <small class="text-xs italic px-4">{{ __('As of') }}
-                            {{ $vehicle->updated_at->isoFormat('MMMM Do g') }} {{ __('at') }}
-                            {{ $vehicle->updated_at->isoFormat('hh:mm a') }}</small>
-                        @else
-                        <small class="text-xs italic px-4">{{ __('As of') }}
-                            {{ $vehicle->updated_at->isoFormat('Do MMMM g') }} {{ __('at') }}
-                            {{ $vehicle->updated_at->isoFormat('kk:mm') }}</small>
-                        @endif
+                            {{ now()->parse($vehicle->timestamp)->timezone('America/Toronto')->isoFormat('LL') }} {{ __('at') }}
+                            {{ now()->parse($vehicle->timestamp)->timezone('America/Toronto')->isoFormat('LT') }}
+                        </small>
                     </div>
                 </li>
                 @endforeach
             </ul>
 
             @if ($sessionSuggestion)
-            <div class="flex flex-col items-center justify-center p-4 mt-6 bg-white rounded shadow dark:bg-m3-surface-dark dark:text-m3-surface-dark-on">
+            <div class="flex flex-col items-center justify-center p-4 mt-6 bg-white rounded shadow dark:bg-neutral-6 dark:text-neutral-90">
                 <h2 class="text-xl font-medium leading-8 tracking-wide">{{ __('Thanks for your suggestion!') }}
                 </h2>
                 <x-gmdi-check class="w-12 h-12 text-green-700 fill-current" />
             </div>
             @else
-            <form action="" method="POST" class="p-4 mt-6 border rounded-2xl text-m3-surface-on dark:bg-m3-surface-dark dark:text-m3-surface-dark-on border-m3-background-outline dark:border-m3-background-dark-outline" id="form-suggest">
+            <form action="" method="POST" class="p-4 mt-6 border rounded-2xl text-neutral-10 dark:bg-neutral-6 dark:text-neutral-90 border-neutralVariant-50 dark:border-neutralVariant-60" id="form-suggest">
                 @csrf
 
                 @env('local')
@@ -228,7 +223,7 @@
                 @enderror
 
                 <div class="flex">
-                    <button type="submit" class="relative flex items-center h-10 px-6 text-sm font-medium transition-colors rounded-full bg-m3-primary text-m3-primary-on dark:bg-m3-primary-dark dark:text-m3-primary-dark-on hover:bg-opacity-85 focus:bg-opacity-75">
+                    <button type="submit" class="relative flex items-center h-10 px-6 text-sm font-medium transition-colors rounded-full bg-primary-40 text-white dark:bg-primary-80 dark:text-primary-20 hover:bg-opacity-85 focus:bg-opacity-75">
                         {{ __('Send') }}
                         <x-gmdi-send class="w-5 h-5 ml-2" />
                     </button>
@@ -237,7 +232,7 @@
             </form>
             @endif
         </div>
-        <div class="py-4 mt-1 rounded-2xl bg-m3-surface-variant text-m3-surface-on-variant dark:bg-m3-surface-dark-variant dark:text-m3-surface-dark-on-variant">
+        <div class="py-4 mt-1 rounded-2xl bg-neutralVariant-90 text-neutralVariant-30 dark:bg-neutralVariant-30 dark:text-neutralVariant-80">
             <h2 class="text-sm font-medium leading-5 tracking-[0.007rem] px-4">{{ __('Submitted suggestions') }}
             </h2>
             <ul class="font-medium">
@@ -263,7 +258,7 @@
                             </div>
                             @endif
                             @if ($suggestion->is_rejected)
-                            <div class="py-0.5 px-1 rounded bg-m3-error text-m3-error-on dark:bg-m3-error-dark dark:text-m3-error-dark-on text-xs inline-block">
+                            <div class="py-0.5 px-1 rounded bg-error-40 text-white dark:bg-error-80 dark:text-error-20 text-xs inline-block">
                                 {{ __('Rejected') }}
                             </div>
                             @endif
@@ -290,7 +285,7 @@
                                 <x-gmdi-check class="w-6 h-6 text-green-700 fill-current group-disabled:text-gray-300" />
                             </button>
                             <div class="absolute inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50" x-show="showModal">
-                                <div class="bg-white dark:bg-m3-surface-dark dark:text-m3-surface-dark-on rounded shadow-xl w-[280px]" x-on:click.away="showModal = false">
+                                <div class="bg-white dark:bg-neutral-6 dark:text-neutral-90 rounded shadow-xl w-[280px]" x-on:click.away="showModal = false">
                                     <div class="flex items-center h-16 pl-6 pr-2 text-xl font-medium tracking-wide shadow">
                                         Apply new VIN to</div>
                                     <div class="pl-6 pr-2">
@@ -322,7 +317,7 @@
         @auth
         <div class="col-span-full flex gap-x-2">
             @foreach ($vehicles as $vehicle)
-            <a href="{{ route('filament.resources.vehicles.edit', ['record' => $vehicle]) }}" target="_blank" class="relative flex items-center gap-2 h-10 pl-6 pr-4 text-sm font-medium transition-colors rounded-full bg-m3-secondary-container text-m3-secondary-on-container dark:bg-m3-secondary-dark-container dark:text-m3-secondary-dark-on-container hover:bg-opacity-80 hover:bg-opacity-85 focus:bg-opacity-75">
+            <a href="{{ route('filament.resources.vehicles.edit', ['record' => $vehicle]) }}" class="relative flex items-center gap-2 h-10 pl-6 pr-4 text-sm font-medium transition-colors rounded-full bg-secondary-90 text-secondary-10 dark:bg-secondary-30 dark:text-secondary-90 hover:bg-opacity-80 hover:bg-opacity-85 focus:bg-opacity-75">
                 {{ $vehicle->agency->short_name }} in admin
                 <x-gmdi-open-in-new class="w-[1.125rem] h-[1.125rem]" />
             </a>

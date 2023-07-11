@@ -53,7 +53,7 @@
                     </td>
                     <td class="px-4 text-left">
                         <a href="{{ route('vin.show', ['vin' => $vehicle->ref]) }}">
-                            {{ $vehicle->updated_at->diffForHumans() }}
+                            {{ now()->parse($vehicle->timestamp)->diffForHumans() }}
                         </a>
                     </td>
                 </tr>

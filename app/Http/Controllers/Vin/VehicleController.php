@@ -16,7 +16,7 @@ class VehicleController extends Controller
             ->where(['vehicle_id' => $vin, 'force_vehicle_id' => null])
             ->orWhere('force_vehicle_id', $vin)
             ->exo()
-            ->with(['agency:id,slug,short_name,color,text_color', 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name', 'trip:agency_id,gtfs_trip_id,headsign,short_name', 'tags:id,label,description,color,text_color,slug', 'vinInformationOriginal'])
+            ->with(['agency:id,slug,short_name,color,text_color,name_slug', 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name', 'trip:agency_id,gtfs_trip_id,headsign,short_name', 'tags:id,label,description,color,text_color,slug', 'vinInformationOriginal'])
             ->orderBy('updated_at', 'desc')
             ->get();
 

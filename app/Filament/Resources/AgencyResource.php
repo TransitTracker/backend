@@ -86,7 +86,7 @@ class AgencyResource extends Resource
                             Textarea::make('area_path')->columnSpan(3),
                         ])
                         ->description('This section is intended for the bus sectors of exo, an agency in Montreal.')
-//                        ->collapsed()
+                        ->collapsed()
                         ->columns(3),
                 ]),
                 Group::make()

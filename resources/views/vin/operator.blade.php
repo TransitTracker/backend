@@ -1,12 +1,16 @@
 <x-layout>
-    <div class="container grid grid-cols-6 px-4 mx-auto mt-8 md:grid-cols-12 gap-y-8 gap-x-12">
-        <div class="flex items-center col-span-full md:mb-4">
+    <div class="container grid grid-cols-6 px-4 mx-auto mt-8 md:grid-cols-12 gap-y-8 gap-x-12 relative">
+        <div class="flex items-center col-span-full md:mb-4" id="heading">
             <h1 class="text-2xl font-bold md:text-4xl font-heading p-4 rounded-lg" style="background-color: {{ $tag->color }};color: {{ $tag->text_color }};">{{ $tag->label }}</h1>
         </div>
 
+        <a href="#top" class="bottom-4 right-4 h-10 w-10 flex items-center justify-center bg-primary-90 dark:bg-primary-30 fixed z-20 rounded-xl shadow-3">
+            <x-gmdi-arrow-upward class="w-6 h-6 text-primary-10 dark:text-primary-90 z-10" />
+        </a>
+
         @foreach($agencies as $agency => $vehicles)
-        <div class="col-span-full" x-data="{ expanded: false }">
-            <div class="px-4 py-2 rounded flex items-center justify-between" :class="expanded ? 'rounded-b-none' : ''" style="background-color: {{ json_decode($agency)->color }}; color: {{ json_decode($agency)->text_color }};" @click="expanded =! expanded">
+        <div class="col-span-full relative" x-data="{ expanded: false }">
+            <div class="px-4 py-2 rounded flex items-center justify-between sticky top-16" :class="expanded ? 'rounded-b-none' : ''" style="background-color: {{ json_decode($agency)->color }}; color: {{ json_decode($agency)->text_color }};" @click="expanded =! expanded">
                 <div>
                     <h2 class="font-bold text-lg font-heading">{{ json_decode($agency)->name }}</h2>
                     <p>{{ $vehicles->count() }} {{ __('buses') }}</p>
@@ -39,7 +43,7 @@
                                 @if ($vehicle->force_label)
                                 {{ $vehicle->force_label }}
                                 @else
-                                <span class="inline-flex items-center text-sm italic text-gray-500 dark:bg-m3-surface-dark-variant dark:text-m3-surface-dark-on-variant gap-x-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
+                                <span class="inline-flex items-center text-sm italic text-gray-500 dark:bg-neutralVariant-30 dark:text-neutralVariant-80 gap-x-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
                                     {{ __('Contribute') }}
                                     <x-gmdi-edit-note class="w-4 h-4" />
                                 </span>
@@ -56,7 +60,7 @@
                         </td>
                         <td class="px-4 text-left">
                             <a href="{{ route('vin.show', ['vin' => $vehicle->ref]) }}">
-                                {{ $vehicle->updated_at->diffForHumans() }}
+                                {{ now()->parse($vehicle->timestamp)->diffForHumans() }}
                             </a>
                         </td>
                     </tr>

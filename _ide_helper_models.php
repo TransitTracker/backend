@@ -19,9 +19,6 @@ namespace App\Models{
  * @property string $color
  * @property string $vehicles_type
  * @property string $slug
- * @property bool $is_exo_sector
- * @property string|null $area_path
- * @property string|null $name_slug
  * @property int|null $exo_order_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -39,6 +36,9 @@ namespace App\Models{
  * @property array|null $cities
  * @property string|null $static_etag
  * @property array|null $headers
+ * @property string|null $name_slug
+ * @property string|null $area_path
+ * @property bool $is_exo_sector
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\NotificationUser> $activeNotificationUsers
  * @property-read int|null $active_notification_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $exoWithVin

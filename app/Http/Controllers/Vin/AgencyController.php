@@ -18,7 +18,7 @@ class AgencyController extends Controller
         $vehicles = Vehicle::query()
             ->vin()
             ->where('agency_id', $agency->id)
-            ->select(['id', 'agency_id', 'vehicle_id', 'force_vehicle_id', 'label', 'force_label', 'updated_at', 'gtfs_trip_id', 'gtfs_route_id'])
+            ->select(['id', 'agency_id', 'vehicle_id', 'force_vehicle_id', 'label', 'force_label', 'timestamp', 'gtfs_trip_id', 'gtfs_route_id'])
             ->with([
                 'trip:agency_id,gtfs_trip_id,headsign',
                 'gtfsRoute:agency_id,gtfs_route_id,short_name',

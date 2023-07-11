@@ -12,13 +12,11 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @cookieconsentscripts
-    @livewireStyles
-    @livewireScrips
     @stack('scripts')
 </head>
 
-<body class="relative min-h-screen font-sans bg-primary-95 dark:bg-neutral-6 text-neutral-10 dark:text-neutral-90">
-    <nav class="w-full bg-primary-40 z-40 dark:bg-neutral-12 text-white drop-shadow fixed top-0  " x-data="{ navShow: false }">
+<body class="relative min-h-screen font-sans bg-primary-95 dark:bg-neutral-6 text-neutral-10 dark:text-neutral-90 flex flex-col scroll-smooth">
+    <nav class="w-full bg-primary-40 z-40 dark:bg-neutral-12 text-white fixed top-0  shadow-2" x-data="{ navShow: false }">
         <div class="container flex items-center md:hidden h-16 mx-auto px-4 gap-4">
 
             <button @click="navShow = !navShow"><x-gmdi-menu class="h-6 w-6 transition-transform" x-bind:class="navShow ? 'rotate-90' : ''" /></button>
@@ -97,9 +95,9 @@
         </div>
     </div>
     @endif
-    <div class="pb-24 pt-16 ">{{ $slot }}</div>
+    <div class="pb-24 pt-16 flex-grow">{{ $slot }}</div>
 
-    <footer class="w-full dark:text-primary-90 bg-primary-90 text-primary-10 dark:bg-primary-30 relative overflow-hidden">
+    <footer class="w-full dark:text-primary-90 bg-primary-90 text-primary-10 dark:bg-primary-30 relative overflow-hidden z-30">
         <div class="container mx-auto p-4">
             <div class="flex items-center font-heading font-bold gap-2">
                 <svg viewBox="0 0 295.01 403.72" xmlns="http://www.w3.org/2000/svg" class="h-6 text-primary-40 dark:text-white fill-current">
@@ -149,12 +147,6 @@
         </svg>-->
 
     </footer>
-
-    <!-- Alpine Plugins -->
-    <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-
-    <!-- Alpine Core -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     @production
     <script async defer data-website-id="4e8482d0-2870-42ab-92d3-02854e972369" data-cache="true" src="https://stats.felixinx.me/umami.js"></script>

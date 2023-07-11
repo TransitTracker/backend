@@ -30,6 +30,7 @@
     "laravel/sanctum": "^3.2",
     "laravel/slack-notification-channel": "^2.1",
     "league/csv": "^9.6",
+    "livewire/livewire": "^2.12",
     "masbug/flysystem-google-drive-ext": "^2.2",
     "matanyadaev/laravel-eloquent-spatial": "^3.1",
     "ohdearapp/ohdear-php-sdk": "^3.1",
@@ -44,7 +45,8 @@
     "spatie/laravel-translatable": "^6.0",
     "spatie/security-advisories-health-check": "^1.0",
     "symfony/psr-http-message-bridge": "^2.1",
-    "usmanhalalit/laracsv": "^2.1"
+    "usmanhalalit/laracsv": "^2.1",
+    "whitecube/laravel-cookie-consent": "^1.0"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.5",

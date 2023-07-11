@@ -131,7 +131,7 @@ class Agency extends Model
     public function getRandomCitiesAttribute(): array
     {
         $cities = $this->cities;
-        if (! $cities) {
+        if (!$cities) {
             return [];
         }
 
@@ -176,6 +176,8 @@ class Agency extends Model
             if ($agency->wasChanged('is_exo_sector')) {
                 // TODO: Verify it works test?
                 Cache::forever('exoAgenciesId', Agency::where('is_exo_sector', true)->select('id')->get()->pluck('id')->all());
+                Cache::forget('exoSectors');
+                Cache::forget('exoOperators');
             }
         });
     }

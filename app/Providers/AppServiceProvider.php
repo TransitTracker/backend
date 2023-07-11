@@ -20,6 +20,7 @@ use Spatie\Health\Checks\Checks\RedisCheck;
 use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
 use Spatie\Health\Facades\Health;
 use Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck;
+use Whitecube\LaravelCookieConsent\Facades\Cookies;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -69,5 +70,9 @@ class AppServiceProvider extends ServiceProvider
                     ->group('Special'),
             ]);
         });
+
+        Cookies::essentials()
+            ->session()
+            ->csrf();
     }
 }

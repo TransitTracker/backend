@@ -220,8 +220,8 @@ class Vehicle extends Model
     protected static function booted(): void
     {
         static::creating(function (self $vehicle) {
-            if (Str::startsWith($event->vehicle->vehicle_id, 'zenbus:Vehicle:')) {
-                $event->vehicle->force_label = Str::of($event->vehicle->vehicle_id)->remove('enbus:Vehicle')->remove(':LOC')->value;
+            if (Str::startsWith($vehicle->vehicle->vehicle_id, 'zenbus:Vehicle:')) {
+                $vehicle->vehicle->force_label = Str::of($vehicle->vehicle->vehicle_id)->remove('enbus:Vehicle')->remove(':LOC')->value;
             }
         });
 

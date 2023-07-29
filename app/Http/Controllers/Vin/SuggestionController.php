@@ -39,21 +39,20 @@ class SuggestionController extends Controller
             ->get();
 
         $unlabelledVehicles = Vehicle::query()
-            ->select(['id', 'agency_id', 'vehicle_id', 'force_vehicle_id', 'gtfs_route_id', 'gtfs_trip_id', 'force_label', 'updated_at'])
+            ->select(['id', 'agency_id', 'vehicle_id', 'force_vehicle_id', 'gtfs_route_id', 'gtfs_trip_id', 'force_label', 'timestamp', 'updated_at'])
             ->whereNull('force_label')
             ->exoWithVin()
             ->latest()
-            ->with(['relatedVehicles:id,vehicle_id,agency_id,updated_at,gtfs_trip_id,gtfs_route_id,is_active', 'relatedVehicles.agency:id,color,short_name', 'relatedVehicles.trip:agency_id,gtfs_trip_id,headsign', 'relatedVehicles.gtfsRoute:agency_id,gtfs_route_id,short_name'])
-            ->orderBy('updated_at')
+            ->with(['relatedVehicles:id,vehicle_id,agency_id,updated_at,gtfs_trip_id,gtfs_route_id,is_active,timestamp', 'relatedVehicles.agency:id,color,short_name', 'relatedVehicles.trip:agency_id,gtfs_trip_id,headsign', 'relatedVehicles.gtfsRoute:agency_id,gtfs_route_id,short_name'])
+            ->orderBy('timestamp')
             ->limit(10)
             ->get()
             ->map(function (Vehicle $vehicle) {
-                $vehicle->lastVehicle = $vehicle->relatedVehicles->sortByDesc('updated_at')->first();
+                $vehicle->lastVehicle = $vehicle->relatedVehicles->sortByDesc('timestamp')->first();
                 $vehicle->one_is_active = in_array(true, $vehicle->relatedVehicles->pluck('is_active')->all());
 
                 return $vehicle;
-            })
-            ->sortByDesc('last_seen_at');
+            });
 
         return view('vin.index', compact('agencies', 'operators', 'suggestions', 'unlabelledVehicles'));
     }

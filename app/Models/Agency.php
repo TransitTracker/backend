@@ -10,7 +10,6 @@ use App\Models\Gtfs\Stop;
 use App\Models\Gtfs\StopTime;
 use App\Models\Gtfs\Trip;
 use Arr;
-use Google\Service\CloudBuild\Build;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -131,7 +130,7 @@ class Agency extends Model
     public function getRandomCitiesAttribute(): array
     {
         $cities = $this->cities;
-        if (!$cities) {
+        if (! $cities) {
             return [];
         }
 

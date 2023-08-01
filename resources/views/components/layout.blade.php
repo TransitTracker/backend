@@ -47,7 +47,12 @@
                     <li>
                         <a href="{{ route('vin.agency.show', ['sector' => $sector->name_slug]) }}" class="flex gap-2 items-center px-4 py-3 hover:bg-neutral-90 hover:dark:bg-neutral-22">
                             <span class="w-4 h-4 flex-shrink-0 rounded-full" style="background-color: {{ $sector->color }}"></span>
-                            <span class="font-bold font-heading">{{ $sector->short_name }}</span>
+                            <span class="font-bold font-heading">
+                                @if($sector->is_archived)
+                                <small class="italic">{{ __('Archived') }}</small>
+                                @endif
+                                {{ $sector->short_name }}
+                            </span>
                             <span class="grow px-1"></span>
                             <small>{{ $sector->exo_with_vin_count }}</small>
                         </a>

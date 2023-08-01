@@ -1,9 +1,21 @@
 <x-layout>
     <div class="container grid grid-cols-6 px-4 mx-auto mt-8 md:grid-cols-12 gap-y-8 gap-x-12">
         <div class="flex items-center col-span-full gap-x-2">
+
+            @if($agency->is_archived)
+            <div class="px-2 py-1 rounded font-bold text-white" style="background-color: {{ $agency->color }};">{{ __('Archived') }}</div>
+            @else
             <span class="w-8 h-8 rounded-full" style="background-color: {{ $agency->color }};"></span>
+            @endif
             <h1 class="text-2xl font-bold md:text-4xl text-primary-700 dark:text-white font-heading">{{ $agency->name }}</h1>
         </div>
+
+        @if($agency->is_archived)
+        <div class="col-span-full flex items-center gap-2">
+
+            {{ __('This sector is not active anymore, it has been merged into a new one.') }}
+        </div>
+        @endif
 
         <table class="overflow-x-auto whitespace-nowrap border rounded bg-neutral-96 dark:bg-neutral-10 border-neutralVariant-50 text-neutral-10 dark:text-neutral-90 dark:border-neutralVariant-60 border-collapse block col-span-full">
             <thead>

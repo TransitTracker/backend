@@ -96,7 +96,14 @@
                         <div class="grow"></div>
                         <x-button.text :has-icon="true" href="{{ route('vin.agency.show', ['sector' => $vehicle->agency->name_slug]) }}" class="text-neutralVariant-30 dark:text-neutralVariant-80">
                             <span class="inline-block w-4 h-4 rounded-full shrink-0" style="background-color: {{ $vehicle->agency->color }}"></span>
+                            @if($vehicle->agency->is_archived)
+                            <div>
+                                <small class="text-[0.69rem] font-medium tracking-wide">{{ __('Archived') }}</small>
+                                <p>{{ $vehicle->agency->short_name }}</p>
+                            </div>
+                            @else
                             <span>{{ $vehicle->agency->short_name }}</span>
+                            @endif
                         </x-button.text>
                     </div>
                     <div class="flex items-center gap-x-1 text-xs">

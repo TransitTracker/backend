@@ -16,9 +16,9 @@ class SuggestionController extends Controller
 {
     public function index()
     {
-
         $agencies = Agency::query()
             ->select(['id', 'short_name', 'color', 'name_slug', 'area_path'])
+            ->where('is_archived', false)
             ->withCount('exoWithVin')
             ->orderBy('exo_order_id')
             ->exo()

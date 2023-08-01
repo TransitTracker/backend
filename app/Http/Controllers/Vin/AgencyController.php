@@ -12,7 +12,7 @@ class AgencyController extends Controller
     {
         $agency = Agency::query()
             ->where('name_slug', $sector)
-            ->select(['id', 'name', 'color'])
+            ->select(['id', 'name', 'color', 'is_archived'])
             ->firstOrFail();
 
         $vehicles = Vehicle::query()

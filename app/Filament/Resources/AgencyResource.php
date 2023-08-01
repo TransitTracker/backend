@@ -95,6 +95,8 @@ class AgencyResource extends Resource
                             ->schema([
                                 Toggle::make('is_active')
                                     ->required(),
+                                Toggle::make('is_archived')
+                                    ->required(),
                                 Toggle::make('refresh_is_active')
                                     ->required(),
                             ]),

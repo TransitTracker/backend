@@ -199,7 +199,7 @@ class Vehicle extends Model
 
     public function isExoVin(): bool
     {
-        if (($this->agency_id < 5) || ($this->agency_id > 16)) {
+        if (!in_array($this->agency_id, Cache::get('exoAgenciesId', []))) {
             return false;
         }
 

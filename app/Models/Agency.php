@@ -174,7 +174,7 @@ class Agency extends Model
 
             if ($agency->wasChanged('is_exo_sector')) {
                 // TODO: Verify it works test?
-                Cache::forever('exoAgenciesId', Agency::where('is_exo_sector', true)->select('id')->get()->pluck('id')->all());
+                Cache::forget('exoAgenciesId');
                 Cache::forget('exoSectors');
                 Cache::forget('exoOperators');
             }

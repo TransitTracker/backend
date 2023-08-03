@@ -19,6 +19,9 @@ namespace App\Models{
  * @property string $color
  * @property string $vehicles_type
  * @property string $slug
+ * @property bool $is_exo_sector
+ * @property string|null $area_path
+ * @property string|null $name_slug
  * @property int|null $exo_order_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -26,6 +29,7 @@ namespace App\Models{
  * @property string $text_color
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property bool $is_active
+ * @property int $is_archived
  * @property string|null $static_gtfs_url
  * @property string|null $realtime_url
  * @property string|null $realtime_type
@@ -36,9 +40,6 @@ namespace App\Models{
  * @property array|null $cities
  * @property string|null $static_etag
  * @property array|null $headers
- * @property string|null $name_slug
- * @property string|null $area_path
- * @property bool $is_exo_sector
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\NotificationUser> $activeNotificationUsers
  * @property-read int|null $active_notification_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $exoWithVin
@@ -79,6 +80,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereHeaders($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Agency whereIsArchived($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereIsExoSector($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereLicense($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereName($value)
@@ -134,6 +136,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Alert whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Alert whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Alert whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Alert whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder|Alert whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder|Alert whereSubtitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Alert whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Alert whereUpdatedAt($value)
@@ -281,6 +285,7 @@ namespace App\Models\Gtfs{
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Shape whereTouches(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Shape whereUpdatedAt($value)
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Shape whereWithin(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Shape withCentroid(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, string $alias = 'centroid')
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Shape withDistance(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $alias = 'distance')
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Shape withDistanceSphere(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $alias = 'distance')
  */
@@ -328,6 +333,7 @@ namespace App\Models\Gtfs{
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereTouches(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereUpdatedAt($value)
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop whereWithin(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn)
+ * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop withCentroid(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, string $alias = 'centroid')
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop withDistance(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $alias = 'distance')
  * @method static \MatanYadaev\EloquentSpatial\SpatialBuilder|Stop withDistanceSphere(\Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $column, \Illuminate\Contracts\Database\Query\Expression|\MatanYadaev\EloquentSpatial\Objects\Geometry|string $geometryOrColumn, string $alias = 'distance')
  */
@@ -357,6 +363,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereInternalTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Link whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder|Link whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereUpdatedAt($value)
  */
@@ -442,6 +450,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereInfoBody($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereInfoTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Region whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder|Region whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapBox($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapCenter($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereMapZoom($value)
@@ -513,6 +523,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereIcon($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereShortLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereShowOnMap($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereSlug($value)

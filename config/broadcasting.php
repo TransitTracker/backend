@@ -32,9 +32,9 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
+            'key' => env('SOKETI_DEFAULT_APP_KEY'),
+            'secret' => env('SOKETI_DEFAULT_APP_SECRET'),
+            'app_id' => env('SOKETI_DEFAULT_APP_ID'),
             'options' => [
                 'encrypted' => true,
                 'host' => '127.0.0.1',

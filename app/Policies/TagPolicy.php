@@ -17,11 +17,7 @@ class TagPolicy
      */
     public function viewAny(User $user)
     {
-        if (! $user->isAdmin()) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -31,7 +27,7 @@ class TagPolicy
      */
     public function view(User $user, Tag $tag)
     {
-        //
+        return false;
     }
 
     /**
@@ -41,11 +37,7 @@ class TagPolicy
      */
     public function create(User $user)
     {
-        if (! $user->isAdmin()) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -55,11 +47,7 @@ class TagPolicy
      */
     public function update(User $user, Tag $tag)
     {
-        if (! $user->isAdmin()) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -69,11 +57,7 @@ class TagPolicy
      */
     public function delete(User $user, Tag $tag)
     {
-        if (! $user->isAdmin()) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -83,7 +67,7 @@ class TagPolicy
      */
     public function restore(User $user, Tag $tag)
     {
-        //
+        return false;
     }
 
     /**
@@ -93,6 +77,6 @@ class TagPolicy
      */
     public function forceDelete(User $user, Tag $tag)
     {
-        //
+        return false;
     }
 }

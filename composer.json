@@ -19,6 +19,7 @@
     "codeat3/blade-google-material-design-icons": "^1.2",
     "doctrine/dbal": "^3.2",
     "dragonmantank/cron-expression": "^3.1",
+    "eneadm/ladder": "^1.0",
     "felixinx/gtfs-realtime-protobuf-php": "@dev",
     "filament/filament": "^2.0",
     "filament/spatie-laravel-translatable-plugin": "^2.0",

@@ -6,10 +6,11 @@ use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Ladder\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     protected $fillable = [
         'name', 'email', 'password',
@@ -33,6 +34,7 @@ class User extends Authenticatable implements FilamentUser
         return true;
     }
 
+    // Super admin
     public function isAdmin(): bool
     {
         return $this->email === config('transittracker.admin_email');

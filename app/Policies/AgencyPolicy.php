@@ -17,11 +17,7 @@ class AgencyPolicy
      */
     public function viewAny(User $user)
     {
-        if (! $user->isAdmin()) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -31,7 +27,7 @@ class AgencyPolicy
      */
     public function view(User $user, Agency $agency)
     {
-        //
+        return false;
     }
 
     /**
@@ -41,11 +37,7 @@ class AgencyPolicy
      */
     public function create(User $user)
     {
-        if (! $user->isAdmin()) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -55,11 +47,7 @@ class AgencyPolicy
      */
     public function update(User $user, Agency $agency)
     {
-        if (! $user->isAdmin()) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -69,11 +57,7 @@ class AgencyPolicy
      */
     public function delete(User $user, Agency $agency)
     {
-        if (! $user->isAdmin()) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -83,7 +67,7 @@ class AgencyPolicy
      */
     public function restore(User $user, Agency $agency)
     {
-        //
+        return false;
     }
 
     /**
@@ -93,6 +77,6 @@ class AgencyPolicy
      */
     public function forceDelete(User $user, Agency $agency)
     {
-        //
+        return false;
     }
 }

@@ -38,11 +38,7 @@ class VehiclePolicy
      */
     public function create(User $user)
     {
-        if (! $user->isAdmin()) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -52,18 +48,15 @@ class VehiclePolicy
      */
     public function update(User $user, Vehicle $vehicle)
     {
-        // Authorize if Zenbus
-        if (! $user->isAdmin() && Str::startsWith($vehicle->vehicle, 'zenbus:Vehicle:')) {
+        if (Str::startsWith($vehicle->vehicle_id, 'zenbus:Vehicle:') && $user->hasPermission('zenbus:edit')) {
             return true;
         }
 
-        // Then, refuse if not exo Vin
-        if (! $user->isAdmin() && ! $vehicle->isExoVin()) {
-            return false;
+        if ($vehicle->isExoVin() && $user->hasPermission('vin:edit')) {
+            return true;
         }
 
-        // Accept everything else (at this point it's exo Vin or Admin)
-        return true;
+        return false;
     }
 
     /**
@@ -73,11 +66,7 @@ class VehiclePolicy
      */
     public function delete(User $user, Vehicle $vehicle)
     {
-        if (! $user->isAdmin()) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -87,7 +76,7 @@ class VehiclePolicy
      */
     public function restore(User $user, Vehicle $vehicle)
     {
-        //
+        return false;
     }
 
     /**
@@ -97,6 +86,6 @@ class VehiclePolicy
      */
     public function forceDelete(User $user, Vehicle $vehicle)
     {
-        //
+        return false;
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "489f0ec460d1d57481fa96942397d3d0",
+    "content-hash": "f9840467c62df13b3b7a4d1128255b02",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -1755,6 +1755,66 @@
                 }
             ],
             "time": "2023-01-14T14:17:03+00:00"
+        },
+        {
+            "name": "eneadm/ladder",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eneadm/ladder.git",
+                "reference": "722e255fb50c2536f66e179730777d0f0763e2db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eneadm/ladder/zipball/722e255fb50c2536f66e179730777d0f0763e2db",
+                "reference": "722e255fb50c2536f66e179730777d0f0763e2db",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/console": "^10.0",
+                "illuminate/support": "^10.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "nunomaduro/collision": "^6.4",
+                "orchestra/testbench": "^8.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ladder\\LadderServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ladder\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Enea Dhiamandi",
+                    "email": "enea@dhiamandi.com"
+                }
+            ],
+            "description": "Feather light permissions for Laravel.",
+            "keywords": [
+                "permissions",
+                "roles"
+            ],
+            "support": {
+                "issues": "https://github.com/eneadm/ladder/issues",
+                "source": "https://github.com/eneadm/ladder"
+            },
+            "time": "2023-08-23T14:55:33+00:00"
         },
         {
             "name": "evenement/evenement",

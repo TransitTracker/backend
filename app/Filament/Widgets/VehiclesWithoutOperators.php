@@ -42,12 +42,12 @@ class VehiclesWithoutOperators extends BaseWidget
     {
         return [
             BulkAction::make('attachTag')
-            ->action(function (Collection $records, array $data): void {
-                foreach ($records as $record) {
-                    $record->tags()->attach($data['tagId']);
-                    $record->saveQuietly();
-                }
-            })
+                ->action(function (Collection $records, array $data): void {
+                    foreach ($records as $record) {
+                        $record->tags()->attach($data['tagId']);
+                        $record->saveQuietly();
+                    }
+                })
                 ->form([
                     Select::make('tagId')->options(Tag::pluck('label', 'id'))->label('Tag')->required(),
                 ])->icon('gmdi-label'),

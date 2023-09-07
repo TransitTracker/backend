@@ -126,7 +126,7 @@ class NextbusJsonHandler implements ShouldQueue
 
     // TODO: Improve because trip_id should not be visible to the user as it is just a random one
     // Only possible with STL since it's simple, one route direction = one shape
-    private function retrieveTrip(string $routeTag): string|null
+    private function retrieveTrip(string $routeTag): ?string
     {
         if ($this->agency->slug !== 'stl') {
             return null;

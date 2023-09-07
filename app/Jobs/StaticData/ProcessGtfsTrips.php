@@ -52,7 +52,7 @@ class ProcessGtfsTrips implements ShouldQueue
         $tripsReader = null;
     }
 
-    private function getField(array $trip, string $field): null|string
+    private function getField(array $trip, string $field): ?string
     {
         if (! array_key_exists($field, $trip)) {
             return null;

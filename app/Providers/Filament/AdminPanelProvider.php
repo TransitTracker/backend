@@ -61,7 +61,7 @@ class AdminPanelProvider extends PanelProvider
                 SpatieLaravelTranslatablePlugin::make()
                     ->defaultLocales(['en', 'fr']),
                 EnvironmentIndicatorPlugin::make()
-                    ->visible(fn () => auth()->user()?->isAdmin())
+                    ->visible(true)
                     ->color(fn () => match (app()->environment()) {
                         'production' => Color::Red,
                         'local' => Color::Blue,

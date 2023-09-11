@@ -20,6 +20,8 @@ class VehiclesWithoutOperators extends BaseWidget
 {
     protected int|string|array $columnSpan = 'full';
 
+    protected static ?int $sort = 2;
+
     protected function getTableQuery(): Builder
     {
         return Vehicle::query()
@@ -58,7 +60,7 @@ class VehiclesWithoutOperators extends BaseWidget
     {
         return [
             Action::make('Edit')
-                ->url(fn (Vehicle $record): string => VehicleResource::getUrl('edit', $record))
+                ->url(fn (Vehicle $record): string => VehicleResource::getUrl('edit', ['record' => $record]))
                 ->icon('heroicon-s-pencil'),
             Action::make('attachTag')
                 ->form([
@@ -75,7 +77,7 @@ class VehiclesWithoutOperators extends BaseWidget
                         ->actions([
                             NotificationsAction::make('view')
                                 ->button()
-                                ->url(VehicleResource::getUrl('edit', $record), shouldOpenInNewTab: true),
+                                ->url(VehicleResource::getUrl('edit', ['record' => $record]), shouldOpenInNewTab: true),
                         ])
                         ->send();
                 }),

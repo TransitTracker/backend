@@ -16,7 +16,7 @@ class EditAgency extends EditRecord
 {
     protected static string $resource = AgencyResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             ActionGroup::make([
@@ -69,7 +69,7 @@ class EditAgency extends EditRecord
                             ->success()
                             ->send();
                     }),
-                Action::make('downloadBusIcon')->action('downloadBus')->color('secondary'),
+                Action::make('downloadBusIcon')->action('downloadBus')->color('gray'),
             ]),
         ];
     }
@@ -77,7 +77,7 @@ class EditAgency extends EditRecord
     public function downloadBus(): StreamedResponse
     {
         return response()->streamDownload(function () {
-            echo "<svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 9.2604162 9.2604169' version='1.1' id='svg6019'>
+            echo "<svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 9.2604162 9.2604169' id='svg6019'>
                 <metadata id='metadata6016' />
                 <g id='layer1' transform='translate(0,-287.73957)'>
                     <path

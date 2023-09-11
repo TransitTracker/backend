@@ -17,12 +17,12 @@ class EditVehicle extends EditRecord
         return $this->previousUrl ?? VehicleResource::getUrl();
     }
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Action::make('openInVin')
                 ->url(route('vin.show', $this->record->ref))
-                ->color('secondary')
+                ->color('gray')
                 ->label('Open in exo VIN')
                 ->visible($this->record->isExoVin())
                 ->openUrlInNewTab(),

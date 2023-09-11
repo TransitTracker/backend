@@ -5,8 +5,9 @@ namespace App\Filament\Resources\TagResource\Pages;
 use App\Enums\TagType;
 use App\Filament\Resources\TagResource;
 use App\Models\Tag;
+use Filament\Actions\CreateAction;
+use Filament\Actions\LocaleSwitcher;
 use Filament\Forms\Components\Select;
-use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Pages\ListRecords\Concerns\Translatable;
 use Filament\Tables\Actions\BulkAction;
@@ -42,11 +43,11 @@ class ListTags extends ListRecords
         ];
     }
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
-            Actions\LocaleSwitcher::make(),
+            LocaleSwitcher::make(),
+            CreateAction::make(),
         ];
     }
 }

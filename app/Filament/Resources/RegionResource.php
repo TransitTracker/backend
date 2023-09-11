@@ -8,11 +8,11 @@ use App\Models\Region;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
-use Filament\Resources\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class RegionResource extends Resource
 {
@@ -43,11 +43,6 @@ class RegionResource extends Resource
                 TextInput::make('meta_description')->required(),
                 TextInput::make('image'),
             ]);
-    }
-
-    public static function getTranslatableLocales(): array
-    {
-        return array_keys(config('app.supported_languages'));
     }
 
     public static function table(Table $table): Table

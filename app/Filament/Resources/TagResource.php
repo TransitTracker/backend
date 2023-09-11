@@ -7,7 +7,6 @@ use App\Filament\Resources\TagResource\Pages;
 use App\Filament\Resources\TagResource\RelationManagers\AgenciesRelationManager;
 use App\Filament\Resources\TagResource\RelationManagers\VehiclesRelationManager;
 use App\Models\Tag;
-use Closure;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Group;
@@ -16,13 +15,13 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
-use Filament\Resources\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
 class TagResource extends Resource
@@ -49,7 +48,7 @@ class TagResource extends Resource
                             ->columnSpan(2),
                         TextInput::make('short_label')
                             ->reactive()
-                            ->afterStateUpdated(function (Closure $set, $state) {
+                            ->afterStateUpdated(function (\Filament\Forms\Set $set, $state) {
                                 $set('slug', Str::slug($state));
                             }),
                         TextInput::make('description')
@@ -61,14 +60,14 @@ class TagResource extends Resource
                         ColorPicker::make('color')
                             ->required()
                             ->reactive()
-                            ->afterStateUpdated(function (Closure $set, $state) {
+                            ->afterStateUpdated(function (\Filament\Forms\Set $set, $state) {
                                 $set('dark_color', $state);
                             }),
                         ColorPicker::make('dark_color')->required(),
                         ColorPicker::make('text_color')
                             ->required()
                             ->reactive()
-                            ->afterStateUpdated(function (Closure $set, $state) {
+                            ->afterStateUpdated(function (\Filament\Forms\Set $set, $state) {
                                 $set('dark_text_color', $state);
                             }),
                         ColorPicker::make('dark_text_color'),
@@ -96,11 +95,6 @@ class TagResource extends Resource
                             ])->hidden(fn (?Tag $record) => $record === null),
                     ])->columnSpan(['lg' => 1]),
             ])->columns(3);
-    }
-
-    public static function getTranslatableLocales(): array
-    {
-        return array_keys(config('app.supported_languages'));
     }
 
     public static function table(Table $table): Table

@@ -2,18 +2,26 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TagType;
 use App\Enums\VehicleType;
 use App\Filament\Resources\VehicleResource\Pages;
 use App\Filament\Resources\VehicleResource\RelationManagers\TagsRelationManager;
+use App\Models\Link;
+use App\Models\Tag;
 use App\Models\Vehicle;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class VehicleResource extends Resource
@@ -29,7 +37,7 @@ class VehicleResource extends Resource
         return ['vehicle_id', 'force_vehicle_id', 'label', 'force_label'];
     }
 
-    protected static function getGlobalSearchEloquentQuery(): Builder
+    public static function getGlobalSearchEloquentQuery(): Builder
     {
         return parent::getGlobalSearchEloquentQuery()->with(['agency:id,short_name']);
     }
@@ -95,9 +103,68 @@ class VehicleResource extends Resource
                     ->dateTime('M d, Y')
                     ->toggleable(),
             ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+            ], position: Tables\Enums\ActionsPosition::BeforeColumns)
             ->filters([
-                //
-            ]);
+                Filter::make('onlyWithoutOperators')
+                    ->query(fn (Builder $query): Builder => $query->withoutTypeOfTags(TagType::Operator))
+                    ->toggle(),
+                Tables\Filters\TernaryFilter::make('is_active'),
+                SelectFilter::make('agency')->relationship('agency', 'short_name'),
+                Filter::make('refStartsWith')->form([
+                    TextInput::make('refStartsWith'),
+                ])->query(function (Builder $query, array $data): Builder {
+                    if (! $data['refStartsWith']) {
+                        return $query;
+                    }
+
+                    return $query->where('vehicle_id', 'LIKE', "{$data['refStartsWith']}%");
+                }),
+                Filter::make('forceLabelStartsWith')->form([
+                    TextInput::make('forceLabelStartsWith'),
+                ])->query(function (Builder $query, array $data): Builder {
+                    if (! $data['forceLabelStartsWith']) {
+                        return $query;
+                    }
+
+                    return $query->where('force_label', 'LIKE', "{$data['forceLabelStartsWith']}%");
+                }),
+            ])
+            ->bulkActions([
+
+                BulkAction::make('changeType')
+                    ->action(function (Collection $records, array $data): void {
+                        foreach ($records as $record) {
+                            $record->vehicle_type = $data['vehicle_type'];
+                            $record->saveQuietly();
+                        }
+                    })
+                    ->form([
+                        Select::make('vehicle_type')->options(VehicleType::asFlippedArray())->required(),
+                    ])->icon('gmdi-switch-access-shortcut'),
+                BulkAction::make('attachLink')
+                    ->action(function (Collection $records, array $data): void {
+                        foreach ($records as $record) {
+                            $record->links()->attach($data['linkId']);
+                            $record->saveQuietly();
+                        }
+                    })
+                    ->form([
+                        Select::make('linkId')->options(Link::pluck('internal_title', 'id'))->label('Link')->required(),
+                    ])->icon('gmdi-link'),
+                BulkAction::make('attachTag')
+                    ->action(function (Collection $records, array $data): void {
+                        foreach ($records as $record) {
+                            $record->tags()->attach($data['tagId']);
+                            $record->saveQuietly();
+                        }
+                    })
+                    ->form([
+                        Select::make('tagId')->options(Tag::pluck('label', 'id'))->label('Tag')->required(),
+                    ])->icon('gmdi-label'),
+            ])
+            ->paginated([10, 25, 50, 100]);
     }
 
     public static function getRelations(): array

@@ -4,8 +4,7 @@ namespace App\Providers;
 
 use App;
 use BenSampo\Enum\Enum;
-use Filament\Facades\Filament;
-use Filament\Navigation\NavigationItem;
+use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -62,14 +61,9 @@ class AppServiceProvider extends ServiceProvider
             return array_flip(self::asArray());
         });
 
-        Filament::serving(function () {
-            Filament::registerNavigationItems([
-                NavigationItem::make('exo VIN')
-                    ->url(route('vin.index'))
-                    ->icon('gmdi-directions-bus-tt')
-                    ->group('Special'),
-            ]);
-        });
+        FilamentIcon::register([
+            'panels::pages.dashboard.navigation-item' => 'gmdi-home-tt',
+        ]);
 
         Cookies::essentials()
             ->session()

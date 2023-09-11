@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\LinkResource\RelationManagers;
 
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Table;
 
 class VehiclesRelationManager extends RelationManager
 {
@@ -12,7 +12,7 @@ class VehiclesRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'displayed_label';
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([

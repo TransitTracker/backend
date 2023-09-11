@@ -13,8 +13,8 @@ use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class NotificationUser extends Model implements HasLocalePreference
 {
-    use Notifiable;
     use HasPushSubscriptions;
+    use Notifiable;
 
     protected $guarded = [];
 

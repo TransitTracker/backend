@@ -2,17 +2,27 @@
 
 namespace App\Filament\Resources\VehicleResource\RelationManagers;
 
+use Filament\Resources\RelationManagers\Concerns\Translatable;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
 
 class TagsRelationManager extends RelationManager
 {
+    use Translatable;
+
     protected static string $relationship = 'tags';
 
     protected static ?string $recordTitleAttribute = 'label';
 
-    public static function table(Table $table): Table
+    protected function getTableDescription(): string|Htmlable|null
+    {
+        return 'There is currently a bug when adding a label. The search does not work and both translations are displayed.';
+    }
+
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
@@ -22,7 +32,8 @@ class TagsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make()->preloadRecordSelect(),
+                Tables\Actions\AttachAction::make()
+                    ->preloadRecordSelect(),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),
@@ -32,7 +43,7 @@ class TagsRelationManager extends RelationManager
             ]);
     }
 
-    public static function canViewForRecord($ownerRecord): bool
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
         return true;
     }

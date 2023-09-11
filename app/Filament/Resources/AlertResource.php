@@ -16,12 +16,12 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
-use Filament\Resources\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
 class AlertResource extends Resource
@@ -119,6 +119,9 @@ class AlertResource extends Resource
             ])
             ->filters([
                 Filter::make('is_active')->query(fn (Builder $query): Builder => $query->active())->default(),
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
             ]);
     }
 
@@ -136,10 +139,5 @@ class AlertResource extends Resource
             'create' => Pages\CreateAlert::route('/create'),
             'edit' => Pages\EditAlert::route('/{record}/edit'),
         ];
-    }
-
-    public static function getTranslatableLocales(): array
-    {
-        return array_keys(config('app.supported_languages'));
     }
 }

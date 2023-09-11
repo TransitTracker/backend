@@ -1,6 +1,7 @@
 const m3 = require("tailwind-m3-colors");
 
 module.exports = {
+    darkMode: 'class',
   content: [
     "./resources/**/*.blade.php",
     "./resources/**/*.js",

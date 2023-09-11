@@ -3,10 +3,10 @@
 namespace App\Filament\Resources\AgencyResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Table;
 
 class LinksRelationManager extends RelationManager
 {
@@ -16,7 +16,7 @@ class LinksRelationManager extends RelationManager
 
     protected static ?string $label = 'Default links for new vehicles';
 
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -26,7 +26,7 @@ class LinksRelationManager extends RelationManager
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([

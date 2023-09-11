@@ -18,8 +18,10 @@ return [
         'web' => env('WEB_DOMAIN', null),
         'api' => env('API_DOMAIN', null),
         'vin' => env('VIN_DOMAIN', null),
+        'filament' => env('FILAMENT_DOMAIN', null),
     ],
     'path' => [
         'vin' => env('VIN_PATH', 'vin'),
+        'filament' => env('FILAMENT_PATH', 'admin'),
     ],
 ];

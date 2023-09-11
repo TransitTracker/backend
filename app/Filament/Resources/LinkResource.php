@@ -6,11 +6,11 @@ use App\Filament\Resources\LinkResource\Pages;
 use App\Filament\Resources\LinkResource\RelationManagers\VehiclesRelationManager;
 use App\Models\Link;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
-use Filament\Resources\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Table;
 
 class LinkResource extends Resource
 {
@@ -67,10 +67,5 @@ class LinkResource extends Resource
             'create' => Pages\CreateLink::route('/create'),
             'edit' => Pages\EditLink::route('/{record}/edit'),
         ];
-    }
-
-    public static function getTranslatableLocales(): array
-    {
-        return array_keys(config('app.supported_languages'));
     }
 }

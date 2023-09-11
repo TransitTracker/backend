@@ -26,6 +26,7 @@ namespace App\Models{
  * @property string $text_color
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property bool $is_active
+ * @property int $is_archived
  * @property string|null $static_gtfs_url
  * @property string|null $realtime_url
  * @property string|null $realtime_type
@@ -79,6 +80,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereHeaders($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Agency whereIsArchived($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereIsExoSector($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereLicense($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereName($value)
@@ -547,6 +549,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Ladder\Models\UserRole> $roles
+ * @property-read int|null $roles_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()

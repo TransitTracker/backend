@@ -192,7 +192,7 @@ class Vehicle extends Model
 
         $vehicle = intval($this->vehicle_id);
 
-        if ((40901 <= $vehicle) && ($vehicle <= 40930)) {
+        if (($vehicle >= 40901) && ($vehicle <= 40930)) {
             return true;
         }
 

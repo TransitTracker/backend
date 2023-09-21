@@ -324,7 +324,7 @@
         @auth
         <div class="col-span-full flex gap-x-2">
             @foreach ($vehicles as $vehicle)
-            <a href="{{ route('filament.resources.vehicles.edit', ['record' => $vehicle]) }}" class="relative flex items-center gap-2 h-10 pl-6 pr-4 text-sm font-medium transition-colors rounded-full bg-secondary-90 text-secondary-10 dark:bg-secondary-30 dark:text-secondary-90 hover:bg-opacity-80 hover:bg-opacity-85 focus:bg-opacity-75">
+            <a href="{{ route('filament.admin.resources.vehicles.edit', ['record' => $vehicle]) }}" class="relative flex items-center gap-2 h-10 pl-6 pr-4 text-sm font-medium transition-colors rounded-full bg-secondary-90 text-secondary-10 dark:bg-secondary-30 dark:text-secondary-90 hover:bg-opacity-80 hover:bg-opacity-85 focus:bg-opacity-75">
                 {{ $vehicle->agency->short_name }} in admin
                 <x-gmdi-open-in-new class="w-[1.125rem] h-[1.125rem]" />
             </a>

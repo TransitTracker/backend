@@ -7,6 +7,7 @@ use App\Models\Agency;
 use App\Models\Gtfs\Trip;
 use App\Models\Stat;
 use App\Models\Vehicle;
+use Carbon\Carbon;
 use Exception;
 use FelixINX\TransitRealtime\FeedMessage;
 use Google\Protobuf\Internal\GPBDecodeException;
@@ -74,7 +75,7 @@ class GtfsRtHandler implements ShouldQueue
                 continue;
             }
 
-            // TODO: For the gtfs_route_id, the Vehicle model should retreive it through the Trip if this field is not filled
+            // TODO: For the gtfs_route_id, the Vehicle model should retrieve it through the Trip if this field is not filled
 
             /*
              * Prepare a new array to update the vehicle model
@@ -97,6 +98,7 @@ class GtfsRtHandler implements ShouldQueue
                 'congestion_level' => $this->processField($vehicle->getCongestionLevel()),
                 'occupancy_status' => $this->processField($vehicle->getOccupancyStatus()),
                 'gtfs_stop_id' => $this->processField($vehicle->getStopId()),
+                'last_seen_at' => Carbon::parse($this->processField($vehicle->getTimestamp() ?? $this->time))
             ];
 
             /*

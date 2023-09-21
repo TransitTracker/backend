@@ -7,6 +7,7 @@ use App\Models\Agency;
 use App\Models\Gtfs\Trip;
 use App\Models\Stat;
 use App\Models\Vehicle;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -83,6 +84,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
                 'current_status' => $this->processField($vehicle->current_status),
                 'timestamp' => $this->processField($vehicle->timestamp->low ?? $this->time),
                 'gtfs_stop_id' => $this->processField($vehicle->stop_id),
+                'last_seen_at' => Carbon::parse($this->processField($vehicle->timestamp->low ?? $this->time)),
             ];
 
             /*

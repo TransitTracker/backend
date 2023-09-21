@@ -7,6 +7,7 @@ use App\Models\Gtfs\Route;
 use App\Models\Gtfs\Trip;
 use App\Models\Stat;
 use App\Models\Vehicle;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -82,6 +83,7 @@ class NextbusJsonHandler implements ShouldQueue
                     'bearing' => $this->processField($vehicle->heading),
                     'speed' => $this->processField($vehicle->speedKmHr),
                     'timestamp' => $this->processField(strval($timestamp - (int) $vehicle->secsSinceReport)),
+                    'last_seen_at' => Carbon::parse($this->processField(strval($timestamp - (int) $vehicle->secsSinceReport))),
                 ]
             );
 

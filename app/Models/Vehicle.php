@@ -33,6 +33,7 @@ class Vehicle extends Model
         'is_active' => 'boolean',
         'position' => Point::class,
         'vehicle_type' => VehicleType::class,
+        'last_seen_at' => 'datetime',
     ];
 
     /*

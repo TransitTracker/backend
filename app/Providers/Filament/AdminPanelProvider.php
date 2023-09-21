@@ -61,7 +61,10 @@ class AdminPanelProvider extends PanelProvider
                 SpatieLaravelTranslatablePlugin::make()
                     ->defaultLocales(['en', 'fr']),
                 EnvironmentIndicatorPlugin::make()
-                    ->visible(true)
+                    // Only super admin can see everything, so even if the permissions does not exist it's still ok!
+                    ->visible(fn () => auth()->user()?->can('see_indicator'))
+                    ->showBorder(true)
+                    ->showBadge(true)
                     ->color(fn () => match (app()->environment()) {
                         'production' => Color::Red,
                         'local' => Color::Blue,

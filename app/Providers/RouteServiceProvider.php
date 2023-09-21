@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\Localization;
 use App\Models\Agency;
 use App\Models\Tag;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -34,6 +35,12 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix(config('transittracker.path.vin'))
                 ->namespace($this->namespace)
                 ->group(base_path('routes/vin.php'));
+
+            Route::middleware(['api', Localization::class])
+                ->prefix('v2b')
+                ->domain(config('transittracker.domain.api'))
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/v2b.php'));
 
             Route::prefix('')
                 ->domain(config('transittracker.domain.api'))

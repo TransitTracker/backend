@@ -162,7 +162,8 @@ class GtfsRtHandler implements ShouldQueue
         }
 
         if ($transformer === 'timestamp') {
-            Carbon::parse($value, 'UTC');
+            $timestamp = ($value > 0) ? $value : $this->time;
+            return Carbon::parse($timestamp, 'UTC');
         }
 
         return $value;

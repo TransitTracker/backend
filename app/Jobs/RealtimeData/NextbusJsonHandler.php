@@ -83,7 +83,7 @@ class NextbusJsonHandler implements ShouldQueue
                     'bearing' => $this->processField($vehicle->heading),
                     'speed' => $this->processField($vehicle->speedKmHr),
                     'timestamp' => $this->processField(strval($timestamp - (int) $vehicle->secsSinceReport)),
-                    'last_seen_at' => Carbon::parse($this->processField(strval($timestamp - (int) $vehicle->secsSinceReport))),
+                    'last_seen_at' => Carbon::parse($this->processField($timestamp - (int) $vehicle->secsSinceReport)),
                 ]
             );
 

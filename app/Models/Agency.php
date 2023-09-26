@@ -31,6 +31,7 @@ class Agency extends Model
         'is_active' => 'bool',
         'refresh_is_active' => 'bool',
         'is_exo_sector' => 'bool',
+        'features' => 'collection',
     ];
 
     // MySQL can't have default value, this sets headers to an empty array

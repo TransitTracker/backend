@@ -98,7 +98,7 @@ class GtfsRtHandler implements ShouldQueue
                 'congestion_level' => $this->processField($vehicle->getCongestionLevel()),
                 'occupancy_status' => $this->processField($vehicle->getOccupancyStatus()),
                 'gtfs_stop_id' => $this->processField($vehicle->getStopId()),
-                'last_seen_at' => Carbon::parse($this->processField($vehicle->getTimestamp() ?? $this->time))
+                'last_seen_at' => $this->processField($vehicle->getTimestamp() ?? $this->time, 'timestamp'),
             ];
 
             /*
@@ -157,8 +157,12 @@ class GtfsRtHandler implements ShouldQueue
             return null;
         }
 
-        if ($transformer === 'position' && filled($value['lat']) && filled($value['lat'])) {
+        if ($transformer === 'position' && filled($value['lat']) && filled($value['lon'])) {
             return new Point(round($value['lat'], 5), round($value['lon'], 5));
+        }
+
+        if ($transformer === 'timestamp') {
+            Carbon::parse($value, 'UTC');
         }
 
         return $value;

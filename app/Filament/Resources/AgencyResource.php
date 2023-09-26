@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\AgencyFeature;
 use App\Filament\Resources\AgencyResource\Pages;
 use App\Filament\Resources\AgencyResource\RelationManagers\LinksRelationManager;
 use App\Filament\Resources\AgencyResource\RelationManagers\RegionsRelationManager;
@@ -51,6 +52,10 @@ class AgencyResource extends Resource
                         TextInput::make('slug')
                             ->required(),
                         TextInput::make('short_name')->required(),
+                        TagsInput::make('features')
+                            ->columnSpanFull()
+                            ->suggestions(AgencyFeature::getValues())
+                            ->hint('Flags for custom features'),
                     ])->columns(2),
                     Section::make('Appearance')->schema([
                         ColorPicker::make('color')->required(),
@@ -129,7 +134,10 @@ class AgencyResource extends Resource
                 IconColumn::make('is_active')->boolean(),
                 IconColumn::make('refresh_is_active')->boolean(),
                 TextColumn::make('cron_schedule')->toggleable(),
-                TagsColumn::make('regions.name'),
+                TextColumn::make('features')
+                    ->badge()
+                    ->toggleable(),
+                TextColumn::make('regions.name'),
             ])
             ->actions([
                 ReplicateAction::make()

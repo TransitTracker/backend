@@ -33,7 +33,7 @@ class AgencyController extends Controller
 
     public function index()
     {
-        $agencies = Agency::active()->select(['id', 'name', 'short_name', 'slug', 'cities', 'vehicles_type', 'color', 'text_color', 'license'])->with('regions:slug')->get();
+        $agencies = Agency::active()->select(['id', 'name', 'short_name', 'slug', 'cities', 'vehicles_type', 'color', 'text_color', 'license', 'is_archived', 'features'])->with('regions:slug')->get();
 
         return AgencyResource::collection($agencies);
     }
@@ -64,7 +64,7 @@ class AgencyController extends Controller
         $query = Vehicle::query()
             ->where('agency_id', $agency->id)
             ->select(['id', 'vehicle_id', 'force_vehicle_id', 'is_active', 'label', 'force_label', 'timestamp', 'gtfs_trip_id', 'gtfs_route_id', 'start_time', 'position', 'bearing', 'speed', 'vehicle_type', 'license_plate', 'current_stop_sequence', 'current_status', 'schedule_relationship', 'congestion_level', 'occupancy_status', 'agency_id', 'created_at', 'updated_at'])
-            ->with(['trip:agency_id,gtfs_trip_id,headsign,short_name,gtfs_block_id,gtfs_service_id,gtfs_shape_id', 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color', 'links:id', 'agency:id,slug,name', 'tags:id']);
+            ->with(['trip:agency_id,gtfs_trip_id,headsign,short_name,gtfs_block_id,gtfs_service_id,gtfs_shape_id', 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color', 'links:id', 'agency:id,slug,name,features', 'tags:id']);
 
         if (! $includeAll) {
             $query->where('is_active', true);

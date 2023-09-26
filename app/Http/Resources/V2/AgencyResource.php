@@ -27,6 +27,7 @@ class AgencyResource extends JsonResource
                 'title' => array_key_exists('license_title', $this->license) ? $this->license['license_title'] : null,
                 'isDownloadable' => array_key_exists('is_downloadable', $this->license) ? boolval($this->license['is_downloadable']) : null,
             ],
+            'features' => $this->features ?? [],
             'meta' => (object) [],
         ];
     }

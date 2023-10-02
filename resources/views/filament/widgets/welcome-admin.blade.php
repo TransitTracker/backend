@@ -8,7 +8,7 @@
             To make modifications easier, you can now activate a new button that will appear in the list or when selecting a vehicle on the map.
         </x-slot>
         <x-filament::button
-            href="https://www.transittracker.ca/_admin"
+            href="https://www.transittracker.ca/admin"
             tag="a"
             target="_blank"
             icon="gmdi-open-in-new"

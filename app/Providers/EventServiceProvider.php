@@ -8,6 +8,7 @@ use App\Events\TagCreated;
 use App\Events\TagUpdated;
 use App\Events\VehicleCreated;
 use App\Events\VehicleForceRefAdded;
+use App\Events\VehicleTripChanged;
 use App\Events\VehicleUpdated;
 use App\Events\Vin\SuggestionCreated;
 use App\Listeners\AddTagIconToMapbox;
@@ -16,6 +17,7 @@ use App\Listeners\DecodeVin;
 use App\Listeners\SendElectricStmNotification;
 use App\Listeners\SendNewVehicleNotification;
 use App\Listeners\SendNewVinSuggestionNotification;
+use App\Listeners\PredictBlock;
 use App\Listeners\SendUpdatedVehicleNotification;
 use App\Listeners\SendWelcomeNotification;
 use Illuminate\Auth\Events\Registered;
@@ -49,6 +51,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         VehicleForceRefAdded::class => [
             DecodeVin::class,
+        ],
+        // Only dispatched if agency has predictedBlocks feature
+        VehicleTripChanged::class => [
+            PredictBlock::class,
         ],
         ElectricStmVehicleUpdated::class => [
             SendElectricStmNotification::class,

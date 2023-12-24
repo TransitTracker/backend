@@ -46,7 +46,7 @@ class AlertResource extends Resource
                 Group::make()
                     ->columnSpan(['lg' => 2])
                     ->schema([
-                        Card::make()->schema([
+                        Section::make()->schema([
                             TextInput::make('title')->required(),
                             TextInput::make('subtitle')->required(),
                             RichEditor::make('body')->required(),
@@ -90,7 +90,7 @@ class AlertResource extends Resource
                                 Toggle::make('can_be_closed'),
                                 DateTimePicker::make('expiration'),
                             ]),
-                        Card::make()
+                        Section::make()
                             ->schema([
                                 Placeholder::make('id')
                                     ->label('ID')

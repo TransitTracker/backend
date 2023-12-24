@@ -10,6 +10,8 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Werk365\EtagConditionals\Middleware\IfNoneMatch;
+use Werk365\EtagConditionals\Middleware\SetEtag;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -37,6 +39,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/vin.php'));
 
             Route::middleware(['api', Localization::class])
+//            Route::middleware(['api', Localization::class, 'cache.headers:must_revalidate;max_age=0;private;etag'])
                 ->prefix('v2b')
                 ->domain(config('transittracker.domain.api'))
                 ->namespace($this->namespace)

@@ -1,0 +1,65 @@
+syntax = "proto3";
+package TransitTracker.ProtobufApi;
+
+message VehiclesCollection {
+
+    string type = 1;
+    repeated Feature features = 2;
+    uint32 lastRefreshAt = 3;
+
+    message Feature {
+        string type = 1;
+        Geometry geometry = 2;
+        Properties properties = 3;
+        uint32 id = 4;
+    }
+
+    message Geometry {
+        string type = 1;
+        repeated double coordinates = 2;
+    }
+
+    message Properties {
+        Trip trip = 1;
+        Route route = 2;
+        Vehicle vehicle = 3;
+        Position position = 4;
+        uint32 currentStopSequence = 5;
+        uint32 currentStatus = 6;
+        uint32 timestamp = 7;
+        uint32 congestionLevel = 8;
+        uint32 occupancyStatus = 9;
+        uint32 vehicleType = 10;
+        uint32 firstSeenAt = 11;
+    }
+
+    message Trip {
+        string id = 1;
+        string shortName = 2;
+        string headsign = 3;
+        string startTime = 4;
+        uint32 scheduleRelationship = 5;
+        string blockId = 6;
+        string shapeId = 7;
+    }
+
+    message Route {
+        string id = 1;
+        string shortName = 2;
+        string longName = 3;
+        string color = 4;
+        string textColor = 5;
+    }
+
+    message Vehicle {
+        string id = 1;
+        string label = 2;
+        string licensePlate = 3;
+    }
+
+    message Position {
+        uint32 bearing = 1;
+        uint32 odometer = 2;
+        uint32 speed = 3;
+    }
+}

@@ -46,7 +46,7 @@ class AgencyResource extends Resource
         return $form
             ->schema([
                 Group::make()->columnSpan(['lg' => 2])->schema([
-                    Card::make()->schema([
+                    Section::make()->schema([
                         TextInput::make('name')
                             ->required()->columnSpan(2),
                         TextInput::make('slug')
@@ -105,7 +105,7 @@ class AgencyResource extends Resource
                                 Toggle::make('refresh_is_active')
                                     ->required(),
                             ]),
-                        Card::make()
+                        Section::make()
                             ->schema([
                                 Placeholder::make('id')
                                     ->label('ID')

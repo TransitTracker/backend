@@ -6,6 +6,7 @@ use App\Enums\VehicleType;
 use App\Events\ElectricStmVehicleUpdated;
 use App\Events\VehicleCreated;
 use App\Events\VehicleForceRefAdded;
+use App\Events\VehicleTripChanged;
 use App\Events\VehicleUpdated;
 use App\Models\Gtfs\Route;
 use App\Models\Gtfs\Trip;
@@ -185,21 +186,6 @@ class Vehicle extends Model
         return false;
     }
 
-    public function isElectricStm(): bool
-    {
-        if ($this->agency_id !== 1) {
-            return false;
-        }
-
-        $vehicle = intval($this->vehicle_id);
-
-        if (($vehicle >= 40901) && ($vehicle <= 40930)) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function isExoVin(): bool
     {
         if (! in_array($this->agency_id, Cache::get('exoAgenciesId', []))) {
@@ -224,7 +210,7 @@ class Vehicle extends Model
     {
         static::creating(function (self $vehicle) {
             if (Str::startsWith($vehicle->vehicle_id, 'zenbus:Vehicle:')) {
-                $vehicle->force_label = Str::of($vehicle->vehicle_id)->remove('enbus:Vehicle')->remove(':LOC')->value;
+                $vehicle->force_label = Str::of($vehicle->vehicle_id)->remove('enbus:Vehicle')->remove(':LOC')->value();
             }
         });
 
@@ -248,7 +234,7 @@ class Vehicle extends Model
             VehicleUpdated::dispatchIf($vehicle->isFirstAppearanceToday(), $vehicle);
             VehicleForceRefAdded::dispatchIf($vehicle->wasChanged('force_vehicle_id'), $vehicle);
 
-            ElectricStmVehicleUpdated::dispatchIf(($vehicle->isFirstAppearanceToday() && $vehicle->isElectricStm()), $vehicle);
+            VehicleTripChanged::dispatchIf($vehicle->wasChanged('gtfs_trip_id'), $vehicle);
         });
     }
 }

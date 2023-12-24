@@ -4,10 +4,19 @@ namespace App\Providers;
 
 use App;
 use BenSampo\Enum\Enum;
+use Dedoc\Scramble\Scramble;
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
 use Spatie\Health\Checks\Checks\CacheCheck;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
@@ -61,12 +70,23 @@ class AppServiceProvider extends ServiceProvider
             return array_flip(self::asArray());
         });
 
-        FilamentIcon::register([
-            'panels::pages.dashboard.navigation-item' => 'gmdi-home-tt',
-        ]);
-
         Cookies::essentials()
             ->session()
             ->csrf();
+
+        $link = config('transittracker.domain.api');
+        Http::globalRequestMiddleware(fn ($request) => $request->withHeader(
+            'User-Agent', "TransitTrackerBackend/2.0; +{$link}",
+        ));
+
+        // Filament custom
+        FilamentIcon::register([
+            'panels::pages.dashboard.navigation-item' => 'gmdi-home-tt',
+        ]);
+        FilamentAsset::register([
+            Js::make('leaflet', resource_path('js/leaflet.js'))->loadedOnRequest(),
+            Js::make('terra-draw', resource_path('js/terra-draw.js'))->loadedOnRequest(),
+            Css::make('leaflet', resource_path('css/leaflet.css'))->loadedOnRequest(),
+        ]);
     }
 }

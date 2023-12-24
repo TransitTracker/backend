@@ -10,4 +10,7 @@ use BenSampo\Enum\Enum;
 final class AgencyFeature extends Enum
 {
     const PredictedBlocks = 'predictedBlocks';
+    // By default, only bus icons are generated for Mapbox
+    const HasTramIcon = 'hasTramIcon';
+    const HasTrainIcon = 'hasTrainIcon';
 }

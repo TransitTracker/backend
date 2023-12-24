@@ -21,7 +21,7 @@ return [
      * You can enable CORS for 1 or multiple paths.
      * Example: ['api/*']
      */
-    'paths' => ['api/*', 'v1/*', 'v2/*', 'sanctum/csrf-cookie', 'login'],
+    'paths' => ['api/*', 'v1/*', 'v2/*', 'v2b/*', 'sanctum/csrf-cookie', 'login'],
 
     /*
      * Matches the request method. `[*]` allows all methods.
@@ -46,7 +46,9 @@ return [
     /*
      * Sets the Access-Control-Expose-Headers response header with these headers.
      */
-    'exposed_headers' => [],
+    'exposed_headers' => [
+        'ETag',
+    ],
 
     /*
      * Sets the Access-Control-Max-Age response header when > 0.

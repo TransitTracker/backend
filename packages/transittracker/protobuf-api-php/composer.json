@@ -1,0 +1,14 @@
+{
+  "name": "transittracker/protobuf-api-php",
+  "description": "Transit Tracker API binding using protobuf-php",
+  "require": {
+    "google/protobuf": "^3.24"
+  },
+  "autoload": {
+    "psr-4": {
+      "TransitTracker\\ProtobufApi\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": false
+}

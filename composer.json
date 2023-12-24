@@ -32,7 +32,7 @@
         "masbug/flysystem-google-drive-ext": "^2.2",
         "matanyadaev/laravel-eloquent-spatial": "^3.1",
         "ohdearapp/ohdear-php-sdk": "^3.1",
-        "opcodesio/log-viewer": "^2.3",
+        "opcodesio/log-viewer": "^3.1",
         "predis/predis": "^2.0",
         "pusher/pusher-php-server": "^7.0",
         "pxlrbt/filament-environment-indicator": "^2.0",
@@ -45,6 +45,7 @@
         "spatie/laravel-translatable": "^6.0",
         "spatie/security-advisories-health-check": "^1.0",
         "symfony/psr-http-message-bridge": "^2.1",
+        "transittracker/protobuf-api-php": "@dev",
         "usmanhalalit/laracsv": "^2.1",
         "whitecube/laravel-cookie-consent": "^1.0"
     },
@@ -84,6 +85,7 @@
     "autoload": {
         "psr-4": {
             "FelixINX\\TransitRealtime\\": "packages/felixinx/gtfs-realtime-protobuf-php/src",
+            "TransitTracker\\ProtobufApi\\": "packages/transittracker/protobuf-api-php/src",
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",

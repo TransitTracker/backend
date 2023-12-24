@@ -10,8 +10,11 @@ return [
     ],
     'mapbox' => [
         'secret_key' => env('MAPBOX_SECRET_KEY'),
-        'light_style' => env('MAPBOX_LIGHT_STYLE'),
-        'dark_style' => env('MAPBOX_DARK_STYLE'),
+        'styles' => [
+            'light' => env('MAPBOX_LIGHT_STYLE'),
+            'dark' => env('MAPBOX_DARK_STYLE'),
+            'satellite' => env('MAPBOX_SATELLITE_STYLE'),
+        ],
     ],
     'print_gtfs_rt_bin' => env('PRINT_GTFS_RT_BIN'),
     'domain' => [

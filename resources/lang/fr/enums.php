@@ -16,6 +16,8 @@ return [
         '4' => 'Quelques places debout seulement',
         '5' => 'Plein',
         '6' => 'N\'accepte plus de passagers',
+        '7' => 'Pas de données disponibles',
+        '8' => 'Embarquement interdit',
     ],
     'App\\Enums\\ScheduleRelationship' => [
         '0' => 'Prévu',

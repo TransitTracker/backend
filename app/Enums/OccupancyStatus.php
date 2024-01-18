@@ -13,6 +13,8 @@ use BenSampo\Enum\Enum;
  * @method static static CRUSHED_STANDING_ROOM_ONLY()
  * @method static static FULL()
  * @method static static NOT_ACCEPTING_PASSENGERS()
+ * @method static static NO_DATA_AVAILABLE()
+ * @method static static NOT_BOARDABLE()
  */
 final class OccupancyStatus extends Enum implements LocalizedEnum
 {
@@ -29,4 +31,6 @@ final class OccupancyStatus extends Enum implements LocalizedEnum
     const FULL = 5;
 
     const NOT_ACCEPTING_PASSENGERS = 6;
+    const NO_DATA_AVAILABLE = 7;
+    const NOT_BOARDABLE = 8;
 }

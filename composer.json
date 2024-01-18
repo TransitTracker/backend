@@ -22,6 +22,7 @@
         "filament/spatie-laravel-translatable-plugin": "^3.0-stable",
         "guzzlehttp/guzzle": "^7.2",
         "guzzlehttp/uri-template": "^1.0",
+        "larabug/larabug": "^3.0",
         "laravel-notification-channels/webpush": "^7.0",
         "laravel/framework": "^10.0",
         "laravel/horizon": "^5.7",

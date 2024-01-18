@@ -26,7 +26,7 @@ namespace App\Models{
  * @property string $text_color
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property bool $is_active
- * @property int $is_archived
+ * @property bool $is_archived
  * @property string|null $static_gtfs_url
  * @property string|null $realtime_url
  * @property string|null $realtime_type
@@ -40,6 +40,7 @@ namespace App\Models{
  * @property string|null $name_slug
  * @property string|null $area_path
  * @property bool $is_exo_sector
+ * @property \Illuminate\Support\Collection|null $features
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\NotificationUser> $activeNotificationUsers
  * @property-read int|null $active_notification_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $exoWithVin
@@ -77,6 +78,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereCronSchedule($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereExoOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Agency whereFeatures($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereHeaders($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Agency whereIsActive($value)
@@ -608,27 +610,11 @@ namespace App\Models\Vin{
 /**
  * App\Models\Vin\Suggestion
  *
- * @property int $id
- * @property string $vin
- * @property string $label
- * @property string|null $note
- * @property int $upvotes
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property bool $is_rejected
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
  * @method static \Illuminate\Database\Eloquent\Builder|Suggestion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Suggestion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Suggestion query()
- * @method static \Illuminate\Database\Eloquent\Builder|Suggestion whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Suggestion whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Suggestion whereIsRejected($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Suggestion whereLabel($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Suggestion whereNote($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Suggestion whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Suggestion whereUpvotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Suggestion whereVin($value)
  */
 	class Suggestion extends \Eloquent {}
 }

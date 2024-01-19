@@ -55,6 +55,11 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('gmdi-error-tt')
                     ->group('System')
                     ->visible(fn (): bool => auth()->user()->isAdmin()),
+                NavigationItem::make('Pulse')
+                    ->url(fn (): string => route('pulse'), shouldOpenInNewTab: true)
+                    ->icon('gmdi-monitor-heart-tt')
+                    ->group('System')
+                    ->visible(fn (): bool => auth()->user()->isAdmin()),
             ])
             ->collapsibleNavigationGroups(false)
             ->plugins([

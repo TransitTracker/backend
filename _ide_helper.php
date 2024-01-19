@@ -18378,6 +18378,312 @@
      
 }
 
+    namespace Laravel\Pulse\Facades { 
+            /**
+     * 
+     *
+     * @method static void trim()
+     * @method static void purge(array $types = null)
+     * @method static \Illuminate\Support\Collection values(string $type, array $keys = null)
+     * @method static \Illuminate\Support\Collection graph(array $types, string $aggregate, \Carbon\CarbonInterval $interval)
+     * @method static \Illuminate\Support\Collection aggregate(string $type, array $aggregates, \Carbon\CarbonInterval $interval, string|null $orderBy = null, string $direction = 'desc', int $limit = 101)
+     * @method static \Illuminate\Support\Collection aggregateTypes(string|array $types, string $aggregate, \Carbon\CarbonInterval $interval, string|null $orderBy = null, string $direction = 'desc', int $limit = 101)
+     * @method static \Illuminate\Support\Collection aggregateTotal(string|array $types, string $aggregate, \Carbon\CarbonInterval $interval)
+     * @see \Laravel\Pulse\Pulse
+     */ 
+        class Pulse {
+                    /**
+         * Register a recorder.
+         *
+         * @param array<class-string, array<mixed>|boolean> $recorders
+         * @static 
+         */ 
+        public static function register($recorders)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->register($recorders);
+        }
+                    /**
+         * Record an entry.
+         *
+         * @static 
+         */ 
+        public static function record($type, $key, $value = null, $timestamp = null)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->record($type, $key, $value, $timestamp);
+        }
+                    /**
+         * Record a value.
+         *
+         * @static 
+         */ 
+        public static function set($type, $key, $value, $timestamp = null)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->set($type, $key, $value, $timestamp);
+        }
+                    /**
+         * Lazily capture items.
+         *
+         * @static 
+         */ 
+        public static function lazy($closure)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->lazy($closure);
+        }
+                    /**
+         * Report the throwable exception to Pulse.
+         *
+         * @static 
+         */ 
+        public static function report($e)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->report($e);
+        }
+                    /**
+         * Start recording.
+         *
+         * @static 
+         */ 
+        public static function startRecording()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->startRecording();
+        }
+                    /**
+         * Stop recording.
+         *
+         * @static 
+         */ 
+        public static function stopRecording()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->stopRecording();
+        }
+                    /**
+         * Execute the given callback without recording.
+         *
+         * @template TReturn
+         * @param \Laravel\Pulse\(callable():  TReturn)  $callback
+         * @return \Laravel\Pulse\TReturn 
+         * @static 
+         */ 
+        public static function ignore($callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->ignore($callback);
+        }
+                    /**
+         * Flush the queue.
+         *
+         * @static 
+         */ 
+        public static function flush()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->flush();
+        }
+                    /**
+         * Filter items before storage using the provided filter.
+         *
+         * @param \Laravel\Pulse\(callable(\Laravel\Pulse\Entry|\Laravel\Pulse\Value):  bool)  $filter
+         * @static 
+         */ 
+        public static function filter($filter)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->filter($filter);
+        }
+                    /**
+         * Store the queued items.
+         *
+         * @static 
+         */ 
+        public static function store()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->store();
+        }
+                    /**
+         * Get the registered recorders.
+         *
+         * @return \Illuminate\Support\Collection<int, object> 
+         * @static 
+         */ 
+        public static function recorders()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->recorders();
+        }
+                    /**
+         * Resolve the user details for the given user IDs.
+         *
+         * @param \Illuminate\Support\Collection<int, string|int> $ids
+         * @return \Illuminate\Support\Collection<int, array{id: string|int, name: string, email?: ?string, avatar?: ?string, extra?: ?string}>
+         * @static 
+         */ 
+        public static function resolveUsers($ids)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->resolveUsers($ids);
+        }
+                    /**
+         * Resolve the user's details using the given closure.
+         *
+         * @param \Laravel\Pulse\(callable(\Illuminate\Support\Collection<int, string|int>):  iterable<int, array{id: string|int, name: string, email?: ?string, avatar?: ?string, extra?: ?string}>)  $callback
+         * @static 
+         */ 
+        public static function users($callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->users($callback);
+        }
+                    /**
+         * Get the authenticated user ID resolver.
+         *
+         * @return \Laravel\Pulse\callable(): (int|string|null)
+         * @static 
+         */ 
+        public static function authenticatedUserIdResolver()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->authenticatedUserIdResolver();
+        }
+                    /**
+         * Resolve the authenticated user id.
+         *
+         * @static 
+         */ 
+        public static function resolveAuthenticatedUserId()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->resolveAuthenticatedUserId();
+        }
+                    /**
+         * Resolve the authenticated user ID with the given callback.
+         *
+         * @static 
+         */ 
+        public static function resolveAuthenticatedUserIdUsing($callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->resolveAuthenticatedUserIdUsing($callback);
+        }
+                    /**
+         * Set the user for the given callback.
+         *
+         * @template TReturn
+         * @param \Laravel\Pulse\(callable():  TReturn)  $callback
+         * @return \Laravel\Pulse\TReturn 
+         * @static 
+         */ 
+        public static function withUser($user, $callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->withUser($user, $callback);
+        }
+                    /**
+         * Remember the authenticated user's ID.
+         *
+         * @static 
+         */ 
+        public static function rememberUser($user)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->rememberUser($user);
+        }
+                    /**
+         * Return the compiled CSS from the vendor directory.
+         *
+         * @static 
+         */ 
+        public static function css()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->css();
+        }
+                    /**
+         * Return the compiled JavaScript from the vendor directory.
+         *
+         * @static 
+         */ 
+        public static function js()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->js();
+        }
+                    /**
+         * Determine if Pulse may run migrations.
+         *
+         * @static 
+         */ 
+        public static function runsMigrations()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->runsMigrations();
+        }
+                    /**
+         * Configure Pulse to not register its migrations.
+         *
+         * @static 
+         */ 
+        public static function ignoreMigrations()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->ignoreMigrations();
+        }
+                    /**
+         * Handle exceptions using the given callback.
+         *
+         * @param \Laravel\Pulse\(callable(\Throwable):  mixed)  $callback
+         * @static 
+         */ 
+        public static function handleExceptionsUsing($callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->handleExceptionsUsing($callback);
+        }
+                    /**
+         * Execute the given callback handling any exceptions.
+         *
+         * @param \Laravel\Pulse\(callable():  mixed)  $callback
+         * @static 
+         */ 
+        public static function rescue($callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->rescue($callback);
+        }
+                    /**
+         * Set the container instance.
+         *
+         * @param \Illuminate\Contracts\Foundation\Application $container
+         * @return \Laravel\Pulse\Pulse 
+         * @static 
+         */ 
+        public static function setContainer($container)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->setContainer($container);
+        }
+                    /**
+         * Configure the class after resolving.
+         *
+         * @static 
+         */ 
+        public static function afterResolving($app, $class, $callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->afterResolving($app, $class, $callback);
+        }
+         
+    }
+     
+}
+
     namespace Livewire { 
             /**
      * 
@@ -26771,6 +27077,7 @@ namespace  {
             class View extends \Illuminate\Support\Facades\View {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
             class Horizon extends \Laravel\Horizon\Horizon {}
+            class Pulse extends \Laravel\Pulse\Facades\Pulse {}
             class Livewire extends \Livewire\Livewire {}
             class LogViewer extends \Opcodes\LogViewer\Facades\LogViewer {}
             class Sentry extends \Sentry\Laravel\Facade {}

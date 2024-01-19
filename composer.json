@@ -26,6 +26,7 @@
         "laravel-notification-channels/webpush": "^7.0",
         "laravel/framework": "^10.0",
         "laravel/horizon": "^5.7",
+        "laravel/pulse": "^1.0@beta",
         "laravel/sanctum": "^3.2",
         "laravel/slack-notification-channel": "^2.1",
         "league/csv": "^9.6",
@@ -96,6 +97,7 @@
             "Tests\\": "tests/"
         }
     },
+    "minimum-stability": "beta",
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [

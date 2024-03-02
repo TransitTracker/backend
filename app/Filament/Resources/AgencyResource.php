@@ -8,7 +8,6 @@ use App\Filament\Resources\AgencyResource\RelationManagers\LinksRelationManager;
 use App\Filament\Resources\AgencyResource\RelationManagers\RegionsRelationManager;
 use App\Models\Agency;
 use Carbon\Carbon;
-use Filament\Forms\Components\Card;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\KeyValue;
@@ -23,7 +22,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TagsColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -46,7 +44,7 @@ class AgencyResource extends Resource
         return $form
             ->schema([
                 Group::make()->columnSpan(['lg' => 2])->schema([
-                    Card::make()->schema([
+                    Section::make()->schema([
                         TextInput::make('name')
                             ->required()->columnSpan(2),
                         TextInput::make('slug')
@@ -70,7 +68,10 @@ class AgencyResource extends Resource
                     ])->columns(2)->collapsed(),
                     Section::make('Static data')->schema([
                         TextInput::make('static_gtfs_url')->label('Static GTFS URL'),
-                        Placeholder::make('static_etag')->label('Latest ETAG')->content(fn (Agency $record): string => $record->static_etag),
+                        Placeholder::make('latest_etag')
+                            ->label('Latest ETAG')
+                            ->content(fn (Agency $record): string => $record->static_etag)
+                            ->visibleOn('edit'),
                     ])->collapsed(),
                     Section::make('Realtime data')->schema([
                         Select::make('realtime_type')->required()->options([
@@ -105,7 +106,7 @@ class AgencyResource extends Resource
                                 Toggle::make('refresh_is_active')
                                     ->required(),
                             ]),
-                        Card::make()
+                        Section::make()
                             ->schema([
                                 Placeholder::make('id')
                                     ->label('ID')
@@ -120,7 +121,7 @@ class AgencyResource extends Resource
                                     ->label('Lastest data from agency')
                                     ->content(fn (Agency $record): ?string => Carbon::createFromTimestamp($record->timestamp ?? null)->format('j M Y H:i')),
 
-                            ])->hidden(fn (?Agency $record) => $record === null),
+                            ])->visibleOn('edit'),
                     ])->columnSpan(['lg' => 1]),
             ])->columns(3);
     }

@@ -99,7 +99,7 @@ class SuggestionController extends Controller
         return back();
     }
 
-    public function approve(Suggestion $suggestion, Agency $agency = null)
+    public function approve(Suggestion $suggestion, ?Agency $agency = null)
     {
         if (! $agency) {
             return response()->json(['message' => 'Missing agency'], 400);

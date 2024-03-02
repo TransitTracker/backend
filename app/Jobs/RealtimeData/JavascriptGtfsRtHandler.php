@@ -130,7 +130,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         }
     }
 
-    private function processField($value, string $transformer = null)
+    private function processField($value, ?string $transformer = null)
     {
         if (! filled($value)) {
             return null;

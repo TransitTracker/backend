@@ -73,7 +73,7 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
         $this->zip = null;
     }
 
-    private function extractFile(string $file, string $job, int $chunkSize, string $model = null)
+    private function extractFile(string $file, string $job, int $chunkSize, ?string $model = null)
     {
         $filePath = "{$this->directory}/{$file}";
 

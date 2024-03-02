@@ -147,7 +147,7 @@ class GtfsRtHandler implements ShouldQueue
         }
     }
 
-    private function processField($value, string $transformer = null)
+    private function processField($value, ?string $transformer = null)
     {
         if (! filled($value)) {
             return null;
@@ -163,6 +163,7 @@ class GtfsRtHandler implements ShouldQueue
 
         if ($transformer === 'timestamp') {
             $timestamp = ($value > 0) ? $value : $this->time;
+
             return Carbon::parse($timestamp, 'UTC');
         }
 

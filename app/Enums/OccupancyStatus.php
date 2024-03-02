@@ -31,6 +31,8 @@ final class OccupancyStatus extends Enum implements LocalizedEnum
     const FULL = 5;
 
     const NOT_ACCEPTING_PASSENGERS = 6;
+
     const NO_DATA_AVAILABLE = 7;
+
     const NOT_BOARDABLE = 8;
 }

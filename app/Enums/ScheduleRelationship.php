@@ -10,6 +10,9 @@ use BenSampo\Enum\Enum;
  * @method static static ADDED()
  * @method static static UNSCHEDULED()
  * @method static static CANCELED()
+ * @method static static REPLACEMENT()
+ * @method static static DUPLICATED()
+ * @method static static DELETED()
  */
 final class ScheduleRelationship extends Enum implements LocalizedEnum
 {
@@ -20,4 +23,10 @@ final class ScheduleRelationship extends Enum implements LocalizedEnum
     const UNSCHEDULED = 2;
 
     const CANCELED = 3;
+
+    const REPLACEMENT = 5;
+
+    const DUPLICATED = 6;
+
+    const DELETED = 7;
 }

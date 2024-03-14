@@ -14,6 +14,7 @@ npm-debug.log
 yarn-error.log
 .envdev
 .envprod
+/packages/transittracker/*
 /public/*.js
 !/public/workbox*.js
 !/public/service-worker.js

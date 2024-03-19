@@ -3,6 +3,7 @@
 namespace App\Jobs\RealtimeData;
 
 use App\Actions\HandleExpiredGtfs;
+use App\Enums\AgencyFeature;
 use App\Models\Agency;
 use App\Models\Gtfs\Trip;
 use App\Models\Stat;
@@ -83,7 +84,7 @@ class GtfsRtHandler implements ShouldQueue
             $newVehicle = [
                 'is_active' => true,
                 'gtfs_trip_id' => $this->processField($vehicle->getTrip()->getTripId()),
-                'gtfs_route_id' => $this->processField($vehicle->getTrip()->getRouteId()),
+                'gtfs_route_id' => $this->processField($vehicle->getTrip()->getRouteId()) ?? $this->getRouteFromTrip($vehicle->getTrip()->getTripId()),
                 'start_time' => $this->processField($vehicle->getTrip()->getStartTime()),
                 'schedule_relationship' => $this->processField($vehicle->getTrip()->getScheduleRelationship()),
                 'label' => $this->processField($vehicle->getVehicle()->getLabel(), 'label'),
@@ -168,5 +169,24 @@ class GtfsRtHandler implements ShouldQueue
         }
 
         return $value;
+    }
+
+    // Some agencies don't include the route_id in their vehiclePosition feed
+    // In this case, get the route_id from the trip_id
+    private function getRouteFromTrip(?string $tripId)
+    {
+        if ($this->agency->features->doesntContain(AgencyFeature::UseRouteFromTrip)) {
+            return null;
+        }
+
+        if (empty($tripId)) {
+            return null;
+        }
+
+        return Trip::query()
+            ->where(['agency_id' => $this->agency->id, 'gtfs_trip_id' => $tripId])
+            ->select(['gtfs_route_id'])
+            ->first()
+            ?->gtfs_route_id;
     }
 }

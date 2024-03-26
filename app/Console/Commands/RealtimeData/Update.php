@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\RealtimeData;
 
-use App\Jobs\RealtimeData\DispatchAgencies;
+use App\Jobs\RealtimeData\DispatchAgency;
 use App\Models\Agency;
 use Illuminate\Console\Command;
 
@@ -16,30 +16,31 @@ class Update extends Command
     {
         $forceRefresh = $this->option('force');
 
-        if ($agencySlug = $this->argument('agency')) {
-            // Will always return only one (or zero) agencies, since slug is unique
-            $agencies = Agency::where('slug', $agencySlug)->get();
-
-            if ($agencies->count() !== 1) {
-                $this->error("Unknown agency {$agencySlug}");
-
-                return Command::FAILURE;
-            }
-
-            DispatchAgencies::dispatch($agencies, $forceRefresh)->onQueue('vehicles');
-
-            $this->info("Updating {$agencies[0]->short_name}");
-
-            return Command::SUCCESS;
-        }
-
+        // Start the query
         $agencies = Agency::query();
 
+        // Only include active agencies if refresh not forced
         if (! $forceRefresh) {
             $agencies->where(['is_active' => true, 'refresh_is_active' => true]);
         }
 
-        DispatchAgencies::dispatch($agencies->get(), $forceRefresh)->onQueue('vehicles');
+        // Search for a particular agency if specified
+        if ($agencySlug = $this->argument('agency')) {
+            $agencies->where('slug', $agencySlug);
+        }
+
+        $results = $agencies->get();
+
+        // Throw error if no agency has been found
+        if (! $results->count()) {
+            $this->error("Unknown agency {$agencySlug}");
+
+            return Command::FAILURE;
+        }
+
+        foreach ($results as $agency) {
+            DispatchAgency::dispatch($agency, $forceRefresh)->onQueue('realtime-download');
+        }
 
         $this->newLine();
         $this->info("Refresh launched for {$agencies->count()} agencies!");

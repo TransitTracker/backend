@@ -111,6 +111,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Silenced Jobs
+    |--------------------------------------------------------------------------
+    |
+    | Silencing a job will instruct Horizon to not place the job in the list
+    | of completed jobs within the Horizon dashboard. This setting may be
+    | used to fully remove any noisy jobs from the completed jobs list.
+    |
+    */
+
+    'silenced' => [
+        \Spatie\ScheduleMonitor\Jobs\PingOhDearJob::class,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Metrics
     |--------------------------------------------------------------------------
     |
@@ -165,57 +180,89 @@ return [
     | queued jobs and will be provisioned by Horizon during deployment.
     |
     */
-
     'environments' => [
         'production' => [
             'supervisor-main' => [
                 'connection' => 'redis',
-                'queue' => ['vehicles', 'notifications', 'ohdear', 'misc'],
+                'queue' => ['notifications', 'ohdear', 'default'],
                 'balance' => 'auto',
-                'processes' => 5,
-                'tries' => 1,
+                'autoScalingStrategy' => 'time',
+                'maxProcesses' => 2,
+                'maxTime' => 3600,
                 'maxJobs' => 1000,
-                'maxTime' => 3600,
-                'nice' => 5,
-            ],
-            'supervisor-gtfs' => [
-                'connection' => 'redis',
-                'queue' => ['gtfs'],
-                'balance' => 'simple',
-                'processes' => 1,
                 'tries' => 1,
-                'timeout' => 600,
-                'maxTime' => 3600,
-                'nice' => 10,
             ],
-        ],
-
-        'staging' => [
-            'supervisor-staging-main' => [
+            'supervisor-realtime-download' => [
                 'connection' => 'redis',
-                'queue' => ['vehicles', 'notifications', 'ohdear', 'misc'],
+                'queue' => ['realtime-download'],
                 'balance' => 'auto',
-                'processes' => 5,
+                'minProcesses' => 3,
+                'maxProcesses' => 5,
+                'maxTime' => 3600,
+                'maxJobs' => 1000,
                 'tries' => 1,
             ],
-            'supervisor-staging-gtfs' => [
+            'supervisor-realtime-process' => [
                 'connection' => 'redis',
-                'queue' => ['gtfs'],
+                'queue' => ['realtime-process'],
+                'balance' => 'auto',
+                'minProcesses' => 3,
+                'maxProcesses' => 5,
+                'maxTime' => 3600,
+                'maxJobs' => 1000,
+                'tries' => 1,
+            ],
+            'supervisor-static' => [
+                'connection' => 'redis',
+                'queue' => ['static'],
                 'balance' => 'simple',
-                'processes' => 1,
+                'maxProcesses' => 1,
+                'maxTime' => 3600,
+                'maxJobs' => 1000,
                 'tries' => 1,
                 'timeout' => 600,
             ],
         ],
-
         'local' => [
-            'supervisor-dev' => [
+            'supervisor-main' => [
                 'connection' => 'redis',
-                'queue' => ['vehicles', 'notifications', 'gtfs', 'ohdear', 'misc'],
-                'balance' => 'simple',
-                'processes' => 5,
+                'queue' => ['notifications', 'ohdear', 'default'],
+                'balance' => 'auto',
+                'autoScalingStrategy' => 'time',
+                'maxProcesses' => 2,
+                'maxTime' => 3600,
+                'maxJobs' => 1000,
                 'tries' => 1,
-                //                'timeout' => 600,
+            ],
+            'supervisor-realtime-download' => [
+                'connection' => 'redis',
+                'queue' => ['realtime-download'],
+                'balance' => 'auto',
+                'minProcesses' => 3,
+                'maxProcesses' => 5,
+                'maxTime' => 3600,
+                'maxJobs' => 1000,
+                'tries' => 1,
+            ],
+            'supervisor-realtime-process' => [
+                'connection' => 'redis',
+                'queue' => ['realtime-process'],
+                'balance' => 'auto',
+                'minProcesses' => 3,
+                'maxProcesses' => 5,
+                'maxTime' => 3600,
+                'maxJobs' => 1000,
+                'tries' => 1,
+            ],
+            'supervisor-static' => [
+                'connection' => 'redis',
+                'queue' => ['static'],
+                'balance' => 'simple',
+                'maxProcesses' => 1,
+                'maxTime' => 3600,
+                'maxJobs' => 1000,
+                'tries' => 1,
+                'timeout' => 600,
             ],
         ],
     ],

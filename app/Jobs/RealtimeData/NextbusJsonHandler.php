@@ -22,13 +22,12 @@ class NextbusJsonHandler implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $queue = 'realtime-process';
+
     /**
      * Create a new job instance.
-     *
-     * @param  string  $dataFile
-     * @param  int  $time
      */
-    public function __construct(private Agency $agency, private $dataFile, private $time)
+    public function __construct(private Agency $agency, private int $time)
     {
     }
 
@@ -48,7 +47,7 @@ class NextbusJsonHandler implements ShouldQueue
         ])->select(['id', 'is_active'])->get();
         $activeArray = [];
 
-        $data = Storage::get($this->dataFile);
+        $data = Storage::get("realtime/{$this->agency->slug}");
 
         // Convert JSON to PHP object
         $json = json_decode($data);

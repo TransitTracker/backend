@@ -23,10 +23,12 @@ class JavascriptGtfsRtHandler implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $queue = 'realtime-process';
+
     /**
      * Create a new job instance.
      */
-    public function __construct(private Agency $agency, private $dataFile, private int $time)
+    public function __construct(private Agency $agency, private int $time)
     {
     }
 
@@ -43,7 +45,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             ['agency_id', $this->agency->id],
         ])->select(['id', 'is_active'])->get();
 
-        $filePath = Storage::path($this->dataFile);
+        $filePath = Storage::path("realtime/{$this->agency->slug}");
         $printGtfsRt = config('transittracker.print_gtfs_rt_bin');
 
         // Convert protobuf to PHP object
@@ -53,7 +55,6 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             $count = $collection->count();
         } catch (Exception $e) {
             Log::error("Error while decoding GTFS-RT feed from {$this->agency->slug}: {$e->getMessage()}");
-            Storage::delete($this->dataFile);
 
             return;
         }

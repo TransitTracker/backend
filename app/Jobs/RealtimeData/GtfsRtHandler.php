@@ -25,12 +25,12 @@ class GtfsRtHandler implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $queue = 'realtime-process';
+
     /**
      * Create a new job instance.
-     *
-     * @param  string  $dataFile
      */
-    public function __construct(private Agency $agency, private $dataFile, private int $time)
+    public function __construct(private Agency $agency, private int $time)
     {
     }
 
@@ -50,7 +50,7 @@ class GtfsRtHandler implements ShouldQueue
         ])->select(['id', 'is_active'])->get();
         $activeArray = [];
 
-        $data = Storage::get($this->dataFile);
+        $data = Storage::get("realtime/{$this->agency->slug}");
 
         // Convert protobuf to PHP object
         try {
@@ -59,7 +59,6 @@ class GtfsRtHandler implements ShouldQueue
             $count = count($feed->getEntity());
         } catch (GPBDecodeException $e) {
             Log::error("Error while decoding GTFS-RT feed from {$this->agency->slug}: {$e->getMessage()}");
-            Storage::delete($this->dataFile);
 
             return;
         }

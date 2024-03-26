@@ -37,11 +37,12 @@ To start the service, run `php artisan horizon`
 
 The following queue are used (a redesign is coming):
 
-- `vehicles` Realtime data update
+- `realtime-download` Realtime data fetching
+- `realtime-process` Realtime data processing
 - `notifications` All notifications
-- `gtfs` Static data update
+- `static` Static data update (download and processing)
 - `ohdear` Jobs related to the OhDear monitoring service
-- `misc` All others jobs
+- `default` All others jobs
 
 ### Websockets
 

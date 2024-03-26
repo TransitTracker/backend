@@ -13,6 +13,7 @@ use Exception;
 use FelixINX\TransitRealtime\FeedMessage;
 use Google\Protobuf\Internal\GPBDecodeException;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 
-class GtfsRtHandler implements ShouldQueue
+class GtfsRtHandler implements ShouldQueue, ShouldBeUniqueUntilProcessing
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -30,6 +31,13 @@ class GtfsRtHandler implements ShouldQueue
      */
     public function __construct(private Agency $agency, private int $time)
     {
+    }
+
+    // Make sure that there is no duplicate job for this agency in the queue
+    // Since this job will always pull the latest data, it's not a problem to delete duplicate jobs
+    public function uniqueId(): string
+    {
+        return "realtime-process:{$this->agency->slug}";
     }
 
     /**

@@ -17,6 +17,8 @@ class SyncTagsWithFleetStats implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $queue = 'default';
+
     public function __construct()
     {
     }

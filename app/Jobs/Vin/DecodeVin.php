@@ -15,6 +15,8 @@ class DecodeVin implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $queue = 'default';
+
     public function __construct(private array $vins)
     {
     }

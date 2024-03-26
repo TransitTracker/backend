@@ -19,6 +19,8 @@ class ProcessGtfsShapes implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $queue = 'static';
+
     private array $shapes;
 
     public function __construct(private Agency $agency, private string $file)

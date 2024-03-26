@@ -21,8 +21,6 @@ class ProcessGtfsStopTimes implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $queue = 'static';
-
     public function __construct(private Agency $agency, private string $file, private int $offset = 0)
     {
     }

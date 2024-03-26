@@ -19,8 +19,6 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $queue = 'static';
-
     private ?ZipArchive $zip = null;
 
     private ?string $directory = null;

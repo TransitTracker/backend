@@ -17,8 +17,6 @@ class DispatchAgency implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $queue = 'realtime-download';
-
     public Carbon $dispatchedAt;
 
     /**
@@ -63,6 +61,6 @@ class DispatchAgency implements ShouldQueue
 
         // Dispatch on realtime-process
         // Two separated queues to allow process to run as quick as possible after download
-        $handler::dispatch($this->agency, $time);
+        $handler::dispatch($this->agency, $time)->onQueue('realtime-process');
     }
 }

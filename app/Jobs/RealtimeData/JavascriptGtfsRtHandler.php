@@ -23,8 +23,6 @@ class JavascriptGtfsRtHandler implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $queue = 'realtime-process';
-
     /**
      * Create a new job instance.
      */

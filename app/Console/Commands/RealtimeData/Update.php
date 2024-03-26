@@ -39,7 +39,7 @@ class Update extends Command
         }
 
         foreach ($results as $agency) {
-            DispatchAgency::dispatch($agency, $forceRefresh);
+            DispatchAgency::dispatch($agency, $forceRefresh)->onQueue('realtime-download');
         }
 
         $this->newLine();

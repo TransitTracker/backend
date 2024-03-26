@@ -88,6 +88,7 @@ class Update extends Command
         $batch = Bus::batch([
             new DownloadStatic($agency, $files),
         ])
+            ->onQueue('static')
             ->name("{$agency->short_name} static refresh {$time}")
             ->finally(function (Batch $batch) use ($agency) {
                 if ($batch->cancelled()) {

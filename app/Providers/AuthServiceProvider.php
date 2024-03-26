@@ -25,6 +25,5 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('viewLogViewer', fn (User $user) => $user->isAdmin());
-        Gate::define('viewPulse', fn (User $user) => $user->isAdmin());
     }
 }

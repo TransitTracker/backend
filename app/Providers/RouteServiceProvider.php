@@ -37,16 +37,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/vin.php'));
 
             Route::middleware(['api', Localization::class])
-                ->prefix('v2b')
+                ->prefix('v2')
                 ->domain(config('transittracker.domain.api'))
                 ->namespace($this->namespace)
-                ->group(base_path('routes/api/v2b.php'));
-
-            Route::prefix('')
-                ->domain(config('transittracker.domain.api'))
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+                ->group(base_path('routes/api/v2.php'));
 
             Route::middleware('web')
                 ->domain(config('transittracker.domain.web'))

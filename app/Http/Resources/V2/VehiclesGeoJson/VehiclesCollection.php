@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\V2b\GeoJson;
+namespace App\Http\Resources\V2\VehiclesGeoJson;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;

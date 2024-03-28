@@ -12,5 +12,6 @@ use BenSampo\Enum\Enum;
 final class AgencyFeature extends Enum
 {
     const PredictedBlocks = 'predictedBlocks';
+
     const UseRouteFromTrip = 'useRouteFromTrip';
 }

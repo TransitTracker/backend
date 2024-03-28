@@ -4,9 +4,7 @@ namespace App\Console;
 
 use App\Jobs\CleanFolders;
 use App\Jobs\RealtimeData\CheckTimestamps;
-use App\Jobs\RealtimeData\DispatchAgencies;
 use App\Jobs\Tags\SyncTagsWithFleetStats;
-use App\Models\Agency;
 use App\Models\FailedJob;
 use App\Models\Gtfs\Shape;
 use Illuminate\Console\Scheduling\Schedule;

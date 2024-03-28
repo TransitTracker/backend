@@ -1,5 +1,6 @@
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - vendor/larastan/larastan/extension.neon
+    - vendor/bensampo/laravel-enum/extension.neon
 
 parameters:
 
@@ -13,7 +14,6 @@ parameters:
         - '#Call to an undefined method Spatie[a-zA-Z0-9\\_]+::forUrls\(\)#'
 
     excludePaths:
-        #- ./*/*/app/Http/Resources/*
-        - *Resource.php
+        - *Http/Resources/*
 
     checkMissingIterableValueType: false

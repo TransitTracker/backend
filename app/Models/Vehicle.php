@@ -148,7 +148,7 @@ class Vehicle extends Model
     public function scopeExoWithVin(Builder $query): Builder
     {
         return $query->whereIn('agency_id', Cache::remember('exoAgenciesId', 86400, function () {
-            return Agency::where('is_exo_sector', true)->select('id')->get()->pluck('id')->all();
+            return Agency::where('is_exo_sector', true)->pluck('id')->all();
         }))
             ->whereDate('created_at', '>=', '2021-04-27')
             ->whereRaw('LENGTH(vehicle_id) = ?', [17]);

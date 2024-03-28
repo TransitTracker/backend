@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\QueryParam;
 use MatanYadaev\EloquentSpatial\SpatialBuilder;
-use Storage;
 
 #[Group('Agencies')]
 class AgencyController extends Controller

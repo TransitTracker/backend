@@ -14,6 +14,8 @@ class UpdatedVehicle extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    private string $emoji;
+
     public function __construct(private Vehicle $vehicle)
     {
         $this->vehicle->load(['gtfsRoute:agency_id,gtfs_route_id,short_name', 'agency:id', 'agency.regions:slug']);

@@ -182,32 +182,11 @@ return [
     */
     'environments' => [
         'production' => [
-            'supervisor-main' => [
+            'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['notifications', 'ohdear', 'default'],
+                'queue' => ['notifications', 'ohdear', 'default', 'realtime-download', 'realtime-process'],
                 'balance' => 'auto',
-                'autoScalingStrategy' => 'time',
-                'maxProcesses' => 2,
-                'maxTime' => 3600,
-                'maxJobs' => 1000,
-                'tries' => 1,
-            ],
-            'supervisor-realtime-download' => [
-                'connection' => 'redis',
-                'queue' => ['realtime-download'],
-                'balance' => 'auto',
-                'minProcesses' => 3,
-                'maxProcesses' => 5,
-                'maxTime' => 3600,
-                'maxJobs' => 1000,
-                'tries' => 1,
-            ],
-            'supervisor-realtime-process' => [
-                'connection' => 'redis',
-                'queue' => ['realtime-process'],
-                'balance' => 'auto',
-                'minProcesses' => 3,
-                'maxProcesses' => 5,
+                'processes' => 5,
                 'maxTime' => 3600,
                 'maxJobs' => 1000,
                 'tries' => 1,
@@ -224,32 +203,11 @@ return [
             ],
         ],
         'local' => [
-            'supervisor-main' => [
+            'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['notifications', 'ohdear', 'default'],
+                'queue' => ['notifications', 'ohdear', 'default', 'realtime-download', 'realtime-process'],
                 'balance' => 'auto',
-                'autoScalingStrategy' => 'time',
-                'maxProcesses' => 2,
-                'maxTime' => 3600,
-                'maxJobs' => 1000,
-                'tries' => 1,
-            ],
-            'supervisor-realtime-download' => [
-                'connection' => 'redis',
-                'queue' => ['realtime-download'],
-                'balance' => 'auto',
-                'minProcesses' => 3,
-                'maxProcesses' => 5,
-                'maxTime' => 3600,
-                'maxJobs' => 1000,
-                'tries' => 1,
-            ],
-            'supervisor-realtime-process' => [
-                'connection' => 'redis',
-                'queue' => ['realtime-process'],
-                'balance' => 'auto',
-                'minProcesses' => 3,
-                'maxProcesses' => 5,
+                'processes' => 5,
                 'maxTime' => 3600,
                 'maxJobs' => 1000,
                 'tries' => 1,

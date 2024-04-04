@@ -45,6 +45,15 @@ class DispatchAgency implements ShouldQueue
             }
         }
 
+        // For Société de transport de l'Outaouais only
+        // Special authentification that requires an hash for each request
+        if ($this->agency->slug === 'sto') {
+            $dateUtc = now()->setTimezone('UTC');
+            $hash = strtoupper(hash('sha256', "{$this->agency->headers['sto_private']}{$dateUtc->format('Ymd')}T{$dateUtc->format('Hi')}Z"));
+            $this->agency->realtime_url = "{$this->agency->realtime_url}&hash={$hash}";
+            $this->agency->headers = [];
+        }
+
         $response = Http::withHeaders($this->agency->headers ?? [])->get($this->agency->realtime_url);
 
         if ($response->failed()) {

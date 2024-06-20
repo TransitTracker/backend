@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class DispatchAgency implements ShouldQueue
@@ -57,6 +58,11 @@ class DispatchAgency implements ShouldQueue
         $response = Http::withHeaders($this->agency->headers ?? [])->get($this->agency->realtime_url);
 
         if ($response->failed()) {
+            Log::error('Error in DispatchAgency http request', [
+                'agency' => $this->agency->slug,
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
             return;
         }
 

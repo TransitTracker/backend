@@ -13,7 +13,7 @@ class CreateVehicleForceLabel
     {
     }
 
-    public function handle(VehicleCreated $event): ?bool
+    public function handle(VehicleCreated $event): bool
     {
         // For Zenbus (for legibility purpose)
         if (Str::startsWith($event->vehicle->vehicle_id, 'zenbus:Vehicle:')) {
@@ -43,5 +43,7 @@ class CreateVehicleForceLabel
 
             $event->vehicle->force_label = str($event->vehicle->vehicle_id)->replace($tmixId, '')->value();
         }
+
+        return true;
     }
 }

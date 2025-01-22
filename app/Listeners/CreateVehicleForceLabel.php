@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\VehicleCreated;
+use App\Events\VehicleCreating;
 use Illuminate\Support\Str;
 
 class CreateVehicleForceLabel
@@ -13,7 +14,7 @@ class CreateVehicleForceLabel
     {
     }
 
-    public function handle(VehicleCreated $event): bool
+    public function handle(VehicleCreating $event): bool
     {
         // For Zenbus (for legibility purpose)
         if (Str::startsWith($event->vehicle->vehicle_id, 'zenbus:Vehicle:')) {

@@ -7,10 +7,12 @@ use App\Events\NotificationUserCreated;
 use App\Events\TagCreated;
 use App\Events\TagUpdated;
 use App\Events\VehicleCreated;
+use App\Events\VehicleCreating;
 use App\Events\VehicleForceRefAdded;
 use App\Events\VehicleUpdated;
 use App\Events\Vin\SuggestionCreated;
 use App\Listeners\AddTagIconToMapbox;
+use App\Listeners\CreateVehicleForceLabel;
 use App\Listeners\DeactivateInactiveSubscription;
 use App\Listeners\DecodeVin;
 use App\Listeners\SendElectricStmNotification;
@@ -39,6 +41,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         NotificationUserCreated::class => [
             SendWelcomeNotification::class,
+        ],
+        VehicleCreating::class => [
+            CreateVehicleForceLabel::class,
         ],
         VehicleCreated::class => [
             //            SendNewVehicleNotification::class,

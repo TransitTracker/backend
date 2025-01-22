@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\VehicleType;
 use App\Events\ElectricStmVehicleUpdated;
 use App\Events\VehicleCreated;
+use App\Events\VehicleCreating;
 use App\Events\VehicleForceRefAdded;
 use App\Events\VehicleUpdated;
 use App\Models\Gtfs\Route;
@@ -218,16 +219,11 @@ class Vehicle extends Model
      */
     protected $dispatchesEvents = [
         'created' => VehicleCreated::class,
+        'creating' => VehicleCreating::class,
     ];
 
     protected static function booted(): void
     {
-        static::creating(function (self $vehicle) {
-            if (Str::startsWith($vehicle->vehicle_id, 'zenbus:Vehicle:')) {
-                $vehicle->force_label = Str::of($vehicle->vehicle_id)->remove('enbus:Vehicle')->remove(':LOC')->value;
-            }
-        });
-
         static::created(function (self $vehicle) {
             $vehicle->loadMissing(['agency:id,vehicles_type', 'agency.links:id']);
             $vehicle->vehicle_type = VehicleType::coerce(Str::ucfirst($vehicle->agency->vehicles_type));

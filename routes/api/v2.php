@@ -40,6 +40,7 @@ Route::get('tags', [TagController::class, 'index']);
 Route::get('tags/{tag}', [TagController::class, 'show']);
 
 Route::get('vehicles', [VehicleController::class, 'index']);
+Route::get('vehicles.geojson', [VehicleController::class, 'indexGeoJson']);
 Route::get('vehicles/{vehicle}', [VehicleController::class, 'show']);
 
 Route::get('push/profile', [ProfileController::class, 'show']);

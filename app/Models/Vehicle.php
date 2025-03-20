@@ -50,6 +50,11 @@ class Vehicle extends Model
         return [];
     }
 
+    public function activeLinks(): BelongsToMany
+    {
+        return $this->belongsToMany(Link::class)->active();
+    }
+
     public function links(): BelongsToMany
     {
         return $this->belongsToMany(Link::class);

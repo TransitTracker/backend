@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\ResponseCache\Facades\ResponseCache;
@@ -23,6 +24,11 @@ class Link extends Model
     public function vehicles(): BelongsToMany
     {
         return $this->belongsToMany(Vehicle::class);
+    }
+
+    public function scopeActive(Builder $query): void
+    {
+        $query->where('is_active', true);
     }
 
     protected static function booted()

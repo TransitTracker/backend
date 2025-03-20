@@ -31,12 +31,30 @@ class LinkResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('internal_title')->required(),
-                Forms\Components\TextInput::make('title')->required(),
-                Forms\Components\TextInput::make('description')->required(),
-                Forms\Components\TextInput::make('link')->required(),
-                Forms\Components\BelongsToManyMultiSelect::make('agencies')->relationship('agencies', 'short_name')->label('Applies to new vehicles from agencies')->columnSpan(2),
-            ]);
+                Forms\Components\Toggle::make('is_active')
+                    ->default(true)
+                    ->columnSpan(4)
+                    ->inline(false),
+                Forms\Components\TextInput::make('internal_title')
+                    ->required()
+                    ->columnSpan(2),
+                Forms\Components\TextInput::make('title')
+                    ->required()
+                    ->columnSpan(3),
+                Forms\Components\TextInput::make('description')
+                    ->required()
+                    ->columnSpan(3),
+                Forms\Components\TextInput::make('link')
+                    ->required()
+                    ->helperText(str('Available dynamic variable: `:id`, `:ref`, `:trip`')->inlineMarkdown()->toHtmlString())
+                    ->columnSpanFull(),
+                Forms\Components\Select::make('agencies')
+                    ->multiple()
+                    ->relationship('agencies', 'short_name')
+                    ->label('Applies to new vehicles from agencies')
+                    ->columnSpanFull(),
+            ])
+            ->columns(6);
     }
 
     public static function table(Table $table): Table
@@ -45,6 +63,7 @@ class LinkResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('internal_title'),
                 Tables\Columns\TextColumn::make('link'),
+                Tables\Columns\IconColumn::make('is_active')->boolean(),
                 Tables\Columns\TextColumn::make('agencies_count')->counts('agencies'),
                 Tables\Columns\TextColumn::make('vehicles_count')->counts('vehicles'),
             ])

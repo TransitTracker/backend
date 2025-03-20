@@ -3,9 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Enums\AgencyFeature;
+use App\Enums\VehicleType;
 use App\Filament\Resources\AgencyResource\Pages;
 use App\Filament\Resources\AgencyResource\RelationManagers\LinksRelationManager;
 use App\Filament\Resources\AgencyResource\RelationManagers\RegionsRelationManager;
+use App\Jobs\SyncIconToMapbox;
 use App\Models\Agency;
 use Carbon\Carbon;
 use Filament\Forms\Components\ColorPicker;
@@ -19,12 +21,15 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
 
 class AgencyResource extends Resource
 {
@@ -150,6 +155,28 @@ class AgencyResource extends Resource
                     ])
                     ->beforeReplicaSaved(function (Agency $replica, array $data): void {
                         $replica->fill($data);
+                    }),
+            ])
+            ->bulkActions([
+                BulkAction::make('generateMapboxIcon')
+                    ->requiresConfirmation()
+                    ->form([
+                        Select::make('vehicleType')
+                            ->options(VehicleType::asFlippedArray())
+                            ->required(),
+                    ])
+                    ->action(function (Collection $records, array $data) {
+                        if (count($records) > 25) {
+                            return Notification::make()
+                                ->title('Too many records')
+                                ->body('You can select a maximum of 12 agencies at a time.')
+                                ->danger()
+                                ->send();
+                        }
+
+                        SyncIconToMapbox::dispatch($records, VehicleType::fromValue((int) $data['vehicleType']));
+
+                        return Notification::make()->title('Synchronisation will start soon')->success()->send();
                     }),
             ])
             ->filters([

@@ -64,7 +64,7 @@ class AgencyController extends Controller
         $query = Vehicle::query()
             ->where('agency_id', $agency->id)
             ->select(['id', 'vehicle_id', 'force_vehicle_id', 'is_active', 'label', 'force_label', 'timestamp', 'gtfs_trip_id', 'gtfs_route_id', 'start_time', 'position', 'bearing', 'speed', 'vehicle_type', 'license_plate', 'current_stop_sequence', 'current_status', 'schedule_relationship', 'congestion_level', 'occupancy_status', 'agency_id', 'created_at', 'updated_at'])
-            ->with(['trip:agency_id,gtfs_trip_id,headsign,short_name,gtfs_block_id,gtfs_service_id,gtfs_shape_id', 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color', 'links:id', 'agency:id,slug,name,features', 'tags:id']);
+            ->with(['trip:agency_id,gtfs_trip_id,headsign,short_name,gtfs_block_id,gtfs_service_id,gtfs_shape_id', 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color', 'activeLinks:id', 'agency:id,slug,name,features', 'tags:id']);
 
         if (! $includeAll) {
             $query->where('is_active', true);
@@ -97,7 +97,7 @@ class AgencyController extends Controller
                 $query->where(['agency_id' => $agency->id, 'force_vehicle_id' => $vehicleRef]);
             })
             ->select(['id', 'vehicle_id', 'force_vehicle_id', 'is_active', 'label', 'force_label', 'timestamp', 'gtfs_trip_id', 'gtfs_route_id', 'start_time', 'position', 'bearing', 'speed', 'vehicle_type', 'license_plate', 'current_stop_sequence', 'current_status', 'schedule_relationship', 'congestion_level', 'occupancy_status', 'agency_id', 'created_at', 'updated_at'])
-            ->with(['trip:agency_id,gtfs_trip_id,headsign,short_name,gtfs_block_id,gtfs_service_id,gtfs_shape_id', 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color', 'links:id', 'agency:id,slug,name', 'tags:id'])
+            ->with(['trip:agency_id,gtfs_trip_id,headsign,short_name,gtfs_block_id,gtfs_service_id,gtfs_shape_id', 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color', 'activeLinks:id', 'agency:id,slug,name', 'tags:id'])
             ->firstOrFail();
 
         return VehicleResource::make($vehicle);
@@ -113,21 +113,30 @@ class AgencyController extends Controller
 
         $vehicles = Vehicle::query()
             ->whereBelongsTo($agency)
-            ->active()
             ->select([
-                'id', 'position', 'gtfs_trip_id', 'start_time', 'schedule_relationship', 'gtfs_route_id', 'force_vehicle_id', 'vehicle_id', 'force_label', 'label', 'license_plate', 'vehicle_type', 'bearing', 'odometer', 'speed', 'current_stop_sequence', 'current_status', 'congestion_level', 'occupancy_status', 'agency_id', 'created_at',
+                'id', 'position', 'gtfs_trip_id', 'start_time', 'schedule_relationship', 'gtfs_route_id', 'force_vehicle_id', 'vehicle_id', 'force_label', 'label', 'license_plate', 'vehicle_type', 'bearing', 'odometer', 'speed', 'current_stop_sequence', 'current_status', 'congestion_level', 'occupancy_status', 'agency_id', 'created_at', 'last_seen_at',
             ])
             ->with([
-                'trip:agency_id,gtfs_trip_id,short_name,headsign,gtfs_block_id,gtfs_shape_id',
+                'trip:agency_id,gtfs_trip_id,short_name,headsign,gtfs_block_id,gtfs_service_id,gtfs_shape_id',
                 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color',
-                'links:id',
+                'activeLinks:id',
                 'tags:id',
-            ])
-            ->get();
+            ]);
+
+        if ($request->boolean('history')) {
+            $vehicles = $vehicles
+                ->downloadable()
+                ->paginate(250);
+        } else {
+            $vehicles = $vehicles
+                ->active()
+                ->get();
+        }
 
         return VehiclesCollection::make($vehicles)
             ->additional([
                 'lastRefreshAt' => $agency->timestamp,
-            ]);
+            ])
+            ->preserveQuery();
     }
 }

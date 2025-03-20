@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\AgencyResource\Pages;
 
+use App\Enums\VehicleType;
 use App\Filament\Resources\AgencyResource;
+use App\Jobs\SyncIconToMapbox;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
@@ -70,6 +72,15 @@ class EditAgency extends EditRecord
                             ->send();
                     }),
                 Action::make('downloadBusIcon')->action('downloadBus')->color('gray'),
+                Action::make('syncBusIconToMapbox')
+                    ->action(function () {
+                        SyncIconToMapbox::dispatch($this->record, VehicleType::Bus())->onQueue('default');
+
+                        return Notification::make()
+                            ->title('Syncinc bus icon to Mapbox!')
+                            ->success()
+                            ->send();
+                    }),
             ]),
         ];
     }

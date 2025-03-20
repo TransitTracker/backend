@@ -167,11 +167,23 @@ class Agency extends Model
 
             ResponseCache::selectCachedItems()
                 ->usingSuffix('en')
-                ->forUrls('/v2/agencies', "/v2/agencies/{$agency->slug}", "/v2/agencies/{$agency->slug}/vehicles", '/v2/regions')
+                ->forUrls([
+                    '/v2/agencies',
+                    "/v2/agencies/{$agency->slug}",
+                    "/v2/agencies/{$agency->slug}/vehicles",
+                    "/v2/agencies/{$agency->slug}/vehicles.geojson",
+                    '/v2/regions',
+                ])
                 ->forget();
             ResponseCache::selectCachedItems()
                 ->usingSuffix('fr')
-                ->forUrls('/v2/agencies', "/v2/agencies/{$agency->slug}", "/v2/agencies/{$agency->slug}/vehicles", '/v2/regions')
+                ->forUrls([
+                    '/v2/agencies',
+                    "/v2/agencies/{$agency->slug}",
+                    "/v2/agencies/{$agency->slug}/vehicles",
+                    "/v2/agencies/{$agency->slug}/vehicles.geojson",
+                    '/v2/regions',
+                ])
                 ->forget();
 
             if ($agency->wasChanged('is_exo_sector')) {

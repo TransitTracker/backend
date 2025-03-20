@@ -29,13 +29,15 @@ class LinkController extends Controller
 
     public function index()
     {
-        $links = Link::all();
+        $links = Link::active()->get();
 
         return LinkResource::collection($links);
     }
 
-    public function show(Link $link)
+    public function show(int $linkId)
     {
+        $link = Link::active()->findOrFail($linkId);
+
         return LinkResource::make($link);
     }
 }

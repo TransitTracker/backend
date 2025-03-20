@@ -53,7 +53,7 @@ class VehicleResource extends JsonResource
                 'label' => OccupancyStatus::coerce($this->occupancy_status)?->description,
             ],
             'agency' => $this->agency->slug,
-            'links' => $this->links->pluck('id')->unique()->sort()->values()->all(),
+            'links' => $this->activeLinks->pluck('id')->unique()->sort()->values()->all(),
             'tags' => TagSimpleResource::collection($this->tags),
             'trip' => TripResource::make($this)->additional(['agencySlug' => $this->agency->slug]),
             'createdAt' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),

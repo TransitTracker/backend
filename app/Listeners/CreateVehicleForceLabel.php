@@ -32,8 +32,8 @@ class CreateVehicleForceLabel
         // The agency prefix is always added in front of vehicles ID
         // See: https://gist.github.com/useless2764/0b3e646f171e8ff5e2721d4a8f234652
         if ($event->vehicle->agency->features->contains('metrolinxTMIX')) {
-            $tmixId = (int) $event->vehicle->agency->features
-                ->first(fn ($item) => str($item)->startsWith('tmixID:'))
+            $tmixId = (int) str($event->vehicle->agency->features
+                ->first(fn ($item) => str($item)->startsWith('tmixID:')))
                 ->replace('tmixID:', '')
                 ->value();
 

@@ -63,6 +63,7 @@ class DispatchAgency implements ShouldQueue
                 'status' => $response->status(),
                 'body' => $response->body(),
             ]);
+
             return;
         }
 

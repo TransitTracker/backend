@@ -7,7 +7,6 @@ use App\Enums\OccupancyStatus;
 use App\Enums\ScheduleRelationship;
 use App\Enums\VehicleStopStatus;
 use App\Enums\VehicleType;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

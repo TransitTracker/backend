@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-use App\Events\VehicleCreated;
 use App\Events\VehicleCreating;
 use Illuminate\Support\Str;
 

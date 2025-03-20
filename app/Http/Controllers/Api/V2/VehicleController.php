@@ -55,11 +55,10 @@ class VehicleController extends Controller
                 'tags:id',
             ]);
 
-        if (!$request->boolean('history')) {
+        if (! $request->boolean('history')) {
             $vehicles->active();
         }
 
-//        return \App\Http\Resources\V2\VehiclesGeoJson\VehicleResource::collection($vehicles->paginate(250));
         return VehiclesCollection::make($vehicles->paginate(250))->preserveQuery();
     }
 

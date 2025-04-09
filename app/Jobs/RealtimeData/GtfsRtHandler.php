@@ -170,8 +170,7 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
         if ($transformer === 'timestamp') {
             $timestamp = ($value > 0) ? $value : $this->time;
 
-            // TODO: Check timestamp
-            return Carbon::parse($timestamp, 'UTC');
+            return Carbon::createFromTimestamp($timestamp);
         }
 
         return $value;

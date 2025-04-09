@@ -59,7 +59,7 @@ class VehicleController extends Controller
             $vehicles->active();
         }
 
-        return VehiclesCollection::make($vehicles->paginate(250))->preserveQuery();
+        return VehiclesCollection::make($vehicles->paginate(500))->preserveQuery();
     }
 
     public function show(Vehicle $vehicle)

@@ -126,7 +126,7 @@ class AgencyController extends Controller
         if ($request->boolean('history')) {
             $vehicles = $vehicles
                 ->downloadable()
-                ->paginate(250);
+                ->paginate(500);
         } else {
             $vehicles = $vehicles
                 ->active()

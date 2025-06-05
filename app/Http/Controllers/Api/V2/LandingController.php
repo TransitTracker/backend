@@ -37,7 +37,12 @@ class LandingController extends Controller
             ->withCount(['activeAgencies'])
             ->get();
 
-        return GeoJsonLandingCollection::make($regions);
+        $totalVehiclesRecorded = Vehicle::count();
+
+        return GeoJsonLandingCollection::make($regions)
+            ->additional(['stats' => [
+                'totalVehiclesRecorded' => $totalVehiclesRecorded,
+            ]]);
     }
 
     public function vehicles()

@@ -119,9 +119,20 @@ class AgencyController extends Controller
             ->with([
                 'trip:agency_id,gtfs_trip_id,short_name,headsign,gtfs_block_id,gtfs_service_id,gtfs_shape_id',
                 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color',
+            ]);
+
+        // When downloading data, add internal title and short label to download
+        if ($request->boolean('label')) {
+            $vehicles->with([
+                'activeLinks:id,internal_title',
+                'tags:id,short_label',
+            ]);
+        } else {
+            $vehicles->with([
                 'activeLinks:id',
                 'tags:id',
             ]);
+        }
 
         if ($request->boolean('history')) {
             $vehicles = $vehicles

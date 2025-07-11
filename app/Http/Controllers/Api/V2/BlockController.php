@@ -8,6 +8,8 @@ use App\Http\Resources\V2\BlockResource;
 use App\Models\Agency;
 use App\Models\Gtfs\Trip;
 use Illuminate\Support\Facades\Validator;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\UrlParam;
 
 class BlockController extends Controller
 {
@@ -21,6 +23,13 @@ class BlockController extends Controller
         $this->middleware('cacheResponse:604800');
     }
 
+    /**
+     * Related trips / Voyages liées
+     *
+     * Only available for some agencies. Disponible pour quelques agences seulement.
+     */
+    #[Group('Trips')]
+    #[UrlParam('tripId', example: '951057')]
     public function show(Agency $agency, string $tripId)
     {
         $trip = Trip::select(['id', 'agency_id', 'gtfs_trip_id', 'gtfs_service_id', 'gtfs_block_id'])->where(['agency_id' => $agency->id, 'gtfs_trip_id' => $tripId])->first();

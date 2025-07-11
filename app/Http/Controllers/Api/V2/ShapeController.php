@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\GeoJsonShapeResource;
 use App\Models\Agency;
 use App\Models\Gtfs\Shape;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\UrlParam;
 
 class ShapeController extends Controller
 {
@@ -19,6 +21,11 @@ class ShapeController extends Controller
         $this->middleware('cacheResponse:604800');
     }
 
+    /**
+     * GeoJSON Shape
+     */
+    #[Group('Trips')]
+    #[UrlParam('shapeId', '1000238')]
     public function show(Agency $agency, string $shapeId)
     {
         return GeoJsonShapeResource::make(

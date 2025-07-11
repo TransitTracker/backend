@@ -65,7 +65,9 @@ class VehicleResource extends JsonResource
                 'lastSeenAt' => $this->last_seen_at->getTimestamp(),
                 'lastSeenAtLabel' => $this->when($request->boolean('label'), $this->last_seen_at->toDateTimeString()),
                 'links' => $this->activeLinks->pluck('id'),
+                'linksLabel' => $this->when($request->boolean('label'), $this->activeLinks->pluck('internal_title')),
                 'tags' => $this->tags->pluck('id'),
+                'tagsLabel' => $this->when($request->boolean('label'), $this->tags->pluck('short_label')),
             ],
             'id' => $this->id,
         ];

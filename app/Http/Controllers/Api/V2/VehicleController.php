@@ -18,8 +18,8 @@ class VehicleController extends Controller
         $vehiclesChunk = (Vehicle::count() / 500) + 5;
 
         if (! App::environment('local')) {
-            $this->middleware('throttle:30,1,v2-vehicles')->except('index');
-            $this->middleware("throttle:{$vehiclesChunk},1,v2-vehicles")->only('index');
+            $this->middleware('throttle:30,1,v2-vehicles')->except(['index', 'indexGeoJson']);
+            $this->middleware("throttle:{$vehiclesChunk},1,v2-vehicles")->only(['index', 'indexGeoJson']);
         }
 
         $this->middleware('cacheResponse:300');
@@ -51,8 +51,8 @@ class VehicleController extends Controller
             ->with([
                 'trip:agency_id,gtfs_trip_id,short_name,headsign,gtfs_block_id,gtfs_shape_id',
                 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color',
-                'activeLinks:id',
-                'tags:id',
+                'activeLinks:id,internal_title',
+                'tags:id,short_label',
             ]);
 
         if (! $request->boolean('history')) {

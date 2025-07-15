@@ -7,6 +7,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class TagsRelationManager extends RelationManager
@@ -33,7 +34,8 @@ class TagsRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\AttachAction::make()
-                    ->preloadRecordSelect(),
+                    ->preloadRecordSelect()
+                    ->recordSelectOptionsQuery(fn (Builder $query) => $query->orderBy('label')),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),

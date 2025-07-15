@@ -84,7 +84,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
                 'current_status' => $this->processField($vehicle->current_status),
                 'timestamp' => $this->processField($vehicle->timestamp->low ?? $this->time),
                 'gtfs_stop_id' => $this->processField($vehicle->stop_id),
-                'last_seen_at' => Carbon::parse($this->processField($vehicle->timestamp->low ?? $this->time)),
+                'last_seen_at' => $this->processField($vehicle->timestamp->low ?? $this->time, 'timestamp'),
             ];
 
             /*
@@ -141,6 +141,12 @@ class JavascriptGtfsRtHandler implements ShouldQueue
 
         if ($transformer === 'position' && filled($value['lat']) && filled($value['lat'])) {
             return new Point(round($value['lat'], 5), round($value['lon'], 5));
+        }
+
+        if ($transformer === 'timestamp') {
+            $timestamp = ($value > 0) ? $value : $this->time;
+
+            return Carbon::createFromTimestamp($timestamp, 'America/Toronto');
         }
 
         return $value;

@@ -80,7 +80,7 @@ class NextbusJsonHandler implements ShouldQueue
                     'bearing' => $this->processField($vehicle->heading),
                     'speed' => $this->processField($vehicle->speedKmHr),
                     'timestamp' => $this->processField(strval($timestamp - (int) $vehicle->secsSinceReport)),
-                    'last_seen_at' => Carbon::parse($this->processField($timestamp - (int) $vehicle->secsSinceReport)),
+                    'last_seen_at' => $this->processField($timestamp - (int) $vehicle->secsSinceReport, 'timestamp'),
                 ]
             );
 
@@ -118,6 +118,12 @@ class NextbusJsonHandler implements ShouldQueue
 
         if ($transformer === 'position' && filled($value['lat']) && filled($value['lon'])) {
             return (new Point(round((float) $value['lat'], 5), round((float) $value['lon'], 5)))->toSqlExpression(DB::connection());
+        }
+
+        if ($transformer === 'timestamp') {
+            $timestamp = ($value > 0) ? $value : $this->time;
+
+            return Carbon::createFromTimestamp($timestamp, 'America/Toronto');
         }
 
         return $value;

@@ -35,7 +35,7 @@ class TagsRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\AttachAction::make()
                     ->preloadRecordSelect()
-                    ->recordSelectOptionsQuery(fn (Builder $query) => $query->orderBy('label')),
+                    ->recordSelectOptionsQuery(fn (Builder $query) => $query->orderBy('type')),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),

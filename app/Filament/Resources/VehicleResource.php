@@ -161,7 +161,7 @@ class VehicleResource extends Resource
                         }
                     })
                     ->form([
-                        Select::make('tagId')->options(Tag::orderBy('label')->pluck('label', 'id'))->label('Tag')->required(),
+                        Select::make('tagId')->options(Tag::orderBy('type')->pluck('label', 'id'))->label('Tag')->required(),
                     ])->icon('gmdi-label'),
             ])
             ->paginated([10, 25, 50, 100]);

@@ -9,6 +9,7 @@ use App\Http\Resources\V2\VehicleResource;
 use App\Http\Resources\V2\VehiclesGeoJson\VehiclesCollection;
 use App\Models\Agency;
 use App\Models\Vehicle;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,7 @@ class AgencyController extends Controller
             $this->middleware("throttle:{$totalAgencies},1,v2-agencies");
         }
 
-        $this->middleware('cacheResponse')->except('vehicles');
+        $this->middleware('cacheResponse')->except('vehicles', 'vehiclesGeoJson');
         $this->middleware('cacheResponse:300')->only(['vehicles', 'vehiclesGeoJson']);
     }
 
@@ -93,7 +94,7 @@ class AgencyController extends Controller
     {
         $vehicle = Vehicle::query()
             ->where(['agency_id' => $agency->id, 'vehicle_id' => $vehicleRef, 'force_vehicle_id' => null])
-            ->orWhere(function (SpatialBuilder $query) use ($agency, $vehicleRef) {
+            ->orWhere(function (Builder $query) use ($agency, $vehicleRef) {
                 $query->where(['agency_id' => $agency->id, 'force_vehicle_id' => $vehicleRef]);
             })
             ->select(['id', 'vehicle_id', 'force_vehicle_id', 'is_active', 'label', 'force_label', 'timestamp', 'gtfs_trip_id', 'gtfs_route_id', 'start_time', 'position', 'bearing', 'speed', 'vehicle_type', 'license_plate', 'current_stop_sequence', 'current_status', 'schedule_relationship', 'congestion_level', 'occupancy_status', 'agency_id', 'created_at', 'updated_at'])
@@ -101,6 +102,26 @@ class AgencyController extends Controller
             ->firstOrFail();
 
         return VehicleResource::make($vehicle);
+    }
+
+    #[Group('Vehicles')]
+    public function vehiclesGeoJsonShow(Agency $agency, string $vehicleRef)
+    {
+        $vehicle = Vehicle::query()
+            ->where(['agency_id' => $agency->id, 'vehicle_id' => $vehicleRef, 'force_vehicle_id' => null])
+            ->orWhere(function (Builder $query) use ($agency, $vehicleRef) {
+                $query->where(['agency_id' => $agency->id, 'force_vehicle_id' => $vehicleRef]);
+            })
+            ->select(['id', 'is_active', 'position', 'gtfs_trip_id', 'start_time', 'schedule_relationship', 'gtfs_route_id', 'force_vehicle_id', 'vehicle_id', 'force_label', 'label', 'license_plate', 'vehicle_type', 'bearing', 'odometer', 'speed', 'current_stop_sequence', 'current_status', 'congestion_level', 'occupancy_status', 'agency_id', 'created_at', 'last_seen_at',])
+            ->with([
+                'trip:agency_id,gtfs_trip_id,short_name,headsign,gtfs_block_id,gtfs_service_id,gtfs_shape_id',
+                'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color',
+                'activeLinks:id',
+                'tags:id',
+            ])
+            ->firstOrFail();
+
+        return \App\Http\Resources\V2\VehiclesGeoJson\VehicleResource::make($vehicle);
     }
 
     #[Group('Vehicles')]

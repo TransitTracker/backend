@@ -68,6 +68,7 @@ class VehicleResource extends JsonResource
                 'linksLabel' => $this->when($request->boolean('label'), $this->activeLinks->pluck('internal_title')),
                 'tags' => $this->tags->pluck('id'),
                 'tagsLabel' => $this->when($request->boolean('label'), $this->tags->pluck('short_label')),
+                'isActive' => $this->is_active,
             ],
             'id' => $this->id,
         ];

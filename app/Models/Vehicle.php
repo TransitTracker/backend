@@ -259,7 +259,7 @@ class Vehicle extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['force_vehicle_id', 'force_label', 'tags'])
+            ->logOnly(['force_vehicle_id', 'force_label'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

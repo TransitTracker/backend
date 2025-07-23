@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Ladder\HasRoles;
+use Spatie\Activitylog\Traits\CausesActivity;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, HasRoles, Notifiable;
+    use HasFactory, HasRoles, Notifiable, CausesActivity;
 
     protected $fillable = [
         'name', 'email', 'password',

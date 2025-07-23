@@ -17,6 +17,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'gmdi-person-tt';
 
+    protected static ?string $navigationGroup = 'System';
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'email'];

@@ -22,6 +22,11 @@ class VehiclesWithoutOperators extends BaseWidget
 
     protected static ?int $sort = 2;
 
+    public static function canView(): bool
+    {
+        return auth()->user()->hasPermission('vin:edit');   
+    }
+
     protected function getTableQuery(): Builder
     {
         return Vehicle::query()

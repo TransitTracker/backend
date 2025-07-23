@@ -20,4 +20,17 @@ class ListVehicles extends ListRecords
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('vehicle_id', 'LIKE', 'zenbus:Vehicle:%')),
         ];
     }
+
+    public function getDefaultActiveTab(): string|int|null
+    {
+        $permissions = auth()->user()->permissions()->unique()->values()->all();
+
+        if ($permissions === ['vin:edit']) {
+            return 'vin';
+        } else if ($permissions === ['zenbus:edit']) {
+            return 'zenbus';
+        } else {
+            return 'all';
+        }
+    }
 }

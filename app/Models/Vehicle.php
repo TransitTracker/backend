@@ -22,13 +22,16 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Vehicle extends Model
 {
-    use HasSpatial;
+    use HasSpatial, LogsActivity;
 
     protected $guarded = [];
+    protected static $recordEvents = ['updated', 'deleted'];
 
     protected $casts = [
         'is_active' => 'boolean',
@@ -251,5 +254,13 @@ class Vehicle extends Model
 
             ElectricStmVehicleUpdated::dispatchIf(($vehicle->isFirstAppearanceToday() && $vehicle->isElectricStm()), $vehicle);
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['force_vehicle_id', 'force_label', 'tags'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 }

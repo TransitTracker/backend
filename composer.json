@@ -36,6 +36,7 @@
         "predis/predis": "^2.0",
         "pusher/pusher-php-server": "^7.0",
         "pxlrbt/filament-environment-indicator": "^2.0",
+        "rmsramos/activitylog": "^1.0",
         "spatie/cpu-load-health-check": "^1.0",
         "spatie/laravel-health": "^1.14",
         "spatie/laravel-package-tools": "^1.9",

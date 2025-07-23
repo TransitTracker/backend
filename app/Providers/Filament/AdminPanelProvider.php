@@ -20,6 +20,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use Rmsramos\Activitylog\ActivitylogPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -70,6 +71,10 @@ class AdminPanelProvider extends PanelProvider
                         'local' => Color::Blue,
                         default => Color::Pink,
                     }),
+                ActivitylogPlugin::make()
+                    ->navigationGroup('System')
+                    ->navigationIcon('gmdi-fact-check-tt')
+                    ->authorize(fn (): bool  => auth()->user()->isAdmin()),
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

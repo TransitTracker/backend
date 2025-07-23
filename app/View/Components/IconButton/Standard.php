@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\IconButton;
 
 use Illuminate\View\Component;
 

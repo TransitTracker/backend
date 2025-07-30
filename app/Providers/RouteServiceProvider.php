@@ -36,7 +36,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/vin.php'));
 
-            Route::middleware(['api', Localization::class])
+            Route::middleware(['api', Localization::class, 'cache.headers:etag'])
                 ->prefix('v2')
                 ->domain(config('transittracker.domain.api'))
                 ->namespace($this->namespace)

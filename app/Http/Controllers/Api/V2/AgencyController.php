@@ -28,7 +28,7 @@ class AgencyController extends Controller
             $this->middleware("throttle:{$totalAgencies},1,v2-agencies");
         }
 
-        $this->middleware('cacheResponse')->except('vehicles', 'vehiclesGeoJson');
+        $this->middleware('cacheResponse')->except(['vehicles', 'vehiclesGeoJson']);
         $this->middleware('cacheResponse:300')->only(['vehicles', 'vehiclesGeoJson']);
     }
 

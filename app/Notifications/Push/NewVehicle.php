@@ -47,7 +47,7 @@ class NewVehicle extends Notification implements ShouldQueue
         return (new WebPushMessage)
             ->icon('https://api.transittracker.ca/img/icon-192.png')
             ->badge('https://api.transittracker.ca/img/badge.png')
-            ->title(__('push.new_vehicle.title', ['emoji' => $this->emoji, 'type' => $this->vehicle->vehicle_type, 'label' => $this->vehicle->displayed_label, 'agency' => $this->vehicle->agency->short_name]))
+            ->title(__('push.new_vehicle.title', ['emoji' => $this->emoji, 'type' => $this->vehicle->vehicle_type->description, 'label' => $this->vehicle->displayed_label, 'agency' => $this->vehicle->agency->short_name]))
             ->body(__('push.new_vehicle.body', ['label' => $this->vehicle->displayed_label, 'route' => $this->vehicle->gtfsRoute->short_name ?? $this->vehicle->gtfs_route_id]))
             ->action(__('push.new_vehicle.action', []), "open_vehicle.{$this->vehicle->agency->regions[0]->slug}.{$this->vehicle->id}");
     }
@@ -55,8 +55,8 @@ class NewVehicle extends Notification implements ShouldQueue
     public function toArray()
     {
         return [
-            'title' => __('push.new_vehicle.title', ['emoji' => $this->emoji, 'type' => $this->vehicle->vehicle_type, 'label' => $this->label, 'agency' => $this->vehicle->agency->short_name]),
-            'body' => __('push.new_vehicle.body', ['label' => $this->label, 'route' => $this->vehicle->gtfsRoute->short_name ?? $this->vehicle->gtfs_route_id]),
+            'title' => __('push.new_vehicle.title', ['emoji' => $this->emoji, 'type' => $this->vehicle->vehicle_type->description, 'label' => $this->label, 'agency' => $this->vehicle->agency->short_name]),
+            'body' => __('push.new_vehicle.body', ['label' => $this->vehicle->displayed_label, 'route' => $this->vehicle->gtfsRoute->short_name ?? $this->vehicle->gtfs_route_id]),
         ];
     }
 }

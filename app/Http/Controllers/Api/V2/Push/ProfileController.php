@@ -80,6 +80,7 @@ class ProfileController extends Controller
         $user->subscribed_electric_stm = false;
         $user->is_french = $request->isFrench;
         $user->save();
+        $user->refresh();
 
         return NotificationUserResource::make($user);
     }

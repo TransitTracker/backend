@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\AlertCategory;
+use App\Enums\AlertStatus;
 use App\Filament\Resources\AlertResource\Pages;
+use App\Filament\Resources\AlertResource\Widgets\AlertStatusOverview;
 use App\Models\Alert;
-use Filament\Forms\Components\Card;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\KeyValue;
@@ -16,13 +18,14 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 class AlertResource extends Resource
 {
@@ -46,15 +49,20 @@ class AlertResource extends Resource
                 Group::make()
                     ->columnSpan(['lg' => 2])
                     ->schema([
-                        Card::make()->schema([
-                            TextInput::make('title')->required(),
-                            TextInput::make('subtitle')->required(),
-                            RichEditor::make('body')->required(),
+                        Section::make()->schema([
+                            TextInput::make('title')->required()->columnSpan(2),
+                            Select::make('category')
+                                ->options(AlertCategory::class),
+                            TextInput::make('subtitle')->required()->columnSpanFull(),
+                            RichEditor::make('body')->required()->columnSpanFull(),
+                            Toggle::make('is_regional')->live(),
                             Select::make('regions')
+                                ->columnSpan(2)
                                 ->multiple()
                                 ->relationship('regions', 'name')
-                                ->preload(),
-                        ]),
+                                ->preload()
+                                ->visible(fn (Get $get): bool => $get('is_regional')),
+                        ])->columns(['lg' => 3]),
                         Section::make('Appearance')->schema([
                             Select::make('color')
                                 ->options([
@@ -84,13 +92,21 @@ class AlertResource extends Resource
                 Group::make()
                     ->columnSpan(['lg' => 1])
                     ->schema([
-                        Section::make('Status')
+                        Section::make()
                             ->schema([
-                                Toggle::make('is_active'),
-                                Toggle::make('can_be_closed'),
-                                DateTimePicker::make('expiration'),
+                                ToggleButtons::make('status')
+                                    ->required()
+                                    ->default(AlertStatus::Draft)
+                                    ->options(AlertStatus::class),
+                                DatePicker::make('new_status_date')
+                                    ->label('Program new status')
+                                    ->requiredWith('new_status'),
+                                Select::make('new_status')
+                                    ->hiddenLabel()
+                                    ->options(AlertStatus::class)
+                                    ->requiredWith('new_status_date'),
                             ]),
-                        Card::make()
+                        Section::make()
                             ->schema([
                                 Placeholder::make('id')
                                     ->label('ID')
@@ -111,18 +127,23 @@ class AlertResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\IconColumn::make('is_active')->boolean(),
-                Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('status')->badge(),
+                Tables\Columns\TextColumn::make('title')
+                    ->description(fn (Alert $record): string => $record->subtitle),
+                Tables\Columns\TextColumn::make('category')->badge(),
                 Tables\Columns\TextColumn::make('regions_count')->counts('regions'),
-                Tables\Columns\TextColumn::make('expiration')->since(),
                 Tables\Columns\TextColumn::make('created_at')->since(),
             ])
             ->filters([
-                Filter::make('is_active')->query(fn (Builder $query): Builder => $query->active())->default(),
+                SelectFilter::make('status')
+                    ->options(AlertStatus::class),
+                SelectFilter::make('category')
+                    ->options(AlertCategory::class),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array
@@ -138,6 +159,13 @@ class AlertResource extends Resource
             'index' => Pages\ListAlerts::route('/'),
             'create' => Pages\CreateAlert::route('/create'),
             'edit' => Pages\EditAlert::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            AlertStatusOverview::class,
         ];
     }
 }

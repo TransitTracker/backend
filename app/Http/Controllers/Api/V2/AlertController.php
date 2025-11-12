@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\AlertResource;
 use App\Models\Alert;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Knuckles\Scribe\Attributes\Group;
 
@@ -30,16 +29,18 @@ class AlertController extends Controller
 
     public function index()
     {
-        $alerts = Alert::active()->get();
+        $alerts = Alert::visible()
+            ->select(['id', 'title', 'subtitle', 'created_at', 'body', 'color', 'icon', 'action', 'action_parameters', 'image', 'category', 'status'])
+            ->with(['regions:id,slug'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-        return AlertResource::collection($alerts->filter(fn ($alert) => ! array_key_exists('only-v1', $alert->action_parameters->toArray())));
+        return AlertResource::collection($alerts);
     }
 
-    public function show(Alert $alert)
+    public function show(int $alertId)
     {
-        if (! $alert->is_active or Carbon::parse($alert->expiration)->isPast()) {
-            return response()->json(['message' => 'Alert is inactive or expired.'], 403);
-        }
+        $alert = Alert::visible()->findOrFail($alertId);
 
         return AlertResource::make($alert);
     }

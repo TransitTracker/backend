@@ -21,4 +21,7 @@ return [
         'body' => 'Vous pouvez modifier vos abonnements ou vous désabonner à tout moment via le centre de notification.',
         'title' => 'Abonnement activé pour Transit Tracker!',
     ],
+    'new_alert' => [
+        'action' => '➕ Voir plus',
+    ],
 ];

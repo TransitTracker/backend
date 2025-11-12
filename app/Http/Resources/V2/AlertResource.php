@@ -16,13 +16,18 @@ class AlertResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'subtitle' => $this->subtitle,
+            'createdAt' => $this->created_at->getTimestamp(),
             'body' => $this->body,
             'color' => $this->color,
             'icon' => $this->icon,
             'action' => $this->action,
             'actionParameters' => $this->action_parameters,
             'image' => basename($this->image),
-            'canBeClosed' => $this->can_be_closed,
+            // Kept for backward compatibility
+            'can_be_closed' => false,
+            'category' => $this->category,
+            'status' => $this->status,
+            'regions' => RegionSimpleResource::collection($this->whenLoaded('regions')),
         ];
     }
 }

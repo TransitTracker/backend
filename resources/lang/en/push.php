@@ -21,4 +21,7 @@ return [
         'body' => 'You can change your subscriptions or unsubscribe at any time in the notification centre.',
         'title' => 'Subscription activated for Transit Tracker!',
     ],
+    'new_alert' => [
+        'action' => '➕ See more',
+    ],
 ];

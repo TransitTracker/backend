@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\AlertCategory;
+use App\Enums\AlertStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Model;
@@ -19,8 +21,11 @@ class Alert extends Model
 
     protected $casts = [
         'action_parameters' => AsArrayObject::class,
-        'can_be_closed' => 'boolean',
-        'is_active' => 'boolean',
+        'is_regional' => 'boolean',
+        'status' => AlertStatus::class,
+        'category' => AlertCategory::class,
+        'new_status' => AlertStatus::class,
+        'new_status_date' => 'date',
     ];
 
     public function regions(): BelongsToMany
@@ -30,9 +35,19 @@ class Alert extends Model
 
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('is_active', true)->where(function (Builder $query) {
-            $query->whereDate('expiration', '>', now())->orWhereNull('expiration');
-        });
+        return $query->whereIn('status', [
+            AlertStatus::Active,
+            AlertStatus::Locked,
+        ]);
+    }
+
+    public function scopeVisible(Builder $query): Builder
+    {
+        return $query->whereIn('status', [
+            AlertStatus::Active,
+            AlertStatus::Locked,
+            AlertStatus::Archived,
+        ]);
     }
 
     protected static function booted()

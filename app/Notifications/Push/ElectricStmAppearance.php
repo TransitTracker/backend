@@ -38,8 +38,7 @@ class ElectricStmAppearance extends Notification implements ShouldQueue
             ->badge('https://api.transittracker.ca/img/badge.png')
             ->title(__('push.electric_stm.title', ['label' => $this->vehicle->vehicle_id, 'headsign' => $this->vehicle->trip->headsign]))
             ->body(__('push.electric_stm.body', ['label' => $this->vehicle->vehicle_id, 'route' => "{$this->vehicle->gtfsRoute->short_name} {$this->vehicle->gtfsRoute->long_name}"]))
-            ->action(__('push.electric_stm.action_track', []), "open_vehicle.{$this->vehicle->agency->regions[0]->slug}.{$this->vehicle->id}")
-            ->action(__('push.electric_stm.action_gtfstools', []), "open_gtfstools.{$this->vehicle->gtfs_trip_id}");
+            ->action(__('push.electric_stm.action_track', []), "open_vehicle.{$this->vehicle->agency->regions[0]->slug}.{$this->vehicle->id}");
     }
 
     public function toArray()

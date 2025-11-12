@@ -21,6 +21,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -55,7 +56,9 @@ class AlertResource extends Resource
                                 ->options(AlertCategory::class),
                             TextInput::make('subtitle')->required()->columnSpanFull(),
                             RichEditor::make('body')->required()->columnSpanFull(),
-                            Toggle::make('is_regional')->live(),
+                            Toggle::make('is_regional')
+                                ->live()
+                                ->afterStateUpdated(fn (Set $set, bool $state) => ! $state && $set('regions', [])),
                             Select::make('regions')
                                 ->columnSpan(2)
                                 ->multiple()

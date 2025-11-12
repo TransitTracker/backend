@@ -28,7 +28,7 @@ class EditAlert extends EditRecord
 
         return [
             LocaleSwitcher::make(),
-            Action::make('sendNotification')
+            Action::make('sendNotifications')
                 ->fillForm(fn (Alert $record): array => [
                     'region' => $record->regions->count() === 1
                         ? $record->regions->first()?->id
@@ -40,14 +40,15 @@ class EditAlert extends EditRecord
                         ->helperText('Optional. Force opening this alert in a specific region.'),
                 ])
                 ->requiresConfirmation()
-                ->modalHeading('Send notification')
                 ->modalDescription("Are you sure you want to send a notification to {$activeUsersQuery->count()} users?")
                 ->action(function (array $data, Alert $record) use ($activeUsersQuery) {
                     $users = $activeUsersQuery->get();
                     $region = isset($data['region']) ? Region::find($data['region']) : null;
 
                     Notification::send($users, new NewAlert($record, $region));
-                }),
+                })
+                ->color('gray')
+                ->icon('gmdi-notifications-active'),
         ];
     }
 }

@@ -37,6 +37,7 @@ class EditAlert extends EditRecord
                 ->form([
                     Select::make('region')
                         ->options(Region::pluck('name', 'id'))
+                        ->placeholder('None - Open in user\'s active region')
                         ->helperText('Optional. Force opening this alert in a specific region.'),
                 ])
                 ->requiresConfirmation()

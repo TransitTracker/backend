@@ -51,6 +51,7 @@ Route::delete('push/profile', [ProfileController::class, 'destroy']);
 Route::post('push/profile', [ProfileController::class, 'store']);
 Route::post('push/profile/verify', [ProfileController::class, 'verify']);
 
+Route::get('push/profile/vehicles', [ProfileVehiclesController::class, 'index']);
 Route::post('push/profile/vehicles', [ProfileVehiclesController::class, 'store']);
 Route::delete('push/profile/vehicles', [ProfileVehiclesController::class, 'destroy']);
 

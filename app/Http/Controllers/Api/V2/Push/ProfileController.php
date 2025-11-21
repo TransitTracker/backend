@@ -19,10 +19,12 @@ class ProfileController extends Controller
             'isFrench' => 'required|boolean',
         ]);
 
-        $user = NotificationUser::firstOrCreate(
-            ['endpoint' => $request->endpoint],
-            ['is_french' => $request->isFrench, 'is_active' => true, 'subscribed_electric_stm' => false, 'subscribed_general_news' => true],
-        );
+        $user = NotificationUser::query()
+            ->withCount('vehicles')
+            ->firstOrCreate(
+                ['endpoint' => $request->endpoint],
+                ['is_french' => $request->isFrench, 'is_active' => true, 'subscribed_electric_stm' => false, 'subscribed_general_news' => true],
+            );
 
         $user->updatePushSubscription($request->endpoint, $request->keys['p256dh'], $request->keys['auth']);
 
@@ -38,7 +40,10 @@ class ProfileController extends Controller
             'keys.p256dh' => 'required',
         ]);
 
-        $user = NotificationUser::where('uuid', $request->uuid)->firstOrFail();
+        $user = NotificationUser::query()
+            ->where('uuid', $request->uuid)
+            ->withCount('vehicles')
+            ->firstOrFail();
 
         if ($user->endpoint !== $request->endpoint) {
             $user->endpoint = $request->endpoint;
@@ -57,7 +62,12 @@ class ProfileController extends Controller
             'uuid' => 'required|uuid',
         ]);
 
-        return NotificationUserResource::make(NotificationUser::where('uuid', $request->uuid)->firstOrFail());
+        $user = NotificationUser::query()
+            ->where('uuid', $request->uuid)
+            ->withCount('vehicles')
+            ->firstOrFail();
+
+        return NotificationUserResource::make($user);
     }
 
     public function update(Request $request)
@@ -69,7 +79,9 @@ class ProfileController extends Controller
             'isFrench' => 'required|boolean',
         ]);
 
-        $user = NotificationUser::where('uuid', $request->uuid)->firstOrFail();
+        $user = NotificationUser::query()
+            ->where('uuid', $request->uuid)
+            ->firstOrFail();
 
         $agencies = Agency::whereIn('slug', $request->agencies)->get();
 
@@ -81,6 +93,7 @@ class ProfileController extends Controller
         $user->is_french = $request->isFrench;
         $user->save();
         $user->refresh();
+        $user->loadCount('vehicles');
 
         return NotificationUserResource::make($user);
     }

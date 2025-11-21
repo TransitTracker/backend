@@ -20,7 +20,7 @@ class NotificationUserResource extends JsonResource
             'newVehicle' => [
                 'agencies' => AgencySimpleResource::collection($this->agencies),
             ],
-            'favoriteVehicles' => VehiclePushResource::collection($this->vehicles),
+            'favoriteVehiclesCount' => $this->vehicles_count,
         ];
     }
 }

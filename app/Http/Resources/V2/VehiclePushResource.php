@@ -16,9 +16,10 @@ class VehiclePushResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'agencyId' => $this->agency_id,
             'vehicleType' => $this->vehicle_type,
             'label' => $this->displayed_label,
-            'agency' => $this->agency->slug,
+            'lastSeenAt' => $this->last_seen_at->getTimestamp(),
         ];
     }
 }

@@ -28,6 +28,7 @@ class SyncTagsWithFleetStats implements ShouldQueue
             TagType::StmGarage,
             (object) [
                 'Anjou' => [],
+                'Bellechasse' => [],
                 'Frontenac' => [],
                 'LaSalle' => [],
                 'Legendre' => [],

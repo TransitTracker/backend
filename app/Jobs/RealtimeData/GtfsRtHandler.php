@@ -40,6 +40,9 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
         return "realtime-process:{$this->agency->slug}";
     }
 
+    // Remove lock after 30 seconds
+    public $uniqueFor = 30;
+
     /**
      * Execute the job.
      *

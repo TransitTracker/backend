@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\AlertResource;
 use App\Http\Resources\V2\RegionResource;
+use App\Models\Alert;
 use App\Models\Region;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\App;
 use Knuckles\Scribe\Attributes\Group;
 
@@ -43,8 +45,23 @@ class RegionController extends Controller
     }
 
     #[Group('Alerts')]
-    public function alerts(Region $region)
+    public function alerts($regionSlug)
     {
-        return AlertResource::collection($region->activeAlerts);
+        $regionId = Region::where('slug', $regionSlug)->select('id')->pluck('id')->firstOrFail();
+
+        $alerts = Alert::active()
+            ->where(function (Builder $query) use ($regionId) {
+                return $query
+                    ->where('is_regional', false)
+                    ->orWhereHas('regions', function (Builder $query) use ($regionId) {
+                        $query->where('region_id', $regionId);
+                    });
+            })
+            ->select(['id', 'title', 'subtitle', 'created_at', 'body', 'color', 'icon', 'action', 'action_parameters', 'image', 'category', 'status'])
+            ->with(['regions:id,slug'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return AlertResource::collection($alerts);
     }
 }

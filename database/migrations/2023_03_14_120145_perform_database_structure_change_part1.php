@@ -81,8 +81,8 @@ return new class extends Migration
             $table->time('start_time')->nullable();
             $table->unsignedInteger('schedule_relationship')->nullable();
             $table->string('license_plate')->nullable();
-            $table->point('position');
-            $table->unsignedDouble('odometer')->change();
+            $table->geometry('position', subtype: 'point');
+            $table->double('odometer')->unsigned()->change();
             $table->unsignedInteger('current_stop_sequence')->nullable();
             $table->string('gtfs_stop_id')->nullable();
             $table->unsignedTinyInteger('current_status')->nullable();

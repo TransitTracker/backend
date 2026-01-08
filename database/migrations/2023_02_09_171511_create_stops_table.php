@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('gtfs_stop_id');
             $table->string('code')->nullable();
             $table->string('name')->nullable();
-            $table->point('position')->nullable();
+            $table->geometry('position', subtype: 'point')->nullable();
             $table->index(['agency_id', 'gtfs_stop_id']);
             $table->timestamps();
         });

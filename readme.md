@@ -5,9 +5,9 @@ This repository contains the backend services for [Transit Tracker](https://tran
 ## Parts
 
 - [Developper home page](https://api.transittracker.ca/)
-- API : currently [V2](https://api.transittracker.ca/v2), V2.1 coming soon
+- API : currently [V2](https://api.transittracker.ca/v2)
 - [exo VIN Project](https://api.transittracker.ca/vin): a collaborative effort to associate VIN numbers to fleet numbers. exo GTFS-RT feeds only include the Vehicule Identification Number (VIN) as a Vehicule ID.
-- Admin panel (with Filament)
+- Admin panel (with [Filament](https://filamentphp.com))
 
 ## Services
 
@@ -41,7 +41,6 @@ The following queue are used (a redesign is coming):
 - `realtime-process` Realtime data processing
 - `notifications` All notifications
 - `static` Static data update (download and processing)
-- `ohdear` Jobs related to the OhDear monitoring service
 - `default` All others jobs
 
 ### Websockets
@@ -55,12 +54,6 @@ Used for frontend automatic realtime refresh. Using [Beyond Code Laravel Websock
 Optional.
 
 Used for admin notifications about late jobs and invalid static data.
-
-### OhDear
-
-Optional.
-
-Used for monitoring on production, everything running well.
 
 ### Cloudflare Turnstile
 
@@ -78,7 +71,8 @@ Used for some GTFS-RT feeds that do not work with the PHP implementation (so far
 
 ### Requirements
 
-- PHP (^8.1) with [all extensions required](https://laravel.com/docs/10.x/deployment#server-requirements) by Laravel
+- PHP (^8.2) with the following extensions: [all required by Laravel](https://laravel.com/docs/10.x/deployment#server-requirements), `intl`, `mysql`, `zip`
+- Composer
 - MySQL
 - Redis
 - Yarn (or npm)

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('agency_id');
             $table->string('gtfs_shape_id');
-            $table->lineString('shape');
-            $table->unsignedFloat('total_distance')->nullable();
+            $table->geometry('shape', subtype: 'linestring');
+            $table->float('total_distance')->unsigned()->nullable();
             $table->unique(['agency_id', 'gtfs_shape_id']);
             $table->timestamps();
         });

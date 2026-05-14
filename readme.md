@@ -47,7 +47,7 @@ The following queue are used (a redesign is coming):
 
 Optional.
 
-Used for frontend automatic realtime refresh. Using [Beyond Code Laravel Websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction).
+Used for frontend automatic realtime refresh. Using [Laravel Reverb](https://reverb.laravel.com/).
 
 ### Slack
 
@@ -81,12 +81,11 @@ Used for some GTFS-RT feeds that do not work with the PHP implementation (so far
 2. `cp .env.example .env` check the settings and make sure to create a database
 3. `php artisan key:generate`
 4. `php artisan migrate`
-5. `php artisan horizon:publish`
-6. `yarn install`
-7. `php artisan tinker` then create a user
+5. `yarn install`
+6. `php artisan tinker` then create a user
    1. `User::create(['name' => 'Admin', 'email' => 'admin@example.org', 'password' => bcrypt('password')]);`
    2. Don’t forget to adjust the `.env` variables, `MAIL_TO`
-8. Go to `/admin` and create a region and an agency to get started
+7. Go to `/admin` and create a region and an agency to get started
 
 ### Commands to run the server
 
@@ -95,7 +94,7 @@ One process each.
 1. `yarn dev`
 2. `php artisan serve`
 3. `php artisan horizon`
-4. `php artisan websocket:serve`
+4. `php artisan reverb:start`
 
 ### Current deploy script
 
@@ -110,11 +109,10 @@ yarn build
 php artisan config:cache
 php artisan event:cache
 php artisan horizon:terminate
-php artisan horizon:publish
 php artisan log-viewer:publish
+php artisan scribe:generate --no-upgrade-check
 php artisan icons:cache
 php artisan route:cache
-php artisan schedule-monitor:sync
 php artisan view:cache
-php artisan websockets:restart
+php artisan reverb:restart
 ```

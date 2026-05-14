@@ -11,7 +11,7 @@ return [
     | framework when an event needs to be broadcast. You may set this to
     | any of the connections defined in the "connections" array below.
     |
-    | Supported: "pusher", "redis", "log", "null"
+    | Supported: "reverb", "redis", "log", "null"
     |
     */
 
@@ -30,16 +30,16 @@ return [
 
     'connections' => [
 
-        'pusher' => [
-            'driver' => 'pusher',
-            'key' => env('SOKETI_DEFAULT_APP_KEY'),
-            'secret' => env('SOKETI_DEFAULT_APP_SECRET'),
-            'app_id' => env('SOKETI_DEFAULT_APP_ID'),
+        'reverb' => [
+            'driver' => 'reverb',
+            'key' => env('REVERB_APP_KEY'),
+            'secret' => env('REVERB_APP_SECRET'),
+            'app_id' => env('REVERB_APP_ID'),
             'options' => [
-                'encrypted' => true,
-                'host' => '127.0.0.1',
-                'port' => 6001,
-                'scheme' => 'http',
+                'host' => env('REVERB_SERVER_HOST', '0.0.0.0'),
+                'port' => env('REVERB_SERVER_PORT', 8080),
+                'scheme' => env('REVERB_SCHEME', 'https'),
+                'useTLS' => env('REVERB_SCHEME', 'https') === 'https',
             ],
         ],
 

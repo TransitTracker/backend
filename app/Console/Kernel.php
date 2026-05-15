@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Jobs\CleanFolders;
 use App\Jobs\RealtimeData\CheckTimestamps;
 use App\Jobs\Tags\SyncTagsWithFleetStats;
+use App\Jobs\UpdateAlertsStatus;
 use App\Models\FailedJob;
 use App\Models\Gtfs\Shape;
 use Illuminate\Console\Scheduling\Schedule;
@@ -38,6 +39,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('cache:prune-stale-tags')->hourly();
         $schedule->command('queue:prune-batches')->daily();
         $schedule->command('queue:prune-failed')->daily();
+        $schedule->job(new UpdateAlertsStatus(), 'default')->dailyAt('00:15');
     }
 
     /**

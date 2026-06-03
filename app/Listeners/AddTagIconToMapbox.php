@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 class AddTagIconToMapbox
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function handle(TagUpdated|TagCreated $event)
     {

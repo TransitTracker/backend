@@ -6,9 +6,7 @@ use Illuminate\View\Component;
 
 class Text extends Component
 {
-    public function __construct(public bool $hasIcon)
-    {
-    }
+    public function __construct(public bool $hasIcon) {}
 
     public function render()
     {

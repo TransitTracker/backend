@@ -13,9 +13,7 @@ class NewVinSuggestion extends Notification
 {
     use Queueable;
 
-    public function __construct(private Suggestion $suggestion)
-    {
-    }
+    public function __construct(private Suggestion $suggestion) {}
 
     public function via()
     {

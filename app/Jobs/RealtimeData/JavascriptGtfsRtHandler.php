@@ -26,9 +26,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(private Agency $agency, private int $time)
-    {
-    }
+    public function __construct(private Agency $agency, private int $time) {}
 
     private array $activeArray = [];
 
@@ -113,7 +111,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         $this->agency->save();
 
         // Add statistics
-        $stat = new Stat();
+        $stat = new Stat;
         $stat->type = 'vehicleTotal';
         $stat->data = (object) [
             'count' => $count,

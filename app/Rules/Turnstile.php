@@ -27,7 +27,7 @@ class Turnstile implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (App::environment('local')) {
+        if (App::environment('local', 'testing')) {
             return true;
         }
 

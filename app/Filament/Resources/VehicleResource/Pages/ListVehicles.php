@@ -27,7 +27,7 @@ class ListVehicles extends ListRecords
 
         if ($permissions === ['vin:edit']) {
             return 'vin';
-        } else if ($permissions === ['zenbus:edit']) {
+        } elseif ($permissions === ['zenbus:edit']) {
             return 'zenbus';
         } else {
             return 'all';

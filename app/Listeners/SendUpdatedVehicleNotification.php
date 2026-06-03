@@ -10,9 +10,7 @@ class SendUpdatedVehicleNotification
 {
     public $queue = 'notifications';
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function handle(VehicleUpdated $event)
     {

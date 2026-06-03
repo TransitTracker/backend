@@ -13,9 +13,7 @@ class RealtimeDataExpired extends Notification
 {
     use Queueable;
 
-    public function __construct(private Agency $agency)
-    {
-    }
+    public function __construct(private Agency $agency) {}
 
     public function via($notifiable)
     {

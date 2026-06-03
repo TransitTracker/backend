@@ -22,9 +22,7 @@ class DownloadStatic implements ShouldQueue
         'stop_times.txt',
         'trips.txt',
         'shapes.txt',
-    ])
-    {
-    }
+    ]) {}
 
     public function handle()
     {
@@ -34,7 +32,7 @@ class DownloadStatic implements ShouldQueue
         $fileName = "{$cwd}/storage/app/static/{$this->agency->slug}-{$time}.zip";
 
         // Download GTFS
-        $client = new Client();
+        $client = new Client;
         $headers = filled($this->agency->static_etag) ? ['If-None-Match' => $this->agency->static_etag] : [];
         $response = $client->get($this->agency->static_gtfs_url, [
             'sink' => $fileName,

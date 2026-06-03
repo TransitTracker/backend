@@ -29,9 +29,7 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(private Agency $agency, private int $time)
-    {
-    }
+    public function __construct(private Agency $agency, private int $time) {}
 
     // Make sure that there is no duplicate job for this agency in the queue
     // Since this job will always pull the latest data, it's not a problem to delete duplicate jobs
@@ -63,7 +61,7 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
 
         // Convert protobuf to PHP object
         try {
-            $feed = new FeedMessage();
+            $feed = new FeedMessage;
             $feed->mergeFromString($data);
             $count = count($feed->getEntity());
         } catch (GPBDecodeException $e) {
@@ -140,7 +138,7 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
         $this->agency->save();
 
         // Add statistics
-        $stat = new Stat();
+        $stat = new Stat;
         $stat->type = 'vehicleTotal';
         $stat->data = (object) [
             'count' => $count,

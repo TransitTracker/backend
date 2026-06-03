@@ -31,6 +31,7 @@ class Vehicle extends Model
     use HasSpatial, LogsActivity;
 
     protected $guarded = [];
+
     protected static $recordEvents = ['updated', 'deleted'];
 
     protected $casts = [

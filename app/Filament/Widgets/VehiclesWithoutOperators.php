@@ -24,7 +24,7 @@ class VehiclesWithoutOperators extends BaseWidget
 
     public static function canView(): bool
     {
-        return auth()->user()->hasPermission('vin:edit');   
+        return auth()->user()->hasPermission('vin:edit');
     }
 
     protected function getTableQuery(): Builder

@@ -59,11 +59,17 @@ class RegionResource extends Resource
                             ->required()
                             ->columnSpan(2)
                             ->disabledOn('edit'),
+                        \Filament\Forms\Components\Select::make('active_image_id')
+                            ->relationship('activeImage', 'id')
+                            ->getOptionLabelFromRecordUsing(fn (\App\Models\RegionImage $record) => "{$record->id} - {$record->author_name}")
+                            ->searchable()
+                            ->columnSpanFull(),
                         FileUpload::make('image')
                             ->disk('public')
                             ->directory('content/regions')
                             ->image()
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->hidden(),
                         RichEditor::make('credits')
                             ->columnSpanFull(),
                         //  TODO: Fix credits

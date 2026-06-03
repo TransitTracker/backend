@@ -30,14 +30,12 @@ class ExtractAndDispatchStaticGtfs implements ShouldQueue
         'trips.txt',
         'stop_times.txt',
         'shapes.txt',
-    ])
-    {
-    }
+    ]) {}
 
     public function handle()
     {
         // Open (will only unzip needed files)
-        $this->zip = new ZipArchive();
+        $this->zip = new ZipArchive;
         $file = $this->zip->open($this->zipFile);
 
         if (! $file) {

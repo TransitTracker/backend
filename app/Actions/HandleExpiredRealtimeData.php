@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Notification;
 
 class HandleExpiredRealtimeData
 {
-    public function __construct(private Agency $agency)
-    {
-    }
+    public function __construct(private Agency $agency) {}
 
     public function execute()
     {

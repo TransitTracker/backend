@@ -10,7 +10,5 @@ class NotificationUserCreated
 {
     use Dispatchable, SerializesModels;
 
-    public function __construct(public NotificationUser $notificationUser)
-    {
-    }
+    public function __construct(public NotificationUser $notificationUser) {}
 }

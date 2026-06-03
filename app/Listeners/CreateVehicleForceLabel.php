@@ -9,9 +9,7 @@ class CreateVehicleForceLabel
 {
     public $queue = 'misc';
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function handle(VehicleCreating $event): bool
     {

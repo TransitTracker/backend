@@ -10,7 +10,5 @@ class VehicleCreated
 {
     use Dispatchable, SerializesModels;
 
-    public function __construct(public Vehicle $vehicle)
-    {
-    }
+    public function __construct(public Vehicle $vehicle) {}
 }

@@ -9,20 +9,20 @@ use FelixINX\TransitRealtime\TripDescriptor;
 use FelixINX\TransitRealtime\VehicleDescriptor;
 use FelixINX\TransitRealtime\VehiclePosition;
 
-$feed = new FeedMessage();
+$feed = new FeedMessage;
 
-$header = new FeedHeader();
+$header = new FeedHeader;
 $header->setGtfsRealtimeVersion('2.0');
 $header->setIncrementality(0); // FULL_DATASET
 $header->setTimestamp(Carbon::now()->getTimestamp());
 $feed->setHeader($header);
 
-$feedEntity = new FeedEntity();
+$feedEntity = new FeedEntity;
 $feedEntity->setId('TEST');
 $feedEntity->setIsDeleted(false);
 $feed->setEntity([$feedEntity]);
 
-$vehiclePosition = new VehiclePosition();
+$vehiclePosition = new VehiclePosition;
 $vehiclePosition->setCurrentStopSequence(2);
 $vehiclePosition->setStopId('54356'); // Not supported by Transit Tracker
 $vehiclePosition->setCurrentStatus(0); // IN_TRANSIT_TO
@@ -31,7 +31,7 @@ $vehiclePosition->setCongestionLevel(1); // RUNNING_SMOOTHLY
 $vehiclePosition->setOccupancyStatus(2); // MANY_SEATS_AVAILABLE
 $feedEntity->setVehicle($vehiclePosition);
 
-$tripDescriptor = new TripDescriptor();
+$tripDescriptor = new TripDescriptor;
 $tripDescriptor->setTripId('218445629');
 $tripDescriptor->setRouteId('74');
 $tripDescriptor->setDirectionId(1); // Not supported by Transit Tracker
@@ -40,13 +40,13 @@ $tripDescriptor->setStartDate(Carbon::now()->subMinute(30)->format('Ymd'));
 $tripDescriptor->setScheduleRelationship(2); // ADDED
 $vehiclePosition->setTrip($tripDescriptor);
 
-$vehicleDescriptor = new VehicleDescriptor();
+$vehicleDescriptor = new VehicleDescriptor;
 $vehicleDescriptor->setId('TEST');
 $vehicleDescriptor->setLabel('00001');
 $vehicleDescriptor->setLicensePlate('TTRACKER');
 $vehiclePosition->setVehicle($vehicleDescriptor);
 
-$position = new Position();
+$position = new Position;
 $position->setLatitude(45.499231);
 $position->setLongitude(-73.566454);
 $position->setBearing(28);

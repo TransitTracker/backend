@@ -18,14 +18,12 @@ class ProcessGtfsTrips implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private Agency $agency, private string $file, private int $offset = 0)
-    {
-    }
+    public function __construct(private Agency $agency, private string $file, private int $offset = 0) {}
 
     public function handle(): void
     {
         $tripsReader = Reader::createFromPath($this->file)->setHeaderOffset(0);
-        $tripsStatement = (new Statement())
+        $tripsStatement = (new Statement)
             ->offset($this->offset)
             ->limit(25_000);
         $tripsRecords = $tripsStatement->process($tripsReader);

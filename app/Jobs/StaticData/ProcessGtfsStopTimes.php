@@ -21,9 +21,7 @@ class ProcessGtfsStopTimes implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private Agency $agency, private string $file, private int $offset = 0)
-    {
-    }
+    public function __construct(private Agency $agency, private string $file, private int $offset = 0) {}
 
     public function handle(): void
     {
@@ -31,7 +29,7 @@ class ProcessGtfsStopTimes implements ShouldQueue
         $tripIdToImport = Trip::select(['gtfs_shape_id', DB::raw('MIN(gtfs_trip_id) as gtfs_trip_id')])->where('agency_id', $this->agency->id)->groupBy('gtfs_shape_id')->pluck('gtfs_trip_id');
 
         $reader = Reader::createFromPath($this->file)->setHeaderOffset(0);
-        $statement = (new Statement())
+        $statement = (new Statement)
             ->offset($this->offset)
             ->limit(100_000);
 

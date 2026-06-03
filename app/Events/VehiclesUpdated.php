@@ -23,9 +23,7 @@ class VehiclesUpdated implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(public Agency $agency)
-    {
-    }
+    public function __construct(public Agency $agency) {}
 
     /**
      * Get the channels the event should broadcast on.

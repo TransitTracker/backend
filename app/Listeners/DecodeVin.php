@@ -11,9 +11,7 @@ class DecodeVin implements ShouldQueue
 {
     public $queue = 'misc';
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function handle(VehicleCreated|VehicleForceRefAdded $event)
     {

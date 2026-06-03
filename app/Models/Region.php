@@ -16,6 +16,19 @@ class Region extends Model
 {
     use HasTranslations;
 
+    protected $fillable = [
+        'name',
+        'slug',
+        'info_title',
+        'info_body',
+        'map_box',
+        'map_zoom',
+        'conditions',
+        'credits',
+        'map',
+        'active_image_id',
+    ];
+
     protected $guarded = [];
 
     protected $casts = [
@@ -25,6 +38,16 @@ class Region extends Model
     ];
 
     public $translatable = ['info_title', 'info_body', 'credits', 'description', 'meta_description'];
+
+    public function activeImage()
+    {
+        return $this->belongsTo(RegionImage::class, 'active_image_id');
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(RegionImage::class);
+    }
 
     public function agencies(): BelongsToMany
     {

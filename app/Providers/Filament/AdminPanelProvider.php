@@ -74,7 +74,7 @@ class AdminPanelProvider extends PanelProvider
                 ActivitylogPlugin::make()
                     ->navigationGroup('System')
                     ->navigationIcon('gmdi-fact-check-tt')
-                    ->authorize(fn (): bool  => auth()->user()->isAdmin()),
+                    ->authorize(fn (): bool => auth()->user()->isAdmin()),
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

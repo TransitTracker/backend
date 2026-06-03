@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\QueryParam;
-use MatanYadaev\EloquentSpatial\SpatialBuilder;
 
 #[Group('Agencies')]
 class AgencyController extends Controller
@@ -112,7 +111,7 @@ class AgencyController extends Controller
             ->orWhere(function (Builder $query) use ($agency, $vehicleRef) {
                 $query->where(['agency_id' => $agency->id, 'force_vehicle_id' => $vehicleRef]);
             })
-            ->select(['id', 'is_active', 'position', 'gtfs_trip_id', 'start_time', 'schedule_relationship', 'gtfs_route_id', 'force_vehicle_id', 'vehicle_id', 'force_label', 'label', 'license_plate', 'vehicle_type', 'bearing', 'odometer', 'speed', 'current_stop_sequence', 'current_status', 'congestion_level', 'occupancy_status', 'agency_id', 'created_at', 'last_seen_at',])
+            ->select(['id', 'is_active', 'position', 'gtfs_trip_id', 'start_time', 'schedule_relationship', 'gtfs_route_id', 'force_vehicle_id', 'vehicle_id', 'force_label', 'label', 'license_plate', 'vehicle_type', 'bearing', 'odometer', 'speed', 'current_stop_sequence', 'current_status', 'congestion_level', 'occupancy_status', 'agency_id', 'created_at', 'last_seen_at'])
             ->with([
                 'trip:agency_id,gtfs_trip_id,short_name,headsign,gtfs_block_id,gtfs_service_id,gtfs_shape_id',
                 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color',

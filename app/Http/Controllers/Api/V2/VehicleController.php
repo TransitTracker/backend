@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V2\VehiclesGeoJson\VehicleResource as GeoJsonVehicleResource;
 use App\Http\Resources\V2\VehicleResource;
+use App\Http\Resources\V2\VehiclesGeoJson\VehicleResource as GeoJsonVehicleResource;
 use App\Http\Resources\V2\VehiclesGeoJson\VehiclesCollection;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;

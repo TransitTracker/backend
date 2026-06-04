@@ -2,8 +2,11 @@
 
 namespace App\Filament\Resources\LinkResource\RelationManagers;
 
+use Filament\Actions\AssociateAction;
+use Filament\Actions\DissociateAction;
+use Filament\Actions\DissociateBulkAction;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class VehiclesRelationManager extends RelationManager
@@ -16,20 +19,20 @@ class VehiclesRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('agency.short_name'),
-                Tables\Columns\TextColumn::make('displayed_label'),
+                TextColumn::make('agency.short_name'),
+                TextColumn::make('displayed_label'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\AssociateAction::make(),
+                AssociateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\DissociateAction::make(),
+            ->recordActions([
+                DissociateAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DissociateBulkAction::make(),
+            ->toolbarActions([
+                DissociateBulkAction::make(),
             ]);
     }
 }

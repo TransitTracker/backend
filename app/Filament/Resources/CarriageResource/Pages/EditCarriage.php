@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\CarriageResource\Pages;
 
 use App\Filament\Resources\CarriageResource;
-use Filament\Actions;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditCarriage extends EditRecord
@@ -13,7 +13,7 @@ class EditCarriage extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

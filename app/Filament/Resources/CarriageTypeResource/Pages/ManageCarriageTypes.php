@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\CarriageTypeResource\Pages;
 
 use App\Filament\Resources\CarriageTypeResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
 class ManageCarriageTypes extends ManageRecords
@@ -13,7 +13,7 @@ class ManageCarriageTypes extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

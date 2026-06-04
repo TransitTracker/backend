@@ -3,9 +3,9 @@
 namespace App\Filament\Resources\RegionResource\Pages;
 
 use App\Filament\Resources\RegionResource;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\EditRecord;
-use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
+use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
+use LaraZeus\SpatieTranslatable\Resources\Pages\EditRecord\Concerns\Translatable;
 
 class EditRegion extends EditRecord
 {

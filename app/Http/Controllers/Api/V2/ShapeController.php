@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V2;
 
+use App;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\GeoJsonShapeResource;
 use App\Models\Agency;
@@ -13,7 +14,7 @@ class ShapeController extends Controller
 {
     public function __construct()
     {
-        if (! \App::environment('local')) {
+        if (! App::environment('local')) {
             $this->middleware('throttle:45,1,v2-shapes');
         }
 

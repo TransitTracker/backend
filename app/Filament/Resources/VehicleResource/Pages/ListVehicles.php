@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\VehicleResource\Pages;
 
 use App\Filament\Resources\VehicleResource;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -13,10 +14,10 @@ class ListVehicles extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => ListRecords\Tab::make(),
-            'vin' => ListRecords\Tab::make('Only exo VIN')
+            'all' => Tab::make(),
+            'vin' => Tab::make('Only exo VIN')
                 ->modifyQueryUsing(fn (Builder $query) => $query->exoWithVin()),
-            'zenbus' => ListRecords\Tab::make('Only Zenbus')
+            'zenbus' => Tab::make('Only Zenbus')
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('vehicle_id', 'LIKE', 'zenbus:Vehicle:%')),
         ];
     }

@@ -3,12 +3,13 @@
 namespace App\Filament\Resources\LinkResource\Pages;
 
 use App\Filament\Resources\LinkResource;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\CreateRecord;
+use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
+use LaraZeus\SpatieTranslatable\Resources\Pages\CreateRecord\Concerns\Translatable;
 
 class CreateLink extends CreateRecord
 {
-    use CreateRecord\Concerns\Translatable;
+    use Translatable;
 
     protected static string $resource = LinkResource::class;
 

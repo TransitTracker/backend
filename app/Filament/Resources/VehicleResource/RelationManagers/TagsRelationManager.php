@@ -2,13 +2,16 @@
 
 namespace App\Filament\Resources\VehicleResource\RelationManagers;
 
-use Filament\Resources\RelationManagers\Concerns\Translatable;
+use Filament\Actions\AttachAction;
+use Filament\Actions\DetachAction;
+use Filament\Actions\DetachBulkAction;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use LaraZeus\SpatieTranslatable\Resources\RelationManagers\Concerns\Translatable;
 
 class TagsRelationManager extends RelationManager
 {
@@ -27,21 +30,21 @@ class TagsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\ViewColumn::make('label')->view('tables.columns.tag-preview'),
+                ViewColumn::make('label')->view('tables.columns.tag-preview'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make()
+                AttachAction::make()
                     ->preloadRecordSelect()
                     ->recordSelectOptionsQuery(fn (Builder $query) => $query->orderBy('type')),
             ])
-            ->actions([
-                Tables\Actions\DetachAction::make(),
+            ->recordActions([
+                DetachAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DetachBulkAction::make(),
+            ->toolbarActions([
+                DetachBulkAction::make(),
             ]);
     }
 

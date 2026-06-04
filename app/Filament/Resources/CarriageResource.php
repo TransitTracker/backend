@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CarriageResource\Pages;
+use App\Filament\Resources\CarriageResource\Pages\ListCarriages;
 use App\Models\Carriage;
 use App\Models\CarriageType;
+use Filament\Actions\BulkAction;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\BulkAction;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
@@ -17,12 +17,12 @@ class CarriageResource extends Resource
 {
     protected static ?string $model = Carriage::class;
 
-    protected static ?string $navigationIcon = 'gmdi-train-tt';
+    protected static string|\BackedEnum|null $navigationIcon = 'gmdi-train-tt';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
 
             ]);
     }
@@ -45,9 +45,9 @@ class CarriageResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
+            ->recordActions([
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkAction::make('assignCarriageType')
                     ->form([
                         Select::make('carriageTypeId')
@@ -82,7 +82,7 @@ class CarriageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCarriages::route('/'),
+            'index' => ListCarriages::route('/'),
         ];
     }
 }

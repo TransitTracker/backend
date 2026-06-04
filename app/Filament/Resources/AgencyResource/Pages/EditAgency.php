@@ -5,11 +5,11 @@ namespace App\Filament\Resources\AgencyResource\Pages;
 use App\Enums\VehicleType;
 use App\Filament\Resources\AgencyResource;
 use App\Jobs\SyncIconToMapbox;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
-use Filament\Pages\Actions\Action;
-use Filament\Pages\Actions\ActionGroup;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -23,7 +23,7 @@ class EditAgency extends EditRecord
         return [
             ActionGroup::make([
                 Action::make('staticUpdate')
-                    ->form([
+                    ->schema([
                         Toggle::make('forceRefresh'),
                         CheckboxList::make('files')->options([
                             'calendar.txt' => 'calendar.txt',

@@ -2,23 +2,25 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\RegionResource\Pages;
+use App\Filament\Resources\RegionResource\Pages\CreateRegion;
+use App\Filament\Resources\RegionResource\Pages\EditRegion;
+use App\Filament\Resources\RegionResource\Pages\ListRegions;
 use App\Filament\Resources\RegionResource\RelationManagers\AgenciesRelationManager;
 use App\Models\Region;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Split;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Forms\Set;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Flex;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 
 class RegionResource extends Resource
 {
@@ -26,7 +28,7 @@ class RegionResource extends Resource
 
     protected static ?string $model = Region::class;
 
-    protected static ?string $navigationIcon = 'gmdi-location-city-tt';
+    protected static string|\BackedEnum|null $navigationIcon = 'gmdi-location-city-tt';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -47,11 +49,11 @@ class RegionResource extends Resource
         return $array;
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Split::make([
+        return $schema
+            ->components([
+                Flex::make([
                     Section::make([
                         TextInput::make('name')->columnSpan(4)
                             ->required(),
@@ -99,6 +101,7 @@ class RegionResource extends Resource
                             ->required(),
                         Section::make('Deprecated field')
                             ->collapsed()
+                            ->columnSpanFull()
                             ->schema([
                                 TextInput::make('info_title')
                                     ->hint('Deprecated')
@@ -144,9 +147,9 @@ class RegionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRegions::route('/'),
-            'create' => Pages\CreateRegion::route('/create'),
-            'edit' => Pages\EditRegion::route('/{record}/edit'),
+            'index' => ListRegions::route('/'),
+            'create' => CreateRegion::route('/create'),
+            'edit' => EditRegion::route('/{record}/edit'),
         ];
     }
 }

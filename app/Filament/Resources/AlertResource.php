@@ -4,29 +4,32 @@ namespace App\Filament\Resources;
 
 use App\Enums\AlertCategory;
 use App\Enums\AlertStatus;
-use App\Filament\Resources\AlertResource\Pages;
+use App\Filament\Resources\AlertResource\Pages\CreateAlert;
+use App\Filament\Resources\AlertResource\Pages\EditAlert;
+use App\Filament\Resources\AlertResource\Pages\ListAlerts;
 use App\Filament\Resources\AlertResource\Widgets\AlertStatusOverview;
 use App\Models\Alert;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 
 class AlertResource extends Resource
 {
@@ -34,7 +37,7 @@ class AlertResource extends Resource
 
     protected static ?string $model = Alert::class;
 
-    protected static ?string $navigationIcon = 'gmdi-warning-tt';
+    protected static string|\BackedEnum|null $navigationIcon = 'gmdi-warning-tt';
 
     protected static ?string $recordTitleAttribute = 'title';
 
@@ -43,10 +46,10 @@ class AlertResource extends Resource
         return ['title', 'subtitle'];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Group::make()
                     ->columnSpan(['lg' => 2])
                     ->schema([
@@ -130,12 +133,12 @@ class AlertResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('status')->badge(),
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('status')->badge(),
+                TextColumn::make('title')
                     ->description(fn (Alert $record): string => $record->subtitle),
-                Tables\Columns\TextColumn::make('category')->badge(),
-                Tables\Columns\TextColumn::make('regions_count')->counts('regions'),
-                Tables\Columns\TextColumn::make('created_at')->since(),
+                TextColumn::make('category')->badge(),
+                TextColumn::make('regions_count')->counts('regions'),
+                TextColumn::make('created_at')->since(),
             ])
             ->filters([
                 SelectFilter::make('status')
@@ -143,8 +146,8 @@ class AlertResource extends Resource
                 SelectFilter::make('category')
                     ->options(AlertCategory::class),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
             ->defaultSort('created_at', 'desc');
     }
@@ -159,9 +162,9 @@ class AlertResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAlerts::route('/'),
-            'create' => Pages\CreateAlert::route('/create'),
-            'edit' => Pages\EditAlert::route('/{record}/edit'),
+            'index' => ListAlerts::route('/'),
+            'create' => CreateAlert::route('/create'),
+            'edit' => EditAlert::route('/{record}/edit'),
         ];
     }
 

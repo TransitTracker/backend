@@ -4,11 +4,11 @@ namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
 use App\Models\User;
-use Filament\Actions;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Set;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -19,9 +19,9 @@ class ListUsers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
+            CreateAction::make()
                 ->model(User::class)
-                ->form([
+                ->schema([
                     TextInput::make('name')
                         ->required(),
                     TextInput::make('email')
@@ -37,7 +37,7 @@ class ListUsers extends ListRecords
                                 })
                         ),
                 ])
-                ->mutateFormDataUsing(function (array $data): array {
+                ->mutateDataUsing(function (array $data): array {
                     $data['password'] = Hash::make($data['password']);
 
                     return $data;

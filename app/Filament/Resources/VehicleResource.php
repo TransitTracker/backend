@@ -2,34 +2,40 @@
 
 namespace App\Filament\Resources;
 
+use AlizHarb\ActivityLog\RelationManagers\ActivitiesRelationManager;
 use App\Enums\TagType;
 use App\Enums\VehicleType;
-use App\Filament\Resources\VehicleResource\Pages;
+use App\Filament\Resources\VehicleResource\Pages\EditVehicle;
+use App\Filament\Resources\VehicleResource\Pages\ListVehicles;
 use App\Filament\Resources\VehicleResource\RelationManagers\TagsRelationManager;
 use App\Models\Link;
 use App\Models\Tag;
 use App\Models\Vehicle;
-use Filament\Forms\Components\Card;
+use Filament\Actions\BulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Actions\BulkAction;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TagsColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Rmsramos\Activitylog\RelationManagers\ActivitylogRelationManager;
 
 class VehicleResource extends Resource
 {
     protected static ?string $model = Vehicle::class;
 
-    protected static ?string $navigationIcon = 'gmdi-directions-bus-tt';
+    protected static string|\BackedEnum|null $navigationIcon = 'gmdi-directions-bus-tt';
 
     protected static ?string $recordTitleAttribute = 'vehicle_id';
 
@@ -51,18 +57,21 @@ class VehicleResource extends Resource
         ];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Placeholder::make('agency')
                     ->content(fn (Vehicle $record): string => $record->agency->name)->hidden(fn (?Vehicle $record) => $record === null),
                 Placeholder::make('original_vehicle_id')
                     ->content(fn (Vehicle $record): string => $record->vehicle_id)->hidden(fn (?Vehicle $record) => $record === null),
-                Card::make()->columns(2)->schema([
-                    TextInput::make('force_label')->label('Fleet label')->columnSpan(1)->hint('force_label')->helperText('Use to replace the vehicle number provided by the agency'),
-                    TextInput::make('force_vehicle_id')->label('Custom identifier')->columnSpan(1)->hint('force_vehicle_id')->helperText('Use to replace an incorrect vehicle identifier provided by the agency (like a wrong VIN). Remember to change this field for every vehicle with a wrong vin!'),
-                ]),
+                Section::make()
+                    ->schema([
+                        TextInput::make('force_label')->label('Fleet label')->columnSpan(1)->hint('force_label')->helperText('Use to replace the vehicle number provided by the agency'),
+                        TextInput::make('force_vehicle_id')->label('Custom identifier')->columnSpan(1)->hint('force_vehicle_id')->helperText('Use to replace an incorrect vehicle identifier provided by the agency (like a wrong VIN). Remember to change this field for every vehicle with a wrong vin!'),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -70,50 +79,50 @@ class VehicleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('agency.short_name')
+                TextColumn::make('agency.short_name')
                     ->label('Agency')
                     ->sortable(),
-                Tables\Columns\TagsColumn::make('tags.label')
+                TagsColumn::make('tags.label')
                     ->toggleable(),
-                Tables\Columns\IconColumn::make('is_active')
+                IconColumn::make('is_active')
                     ->boolean()
                     ->toggleable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('vehicle_type')
+                TextColumn::make('vehicle_type')
                     ->formatStateUsing(fn (VehicleType $state): string => $state->description)
                     ->toggleable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('displayed_label')
+                TextColumn::make('displayed_label')
                     ->label('Label')
                     ->toggleable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('ref')
+                TextColumn::make('ref')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('vinInformationOriginal.make')
+                TextColumn::make('vinInformationOriginal.make')
                     ->label('Make')
                     ->toggleable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('vinInformationOriginal.model')
+                TextColumn::make('vinInformationOriginal.model')
                     ->label('Model')
                     ->toggleable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime('M d, Y')
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime('M d, Y')
                     ->toggleable(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ], position: Tables\Enums\ActionsPosition::BeforeColumns)
+            ->recordActions([
+                EditAction::make(),
+            ], position: RecordActionsPosition::BeforeColumns)
             ->filters([
                 Filter::make('onlyWithoutOperators')
                     ->query(fn (Builder $query): Builder => $query->withoutTypeOfTags(TagType::Operator))
                     ->toggle(),
-                Tables\Filters\TernaryFilter::make('is_active'),
+                TernaryFilter::make('is_active'),
                 SelectFilter::make('agency')->relationship('agency', 'short_name'),
-                Filter::make('refStartsWith')->form([
+                Filter::make('refStartsWith')->schema([
                     TextInput::make('refStartsWith'),
                 ])->query(function (Builder $query, array $data): Builder {
                     if (! $data['refStartsWith']) {
@@ -122,7 +131,7 @@ class VehicleResource extends Resource
 
                     return $query->where('vehicle_id', 'LIKE', "{$data['refStartsWith']}%");
                 }),
-                Filter::make('forceLabelStartsWith')->form([
+                Filter::make('forceLabelStartsWith')->schema([
                     TextInput::make('forceLabelStartsWith'),
                 ])->query(function (Builder $query, array $data): Builder {
                     if (! $data['forceLabelStartsWith']) {
@@ -132,7 +141,7 @@ class VehicleResource extends Resource
                     return $query->where('force_label', 'LIKE', "{$data['forceLabelStartsWith']}%");
                 }),
             ])
-            ->bulkActions([
+            ->toolbarActions([
 
                 BulkAction::make('changeType')
                     ->action(function (Collection $records, array $data): void {
@@ -172,15 +181,15 @@ class VehicleResource extends Resource
     {
         return [
             TagsRelationManager::class,
-            ActivitylogRelationManager::class,
+            ActivitiesRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListVehicles::route('/'),
-            'edit' => Pages\EditVehicle::route('/{record}/edit'),
+            'index' => ListVehicles::route('/'),
+            'edit' => EditVehicle::route('/{record}/edit'),
         ];
     }
 }

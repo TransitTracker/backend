@@ -3,9 +3,9 @@
 namespace App\Filament\Resources\LinkResource\Pages;
 
 use App\Filament\Resources\LinkResource;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\EditRecord;
-use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
+use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
+use LaraZeus\SpatieTranslatable\Resources\Pages\EditRecord\Concerns\Translatable;
 
 class EditLink extends EditRecord
 {

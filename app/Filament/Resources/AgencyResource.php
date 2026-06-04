@@ -4,27 +4,29 @@ namespace App\Filament\Resources;
 
 use App\Enums\AgencyFeature;
 use App\Enums\VehicleType;
-use App\Filament\Resources\AgencyResource\Pages;
+use App\Filament\Resources\AgencyResource\Pages\CreateAgency;
+use App\Filament\Resources\AgencyResource\Pages\EditAgency;
+use App\Filament\Resources\AgencyResource\Pages\ListAgencies;
 use App\Filament\Resources\AgencyResource\RelationManagers\LinksRelationManager;
 use App\Filament\Resources\AgencyResource\RelationManagers\RegionsRelationManager;
 use App\Jobs\SyncIconToMapbox;
 use App\Models\Agency;
 use Carbon\Carbon;
+use Filament\Actions\BulkAction;
+use Filament\Actions\ReplicateAction;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Actions\ReplicateAction;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -35,7 +37,7 @@ class AgencyResource extends Resource
 {
     protected static ?string $model = Agency::class;
 
-    protected static ?string $navigationIcon = 'gmdi-other-houses-tt';
+    protected static string|\BackedEnum|null $navigationIcon = 'gmdi-other-houses-tt';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -44,10 +46,10 @@ class AgencyResource extends Resource
         return ['name', 'short_name', 'slug'];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Group::make()->columnSpan(['lg' => 2])->schema([
                     Section::make()->schema([
                         TextInput::make('name')
@@ -145,10 +147,10 @@ class AgencyResource extends Resource
                     ->toggleable(),
                 TextColumn::make('regions.name'),
             ])
-            ->actions([
+            ->recordActions([
                 ReplicateAction::make()
                     ->excludeAttributes(['slug', 'is_active', 'refresh_is_active'])
-                    ->form([
+                    ->schema([
                         TextInput::make('slug')->required(),
                         Toggle::make('is_active')->default(false),
                         Toggle::make('refresh_is_active')->default(false),
@@ -157,7 +159,7 @@ class AgencyResource extends Resource
                         $replica->fill($data);
                     }),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkAction::make('generateMapboxIcon')
                     ->requiresConfirmation()
                     ->form([
@@ -195,9 +197,9 @@ class AgencyResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAgencies::route('/'),
-            'create' => Pages\CreateAgency::route('/create'),
-            'edit' => Pages\EditAgency::route('/{record}/edit'),
+            'index' => ListAgencies::route('/'),
+            'create' => CreateAgency::route('/create'),
+            'edit' => EditAgency::route('/{record}/edit'),
         ];
     }
 }

@@ -5,14 +5,14 @@ namespace App\Filament\Resources\TagResource\Pages;
 use App\Enums\TagType;
 use App\Filament\Resources\TagResource;
 use App\Models\Tag;
+use Filament\Actions\BulkAction;
 use Filament\Actions\CreateAction;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Pages\ListRecords;
-use Filament\Resources\Pages\ListRecords\Concerns\Translatable;
-use Filament\Tables\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
+use LaraZeus\SpatieTranslatable\Resources\Pages\ListRecords\Concerns\Translatable;
 
 class ListTags extends ListRecords
 {

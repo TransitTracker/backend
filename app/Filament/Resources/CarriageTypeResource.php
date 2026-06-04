@@ -3,17 +3,20 @@
 namespace App\Filament\Resources;
 
 use App\Enums\CarriageCategory;
-use App\Filament\Resources\CarriageTypeResource\Pages;
+use App\Filament\Resources\CarriageTypeResource\Pages\ManageCarriageTypes;
 use App\Models\Agency;
 use App\Models\CarriageType;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
-use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -21,12 +24,12 @@ class CarriageTypeResource extends Resource
 {
     protected static ?string $model = CarriageType::class;
 
-    protected static ?string $navigationIcon = 'gmdi-category-tt';
+    protected static string|\BackedEnum|null $navigationIcon = 'gmdi-category-tt';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 ToggleButtons::make('carriage_category')
                     ->options(CarriageCategory::class)
                     ->columnSpanFull()
@@ -67,13 +70,13 @@ class CarriageTypeResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -81,7 +84,7 @@ class CarriageTypeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageCarriageTypes::route('/'),
+            'index' => ManageCarriageTypes::route('/'),
         ];
     }
 }

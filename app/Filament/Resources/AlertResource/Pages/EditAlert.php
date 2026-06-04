@@ -8,10 +8,10 @@ use App\Models\NotificationUser;
 use App\Models\Region;
 use App\Notifications\Push\NewAlert;
 use Filament\Actions\Action;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Pages\EditRecord;
-use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
+use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
+use LaraZeus\SpatieTranslatable\Resources\Pages\EditRecord\Concerns\Translatable;
 use Notification;
 
 class EditAlert extends EditRecord
@@ -34,7 +34,7 @@ class EditAlert extends EditRecord
                         ? $record->regions->first()?->id
                         : null,
                 ])
-                ->form([
+                ->schema([
                     Select::make('region')
                         ->options(Region::pluck('name', 'id'))
                         ->placeholder('None - Open in user\'s active region')

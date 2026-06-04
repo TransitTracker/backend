@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources\AgencyResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Actions\AssociateAction;
+use Filament\Actions\DissociateAction;
+use Filament\Actions\DissociateBulkAction;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class LinksRelationManager extends RelationManager
@@ -16,11 +19,11 @@ class LinksRelationManager extends RelationManager
 
     protected static ?string $label = 'Default links for new vehicles';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('internal_title')
+        return $schema
+            ->components([
+                TextInput::make('internal_title')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -30,19 +33,19 @@ class LinksRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('internal_title'),
+                TextColumn::make('internal_title'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\AssociateAction::make(),
+                AssociateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\DissociateAction::make(),
+            ->recordActions([
+                DissociateAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DissociateBulkAction::make(),
+            ->toolbarActions([
+                DissociateBulkAction::make(),
             ]);
     }
 }

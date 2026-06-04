@@ -3,26 +3,28 @@
 namespace App\Filament\Resources;
 
 use App\Enums\TagType;
-use App\Filament\Resources\TagResource\Pages;
+use App\Filament\Resources\TagResource\Pages\CreateTag;
+use App\Filament\Resources\TagResource\Pages\EditTag;
+use App\Filament\Resources\TagResource\Pages\ListTags;
 use App\Filament\Resources\TagResource\RelationManagers\AgenciesRelationManager;
 use App\Filament\Resources\TagResource\RelationManagers\VehiclesRelationManager;
 use App\Models\Tag;
-use Filament\Forms\Components\Card;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 
 class TagResource extends Resource
 {
@@ -30,25 +32,25 @@ class TagResource extends Resource
 
     protected static ?string $model = Tag::class;
 
-    protected static ?string $navigationIcon = 'gmdi-label-tt';
+    protected static string|\BackedEnum|null $navigationIcon = 'gmdi-label-tt';
 
     public static function getGloballySearchableAttributes(): array
     {
         return ['label', 'short_label', 'slug'];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Group::make()->columnSpan(['lg' => 2])->schema([
-                    Card::make()->columns(3)->schema([
+                    Section::make()->columns(3)->schema([
                         TextInput::make('label')
                             ->required()
                             ->columnSpan(2),
                         TextInput::make('short_label')
                             ->reactive()
-                            ->afterStateUpdated(function (\Filament\Forms\Set $set, $state) {
+                            ->afterStateUpdated(function (Set $set, $state) {
                                 $set('slug', Str::slug($state));
                             }),
                         TextInput::make('description')
@@ -60,14 +62,14 @@ class TagResource extends Resource
                         ColorPicker::make('color')
                             ->required()
                             ->reactive()
-                            ->afterStateUpdated(function (\Filament\Forms\Set $set, $state) {
+                            ->afterStateUpdated(function (Set $set, $state) {
                                 $set('dark_color', $state);
                             }),
                         ColorPicker::make('dark_color')->required(),
                         ColorPicker::make('text_color')
                             ->required()
                             ->reactive()
-                            ->afterStateUpdated(function (\Filament\Forms\Set $set, $state) {
+                            ->afterStateUpdated(function (Set $set, $state) {
                                 $set('dark_text_color', $state);
                             }),
                         ColorPicker::make('dark_text_color'),
@@ -76,11 +78,11 @@ class TagResource extends Resource
                 ]),
                 Group::make()
                     ->schema([
-                        Card::make()
+                        Section::make()
                             ->schema([
                                 Select::make('type')->options(TagType::asFlippedArray()),
                             ]),
-                        Card::make()
+                        Section::make()
                             ->schema([
                                 Placeholder::make('id')
                                     ->label('ID')
@@ -122,9 +124,9 @@ class TagResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTags::route('/'),
-            'create' => Pages\CreateTag::route('/create'),
-            'edit' => Pages\EditTag::route('/{record}/edit'),
+            'index' => ListTags::route('/'),
+            'create' => CreateTag::route('/create'),
+            'edit' => EditTag::route('/{record}/edit'),
         ];
     }
 }

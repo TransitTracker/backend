@@ -1,0 +1,288 @@
+<?php
+
+declare(strict_types=1);
+use AlizHarb\ActivityLog\Pages\UserActivitiesPage;
+use AlizHarb\ActivityLog\Resources\ActivityLogs\ActivityLogResource;
+use AlizHarb\ActivityLog\Widgets\ActivityChartWidget;
+use AlizHarb\ActivityLog\Widgets\ActivityHeatmapWidget;
+use AlizHarb\ActivityLog\Widgets\ActivityStatsWidget;
+use AlizHarb\ActivityLog\Widgets\LatestActivityWidget;
+use App\Authorizer\ActivityLogAuthorizer;
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Resource Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for the Activity Log resource.
+    |
+    */
+    'resource' => [
+        'class' => ActivityLogResource::class,
+        'group' => null,
+        'sort' => null,
+        'default_sort_column' => 'created_at',
+        'default_sort_direction' => 'desc',
+        'navigation_count_badge' => false,
+        'navigation_icon' => 'heroicon-o-rectangle-stack',
+        'global_search' => [
+            'enabled' => true,
+            'attributes' => ['log_name', 'description', 'subject_type', 'event'],
+        ],
+        'pagination' => [
+            'options' => [10, 25, 50, 100],
+            'default' => 50,
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Activity Log Icons & Colors
+    |--------------------------------------------------------------------------
+    |
+    | Define the icons and colors for different activity events.
+    | You can add custom events here as well.
+    |
+    */
+    'events' => [
+        'created' => [
+            'icon' => 'heroicon-m-plus',
+            'color' => 'success',
+        ],
+        'updated' => [
+            'icon' => 'heroicon-m-pencil',
+            'color' => 'warning',
+        ],
+        'deleted' => [
+            'icon' => 'heroicon-m-trash',
+            'color' => 'danger',
+        ],
+        'restored' => [
+            'icon' => 'heroicon-m-arrow-uturn-left',
+            'color' => 'gray',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | DateTime Format
+    |--------------------------------------------------------------------------
+    |
+    | The format used for displaying dates in the timeline and table.
+    |
+    */
+    'datetime_format' => 'M d, Y H:i:s',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Table Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for the activity log table.
+    |
+    */
+    'table' => [
+        'columns' => [
+            'log_name' => [
+                'visible' => true,
+                'searchable' => true,
+                'sortable' => true,
+            ],
+            'event' => [
+                'visible' => true,
+                'searchable' => true,
+                'sortable' => true,
+            ],
+            'subject_type' => [
+                'visible' => true,
+                'searchable' => true,
+                'sortable' => true,
+            ],
+            'subject_id' => [
+                'visible' => true,
+                'searchable' => true,
+                'sortable' => true,
+            ],
+            'causer' => [
+                'visible' => true,
+                'searchable' => true,
+                'sortable' => true,
+            ],
+            'description' => [
+                'visible' => true,
+                'searchable' => true,
+                'limit' => 50,
+            ],
+            'created_at' => [
+                'visible' => true,
+                'searchable' => true,
+                'sortable' => true,
+            ],
+            'ip_address' => [
+                'visible' => true,
+                'searchable' => true,
+            ],
+            'user_agent' => [
+                'visible' => true,
+                'searchable' => true,
+            ],
+        ],
+        'filters' => [
+            'log_name' => true,
+            'event' => true,
+            'created_at' => true,
+            'causer' => true,
+            'subject_type' => true,
+            'subject_id' => true,
+        ],
+        'actions' => [
+            'timeline' => true,
+            'view' => true,
+            'revert' => true,
+            'restore' => true,
+            'delete' => true,
+            'export' => true,
+        ],
+        'bulk_actions' => [
+            'delete' => true,
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Infolist Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for the activity log infolist.
+    |
+    */
+    'infolist' => [
+        'tabs' => [
+            'overview' => true,
+            'changes' => true,
+            'raw_data' => true,
+        ],
+        'entries' => [
+            'log_name' => true,
+            'event' => true,
+            'created_at' => true,
+            'causer' => true,
+            'subject' => true,
+            'description' => true,
+            'properties_attributes' => true,
+            'properties_old' => true,
+            'properties_raw' => true,
+            'ip_address' => true,
+            'user_agent' => true,
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Timeline Action
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for the timeline action.
+    |
+    */
+    'timeline' => [
+        'show_action' => true,
+        'icon' => 'heroicon-m-clock',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Permissions Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for the permissions.
+    |
+    | You can use 'custom_authorization' to define your own authorization logic.
+    | For example, to restrict access to only user ID 1:
+    |
+    | 'custom_authorization' => fn($user) => $user->id === 1,
+    |
+    | Or to allow super admins only:
+    |
+    | 'custom_authorization' => fn($user) => $user->hasRole('super_admin'),
+    |
+    | If 'custom_authorization' is set, it takes precedence over the 'enabled'
+    | and permission checks.
+    |
+    */
+    'permissions' => [
+        'enabled' => false,
+
+        /**
+         * Custom invokable authorizer class for accessing the activity log.
+         *
+         * If set, this takes precedence over the 'enabled' setting and permission checks.
+         * This invokable receives the authenticated user and should return a boolean.
+         *
+         * Example: 'App\Support\ActivityLogAuthorization' (class with __invoke(User $user): bool)
+         */
+        'custom_authorization' => ActivityLogAuthorizer::class,
+
+        'view_any' => 'view_any_activity',
+        'view' => 'view_activity',
+        'create' => 'create_activity',
+        'update' => 'update_activity',
+        'delete' => 'delete_activity',
+        'restore' => 'restore_activity',
+        'force_delete' => 'force_delete_activity',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Pages Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for pages provided by the plugin.
+    |
+    */
+    'pages' => [
+        'user_activities' => [
+            'enabled' => true,
+            'class' => UserActivitiesPage::class,
+            'navigation_label' => null, // null uses translation key
+            'navigation_group' => null, // null uses resource group
+            'navigation_sort' => 2,
+            'polling_interval' => null,
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Widgets Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for dashboard widgets.
+    |
+    */
+    'widgets' => [
+        'enabled' => false,
+    ],
+    /*
+    |--------------------------------------------------------------------------
+    | Advanced Settings (v1.3.0)
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for new features in v1.3.0.
+    |
+    */
+    'dashboard' => [
+        'enabled' => false,
+        'title' => null, // null uses translation key
+        'navigation_group' => null, // null uses resource group
+        'navigation_sort' => 0,
+        'navigation_icon' => 'heroicon-o-presentation-chart-bar',
+    ],
+
+    'auto_context' => [
+        'enabled' => true,
+        'capture_ip' => true,
+        'capture_browser' => true,
+        'capture_batch' => true,
+    ],
+];

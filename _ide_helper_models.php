@@ -111,17 +111,19 @@ namespace App\Models{
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property bool $is_active
  * @property string|null $icon
  * @property string $color
- * @property bool $can_be_closed
  * @property array<array-key, mixed>|null $title
  * @property array<array-key, mixed> $subtitle
  * @property array<array-key, mixed>|null $body
+ * @property \App\Enums\AlertCategory|null $category
  * @property string|null $action
  * @property \ArrayObject<array-key, mixed>|null $action_parameters
- * @property string|null $expiration
  * @property string|null $image
+ * @property bool $is_regional
+ * @property \App\Enums\AlertStatus $status
+ * @property \Illuminate\Support\Carbon|null $new_status_date
+ * @property \App\Enums\AlertStatus|null $new_status
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Region> $regions
  * @property-read int|null $regions_count
  * @property-read mixed $translations
@@ -129,26 +131,89 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert visible()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereAction($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereActionParameters($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereCanBeClosed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereExpiration($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereIcon($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereIsRegional($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereLocale(string $column, string $locale)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereLocales(string $column, array $locales)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereNewStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereNewStatusDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereSubtitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Alert whereUpdatedAt($value)
  */
 	class Alert extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $agency_id
+ * @property string $carriage_id
+ * @property string $vehicle_id
+ * @property string|null $label
+ * @property \BenSampo\Enum\Enum|null $occupancy_status
+ * @property int|null $sequence
+ * @property int|null $carriage_type_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Agency|null $agency
+ * @property-read \App\Models\CarriageType|null $carriageType
+ * @property-read mixed $displayed_label
+ * @property-read \App\Models\Vehicle|null $vehicle
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage whereAgencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage whereCarriageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage whereCarriageTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage whereOccupancyStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage whereSequence($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Carriage whereVehicleId($value)
+ */
+	class Carriage extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property \App\Enums\CarriageCategory $carriage_category
+ * @property string $make
+ * @property string $model
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Carriage> $carriages
+ * @property-read int|null $carriages_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType whereCarriageCategory($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType whereMake($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType whereModel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType whereUpdatedAt($value)
+ */
+	class CarriageType extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -638,6 +703,8 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $actions
+ * @property-read int|null $actions_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Ladder\Models\UserRole> $roles
@@ -691,7 +758,11 @@ namespace App\Models{
  * @property string|null $force_vehicle_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Link> $activeLinks
  * @property-read int|null $active_links_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @property-read \App\Models\Agency|null $agency
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Carriage> $carriages
+ * @property-read int|null $carriages_count
  * @property-read string $displayed_label
  * @property-read string $ref
  * @property-read \App\Models\Gtfs\Route|null $gtfsRoute

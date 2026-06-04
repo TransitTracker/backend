@@ -7,6 +7,7 @@ use App\Enums\OccupancyStatus;
 use App\Enums\ScheduleRelationship;
 use App\Enums\VehicleStopStatus;
 use App\Enums\VehicleType;
+use App\Http\Resources\V2\CarriageResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -60,6 +61,7 @@ class VehicleResource extends JsonResource
                 'congestionLevelLabel' => $this->when($request->boolean('label'), CongestionLevel::coerce($this->congestion_level)?->description),
                 'occupancyStatus' => $this->occupancy_status,
                 'occupancyStatusLabel' => $this->when($request->boolean('label'), OccupancyStatus::coerce($this->occupancy_status)?->description),
+                'carriageDetails' => CarriageResource::collection($this->carriages),
                 'firstSeenAt' => $this->created_at->getTimestamp(),
                 'firstSeenAtLabel' => $this->when($request->boolean('label'), $this->created_at->toDateTimeString()),
                 'lastSeenAt' => $this->last_seen_at->getTimestamp(),

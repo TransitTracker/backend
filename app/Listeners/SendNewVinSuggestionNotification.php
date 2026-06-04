@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Notification;
 
 class SendNewVinSuggestionNotification
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function handle(SuggestionCreated $event)
     {

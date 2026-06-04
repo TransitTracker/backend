@@ -9,7 +9,5 @@ class SuggestionCreated
 {
     use SerializesModels;
 
-    public function __construct(public Suggestion $suggestion)
-    {
-    }
+    public function __construct(public Suggestion $suggestion) {}
 }

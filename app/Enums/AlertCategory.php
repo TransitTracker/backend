@@ -20,7 +20,7 @@ enum AlertCategory: int implements HasColor, HasLabel
         return match ($this) {
             self::Update => 'Version Update',
             self::NewAgency => 'New Agency',
-            self::Maintenance => 'App Maintenacne',
+            self::Maintenance => 'App Maintenance',
             self::StatusUpdate => 'App Status Update',
         };
     }

@@ -13,10 +13,10 @@ use App\Models\Gtfs\Trip;
 use App\Models\Vin\Information;
 use Awobaz\Compoships\Database\Eloquent\Model;
 use Awobaz\Compoships\Database\Eloquent\Relations\BelongsTo;
+use Awobaz\Compoships\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -31,6 +31,7 @@ class Vehicle extends Model
     use HasSpatial, LogsActivity;
 
     protected $guarded = [];
+
     protected static $recordEvents = ['updated', 'deleted'];
 
     protected $casts = [
@@ -56,6 +57,11 @@ class Vehicle extends Model
     public function activeLinks(): BelongsToMany
     {
         return $this->belongsToMany(Link::class)->active();
+    }
+
+    public function carriages(): HasMany
+    {
+        return $this->hasMany(Carriage::class, ['agency_id', 'vehicle_id'], ['agency_id', 'vehicle_id']);
     }
 
     public function links(): BelongsToMany

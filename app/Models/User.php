@@ -12,7 +12,7 @@ use Spatie\Activitylog\Traits\CausesActivity;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, HasRoles, Notifiable, CausesActivity;
+    use CausesActivity, HasFactory, HasRoles, Notifiable;
 
     protected $fillable = [
         'name', 'email', 'password',

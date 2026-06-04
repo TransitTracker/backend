@@ -6,9 +6,7 @@ use NotificationChannels\WebPush\Events\NotificationFailed;
 
 class DeactivateInactiveSubscription
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function handle(NotificationFailed $event)
     {

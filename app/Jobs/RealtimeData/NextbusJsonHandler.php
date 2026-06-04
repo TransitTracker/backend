@@ -25,9 +25,7 @@ class NextbusJsonHandler implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(private Agency $agency, private int $time)
-    {
-    }
+    public function __construct(private Agency $agency, private int $time) {}
 
     /**
      * Execute the job.
@@ -100,7 +98,7 @@ class NextbusJsonHandler implements ShouldQueue
         $count = count($json->vehicle);
 
         // Add statistics
-        $stat = new Stat();
+        $stat = new Stat;
         $stat->type = 'vehicleTotal';
         $stat->data = (object) [
             'count' => $count,

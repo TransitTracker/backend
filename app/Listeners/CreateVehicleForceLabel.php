@@ -7,11 +7,9 @@ use Illuminate\Support\Str;
 
 class CreateVehicleForceLabel
 {
-    public $queue = 'misc';
+    public $queue = 'default';
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function handle(VehicleCreating $event): bool
     {

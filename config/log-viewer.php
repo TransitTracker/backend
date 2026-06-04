@@ -1,7 +1,5 @@
 <?php
 
-use Opcodes\LogViewer\Level;
-
 return [
 
     /*

@@ -14,7 +14,7 @@ class RegionsTableSeeder extends Seeder
      */
     public function run()
     {
-        $mtl = new Region();
+        $mtl = new Region;
         $mtl->name = 'Montréal';
         $mtl->slug = 'mtl';
 

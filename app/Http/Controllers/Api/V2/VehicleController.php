@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V2\VehiclesGeoJson\VehicleResource as GeoJsonVehicleResource;
 use App\Http\Resources\V2\VehicleResource;
+use App\Http\Resources\V2\VehiclesGeoJson\VehicleResource as GeoJsonVehicleResource;
 use App\Http\Resources\V2\VehiclesGeoJson\VehiclesCollection;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
@@ -52,6 +52,7 @@ class VehicleController extends Controller
             ->with([
                 'trip:agency_id,gtfs_trip_id,short_name,headsign,gtfs_block_id,gtfs_shape_id',
                 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color',
+                'carriages:agency_id,vehicle_id,carriage_id,label,occupancy_status,sequence,carriage_type_id',
                 'activeLinks:id,internal_title',
                 'tags:id,short_label',
             ]);

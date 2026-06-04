@@ -37,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading(App::environment('local'));
 
+        // TODO : Remove or improve
         Health::checks([
             CacheCheck::new(),
             CpuLoadCheck::new()->failWhenLoadIsHigherInTheLast5Minutes(0.75),

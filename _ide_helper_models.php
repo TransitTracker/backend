@@ -13,8 +13,6 @@
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $color
@@ -106,8 +104,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -118,12 +114,13 @@ namespace App\Models{
  * @property array<array-key, mixed>|null $body
  * @property \App\Enums\AlertCategory|null $category
  * @property string|null $action
- * @property \ArrayObject<array-key, mixed>|null $action_parameters
+ * @property \Illuminate\Database\Eloquent\Casts\ArrayObject<array-key, mixed>|null $action_parameters
  * @property string|null $image
  * @property bool $is_regional
  * @property \App\Enums\AlertStatus $status
  * @property \Illuminate\Support\Carbon|null $new_status_date
  * @property \App\Enums\AlertStatus|null $new_status
+ * @property-read array $translatable_columns_from
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Region> $regions
  * @property-read int|null $regions_count
  * @property-read mixed $translations
@@ -158,8 +155,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $agency_id
  * @property string $carriage_id
@@ -193,19 +188,19 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property \App\Enums\CarriageCategory $carriage_category
  * @property string $make
  * @property string $model
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property array<array-key, mixed>|null $automatic_mappings
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Carriage> $carriages
  * @property-read int|null $carriages_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType whereAutomaticMappings($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType whereCarriageCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CarriageType whereId($value)
@@ -218,8 +213,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property int|null $agency_id
@@ -244,8 +237,6 @@ namespace App\Models{
 
 namespace App\Models\Gtfs{
 /**
- * 
- *
  * @property int $id
  * @property string $agency_id
  * @property string $gtfs_route_id
@@ -276,8 +267,6 @@ namespace App\Models\Gtfs{
 
 namespace App\Models\Gtfs{
 /**
- * 
- *
  * @property int $id
  * @property string $gtfs_service_id
  * @property int $monday
@@ -318,8 +307,6 @@ namespace App\Models\Gtfs{
 
 namespace App\Models\Gtfs{
 /**
- * 
- *
  * @property int $id
  * @property int $agency_id
  * @property string $gtfs_shape_id
@@ -365,8 +352,6 @@ namespace App\Models\Gtfs{
 
 namespace App\Models\Gtfs{
 /**
- * 
- *
  * @property int $id
  * @property int $agency_id
  * @property string $gtfs_stop_id
@@ -413,8 +398,6 @@ namespace App\Models\Gtfs{
 
 namespace App\Models\Gtfs{
 /**
- * 
- *
  * @property int $id
  * @property int $agency_id
  * @property string $gtfs_trip_id
@@ -442,8 +425,6 @@ namespace App\Models\Gtfs{
 
 namespace App\Models\Gtfs{
 /**
- * 
- *
  * @property int $id
  * @property int|null $agency_id
  * @property string $gtfs_trip_id
@@ -486,8 +467,6 @@ namespace App\Models\Gtfs{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $internal_title
  * @property array<array-key, mixed> $title
@@ -498,6 +477,7 @@ namespace App\Models{
  * @property int $is_active
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Agency> $agencies
  * @property-read int|null $agencies_count
+ * @property-read array $translatable_columns_from
  * @property-read mixed $translations
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
@@ -523,8 +503,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $uuid
  * @property bool $is_active
@@ -563,15 +541,13 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
  * @property array<array-key, mixed>|null $info_title
  * @property array<array-key, mixed>|null $info_body
  * @property array<array-key, mixed> $map_box
- * @property \ArrayObject<array-key, mixed> $map_center
+ * @property \Illuminate\Database\Eloquent\Casts\ArrayObject<array-key, mixed> $map_center
  * @property int $map_zoom
  * @property array<array-key, mixed> $credits
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -588,6 +564,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Alert> $alerts
  * @property-read int|null $alerts_count
  * @property-read array $cities
+ * @property-read array $translatable_columns_from
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Stat> $stats
  * @property-read int|null $stats_count
  * @property-read mixed $translations
@@ -618,8 +595,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $type
  * @property object $data
@@ -642,8 +617,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property array<array-key, mixed> $label
  * @property array<array-key, mixed>|null $short_label
@@ -662,6 +635,7 @@ namespace App\Models{
  * @property-read int|null $agencies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $exoVinVehicles
  * @property-read int|null $exo_vin_vehicles_count
+ * @property-read array $translatable_columns_from
  * @property-read mixed $translations
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
@@ -693,8 +667,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $email
@@ -727,8 +699,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int|null $agency_id
  * @property string|null $gtfs_trip
@@ -839,8 +809,6 @@ namespace App\Models{
 
 namespace App\Models\Vin{
 /**
- * 
- *
  * @property string $vin
  * @property string $make
  * @property string $model
@@ -876,8 +844,6 @@ namespace App\Models\Vin{
 
 namespace App\Models\Vin{
 /**
- * 
- *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion newModelQuery()

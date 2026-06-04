@@ -3,7 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Enums\TagType;
-use App\Filament\Resources\VehicleResource;
+use App\Filament\Resources\Vehicles\VehicleResource;
 use App\Models\Tag;
 use App\Models\Vehicle;
 use Filament\Actions\Action;

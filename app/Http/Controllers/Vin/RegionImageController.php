@@ -25,59 +25,67 @@ class RegionImageController extends Controller
     {
         $validated = $request->validate([
             'region_id' => ['required', 'exists:regions,id'],
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'], // 10MB max
+            'images' => ['required', 'array', 'min:1', 'max:5'], // 5 max pictures
+            'images.*' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'], // 10MB max
             'author_name' => ['required', 'string', 'max:255'],
+            'author_email' => ['required', 'email', 'max:255'],
             'author_link' => ['nullable', 'url', 'max:255'],
             'description' => ['required', 'string', 'max:1000'],
             'cf-turnstile-response' => ['required', 'string', new Turnstile],
         ]);
 
-        $image = $request->file('image');
-        $filename = uniqid('region_').'.webp';
-        $path = "content/regions/{$filename}";
-
-        // Convert to webp and 16:9 ratio using Intervention Image
         $manager = new ImageManager(new Driver);
-        $img = $manager->read($image);
+        $createdImages = collect();
 
-        // Calculate 16:9 dimensions
-        $width = $img->width();
-        $height = $img->height();
-        $targetRatio = 16 / 9;
-        $currentRatio = $width / $height;
+        foreach ($request->file('images') as $image) {
+            $filename = uniqid('region_').'.webp';
+            $path = "content/regions/{$filename}";
 
-        if ($currentRatio > $targetRatio) {
-            // Image is too wide
-            $cropWidth = (int) ($height * $targetRatio);
-            $img->cover($cropWidth, $height);
-        } else {
-            // Image is too tall
-            $cropHeight = (int) ($width / $targetRatio);
-            $img->cover($width, $cropHeight);
+            // Convert to webp and 16:9 ratio using Intervention Image
+            $img = $manager->read($image);
+
+            // Calculate 16:9 dimensions
+            $width = $img->width();
+            $height = $img->height();
+            $targetRatio = 16 / 9;
+            $currentRatio = $width / $height;
+
+            if ($currentRatio > $targetRatio) {
+                // Image is too wide
+                $cropWidth = (int) ($height * $targetRatio);
+                $img->cover($cropWidth, $height);
+            } else {
+                // Image is too tall
+                $cropHeight = (int) ($width / $targetRatio);
+                $img->cover($width, $cropHeight);
+            }
+
+            // Save image
+            $fullPath = storage_path('app/public/'.$path);
+
+            // Ensure directory exists
+            $dir = dirname($fullPath);
+            if (! is_dir($dir)) {
+                mkdir($dir, 0755, true);
+            }
+
+            $img->toWebp(90)->save($fullPath);
+
+            $regionImage = RegionImage::create([
+                'region_id' => $validated['region_id'],
+                'image_path' => $path,
+                'author_name' => $validated['author_name'],
+                'author_email' => $validated['author_email'],
+                'author_link' => $validated['author_link'],
+                'description' => $validated['description'],
+            ]);
+
+            $createdImages->push($regionImage);
         }
-
-        // Save image
-        $fullPath = storage_path('app/public/'.$path);
-
-        // Ensure directory exists
-        $dir = dirname($fullPath);
-        if (! is_dir($dir)) {
-            mkdir($dir, 0755, true);
-        }
-
-        $img->toWebp(90)->save($fullPath);
-
-        $regionImage = RegionImage::create([
-            'region_id' => $validated['region_id'],
-            'image_path' => $path,
-            'author_name' => $validated['author_name'],
-            'author_link' => $validated['author_link'],
-            'description' => $validated['description'],
-        ]);
 
         $adminEmail = config('transittracker.admin_email');
         if ($adminEmail) {
-            Mail::to($adminEmail)->send(new RegionImageSubmitted($regionImage));
+            Mail::to($adminEmail)->send(new RegionImageSubmitted($createdImages));
         }
 
         return back()->with('status', 'Thanks for your submission! It will be reviewed shortly.');

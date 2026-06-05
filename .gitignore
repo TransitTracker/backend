@@ -22,6 +22,7 @@ yarn-error.log
 /public/js
 /public/css
 /public/docs
+/public/fonts/filament
 /public/packages
 /public/vendors~js
 /public/vendor

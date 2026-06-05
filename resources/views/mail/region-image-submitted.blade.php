@@ -1,18 +1,20 @@
 <x-mail::message>
 # New Region Image Submission
 
-A new header image has been submitted for the **{{ $regionImage->region->name }}** region.
+**{{ $regionImages->count() }}** new header images have been submitted for the **{{ $regionImages->first()->region->name }}** region.
 
-**Author:** {{ $regionImage->author_name }}
-@if($regionImage->author_link)
-**Author Link:** {{ $regionImage->author_link }}
+**Author:** {{ $regionImages->first()->author_name }}
+@if($regionImages->first()->author_link)
+**Author Link:** {{ $regionImages->first()->author_link }}
 @endif
 
 **Description:**
-{{ $regionImage->description }}
+{{ $regionImages->first()->description }}
 
-<x-mail::button :url="route('filament.admin.resources.region-images.edit', ['record' => $regionImage->id])">
-Review in Filament
+You can review and accept individual images in the Filament admin panel:
+
+<x-mail::button :url="route('filament.admin.resources.region-images.index')">
+Open Region Images
 </x-mail::button>
 
 Thanks,<br>

@@ -1,6 +1,6 @@
-<x-layout>
+<x-form-layout>
     <div class="container px-4 mx-auto mt-8 max-w-2xl">
-        <h1 class="text-2xl font-bold md:text-4xl text-primary-700 dark:text-white font-heading mb-4">{{ __('Submit a Region Image') }}</h1>
+        <h1 class="text-2xl font-bold md:text-4xl text-primary-700 dark:text-white font-heading mb-4">{{ __('Submit Region Images') }}</h1>
         <p class="mb-6">{{ __('Help us feature the best images for each region! Submitted images will be reviewed before they become the active header image.') }}</p>
 
         @if (session('status'))
@@ -19,7 +19,7 @@
             </div>
         @endif
 
-        <form action="{{ route('vin.region-image.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <form action="{{ route('forms.region-image.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
             <div>
@@ -33,14 +33,19 @@
             </div>
 
             <div>
-                <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Image (JPEG, PNG, WEBP)') }}</label>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">{{ __('Image will be converted to 16:9 ratio and WebP format.') }}</p>
-                <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/webp" required class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 dark:text-gray-400 dark:file:bg-neutral-80 dark:file:text-white">
+                <label for="images" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Images (JPEG, PNG, WEBP)') }}</label>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">{{ __('You can select multiple images (max 5). Images will be converted to 16:9 ratio and WebP format.') }}</p>
+                <input type="file" id="images" name="images[]" accept="image/jpeg,image/png,image/webp" multiple required class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 dark:text-gray-400 dark:file:bg-neutral-80 dark:file:text-white">
             </div>
 
             <div>
                 <label for="author_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Author Name') }}</label>
                 <input type="text" name="author_name" id="author_name" required value="{{ old('author_name') }}" class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-neutral-90 dark:border-neutral-70 dark:text-white py-2 px-3">
+            </div>
+
+            <div>
+                <label for="author_email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Author Email') }}</label>
+                <input type="email" name="author_email" id="author_email" required value="{{ old('author_email') }}" class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-neutral-90 dark:border-neutral-70 dark:text-white py-2 px-3">
             </div>
 
             <div>
@@ -65,4 +70,4 @@
             </div>
         </form>
     </div>
-</x-layout>
+</x-form-layout>

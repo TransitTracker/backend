@@ -1,6 +1,8 @@
 <?php
 
+use Knuckles\Scribe\Config\Defaults;
 use Knuckles\Scribe\Extracting\Strategies;
+use Knuckles\Scribe\Matching\RouteMatcher;
 
 return [
 
@@ -330,7 +332,7 @@ INTRO
             Strategies\QueryParameters\GetFromQueryParamTag::class,
         ],
         'headers' => [
-            ...Knuckles\Scribe\Config\Defaults::HEADERS_STRATEGIES,
+            ...Defaults::HEADERS_STRATEGIES,
         ],
         'bodyParameters' => [
             Strategies\BodyParameters\GetFromFormRequest::class,
@@ -363,7 +365,7 @@ INTRO
      * [Advanced] Custom implementation of RouteMatcherInterface to customise how routes are matched
      *
      */
-    'routeMatcher' => \Knuckles\Scribe\Matching\RouteMatcher::class,
+    'routeMatcher' => RouteMatcher::class,
 
     /**
      * For response calls, API resource responses and transformer responses,

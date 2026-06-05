@@ -2,9 +2,8 @@
 
 namespace App\Jobs\RealtimeData;
 
-use App\Actions\HandleExpiredGtfs;
 use App\Models\Agency;
-use App\Models\Gtfs\Trip;
+use App\Models\Carriage;
 use App\Models\Stat;
 use App\Models\Vehicle;
 use Carbon\Carbon;
@@ -35,12 +34,6 @@ class JavascriptGtfsRtHandler implements ShouldQueue
      */
     public function handle(): void
     {
-        // Put all previously active vehicle as inactive
-        $inactiveArray = Vehicle::where([
-            ['is_active', true],
-            ['agency_id', $this->agency->id],
-        ])->select(['id', 'is_active'])->get();
-
         $filePath = Storage::path("realtime/{$this->agency->slug}");
         $printGtfsRt = config('transittracker.print_gtfs_rt_bin');
 
@@ -55,11 +48,12 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             return;
         }
 
-        $vehiclesWithoutTrip = 0;
+        $carriagesToUpsert = [];
+        $seenVehicleIds = [];
 
         // Go through each vehicle
         // Where not null to exclude alerts and trip updates
-        $collection->whereNotNull('vehicle')->each(function ($entity) {
+        $collection->whereNotNull('vehicle')->each(function ($entity) use (&$carriagesToUpsert, &$seenVehicleIds) {
             /*
              * Check if entity has vehiclePosition or if is not valid
              */
@@ -68,6 +62,8 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             }
             $vehicle = $entity->vehicle;
 
+            $seenVehicleIds[] = $vehicle->vehicle->id;
+
             /*
              * Prepare a new array to update the vehicle model
              */
@@ -75,15 +71,31 @@ class JavascriptGtfsRtHandler implements ShouldQueue
                 'is_active' => true,
                 'gtfs_trip_id' => $this->processField($vehicle->trip?->trip_id),
                 'gtfs_route_id' => $this->processField($vehicle->trip?->route_id),
-                'start_time' => $this->processField($vehicle->trip?->start_time),
+                'start_time' => $this->processField($vehicle->trip?->start_time ?? null),
                 'schedule_relationship' => $this->processField($vehicle->trip?->schedule_relationship),
                 'position' => $this->processField(['lat' => $vehicle->position?->latitude, 'lon' => $vehicle->position?->longitude], 'position'),
-                'current_stop_sequence' => $this->processField($vehicle->current_stop_sequence),
-                'current_status' => $this->processField($vehicle->current_status),
+                'current_stop_sequence' => $this->processField($vehicle->current_stop_sequence ?? null),
+                'current_status' => $this->processField($vehicle->current_status ?? null),
                 'timestamp' => $this->processField($vehicle->timestamp->low ?? $this->time),
-                'gtfs_stop_id' => $this->processField($vehicle->stop_id),
+                'gtfs_stop_id' => $this->processField($vehicle->stop_id ?? null),
                 'last_seen_at' => $this->processField($vehicle->timestamp->low ?? $this->time, 'timestamp'),
             ];
+
+            /*
+             * Update vehicles carriage
+             */
+            if (property_exists($vehicle, 'multi_carriage_details')) {
+                foreach ($vehicle->multi_carriage_details as $item) {
+                    $carriagesToUpsert[] = [
+                        'agency_id' => $this->agency->id,
+                        'carriage_id' => $item->id,
+                        'vehicle_id' => $vehicle->vehicle->id,
+                        'label' => $item->label ?? null,
+                        'occupancy_status' => $item->occupancy_status ?? null,
+                        'sequence' => $item->carriage_sequence,
+                    ];
+                }
+            }
 
             /*
              * Create or update the vehicle model
@@ -101,9 +113,21 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             }
         });
 
-        // Update active information
-        if ($inactiveArray->except($this->activeArray)->count() > 0) {
-            $inactiveArray->except($this->activeArray)->toQuery()->update(['is_active' => false]);
+        // Mass Upsert Carriages
+        if (! empty($carriagesToUpsert)) {
+            Carriage::upsert(
+                $carriagesToUpsert,
+                ['agency_id', 'carriage_id'],
+                ['label', 'occupancy_status', 'sequence', 'vehicle_id']
+            );
+        }
+
+        // Mark unseen vehicles as inactive in a single query
+        if (! empty($seenVehicleIds)) {
+            Vehicle::where('agency_id', $this->agency->id)
+                ->where('is_active', true)
+                ->whereNotIn('vehicle_id', $seenVehicleIds)
+                ->update(['is_active' => false]);
         }
 
         // Replace timestamp
@@ -111,23 +135,17 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         $this->agency->save();
 
         // Add statistics
-        $stat = new Stat;
-        $stat->type = 'vehicleTotal';
-        $stat->data = (object) [
-            'count' => $count,
-            'agency' => $this->agency->slug,
-            'time' => $this->time,
-        ];
-        $stat->save();
-
-        // Launch a notification if more than half of the vehicles don't have corresponding trip
-        if ($count > 0 && ($vehiclesWithoutTrip / $count) > 0.5) {
-            $action = new HandleExpiredGtfs($this->agency);
-            $action->execute();
-        }
+        Stat::create([
+            'type' => 'vehicleTotal',
+            'data' => [
+                'count' => $count,
+                'agency' => $this->agency->slug,
+                'time' => $this->time,
+            ],
+        ]);
     }
 
-    private function processField($value, ?string $transformer = null)
+    private function processField(mixed $value, ?string $transformer = null)
     {
         if (! filled($value)) {
             return null;
@@ -137,7 +155,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             return null;
         }
 
-        if ($transformer === 'position' && filled($value['lat']) && filled($value['lat'])) {
+        if ($transformer === 'position' && filled($value['lat']) && filled($value['lon'])) {
             return new Point(round($value['lat'], 5), round($value['lon'], 5));
         }
 

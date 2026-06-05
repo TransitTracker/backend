@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
+use Spatie\ScheduleMonitor\Jobs\PingOhDearJob;
 
 return [
 
@@ -121,7 +122,7 @@ return [
     */
 
     'silenced' => [
-        \Spatie\ScheduleMonitor\Jobs\PingOhDearJob::class,
+        PingOhDearJob::class,
     ],
 
     /*

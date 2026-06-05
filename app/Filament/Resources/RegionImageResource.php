@@ -35,6 +35,9 @@ class RegionImageResource extends Resource
                     ->required(),
                 TextInput::make('author_name')
                     ->required(),
+                TextInput::make('author_email')
+                    ->email()
+                    ->required(),
                 TextInput::make('author_link')
                     ->url(),
                 Textarea::make('description')
@@ -61,6 +64,8 @@ class RegionImageResource extends Resource
                 TextColumn::make('region.name')
                     ->sortable(),
                 TextColumn::make('author_name')
+                    ->searchable(),
+                TextColumn::make('author_email')
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()

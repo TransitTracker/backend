@@ -1,5 +1,10 @@
 <?php
 
+use App\CacheHasher\HasherWithoutHost;
+use App\CacheProfiles\LocalizationProfile;
+use Spatie\ResponseCache\Replacers\CsrfTokenReplacer;
+use Spatie\ResponseCache\Serializers\DefaultSerializer;
+
 return [
     /*
      * Determine if the response cache middleware should be enabled.
@@ -13,7 +18,7 @@ return [
      *  You can provide your own class given that it implements the
      *  CacheProfile interface.
      */
-    'cache_profile' => App\CacheProfiles\LocalizationProfile::class,
+    'cache_profile' => LocalizationProfile::class,
 
     /*
      * When using the default CacheRequestFilter this setting controls the
@@ -46,7 +51,7 @@ return [
      * Each replacer must implement the Replacer interface.
      */
     'replacers' => [
-        \Spatie\ResponseCache\Replacers\CsrfTokenReplacer::class,
+        CsrfTokenReplacer::class,
     ],
 
     /*
@@ -62,10 +67,10 @@ return [
      * This class is responsible for generating a hash for a request. This hash
      * is used to look up an cached response.
      */
-    'hasher' => \App\CacheHasher\HasherWithoutHost::class,
+    'hasher' => HasherWithoutHost::class,
 
     /*
      * This class is responsible for serializing responses.
      */
-    'serializer' => \Spatie\ResponseCache\Serializers\DefaultSerializer::class,
+    'serializer' => DefaultSerializer::class,
 ];

@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Jobs\CleanFolders;
 use App\Jobs\RealtimeData\CheckTimestamps;
+use App\Jobs\RealtimeData\SyncGoTransitCarriageDetails;
 use App\Jobs\Tags\SyncTagsWithFleetStats;
 use App\Jobs\UpdateAlertsStatus;
 use App\Models\FailedJob;
@@ -30,6 +31,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('realtime:update')->everyMinute()->unlessBetween('03:34', '03:56');
         $schedule->job(new CheckTimestamps, 'default')->everyThreeMinutes();
+        $schedule->job(new SyncGoTransitCarriageDetails, 'default')->everyFiveMinutes();
         $schedule->job(new SyncTagsWithFleetStats, 'default')->everyTwoHours();
         $schedule->command('schedule-monitor:sync')->dailyAt('02:45');
         $schedule->command('model:prune', ['--model' => [Shape::class, FailedJob::class, MonitoredScheduledTaskLogItem::class]])->dailyAt('02:50');

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V2\AgencyController;
 use App\Http\Controllers\Api\V2\AlertController;
 use App\Http\Controllers\Api\V2\BlockController;
+use App\Http\Controllers\Api\V2\CarriageTypeController;
 use App\Http\Controllers\Api\V2\LandingController;
 use App\Http\Controllers\Api\V2\LinkController;
 use App\Http\Controllers\Api\V2\NotificationsController;
@@ -26,6 +27,8 @@ Route::get('agencies/{agencySlug}/shapes/{shapeId}', [ShapeController::class, 's
 
 Route::get('alerts', [AlertController::class, 'index']);
 Route::get('alerts/{alert}', [AlertController::class, 'show']);
+
+Route::get('carriageTypes', [CarriageTypeController::class, 'index']);
 
 Route::get('landing', [LandingController::class, 'index']);
 Route::get('landing/vehicles', [LandingController::class, 'vehicles']);

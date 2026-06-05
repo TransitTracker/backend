@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class DecodeVin implements ShouldQueue
 {
-    public $queue = 'misc';
+    public $queue = 'default';
 
     public function __construct() {}
 

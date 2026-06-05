@@ -12,6 +12,7 @@ class RegionImage extends Model
         'region_id',
         'image_path',
         'author_name',
+        'author_email',
         'author_link',
         'description',
         'status',

@@ -115,6 +115,7 @@ class AgencyController extends Controller
             ->with([
                 'trip:agency_id,gtfs_trip_id,short_name,headsign,gtfs_block_id,gtfs_service_id,gtfs_shape_id',
                 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color',
+                'carriages:agency_id,vehicle_id,carriage_id,label,occupancy_status,sequence,carriage_type_id',
                 'activeLinks:id',
                 'tags:id',
             ])
@@ -139,6 +140,7 @@ class AgencyController extends Controller
             ->with([
                 'trip:agency_id,gtfs_trip_id,short_name,headsign,gtfs_block_id,gtfs_service_id,gtfs_shape_id',
                 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color',
+                'carriages:agency_id,vehicle_id,carriage_id,label,occupancy_status,sequence,carriage_type_id',
             ]);
 
         // When downloading data, add internal title and short label to download

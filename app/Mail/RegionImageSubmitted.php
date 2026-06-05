@@ -2,25 +2,25 @@
 
 namespace App\Mail;
 
-use App\Models\RegionImage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class RegionImageSubmitted extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public RegionImage $regionImage;
+    public Collection $regionImages;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(RegionImage $regionImage)
+    public function __construct(Collection $regionImages)
     {
-        $this->regionImage = $regionImage;
+        $this->regionImages = $regionImages;
     }
 
     /**
@@ -28,8 +28,13 @@ class RegionImageSubmitted extends Mailable
      */
     public function envelope(): Envelope
     {
+        $firstImage = $this->regionImages->first();
+
         return new Envelope(
-            subject: "New Region Image Submitted: {$this->regionImage->region->name}",
+            subject: "New Region Images Submitted: {$firstImage->region->name}",
+            replyTo: [
+                new \Illuminate\Mail\Mailables\Address($firstImage->author_email, $firstImage->author_name),
+            ],
         );
     }
 

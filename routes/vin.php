@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Vin\AgencyController;
 use App\Http\Controllers\Vin\OperatorController;
-use App\Http\Controllers\Vin\RegionImageController;
 use App\Http\Controllers\Vin\SuggestionController;
 use App\Http\Controllers\Vin\VehicleController;
 use Illuminate\Support\Facades\App;
@@ -24,10 +23,6 @@ Route::get('{vin}', [VehicleController::class, 'show'])->name('vin.show');
 Route::post('{vin}', [SuggestionController::class, 'store'])->name('vin.store');
 Route::get('sector/{sector}', [AgencyController::class, 'show'])->name('vin.agency.show');
 Route::get('operator/{tagSlug}', [OperatorController::class, 'show'])->name('vin.operator.show');
-
-Route::get('region/image', [RegionImageController::class, 'create'])->name('vin.region-image.create');
-Route::post('region/image', [RegionImageController::class, 'store'])->name('vin.region-image.store')->middleware('throttle:5,1');
-
 Route::post('vin/{suggestion}/vote', [SuggestionController::class, 'vote'])->name('vin.vote');
 Route::post('vin/{suggestion}/approve/{agency?}', [SuggestionController::class, 'approve'])->middleware('auth')->name('vin.approve');
 Route::post('vin/{suggestion}/reject', [SuggestionController::class, 'reject'])->middleware('auth')->name('vin.reject');

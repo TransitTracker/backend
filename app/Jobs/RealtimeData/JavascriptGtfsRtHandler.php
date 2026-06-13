@@ -147,6 +147,18 @@ class JavascriptGtfsRtHandler implements ShouldQueue
 
     private function processField(mixed $value, ?string $transformer = null)
     {
+        if ($transformer === 'speed') {
+            return (is_numeric($value) && $value >= 0 && $value <= 150) ? round((float) $value, 0) : null;
+        }
+
+        if ($transformer === 'odometer') {
+            return (is_numeric($value) && $value >= 0 && $value <= 10000000) ? round((float) $value, 0) : null;
+        }
+
+        if ($transformer === 'bearing') {
+            return (is_numeric($value) && $value >= 0 && $value <= 360) ? round((float) $value, 0) : null;
+        }
+
         if (! filled($value)) {
             return null;
         }
@@ -156,7 +168,13 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         }
 
         if ($transformer === 'position' && filled($value['lat']) && filled($value['lon'])) {
-            return new Point(round($value['lat'], 5), round($value['lon'], 5));
+            $lat = round((float) $value['lat'], 5);
+            $lon = round((float) $value['lon'], 5);
+            if ($lat < -90 || $lat > 90 || $lon < -180 || $lon > 180) {
+                return null;
+            }
+
+            return new Point($lat, $lon);
         }
 
         if ($transformer === 'timestamp') {

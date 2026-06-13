@@ -1,0 +1,594 @@
+Installing dependencies from lock file (including require-dev)
+Verifying lock file contents can be installed on current platform.
+Package operations: 230 installs, 0 updates, 0 removals
+  - Downloading voku/portable-ascii (2.1.1)
+  - Downloading symfony/polyfill-php80 (v1.37.0)
+  - Downloading symfony/polyfill-mbstring (v1.38.1)
+  - Downloading symfony/polyfill-ctype (v1.37.0)
+  - Downloading phpoption/phpoption (1.9.5)
+  - Downloading graham-campbell/result-type (v1.1.4)
+  - Downloading vlucas/phpdotenv (v5.6.3)
+  - Downloading symfony/css-selector (v7.4.9)
+  - Downloading tijsverkoyen/css-to-inline-styles (v2.4.0)
+  - Downloading symfony/deprecation-contracts (v3.7.0)
+  - Downloading symfony/var-dumper (v7.4.8)
+  - Downloading symfony/polyfill-uuid (v1.37.0)
+  - Downloading symfony/uid (v7.4.9)
+  - Downloading symfony/routing (v7.4.13)
+  - Downloading symfony/process (v7.4.13)
+  - Downloading symfony/polyfill-php85 (v1.38.1)
+  - Downloading symfony/polyfill-php84 (v1.38.1)
+  - Downloading symfony/polyfill-php83 (v1.38.1)
+  - Downloading symfony/polyfill-intl-normalizer (v1.38.0)
+  - Downloading symfony/polyfill-intl-idn (v1.38.1)
+  - Downloading symfony/mime (v7.4.13)
+  - Downloading psr/container (2.0.2)
+  - Downloading symfony/service-contracts (v3.7.0)
+  - Downloading psr/event-dispatcher (1.0.0)
+  - Downloading symfony/event-dispatcher-contracts (v3.7.0)
+  - Downloading symfony/event-dispatcher (v7.4.9)
+  - Downloading psr/log (3.0.2)
+  - Downloading doctrine/lexer (3.0.1)
+  - Downloading egulias/email-validator (4.0.4)
+  - Downloading symfony/mailer (v7.4.12)
+  - Downloading symfony/http-foundation (v7.4.13)
+  - Downloading symfony/error-handler (v7.4.8)
+  - Downloading symfony/http-kernel (v7.4.13)
+  - Downloading symfony/finder (v7.4.8)
+  - Downloading symfony/polyfill-intl-grapheme (v1.38.1)
+  - Downloading symfony/string (v7.4.13)
+  - Downloading symfony/console (v7.4.13)
+  - Downloading ramsey/collection (2.1.1)
+  - Downloading brick/math (0.14.8)
+  - Downloading ramsey/uuid (4.9.2)
+  - Downloading psr/simple-cache (3.0.0)
+  - Downloading nunomaduro/termwind (v2.4.0)
+  - Downloading symfony/translation-contracts (v3.7.0)
+  - Downloading symfony/translation (v7.4.10)
+  - Downloading psr/clock (1.0.0)
+  - Downloading symfony/clock (v7.4.8)
+  - Downloading carbonphp/carbon-doctrine-types (2.1.0)
+  - Downloading nesbot/carbon (3.11.4)
+  - Downloading monolog/monolog (3.10.0)
+  - Downloading psr/http-message (2.0)
+  - Downloading psr/http-factory (1.1.0)
+  - Downloading league/uri-interfaces (7.8.1)
+  - Downloading league/uri (7.8.1)
+  - Downloading league/mime-type-detection (1.16.0)
+  - Downloading league/flysystem-local (3.31.0)
+  - Downloading league/flysystem (3.34.0)
+  - Downloading nette/utils (v4.1.4)
+  - Downloading nette/schema (v1.3.5)
+  - Downloading dflydev/dot-access-data (v3.0.3)
+  - Downloading league/config (v1.2.0)
+  - Downloading league/commonmark (2.8.2)
+  - Downloading laravel/serializable-closure (v2.0.13)
+  - Downloading laravel/prompts (v0.3.18)
+  - Downloading guzzlehttp/uri-template (v1.0.6)
+  - Downloading psr/http-client (1.0.3)
+  - Downloading ralouphie/getallheaders (3.0.3)
+  - Downloading guzzlehttp/psr7 (2.11.0)
+  - Downloading guzzlehttp/promises (2.5.0)
+  - Downloading guzzlehttp/guzzle (7.11.0)
+  - Downloading fruitcake/php-cors (v1.4.0)
+  - Downloading dragonmantank/cron-expression (v3.6.0)
+  - Downloading doctrine/inflector (2.1.0)
+  - Downloading laravel/framework (v12.61.1)
+  - Downloading spatie/laravel-package-tools (1.93.1)
+  - Downloading spatie/laravel-activitylog (4.12.3)
+  - Downloading phiki/phiki (v2.2.0)
+  - Downloading masterminds/html5 (2.10.0)
+  - Downloading symfony/html-sanitizer (v7.4.13)
+  - Downloading spatie/invade (2.1.0)
+  - Downloading ryangjchandler/blade-capture-directive (v1.1.1)
+  - Downloading nette/php-generator (v4.2.2)
+  - Downloading livewire/livewire (v3.8.1)
+  - Downloading league/uri-components (7.8.1)
+  - Downloading kirschbaum-development/eloquent-power-joins (4.3.2)
+  - Downloading danharrin/livewire-rate-limiting (v2.2.0)
+  - Downloading blade-ui-kit/blade-icons (1.10.0)
+  - Downloading blade-ui-kit/blade-heroicons (2.7.0)
+  - Downloading filament/support (v4.11.6)
+  - Downloading openspout/openspout (v4.32.0)
+  - Downloading league/csv (9.28.0)
+  - Downloading filament/actions (v4.11.6)
+  - Downloading filament/notifications (v4.11.6)
+  - Downloading filament/schemas (v4.11.6)
+  - Downloading filament/infolists (v4.11.6)
+  - Downloading spatie/shiki-php (2.4.0)
+  - Downloading scrivo/highlight.php (v9.18.1.10)
+  - Downloading ueberdosis/tiptap-php (2.1.0)
+  - Downloading danharrin/date-format-converter (v0.3.1)
+  - Downloading filament/forms (v4.11.6)
+  - Downloading filament/query-builder (v4.11.6)
+  - Downloading filament/tables (v4.11.6)
+  - Downloading paragonie/constant_time_encoding (v3.1.3)
+  - Downloading pragmarx/google2fa (v9.0.0)
+  - Downloading pragmarx/google2fa-qrcode (v4.0.0)
+  - Downloading filament/widgets (v4.11.6)
+  - Downloading chillerlan/php-settings-container (3.3.0)
+  - Downloading chillerlan/php-qrcode (5.0.5)
+  - Downloading filament/filament (v4.11.6)
+  - Downloading alizharb/filament-activity-log (v1.3.2)
+  - Downloading amirami/localizator (v0.14.0-alpha)
+  - Downloading awobaz/compoships (2.5.5)
+  - Downloading php-debugbar/php-debugbar (v2.2.6)
+  - Downloading barryvdh/laravel-debugbar (v3.16.5)
+  - Downloading composer/pcre (3.3.2)
+  - Downloading composer/class-map-generator (1.7.3)
+  - Downloading barryvdh/reflection-docblock (v2.4.1)
+  - Downloading barryvdh/laravel-ide-helper (v3.7.0)
+  - Downloading nikic/php-parser (v5.7.0)
+  - Downloading laminas/laminas-code (4.17.0)
+  - Downloading bensampo/laravel-enum (v6.14.0)
+  - Downloading clue/redis-protocol (v0.3.2)
+  - Downloading codeat3/blade-google-material-design-icons (1.21.0)
+  - Downloading composer/semver (3.4.4)
+  - Downloading psr/cache (3.0.0)
+  - Downloading doctrine/event-manager (2.1.1)
+  - Downloading doctrine/deprecations (1.1.6)
+  - Downloading doctrine/dbal (3.10.5)
+  - Downloading eneadm/ladder (v1.3.2)
+  - Downloading protobuf-php/protobuf (v0.1.3)
+  - Downloading google/protobuf (v3.25.9)
+  - Downloading phpstan/phpstan (2.2.1)
+  - Downloading rector/rector (2.4.5)
+  - Downloading filament/upgrade (v4.11.6)
+  - Downloading google/apiclient-services (v0.443.0)
+  - Downloading firebase/php-jwt (v7.0.5)
+  - Downloading google/auth (v1.50.2)
+  - Downloading symfony/yaml (v7.4.13)
+  - Downloading symfony/var-exporter (v7.4.9)
+  - Downloading shalvah/upgrader (0.6.0)
+  - Downloading parsedown/parsedown (1.8.0)
+  - Downloading filp/whoops (2.18.4)
+  - Downloading nunomaduro/collision (v8.9.4)
+  - Downloading mpociot/reflection-docblock (1.0.1)
+  - Downloading fakerphp/faker (v1.24.1)
+  - Downloading knuckleswtf/scribe (5.10.0)
+  - Downloading spatie/laravel-translatable (6.14.1)
+  - Downloading lara-zeus/spatie-translatable (1.0.4)
+  - Downloading larabug/larabug (3.7.0)
+  - Downloading iamcal/sql-parser (v0.7)
+  - Downloading larastan/larastan (v3.10.0)
+  - Downloading spomky-labs/pki-framework (1.4.2)
+  - Downloading web-token/jwt-library (4.1.6)
+  - Downloading spomky-labs/base64url (v2.0.4)
+  - Downloading minishlink/web-push (v10.1.0)
+  - Downloading laravel-notification-channels/webpush (10.5.0)
+  - Downloading laravel/sentinel (v1.1.0)
+  - Downloading laravel/horizon (v5.47.2)
+  - Downloading laravel/pint (v1.29.1)
+  - Downloading react/event-loop (v1.6.0)
+  - Downloading evenement/evenement (v3.0.2)
+  - Downloading react/stream (v1.4.0)
+  - Downloading react/promise (v3.3.0)
+  - Downloading react/cache (v1.2.0)
+  - Downloading react/dns (v1.14.0)
+  - Downloading react/socket (v1.17.0)
+  - Downloading react/promise-timer (v1.11.0)
+  - Downloading ratchet/rfc6455 (v0.4.0)
+  - Downloading pusher/pusher-php-server (7.2.8)
+  - Downloading clue/redis-react (v2.8.0)
+  - Downloading laravel/reverb (v1.10.2)
+  - Downloading laravel/sanctum (v4.3.2)
+  - Downloading laravel/slack-notification-channel (v3.8.0)
+  - Downloading laravel/telescope (v5.20.0)
+  - Downloading psy/psysh (v0.12.23)
+  - Downloading laravel/tinker (v2.11.1)
+  - Downloading laravel/ui (v4.6.3)
+  - Downloading google/apiclient (v2.19.3)
+  - Downloading masbug/flysystem-google-drive-ext (v2.5.0)
+  - Downloading brick/geo (0.13.1)
+  - Downloading matanyadaev/laravel-eloquent-spatial (4.7.0)
+  - Downloading hamcrest/hamcrest-php (v2.1.1)
+  - Downloading mockery/mockery (1.6.12)
+  - Downloading ohdearapp/ohdear-php-sdk (3.10.3)
+  - Downloading opcodesio/mail-parser (v0.2.3)
+  - Downloading opcodesio/log-viewer (v3.24.0)
+  - Downloading staabm/side-effects-detector (1.0.5)
+  - Downloading sebastian/version (5.0.2)
+  - Downloading sebastian/type (5.1.3)
+  - Downloading sebastian/recursion-context (6.0.3)
+  - Downloading sebastian/object-reflector (4.0.1)
+  - Downloading sebastian/object-enumerator (6.0.1)
+  - Downloading sebastian/global-state (7.0.2)
+  - Downloading sebastian/exporter (6.3.2)
+  - Downloading sebastian/environment (7.2.1)
+  - Downloading sebastian/diff (6.0.2)
+  - Downloading sebastian/comparator (6.3.3)
+  - Downloading sebastian/code-unit (3.0.3)
+  - Downloading sebastian/cli-parser (3.0.2)
+  - Downloading phpunit/php-timer (7.0.1)
+  - Downloading phpunit/php-text-template (4.0.1)
+  - Downloading phpunit/php-invoker (5.0.1)
+  - Downloading phpunit/php-file-iterator (5.1.1)
+  - Downloading theseer/tokenizer (1.3.1)
+  - Downloading sebastian/lines-of-code (3.0.1)
+  - Downloading sebastian/complexity (4.0.1)
+  - Downloading sebastian/code-unit-reverse-lookup (4.0.1)
+  - Downloading phpunit/php-code-coverage (11.0.12)
+  - Downloading phar-io/version (3.2.1)
+  - Downloading phar-io/manifest (2.0.4)
+  - Downloading myclabs/deep-copy (1.13.4)
+  - Downloading phpunit/phpunit (11.5.55)
+  - Downloading predis/predis (v2.4.1)
+  - Downloading pxlrbt/filament-environment-indicator (v3.5.1)
+  - Downloading spatie/cpu-load-health-check (1.0.5)
+  - Downloading spatie/error-solutions (1.1.3)
+  - Downloading spatie/backtrace (1.8.2)
+  - Downloading spatie/flare-client-php (1.11.1)
+  - Downloading spatie/regex (3.1.1)
+  - Downloading spatie/enum (3.13.0)
+  - Downloading spatie/laravel-health (1.40.0)
+  - Downloading spatie/ignition (1.16.0)
+  - Downloading spatie/laravel-ignition (2.12.0)
+  - Downloading spatie/laravel-responsecache (7.7.2)
+  - Downloading lorisleiva/cron-translator (v0.4.6)
+  - Downloading spatie/laravel-schedule-monitor (3.10.3)
+  - Downloading spatie/packagist-api (2.1.1)
+  - Downloading spatie/security-advisories-health-check (1.3.1)
+  - Downloading usmanhalalit/laracsv (2.1.0)
+  - Downloading whitecube/laravel-cookie-consent (v1.3.10)
+   0/229 [>---------------------------]   0%
+  18/229 [==>-------------------------]   7%
+  29/229 [===>------------------------]  12%
+  48/229 [=====>----------------------]  20%
+  72/229 [========>-------------------]  31%
+  92/229 [===========>----------------]  40%
+ 116/229 [==============>-------------]  50%
+ 142/229 [=================>----------]  62%
+ 162/229 [===================>--------]  70%
+ 199/229 [========================>---]  86%
+ 211/229 [=========================>--]  92%
+ 229/229 [============================] 100%
+  - Installing voku/portable-ascii (2.1.1): Extracting archive
+  - Installing symfony/polyfill-php80 (v1.37.0): Extracting archive
+  - Installing symfony/polyfill-mbstring (v1.38.1): Extracting archive
+  - Installing symfony/polyfill-ctype (v1.37.0): Extracting archive
+  - Installing phpoption/phpoption (1.9.5): Extracting archive
+  - Installing graham-campbell/result-type (v1.1.4): Extracting archive
+  - Installing vlucas/phpdotenv (v5.6.3): Extracting archive
+  - Installing symfony/css-selector (v7.4.9): Extracting archive
+  - Installing tijsverkoyen/css-to-inline-styles (v2.4.0): Extracting archive
+  - Installing symfony/deprecation-contracts (v3.7.0): Extracting archive
+  - Installing symfony/var-dumper (v7.4.8): Extracting archive
+  - Installing symfony/polyfill-uuid (v1.37.0): Extracting archive
+  - Installing symfony/uid (v7.4.9): Extracting archive
+  - Installing symfony/routing (v7.4.13): Extracting archive
+  - Installing symfony/process (v7.4.13): Extracting archive
+  - Installing symfony/polyfill-php85 (v1.38.1): Extracting archive
+  - Installing symfony/polyfill-php84 (v1.38.1): Extracting archive
+  - Installing symfony/polyfill-php83 (v1.38.1): Extracting archive
+  - Installing symfony/polyfill-intl-normalizer (v1.38.0): Extracting archive
+  - Installing symfony/polyfill-intl-idn (v1.38.1): Extracting archive
+  - Installing symfony/mime (v7.4.13): Extracting archive
+  - Installing psr/container (2.0.2): Extracting archive
+  - Installing symfony/service-contracts (v3.7.0): Extracting archive
+  - Installing psr/event-dispatcher (1.0.0): Extracting archive
+  - Installing symfony/event-dispatcher-contracts (v3.7.0): Extracting archive
+  - Installing symfony/event-dispatcher (v7.4.9): Extracting archive
+  - Installing psr/log (3.0.2): Extracting archive
+  - Installing doctrine/lexer (3.0.1): Extracting archive
+  - Installing egulias/email-validator (4.0.4): Extracting archive
+  - Installing symfony/mailer (v7.4.12): Extracting archive
+  - Installing symfony/http-foundation (v7.4.13): Extracting archive
+  - Installing symfony/error-handler (v7.4.8): Extracting archive
+  - Installing symfony/http-kernel (v7.4.13): Extracting archive
+  - Installing symfony/finder (v7.4.8): Extracting archive
+  - Installing symfony/polyfill-intl-grapheme (v1.38.1): Extracting archive
+  - Installing symfony/string (v7.4.13): Extracting archive
+  - Installing symfony/console (v7.4.13): Extracting archive
+  - Installing ramsey/collection (2.1.1): Extracting archive
+  - Installing brick/math (0.14.8): Extracting archive
+  - Installing ramsey/uuid (4.9.2): Extracting archive
+  - Installing psr/simple-cache (3.0.0): Extracting archive
+  - Installing nunomaduro/termwind (v2.4.0): Extracting archive
+  - Installing symfony/translation-contracts (v3.7.0): Extracting archive
+  - Installing symfony/translation (v7.4.10): Extracting archive
+  - Installing psr/clock (1.0.0): Extracting archive
+  - Installing symfony/clock (v7.4.8): Extracting archive
+  - Installing carbonphp/carbon-doctrine-types (2.1.0): Extracting archive
+  - Installing nesbot/carbon (3.11.4): Extracting archive
+  - Installing monolog/monolog (3.10.0): Extracting archive
+  - Installing psr/http-message (2.0): Extracting archive
+  - Installing psr/http-factory (1.1.0): Extracting archive
+  - Installing league/uri-interfaces (7.8.1): Extracting archive
+  - Installing league/uri (7.8.1): Extracting archive
+  - Installing league/mime-type-detection (1.16.0): Extracting archive
+  - Installing league/flysystem-local (3.31.0): Extracting archive
+  - Installing league/flysystem (3.34.0): Extracting archive
+  - Installing nette/utils (v4.1.4): Extracting archive
+  - Installing nette/schema (v1.3.5): Extracting archive
+  - Installing dflydev/dot-access-data (v3.0.3): Extracting archive
+  - Installing league/config (v1.2.0): Extracting archive
+  - Installing league/commonmark (2.8.2): Extracting archive
+  - Installing laravel/serializable-closure (v2.0.13): Extracting archive
+  - Installing laravel/prompts (v0.3.18): Extracting archive
+  - Installing guzzlehttp/uri-template (v1.0.6): Extracting archive
+  - Installing psr/http-client (1.0.3): Extracting archive
+  - Installing ralouphie/getallheaders (3.0.3): Extracting archive
+  - Installing guzzlehttp/psr7 (2.11.0): Extracting archive
+  - Installing guzzlehttp/promises (2.5.0): Extracting archive
+  - Installing guzzlehttp/guzzle (7.11.0): Extracting archive
+  - Installing fruitcake/php-cors (v1.4.0): Extracting archive
+  - Installing dragonmantank/cron-expression (v3.6.0): Extracting archive
+  - Installing doctrine/inflector (2.1.0): Extracting archive
+  - Installing laravel/framework (v12.61.1): Extracting archive
+  - Installing spatie/laravel-package-tools (1.93.1): Extracting archive
+  - Installing spatie/laravel-activitylog (4.12.3): Extracting archive
+  - Installing phiki/phiki (v2.2.0): Extracting archive
+  - Installing masterminds/html5 (2.10.0): Extracting archive
+  - Installing symfony/html-sanitizer (v7.4.13): Extracting archive
+  - Installing spatie/invade (2.1.0): Extracting archive
+  - Installing ryangjchandler/blade-capture-directive (v1.1.1): Extracting archive
+  - Installing nette/php-generator (v4.2.2): Extracting archive
+  - Installing livewire/livewire (v3.8.1): Extracting archive
+  - Installing league/uri-components (7.8.1): Extracting archive
+  - Installing kirschbaum-development/eloquent-power-joins (4.3.2): Extracting archive
+  - Installing danharrin/livewire-rate-limiting (v2.2.0): Extracting archive
+  - Installing blade-ui-kit/blade-icons (1.10.0): Extracting archive
+  - Installing blade-ui-kit/blade-heroicons (2.7.0): Extracting archive
+  - Installing filament/support (v4.11.6): Extracting archive
+  - Installing openspout/openspout (v4.32.0): Extracting archive
+  - Installing league/csv (9.28.0): Extracting archive
+  - Installing filament/actions (v4.11.6): Extracting archive
+  - Installing filament/notifications (v4.11.6): Extracting archive
+  - Installing filament/schemas (v4.11.6): Extracting archive
+  - Installing filament/infolists (v4.11.6): Extracting archive
+  - Installing spatie/shiki-php (2.4.0): Extracting archive
+  - Installing scrivo/highlight.php (v9.18.1.10): Extracting archive
+  - Installing ueberdosis/tiptap-php (2.1.0): Extracting archive
+  - Installing danharrin/date-format-converter (v0.3.1): Extracting archive
+  - Installing filament/forms (v4.11.6): Extracting archive
+  - Installing filament/query-builder (v4.11.6): Extracting archive
+  - Installing filament/tables (v4.11.6): Extracting archive
+  - Installing paragonie/constant_time_encoding (v3.1.3): Extracting archive
+  - Installing pragmarx/google2fa (v9.0.0): Extracting archive
+  - Installing pragmarx/google2fa-qrcode (v4.0.0): Extracting archive
+  - Installing filament/widgets (v4.11.6): Extracting archive
+  - Installing chillerlan/php-settings-container (3.3.0): Extracting archive
+  - Installing chillerlan/php-qrcode (5.0.5): Extracting archive
+  - Installing filament/filament (v4.11.6): Extracting archive
+  - Installing alizharb/filament-activity-log (v1.3.2): Extracting archive
+  - Installing amirami/localizator (v0.14.0-alpha): Extracting archive
+  - Installing awobaz/compoships (2.5.5): Extracting archive
+  - Installing php-debugbar/php-debugbar (v2.2.6): Extracting archive
+  - Installing barryvdh/laravel-debugbar (v3.16.5): Extracting archive
+  - Installing composer/pcre (3.3.2): Extracting archive
+  - Installing composer/class-map-generator (1.7.3): Extracting archive
+  - Installing barryvdh/reflection-docblock (v2.4.1): Extracting archive
+  - Installing barryvdh/laravel-ide-helper (v3.7.0): Extracting archive
+  - Installing nikic/php-parser (v5.7.0): Extracting archive
+  - Installing laminas/laminas-code (4.17.0): Extracting archive
+  - Installing bensampo/laravel-enum (v6.14.0): Extracting archive
+  - Installing clue/redis-protocol (v0.3.2): Extracting archive
+  - Installing codeat3/blade-google-material-design-icons (1.21.0): Extracting archive
+  - Installing composer/semver (3.4.4): Extracting archive
+  - Installing psr/cache (3.0.0): Extracting archive
+  - Installing doctrine/event-manager (2.1.1): Extracting archive
+  - Installing doctrine/deprecations (1.1.6): Extracting archive
+  - Installing doctrine/dbal (3.10.5): Extracting archive
+  - Installing eneadm/ladder (v1.3.2): Extracting archive
+  - Installing protobuf-php/protobuf (v0.1.3): Extracting archive
+  - Installing google/protobuf (v3.25.9): Extracting archive
+  - Installing felixinx/gtfs-realtime-protobuf-php (0.1.0): Symlinking from ./packages/felixinx/gtfs-realtime-protobuf-php
+  - Installing phpstan/phpstan (2.2.1): Extracting archive
+  - Installing rector/rector (2.4.5): Extracting archive
+  - Installing filament/upgrade (v4.11.6): Extracting archive
+  - Installing google/apiclient-services (v0.443.0): Extracting archive
+  - Installing firebase/php-jwt (v7.0.5): Extracting archive
+  - Installing google/auth (v1.50.2): Extracting archive
+  - Installing symfony/yaml (v7.4.13): Extracting archive
+  - Installing symfony/var-exporter (v7.4.9): Extracting archive
+  - Installing shalvah/upgrader (0.6.0): Extracting archive
+  - Installing parsedown/parsedown (1.8.0): Extracting archive
+  - Installing filp/whoops (2.18.4): Extracting archive
+  - Installing nunomaduro/collision (v8.9.4): Extracting archive
+  - Installing mpociot/reflection-docblock (1.0.1): Extracting archive
+  - Installing fakerphp/faker (v1.24.1): Extracting archive
+  - Installing knuckleswtf/scribe (5.10.0): Extracting archive
+  - Installing spatie/laravel-translatable (6.14.1): Extracting archive
+  - Installing lara-zeus/spatie-translatable (1.0.4): Extracting archive
+  - Installing larabug/larabug (3.7.0): Extracting archive
+  - Installing iamcal/sql-parser (v0.7): Extracting archive
+  - Installing larastan/larastan (v3.10.0): Extracting archive
+  - Installing spomky-labs/pki-framework (1.4.2): Extracting archive
+  - Installing web-token/jwt-library (4.1.6): Extracting archive
+  - Installing spomky-labs/base64url (v2.0.4): Extracting archive
+  - Installing minishlink/web-push (v10.1.0): Extracting archive
+  - Installing laravel-notification-channels/webpush (10.5.0): Extracting archive
+  - Installing laravel/sentinel (v1.1.0): Extracting archive
+  - Installing laravel/horizon (v5.47.2): Extracting archive
+  - Installing laravel/pint (v1.29.1): Extracting archive
+  - Installing react/event-loop (v1.6.0): Extracting archive
+  - Installing evenement/evenement (v3.0.2): Extracting archive
+  - Installing react/stream (v1.4.0): Extracting archive
+  - Installing react/promise (v3.3.0): Extracting archive
+  - Installing react/cache (v1.2.0): Extracting archive
+  - Installing react/dns (v1.14.0): Extracting archive
+  - Installing react/socket (v1.17.0): Extracting archive
+  - Installing react/promise-timer (v1.11.0): Extracting archive
+  - Installing ratchet/rfc6455 (v0.4.0): Extracting archive
+  - Installing pusher/pusher-php-server (7.2.8): Extracting archive
+  - Installing clue/redis-react (v2.8.0): Extracting archive
+  - Installing laravel/reverb (v1.10.2): Extracting archive
+  - Installing laravel/sanctum (v4.3.2): Extracting archive
+  - Installing laravel/slack-notification-channel (v3.8.0): Extracting archive
+  - Installing laravel/telescope (v5.20.0): Extracting archive
+  - Installing psy/psysh (v0.12.23): Extracting archive
+  - Installing laravel/tinker (v2.11.1): Extracting archive
+  - Installing laravel/ui (v4.6.3): Extracting archive
+  - Installing google/apiclient (v2.19.3): Extracting archive
+  - Installing masbug/flysystem-google-drive-ext (v2.5.0): Extracting archive
+  - Installing brick/geo (0.13.1): Extracting archive
+  - Installing matanyadaev/laravel-eloquent-spatial (4.7.0): Extracting archive
+  - Installing hamcrest/hamcrest-php (v2.1.1): Extracting archive
+  - Installing mockery/mockery (1.6.12): Extracting archive
+  - Installing ohdearapp/ohdear-php-sdk (3.10.3): Extracting archive
+  - Installing opcodesio/mail-parser (v0.2.3): Extracting archive
+  - Installing opcodesio/log-viewer (v3.24.0): Extracting archive
+  - Installing staabm/side-effects-detector (1.0.5): Extracting archive
+  - Installing sebastian/version (5.0.2): Extracting archive
+  - Installing sebastian/type (5.1.3): Extracting archive
+  - Installing sebastian/recursion-context (6.0.3): Extracting archive
+  - Installing sebastian/object-reflector (4.0.1): Extracting archive
+  - Installing sebastian/object-enumerator (6.0.1): Extracting archive
+  - Installing sebastian/global-state (7.0.2): Extracting archive
+  - Installing sebastian/exporter (6.3.2): Extracting archive
+  - Installing sebastian/environment (7.2.1): Extracting archive
+  - Installing sebastian/diff (6.0.2): Extracting archive
+  - Installing sebastian/comparator (6.3.3): Extracting archive
+  - Installing sebastian/code-unit (3.0.3): Extracting archive
+  - Installing sebastian/cli-parser (3.0.2): Extracting archive
+  - Installing phpunit/php-timer (7.0.1): Extracting archive
+  - Installing phpunit/php-text-template (4.0.1): Extracting archive
+  - Installing phpunit/php-invoker (5.0.1): Extracting archive
+  - Installing phpunit/php-file-iterator (5.1.1): Extracting archive
+  - Installing theseer/tokenizer (1.3.1): Extracting archive
+  - Installing sebastian/lines-of-code (3.0.1): Extracting archive
+  - Installing sebastian/complexity (4.0.1): Extracting archive
+  - Installing sebastian/code-unit-reverse-lookup (4.0.1): Extracting archive
+  - Installing phpunit/php-code-coverage (11.0.12): Extracting archive
+  - Installing phar-io/version (3.2.1): Extracting archive
+  - Installing phar-io/manifest (2.0.4): Extracting archive
+  - Installing myclabs/deep-copy (1.13.4): Extracting archive
+  - Installing phpunit/phpunit (11.5.55): Extracting archive
+  - Installing predis/predis (v2.4.1): Extracting archive
+  - Installing pxlrbt/filament-environment-indicator (v3.5.1): Extracting archive
+  - Installing spatie/cpu-load-health-check (1.0.5): Extracting archive
+  - Installing spatie/error-solutions (1.1.3): Extracting archive
+  - Installing spatie/backtrace (1.8.2): Extracting archive
+  - Installing spatie/flare-client-php (1.11.1): Extracting archive
+  - Installing spatie/regex (3.1.1): Extracting archive
+  - Installing spatie/enum (3.13.0): Extracting archive
+  - Installing spatie/laravel-health (1.40.0): Extracting archive
+  - Installing spatie/ignition (1.16.0): Extracting archive
+  - Installing spatie/laravel-ignition (2.12.0): Extracting archive
+  - Installing spatie/laravel-responsecache (7.7.2): Extracting archive
+  - Installing lorisleiva/cron-translator (v0.4.6): Extracting archive
+  - Installing spatie/laravel-schedule-monitor (3.10.3): Extracting archive
+  - Installing spatie/packagist-api (2.1.1): Extracting archive
+  - Installing spatie/security-advisories-health-check (1.3.1): Extracting archive
+  - Installing usmanhalalit/laracsv (2.1.0): Extracting archive
+  - Installing whitecube/laravel-cookie-consent (v1.3.10): Extracting archive
+   0/229 [>---------------------------]   0%
+  31/229 [===>------------------------]  13%
+  46/229 [=====>----------------------]  20%
+  69/229 [========>-------------------]  30%
+  92/229 [===========>----------------]  40%
+ 118/229 [==============>-------------]  51%
+ 140/229 [=================>----------]  61%
+ 163/229 [===================>--------]  71%
+ 188/229 [======================>-----]  82%
+ 208/229 [=========================>--]  90%
+ 228/229 [===========================>]  99%
+ 229/229 [============================] 100%
+Generating optimized autoload files
+> Illuminate\Foundation\ComposerScripts::postAutoloadDump
+> @php artisan package:discover --ansi
+
+  [37;44m INFO [39;49m Discovering packages.
+
+  alizharb/filament-activity-log [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  amirami/localizator [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  barryvdh/laravel-debugbar [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  barryvdh/laravel-ide-helper [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  bensampo/laravel-enum [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  blade-ui-kit/blade-heroicons [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  blade-ui-kit/blade-icons [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  codeat3/blade-google-material-design-icons [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  eneadm/ladder [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  filament/actions [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  filament/filament [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  filament/forms [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  filament/infolists [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  filament/notifications [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  filament/query-builder [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  filament/schemas [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  filament/support [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  filament/tables [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  filament/upgrade [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  filament/widgets [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  kirschbaum-development/eloquent-power-joins [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  knuckleswtf/scribe [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  lara-zeus/spatie-translatable [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  larabug/larabug [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel-notification-channels/webpush [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/horizon [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/reverb [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/sanctum [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/sentinel [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/slack-notification-channel [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/tinker [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/ui [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  livewire/livewire [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  matanyadaev/laravel-eloquent-spatial [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  nesbot/carbon [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  nunomaduro/collision [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  nunomaduro/termwind [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  opcodesio/log-viewer [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  phiki/phiki [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  pxlrbt/filament-environment-indicator [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  ryangjchandler/blade-capture-directive [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  spatie/laravel-activitylog [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  spatie/laravel-health [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  spatie/laravel-ignition [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  spatie/laravel-responsecache [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  spatie/laravel-schedule-monitor [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  spatie/laravel-translatable [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  whitecube/laravel-cookie-consent [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+
+> @php artisan filament:upgrade
+  ⇂ public/js/filament/forms/components/checkbox-list.js
+  ⇂ public/js/filament/forms/components/code-editor.js
+  ⇂ public/js/filament/forms/components/color-picker.js
+  ⇂ public/js/filament/forms/components/date-time-picker.js
+  ⇂ public/js/filament/forms/components/file-upload.js
+  ⇂ public/js/filament/forms/components/key-value.js
+  ⇂ public/js/filament/forms/components/markdown-editor.js
+  ⇂ public/js/filament/forms/components/rich-editor.js
+  ⇂ public/js/filament/forms/components/select.js
+  ⇂ public/js/filament/forms/components/slider.js
+  ⇂ public/js/filament/forms/components/tags-input.js
+  ⇂ public/js/filament/forms/components/textarea.js
+  ⇂ public/js/filament/schemas/components/actions.js
+  ⇂ public/js/filament/schemas/components/tabs.js
+  ⇂ public/js/filament/schemas/components/wizard.js
+  ⇂ public/js/filament/tables/components/columns/checkbox.js
+  ⇂ public/js/filament/tables/components/columns/select.js
+  ⇂ public/js/filament/tables/components/columns/text-input.js
+  ⇂ public/js/filament/tables/components/columns/toggle.js
+  ⇂ public/js/filament/widgets/components/chart.js
+  ⇂ public/js/filament/widgets/components/stats-overview/stat/chart.js
+  ⇂ public/fonts/filament/filament/inter/index.css
+  ⇂ public/fonts/filament/filament/inter/inter-cyrillic-ext-wght-normal-IYF56FF6.woff2
+  ⇂ public/fonts/filament/filament/inter/inter-cyrillic-wght-normal-JEOLYBOO.woff2
+  ⇂ public/fonts/filament/filament/inter/inter-greek-ext-wght-normal-EOVOK2B5.woff2
+  ⇂ public/fonts/filament/filament/inter/inter-greek-wght-normal-IRE366VL.woff2
+  ⇂ public/fonts/filament/filament/inter/inter-latin-ext-wght-normal-HA22NDSG.woff2
+  ⇂ public/fonts/filament/filament/inter/inter-latin-wght-normal-NRMW37G5.woff2
+  ⇂ public/fonts/filament/filament/inter/inter-vietnamese-wght-normal-CE5GGD3W.woff2
+  ⇂ public/js/filament/actions/actions.js
+  ⇂ public/js/filament/filament/app.js
+  ⇂ public/js/filament/filament/echo.js
+  ⇂ public/js/filament/notifications/notifications.js
+  ⇂ public/js/filament/schemas/schemas.js
+  ⇂ public/js/filament/support/support.js
+  ⇂ public/js/filament/tables/tables.js
+  ⇂ public/css/filament-environment-indicator/styles.css
+  ⇂ public/css/alizharb/filament-activity-log/filament-activity-log.css
+  ⇂ public/css/filament/filament/app.css
+
+   INFO  Successfully published assets!
+
+   INFO  Configuration cache cleared successfully.
+
+   INFO  Route cache cleared successfully.
+
+   INFO  Compiled views cleared successfully.
+
+   INFO  Successfully upgraded!
+
+154 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!

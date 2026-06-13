@@ -75,8 +75,8 @@ class NextbusJsonHandler implements ShouldQueue
                     'position' => $this->processField(['lat' => $vehicle->lat, 'lon' => $vehicle->lon], 'position'),
                     'gtfs_route_id' => $this->retrieveRoute($vehicle->routeTag),
                     'gtfs_trip_id' => $this->retrieveTrip($vehicle->routeTag),
-                    'bearing' => $this->processField($vehicle->heading),
-                    'speed' => $this->processField($vehicle->speedKmHr),
+                    'bearing' => $this->processField($vehicle->heading, 'bearing'),
+                    'speed' => $this->processField($vehicle->speedKmHr, 'speed'),
                     'timestamp' => $this->processField(strval($timestamp - (int) $vehicle->secsSinceReport)),
                     'last_seen_at' => $this->processField($timestamp - (int) $vehicle->secsSinceReport, 'timestamp'),
                 ]
@@ -110,12 +110,26 @@ class NextbusJsonHandler implements ShouldQueue
 
     private function processField($value, ?string $transformer = null)
     {
+        if ($transformer === 'speed') {
+            return (is_numeric($value) && $value >= 0 && $value <= 150) ? round((float) $value, 0) : null;
+        }
+
+        if ($transformer === 'bearing') {
+            return (is_numeric($value) && $value >= 0 && $value <= 360) ? round((float) $value, 0) : null;
+        }
+
         if (! filled($value)) {
             return null;
         }
 
         if ($transformer === 'position' && filled($value['lat']) && filled($value['lon'])) {
-            return (new Point(round((float) $value['lat'], 5), round((float) $value['lon'], 5)))->toSqlExpression(DB::connection());
+            $lat = round((float) $value['lat'], 5);
+            $lon = round((float) $value['lon'], 5);
+            if ($lat < -90 || $lat > 90 || $lon < -180 || $lon > 180) {
+                return null;
+            }
+
+            return (new Point($lat, $lon))->toSqlExpression(DB::connection());
         }
 
         if ($transformer === 'timestamp') {

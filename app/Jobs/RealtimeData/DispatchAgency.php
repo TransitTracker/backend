@@ -7,6 +7,9 @@ use Cron\CronExpression;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
@@ -55,7 +58,22 @@ class DispatchAgency implements ShouldQueue
             $this->agency->headers = [];
         }
 
-        $response = Http::withHeaders($this->agency->headers ?? [])->get($this->agency->realtime_url);
+        $response = Http::withHeaders($this->agency->headers ?? [])
+            ->timeout(10)
+            ->retry(3, 100, function (\Exception $exception, PendingRequest $request) {
+                if ($exception instanceof ConnectionException) {
+                    return true;
+                }
+
+                if ($exception instanceof RequestException) {
+                    $status = $exception->response->status();
+
+                    return $status === 400 || $status >= 500;
+                }
+
+                return false;
+            }, throw: false)
+            ->get($this->agency->realtime_url);
 
         if ($response->failed()) {
             Log::error('Error in DispatchAgency http request', [

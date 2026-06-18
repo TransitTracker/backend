@@ -36,3 +36,4 @@ yarn-error.log
 /storage/logs
 /data.ms
 run.json
+composer_install.log

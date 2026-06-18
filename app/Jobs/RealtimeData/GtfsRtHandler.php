@@ -96,9 +96,9 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
                 'label' => $this->processField($vehicle->getVehicle()->getLabel(), 'label'),
                 'license_plate' => $this->processField($vehicle->getVehicle()->getLicensePlate()),
                 'position' => $this->processField(['lat' => $vehicle->getPosition()->getLatitude(), 'lon' => $vehicle->getPosition()->getLongitude()], 'position'),
-                'bearing' => $this->processField($vehicle->getPosition()->getBearing()),
-                'odometer' => $this->processField(round($vehicle->getPosition()->getOdometer() / 1000, 0)),
-                'speed' => $this->processField(round($vehicle->getPosition()->getSpeed() * 3.6, 0)),
+                'bearing' => $this->processField($vehicle->getPosition()->getBearing(), 'bearing'),
+                'odometer' => $this->processField($vehicle->getPosition()->getOdometer() / 1000, 'odometer'),
+                'speed' => $this->processField($vehicle->getPosition()->getSpeed() * 3.6, 'speed'),
                 'current_stop_sequence' => $this->processField($vehicle->getCurrentStopSequence()),
                 'current_status' => $this->processField($vehicle->getCurrentStatus()),
                 'timestamp' => $this->processField($vehicle->getTimestamp() ?? $this->time),
@@ -116,10 +116,6 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
 
                 $activeArray[] = $vehicle->id;
             } catch (Exception $e) {
-                // London Transit Commission often have vehicles with invalid coordinates, ignore these
-                if ($this->agency->slug === 'ltc' && str($e->getMessage())->contains("1264 Out of range value for column 'lon'")) {
-                    return;
-                }
 
                 Log::warning('Vehicle in the refresh failed', [
                     'agency' => $this->agency->slug,
@@ -156,6 +152,18 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
 
     private function processField($value, ?string $transformer = null)
     {
+        if ($transformer === 'speed') {
+            return (is_numeric($value) && $value >= 0 && $value <= 150) ? round((float) $value, 0) : null;
+        }
+
+        if ($transformer === 'odometer') {
+            return (is_numeric($value) && $value >= 0 && $value <= 10000000) ? round((float) $value, 0) : null;
+        }
+
+        if ($transformer === 'bearing') {
+            return (is_numeric($value) && $value >= 0 && $value <= 360) ? round((float) $value, 0) : null;
+        }
+
         if (! filled($value)) {
             return null;
         }
@@ -165,7 +173,13 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
         }
 
         if ($transformer === 'position' && filled($value['lat']) && filled($value['lon'])) {
-            return new Point(round($value['lat'], 5), round($value['lon'], 5));
+            $lat = round((float) $value['lat'], 5);
+            $lon = round((float) $value['lon'], 5);
+            if ($lat < -90 || $lat > 90 || $lon < -180 || $lon > 180) {
+                return null;
+            }
+
+            return new Point($lat, $lon);
         }
 
         if ($transformer === 'timestamp') {

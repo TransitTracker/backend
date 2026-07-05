@@ -22,7 +22,7 @@ class AgencyResource extends JsonResource
             'defaultVehicleType' => $this->vehicles_type,
             'color' => $this->color,
             'textColor' => $this->text_color,
-            'regions' => RegionSimpleResource::collection($this->regions),
+            'regions' => $this->regions->pluck('slug'),
             'license' => [
                 'url' => array_key_exists('license_url', $this->license) ? $this->license['license_url'] : null,
                 'title' => array_key_exists('license_title', $this->license) ? $this->license['license_title'] : null,

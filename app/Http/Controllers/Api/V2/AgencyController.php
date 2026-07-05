@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\QueryParam;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
+
+use function Illuminate\Support\{minutes, days};
 
 #[Group('Agencies')]
 class AgencyController extends Controller
@@ -27,8 +30,8 @@ class AgencyController extends Controller
             $this->middleware("throttle:{$totalAgencies},1,v2-agencies");
         }
 
-        $this->middleware('cacheResponse')->except(['vehicles', 'vehiclesGeoJson']);
-        $this->middleware('cacheResponse:300')->only(['vehicles', 'vehiclesGeoJson']);
+        $this->middleware(CacheResponse::for(days(7), tags: ['agencies']))->except(['vehicles', 'vehiclesGeoJson']);
+        $this->middleware(CacheResponse::for(minutes(5)))->only(['vehicles', 'vehiclesGeoJson']);
     }
 
     public function index()

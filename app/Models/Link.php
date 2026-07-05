@@ -33,18 +33,12 @@ class Link extends Model
 
     protected static function booted()
     {
-        static::updated(function (self $link) {
-            ResponseCache::forget('/api/links');
-            ResponseCache::forget('/v1/links');
+        static::created(function () {
+            ResponseCache::clear(['links']);
+        });
 
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('en')
-                ->forUrls('/v2/links', "/v2/links/{$link->id}")
-                ->forget();
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('fr')
-                ->forUrls('/v2/links', "/v2/links/{$link->id}")
-                ->forget();
+        static::updated(function () {
+            ResponseCache::clear(['links']);
         });
     }
 }

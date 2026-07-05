@@ -10,6 +10,10 @@ use App\Models\Region;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\App;
 use Knuckles\Scribe\Attributes\Group;
+use Spatie\ResponseCache\Attributes\Cache;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
+
+use function Illuminate\Support\days;
 
 #[Group('Regions')]
 class RegionController extends Controller
@@ -27,7 +31,7 @@ class RegionController extends Controller
             $this->middleware("throttle:{$totalRegions},1,v2-regions");
         }
 
-        $this->middleware('cacheResponse');
+        $this->middleware(CacheResponse::for(days(7), tags: ['regions']))->except(['alerts']);
     }
 
     public function index()
@@ -45,6 +49,7 @@ class RegionController extends Controller
     }
 
     #[Group('Alerts')]
+    #[Cache(lifetime: 60 * 60 * 24 * 7, tags: ['alerts'])]
     public function alerts($regionSlug)
     {
         $regionId = Region::where('slug', $regionSlug)->select('id')->pluck('id')->firstOrFail();

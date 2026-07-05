@@ -7,6 +7,9 @@ use App\Http\Resources\V2\LinkResource;
 use App\Models\Link;
 use Illuminate\Support\Facades\App;
 use Knuckles\Scribe\Attributes\Group;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
+
+use function Illuminate\Support\days;
 
 #[Group('Link')]
 class LinkController extends Controller
@@ -24,7 +27,7 @@ class LinkController extends Controller
             $this->middleware("throttle:{$totalLinks},1,v2-links");
         }
 
-        $this->middleware('cacheResponse');
+        $this->middleware(CacheResponse::for(days(7), tags: ['links']));
     }
 
     public function index()

@@ -9,6 +9,9 @@ use App\Models\Region;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\App;
 use Knuckles\Scribe\Attributes\Group;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
+
+use function Illuminate\Support\minutes;
 
 #[Group('Landing', 'GeoJSON ressources used on the landing page')]
 class LandingController extends Controller
@@ -26,7 +29,7 @@ class LandingController extends Controller
 
         $this->middleware('cache.headers:public,max-age=600');
 
-        $this->middleware('cacheResponse:600');
+        $this->middleware(CacheResponse::for(minutes(10), tags: ['regions']));
     }
 
     public function index()

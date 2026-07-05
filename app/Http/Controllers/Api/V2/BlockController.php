@@ -10,6 +10,9 @@ use App\Models\Gtfs\Trip;
 use Illuminate\Support\Facades\Validator;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\UrlParam;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
+
+use function Illuminate\Support\days;
 
 class BlockController extends Controller
 {
@@ -20,7 +23,7 @@ class BlockController extends Controller
         }
 
         // One week, blocks will not change
-        $this->middleware('cacheResponse:604800');
+        $this->middleware(CacheResponse::for(days(7)));
     }
 
     /**

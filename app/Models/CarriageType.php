@@ -24,27 +24,11 @@ class CarriageType extends Model
     protected static function booted(): void
     {
         static::created(function () {
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('en')
-                ->forUrls('/v2/carriageTypes')
-                ->forget();
-
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('fr')
-                ->forUrls('/v2/carriageTypes')
-                ->forget();
+            ResponseCache::clear(['carriageTypes']);
         });
 
         static::updated(function () {
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('en')
-                ->forUrls('/v2/carriageTypes')
-                ->forget();
-
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('fr')
-                ->forUrls('/v2/carriageTypes')
-                ->forget();
+            ResponseCache::clear(['carriageTypes']);
         });
     }
 }

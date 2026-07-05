@@ -246,14 +246,12 @@ class Vehicle extends Model
         });
 
         static::updated(function (self $vehicle) {
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('en')
-                ->forUrls("/v2/vehicles/{$vehicle->id}")
-                ->forget();
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('fr')
-                ->forUrls("/v2/vehicles/{$vehicle->id}")
-                ->forget();
+            foreach(['en', 'fr'] as $locale) {
+                ResponseCache::selectCachedItems()
+                    ->usingSuffix($locale)
+                    ->forUrls("/v2/vehicles/{$vehicle->id}")
+                    ->forget();
+            }
 
             VehicleUpdated::dispatchIf($vehicle->isFirstAppearanceToday(), $vehicle);
             VehicleForceRefAdded::dispatchIf($vehicle->wasChanged('force_vehicle_id'), $vehicle);

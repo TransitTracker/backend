@@ -52,18 +52,12 @@ class Alert extends Model
 
     protected static function booted()
     {
-        static::updated(function (self $alert) {
-            ResponseCache::forget('/api/alert');
-            ResponseCache::forget('/v1/alert');
+        static::created(function () {
+            ResponseCache::clear(['alerts']);
+        });
 
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('en')
-                ->forUrls('/v2/alerts', "/v2/alerts/{$alert->id}")
-                ->forget();
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('fr')
-                ->forUrls('/v2/alerts', "/v2/alerts/{$alert->id}")
-                ->forget();
+        static::updated(function () {
+            ResponseCache::clear(['alerts']);
         });
     }
 }

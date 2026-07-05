@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\ResponseCache\Facades\ResponseCache;
 use Spatie\Translatable\HasTranslations;
 
 class Tag extends Model
@@ -51,4 +52,15 @@ class Tag extends Model
         'created' => TagCreated::class,
         'updated' => TagUpdated::class,
     ];
+
+    protected static function booted()
+    {
+        static::created(function () {
+            ResponseCache::clear(['tags']);
+        });
+
+        static::updated(function () {
+            ResponseCache::clear(['tags']);
+        });
+    }
 }

@@ -7,6 +7,9 @@ use App\Http\Resources\V2\AlertResource;
 use App\Models\Alert;
 use Illuminate\Support\Facades\App;
 use Knuckles\Scribe\Attributes\Group;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
+
+use function Illuminate\Support\days;
 
 #[Group('Alerts')]
 class AlertController extends Controller
@@ -24,7 +27,7 @@ class AlertController extends Controller
             $this->middleware("throttle:{$totalAlerts},1,v2-alerts");
         }
 
-        $this->middleware('cacheResponse');
+        $this->middleware(CacheResponse::for(days(7), tags: ['alerts']));
     }
 
     public function index()

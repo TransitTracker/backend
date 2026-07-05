@@ -160,31 +160,31 @@ class Agency extends Model
     protected static function booted(): void
     {
         static::updated(function (self $agency) {
-            ResponseCache::forget('/api/regions');
-            ResponseCache::forget('/v1/regions');
-            ResponseCache::forget("/api/vehicles/{$agency->slug}");
-            ResponseCache::forget("/v1/vehicles/{$agency->slug}");
+            $changedFiels = array_keys($agency->getChanges());
+            $onlyTimestampChanges = count($changedFiels) <= 2 && $agency->wasChanged('timestamp');
 
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('en')
-                ->forUrls([
+            $urlsToClear = [
+                "/v2/agencies/{$agency->slug}/vehicles",
+                "/v2/agencies/{$agency->slug}/vehicles.geojson",
+            ];
+
+            // Forget these URL only if more than the timestamp changed
+            if (!$onlyTimestampChanges) {
+                array_push($urlsToClear,
                     '/v2/agencies',
-                    "/v2/agencies/{$agency->slug}",
-                    "/v2/agencies/{$agency->slug}/vehicles",
-                    "/v2/agencies/{$agency->slug}/vehicles.geojson",
+                    '/v2/landing',
                     '/v2/regions',
-                ])
-                ->forget();
-            ResponseCache::selectCachedItems()
-                ->usingSuffix('fr')
-                ->forUrls([
-                    '/v2/agencies',
                     "/v2/agencies/{$agency->slug}",
-                    "/v2/agencies/{$agency->slug}/vehicles",
-                    "/v2/agencies/{$agency->slug}/vehicles.geojson",
-                    '/v2/regions',
-                ])
-                ->forget();
+                );
+                ResponseCache::clear(['agencies', 'regions']);
+            }
+
+            foreach(['en', 'fr'] as $locale) {
+                ResponseCache::selectCachedItems()
+                    ->usingSuffix($locale)
+                    ->forUrls($urlsToClear)
+                    ->forget();
+            }
 
             if ($agency->wasChanged('is_exo_sector')) {
                 // TODO: Verify it works test?

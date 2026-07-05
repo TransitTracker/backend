@@ -10,6 +10,9 @@ use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Knuckles\Scribe\Attributes\Group;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
+
+use function Illuminate\Support\minutes;
 
 #[Group('Vehicles')]
 class VehicleController extends Controller
@@ -23,13 +26,11 @@ class VehicleController extends Controller
             $this->middleware("throttle:{$vehiclesChunk},1,v2-vehicles")->only(['index', 'indexGeoJson']);
         }
 
-        $this->middleware('cacheResponse:300');
+        $this->middleware(CacheResponse::for(minutes(5)));
     }
 
     public function index(Request $request)
     {
-        $this->middleware('cacheResponse:900');
-
         $request->merge(['include' => 'all']);
 
         $vehicles = Vehicle::query()
@@ -43,7 +44,6 @@ class VehicleController extends Controller
 
     public function indexGeoJson(Request $request)
     {
-        $this->middleware('cacheResponse:900');
         $vehicles = Vehicle::query()
             ->downloadable()
             ->select([

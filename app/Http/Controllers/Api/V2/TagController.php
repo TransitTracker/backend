@@ -7,6 +7,9 @@ use App\Http\Resources\V2\TagResource;
 use App\Models\Tag;
 use Illuminate\Support\Facades\App;
 use Knuckles\Scribe\Attributes\Group;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
+
+use function Illuminate\Support\days;
 
 #[Group('Tags')]
 class TagController extends Controller
@@ -24,7 +27,7 @@ class TagController extends Controller
             $this->middleware("throttle:{$totalLinks},1,v2-tags");
         }
 
-        $this->middleware('cacheResponse');
+        $this->middleware(CacheResponse::for(days(7), tags: ['tags']));
     }
 
     public function index()

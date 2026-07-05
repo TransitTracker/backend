@@ -9,6 +9,9 @@ use App\Models\Agency;
 use App\Models\Gtfs\Shape;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\UrlParam;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
+
+use function Illuminate\Support\days;
 
 class ShapeController extends Controller
 {
@@ -19,7 +22,7 @@ class ShapeController extends Controller
         }
 
         // One week, shapes should not change very often
-        $this->middleware('cacheResponse:604800');
+        $this->middleware(CacheResponse::for(days(7)));
     }
 
     /**

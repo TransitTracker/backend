@@ -11,7 +11,6 @@ use App\Models\FailedJob;
 use App\Models\Gtfs\Shape;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Spatie\ScheduleMonitor\Models\MonitoredScheduledTaskLogItem;
 
 class Kernel extends ConsoleKernel
 {
@@ -33,8 +32,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new CheckTimestamps, 'default')->everyThreeMinutes();
         $schedule->job(new SyncGoTransitCarriageDetails, 'default')->everyFiveMinutes();
         $schedule->job(new SyncTagsWithFleetStats, 'default')->everyTwoHours();
-        $schedule->command('schedule-monitor:sync')->dailyAt('02:45');
-        $schedule->command('model:prune', ['--model' => [Shape::class, FailedJob::class, MonitoredScheduledTaskLogItem::class]])->dailyAt('02:50');
+        $schedule->command('model:prune', ['--model' => [Shape::class, FailedJob::class]])->dailyAt('02:50');
         $schedule->command('static:update')->dailyAt('03:00');
         $schedule->job(new CleanFolders, 'static')->dailyAt('03:55');
         $schedule->command('horizon:snapshot')->everyFiveMinutes();

@@ -17,9 +17,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     {
         parent::boot();
 
-        Horizon::routeMailNotificationsTo(config('transittracker.admin_email'));
-
-        Horizon::night();
+        Horizon::routeSlackNotificationsTo(config('transittracker.slack_webhook_url'), '#transittracker');
     }
 
     /**

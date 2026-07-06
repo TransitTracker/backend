@@ -90,7 +90,7 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
             $newVehicle = [
                 'is_active' => true,
                 'gtfs_trip_id' => $this->processField($vehicle->getTrip()->getTripId()),
-                'gtfs_route_id' => $this->processField($vehicle->getTrip()->getRouteId()) ?? $this->getRouteFromTrip($vehicle->getTrip()->getTripId()),
+                'gtfs_route_id' => $this->processField($vehicle->getTrip()->getRouteId()) ?: $this->getRouteFromTrip($vehicle->getTrip()->getTripId()),
                 'start_time' => $this->processField($vehicle->getTrip()->getStartTime()),
                 'schedule_relationship' => $this->processField($vehicle->getTrip()->getScheduleRelationship()),
                 'label' => $this->processField($vehicle->getVehicle()->getLabel(), 'label'),
@@ -101,11 +101,11 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
                 'speed' => $this->processField(round($vehicle->getPosition()->getSpeed() * 3.6, 0)),
                 'current_stop_sequence' => $this->processField($vehicle->getCurrentStopSequence()),
                 'current_status' => $this->processField($vehicle->getCurrentStatus()),
-                'timestamp' => $this->processField($vehicle->getTimestamp() ?? $this->time),
+                'timestamp' => $this->processField($vehicle->getTimestamp() ?: $this->time),
                 'congestion_level' => $this->processField($vehicle->getCongestionLevel()),
                 'occupancy_status' => $this->processField($vehicle->getOccupancyStatus()),
                 'gtfs_stop_id' => $this->processField($vehicle->getStopId()),
-                'last_seen_at' => $this->processField($vehicle->getTimestamp() ?? $this->time, 'timestamp'),
+                'last_seen_at' => $this->processField($vehicle->getTimestamp() ?: $this->time, 'timestamp'),
             ];
 
             /*

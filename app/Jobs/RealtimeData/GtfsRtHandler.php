@@ -174,6 +174,18 @@ class GtfsRtHandler implements ShouldBeUniqueUntilProcessing, ShouldQueue
             return Carbon::createFromTimestamp($timestamp, 'America/Toronto');
         }
 
+        if ($transformer === 'speed') {
+            return (is_numeric($value) && $value >= 0 && $value <= 150) ? round((float) $value, 0) : null;
+        }
+
+        if ($transformer === 'odometer') {
+            return (is_numeric($value) && $value >= 0 && $value <= 10_000_000) ? round((float) $value, 0) : null;
+        }
+
+        if ($transformer === 'bearing') {
+            return (is_numeric($value) && $value >= 0 && $value <= 360) ? round((float) $value, 0) : null;
+        }
+
         return $value;
     }
 

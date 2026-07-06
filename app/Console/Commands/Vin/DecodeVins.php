@@ -21,7 +21,7 @@ class DecodeVins extends Command
 
         $bar->start();
 
-        $query->chuck(50, function ($chunk) use ($bar) {
+        $query->chunk(50, function ($chunk) use ($bar) {
             $vins = $chunk->map(function ($vehicle) {
                 return $vehicle->force_vehicle_id ?: $vehicle->vehicle_id;
             })->join(';');

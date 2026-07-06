@@ -15,24 +15,30 @@ class DecodeVins extends Command
 
     public function handle()
     {
-        $chunks = Vehicle::exoWithVin()->select(['vehicle_id'])->get()->chunk(50);
+        $query = Vehicle::exoWithVin()->whereDoesntHave('vinInformationOriginal')->select(['vehicle_id', 'force_vehicle_id']);
 
         $bar = $this->output->createProgressBar(Vehicle::exoWithVin()->count());
 
         $bar->start();
 
-        foreach ($chunks as $chunk) {
+        $query->chuck(50, function ($chunk) use ($bar) {
+            $vins = $chunk->map(function ($vehicle) {
+                return $vehicle->force_vehicle_id ?: $vehicle->vehicle_id;
+            })->join(';');
+
             $response = Http::asForm()->post('https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVINValuesBatch/', [
-                'DATA' => $chunk->pluck('vehicle_id')->join(';'),
+                'DATA' => $vins,
                 'format' => 'JSON',
             ]);
-            foreach ($response->json()['Results'] as $result) {
-                DecodeVin::dispatchSync($result);
+
+            foreach ($response->json()['Results'] ?? [] as $result) {
+                DecodeVin::decodeOne($result);
                 $bar->advance();
             }
-        }
+        });
 
         $bar->finish();
+        $this->output->newLine();
 
         return Command::SUCCESS;
     }

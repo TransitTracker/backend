@@ -29,11 +29,11 @@ class DecodeVin implements ShouldQueue
         }
     }
 
-    public function decodeOne(array $result)
+    public static function decodeOne(array $result)
     {
-        $assembly = $this->transformString($result['PlantCity']).', '.$this->transformString($result['PlantState']).', '.$this->transformString($result['PlantCountry']);
+        $assembly = self::transformString($result['PlantCity']).', '.self::transformString($result['PlantState']).', '.self::transformString($result['PlantCountry']);
         $model = Information::updateOrCreate(['vin' => $result['VIN']], [
-            'make' => $this->transformString($result['Make']),
+            'make' => self::transformString($result['Make']),
             'model' => $result['Model'],
             'year' => intval($result['ModelYear']),
             'length' => intval($result['BusLength']),
@@ -53,14 +53,14 @@ class DecodeVin implements ShouldQueue
             })
             ->mapWithKeys(function ($item, $key) {
                 return [
-                    $this->transformString($key, true) => $item,
+                    self::transformString($key, true) => $item,
                 ];
             });
 
         $model->save();
     }
 
-    private function transformString(string $string, bool $ignoreOneWord = false): string
+    private static function transformString(string $string, bool $ignoreOneWord = false): string
     {
         if (Str::wordCount($string) === 1 && ! $ignoreOneWord) {
             return str($string)->lower()->ucfirst()->value;

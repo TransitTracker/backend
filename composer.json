@@ -42,7 +42,6 @@
     "pusher/pusher-php-server": "^7.0",
     "pxlrbt/filament-environment-indicator": "^3.0",
     "spatie/cpu-load-health-check": "^1.0",
-    "spatie/laravel-health": "^1.14",
     "spatie/laravel-package-tools": "^1.9",
     "spatie/laravel-responsecache": "^8.1",
     "spatie/laravel-translatable": "^6.0",

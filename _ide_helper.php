@@ -23574,71 +23574,6 @@ namespace Opcodes\LogViewer\Facades {
             }
     }
 
-namespace Spatie\Health\Facades {
-    /**
-     * @mixin \Spatie\Health\Health
-     */
-    class Health {
-        /**
-         * @param array<int, Check> $checks
-         * @static
-         */
-        public static function checks($checks)
-        {
-            /** @var \Spatie\Health\Health $instance */
-            return $instance->checks($checks);
-        }
-
-        /**
-         * @static
-         */
-        public static function clearChecks()
-        {
-            /** @var \Spatie\Health\Health $instance */
-            return $instance->clearChecks();
-        }
-
-        /**
-         * @return Collection<int, Check>
-         * @static
-         */
-        public static function registeredChecks()
-        {
-            /** @var \Spatie\Health\Health $instance */
-            return $instance->registeredChecks();
-        }
-
-        /**
-         * @return Collection<int, ResultStore>
-         * @static
-         */
-        public static function resultStores()
-        {
-            /** @var \Spatie\Health\Health $instance */
-            return $instance->resultStores();
-        }
-
-        /**
-         * @static
-         */
-        public static function inlineStylesheet($stylesheet)
-        {
-            /** @var \Spatie\Health\Health $instance */
-            return $instance->inlineStylesheet($stylesheet);
-        }
-
-        /**
-         * @static
-         */
-        public static function assets()
-        {
-            /** @var \Spatie\Health\Health $instance */
-            return $instance->assets();
-        }
-
-            }
-    }
-
 namespace Spatie\LaravelIgnition\Facades {
     /**
      * @see \Spatie\FlareClient\Flare
@@ -24020,6 +23955,109 @@ namespace Spatie\LaravelIgnition\Facades {
         {
             /** @var \Spatie\FlareClient\Flare $instance */
             return $instance->group($groupName, $properties);
+        }
+
+            }
+    }
+
+namespace Spatie\ResponseCache\Facades {
+    /**
+     * @method static ?Response getCachedResponseFor(Request $request, array $tags = [])
+     */
+    class ResponseCache {
+        /**
+         * @static
+         */
+        public static function enabled($request)
+        {
+            /** @var \Spatie\ResponseCache\ResponseCache $instance */
+            return $instance->enabled($request);
+        }
+
+        /**
+         * @static
+         */
+        public static function shouldCache($request, $response)
+        {
+            /** @var \Spatie\ResponseCache\ResponseCache $instance */
+            return $instance->shouldCache($request, $response);
+        }
+
+        /**
+         * @static
+         */
+        public static function shouldBypass($request)
+        {
+            /** @var \Spatie\ResponseCache\ResponseCache $instance */
+            return $instance->shouldBypass($request);
+        }
+
+        /**
+         * @static
+         */
+        public static function cacheResponse($request, $response, $lifetimeInSeconds = null, $tags = [])
+        {
+            /** @var \Spatie\ResponseCache\ResponseCache $instance */
+            return $instance->cacheResponse($request, $response, $lifetimeInSeconds, $tags);
+        }
+
+        /**
+         * @static
+         */
+        public static function hasBeenCached($request, $tags = [])
+        {
+            /** @var \Spatie\ResponseCache\ResponseCache $instance */
+            return $instance->hasBeenCached($request, $tags);
+        }
+
+        /**
+         * @static
+         */
+        public static function getCachedResponseFor($request, $tags = [])
+        {
+            /** @var \Spatie\ResponseCache\ResponseCache $instance */
+            return $instance->getCachedResponseFor($request, $tags);
+        }
+
+        /**
+         * @static
+         */
+        public static function clear($tags = [])
+        {
+            /** @var \Spatie\ResponseCache\ResponseCache $instance */
+            return $instance->clear($tags);
+        }
+
+        /**
+         * @param string[] $tags
+         * @static
+         */
+        public static function forget($uris, $tags = [])
+        {
+            /** @var \Spatie\ResponseCache\ResponseCache $instance */
+            return $instance->forget($uris, $tags);
+        }
+
+        /**
+         * @static
+         */
+        public static function selectCachedItems()
+        {
+            /** @var \Spatie\ResponseCache\ResponseCache $instance */
+            return $instance->selectCachedItems();
+        }
+
+        /**
+         * Get a cached response using flexible/SWR (stale-while-revalidate) strategy.
+         *
+         * @param array{0: int, 1: int} $seconds [fresh_seconds, total_seconds]
+         * @param \Closure $callback Callback that returns a Response object
+         * @static
+         */
+        public static function flexible($key, $seconds, $callback, $tags = [])
+        {
+            /** @var \Spatie\ResponseCache\ResponseCache $instance */
+            return $instance->flexible($key, $seconds, $callback, $tags);
         }
 
             }
@@ -33211,8 +33249,8 @@ namespace  {
     class Horizon extends \Laravel\Horizon\Horizon {}
     class Livewire extends \Livewire\Livewire {}
     class LogViewer extends \Opcodes\LogViewer\Facades\LogViewer {}
-    class Health extends \Spatie\Health\Facades\Health {}
     class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
+    class ResponseCache extends \Spatie\ResponseCache\Facades\ResponseCache {}
     class Cookies extends \Whitecube\LaravelCookieConsent\Facades\Cookies {}
     class LaraBug extends \LaraBug\Facade {}
 }

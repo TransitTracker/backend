@@ -675,8 +675,8 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $actions
- * @property-read int|null $actions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsCauser
+ * @property-read int|null $activities_as_causer_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Ladder\Models\UserRole> $roles
@@ -728,8 +728,8 @@ namespace App\Models{
  * @property string|null $force_vehicle_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Link> $activeLinks
  * @property-read int|null $active_links_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
- * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\Agency|null $agency
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Carriage> $carriages
  * @property-read int|null $carriages_count

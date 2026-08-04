@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use App\Enums\AgencyFeature;
 use League\Csv\Reader;
 use League\Csv\Statement;
 
@@ -30,11 +31,25 @@ class ProcessGtfsTrips implements ShouldQueue
 
         $tripsToUpdate = [];
 
+        $hasSTLGTFSManipulation = $this->agency->features?->contains(AgencyFeature::STLGTFSManipulation);
+
         foreach ($tripsRecords as $trip) {
+            $tripId = $trip['trip_id'];
+            $routeId = $trip['route_id'];
+
+            if ($hasSTLGTFSManipulation) {
+                if (strlen($tripId) > 6) {
+                    $tripId = substr($tripId, 6);
+                }
+                if (strlen($routeId) > 6) {
+                    $routeId = substr($routeId, 6);
+                }
+            }
+
             $tripsToUpdate[] = [
                 'agency_id' => $this->agency->id,
-                'gtfs_trip_id' => $trip['trip_id'],
-                'gtfs_route_id' => $trip['route_id'],
+                'gtfs_trip_id' => $tripId,
+                'gtfs_route_id' => $routeId,
                 'gtfs_service_id' => $trip['service_id'],
                 'gtfs_block_id' => $this->getField($trip, 'block_id'),
                 'gtfs_shape_id' => $this->getField($trip, 'shape_id'),

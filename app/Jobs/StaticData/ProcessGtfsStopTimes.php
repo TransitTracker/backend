@@ -14,6 +14,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Enums\AgencyFeature;
 use League\Csv\Reader;
 use League\Csv\Statement;
 
@@ -35,13 +36,20 @@ class ProcessGtfsStopTimes implements ShouldQueue
 
         $toCreate = [];
 
+        $hasSTLGTFSManipulation = $this->agency->features?->contains(AgencyFeature::STLGTFSManipulation);
+
         foreach ($statement->process($reader) as $record) {
             // If there is no trip_id or arrival_time, skip
             if (! Arr::exists($record, 'trip_id') || ! Arr::exists($record, 'arrival_time')) {
                 continue;
             }
 
-            $shouldNotImportThisTrip = $tripIdToImport->doesntContain($record['trip_id']);
+            $tripId = $record['trip_id'];
+            if ($hasSTLGTFSManipulation && strlen($tripId) > 6) {
+                $tripId = substr($tripId, 6);
+            }
+
+            $shouldNotImportThisTrip = $tripIdToImport->doesntContain($tripId);
 
             // For agencies that do not support blocks, only import StopTimes for one trip per shape
             // of for agencies that do support blocks, import first StopTimes for all trip (normally 1, or 0 for some special agencies...)
@@ -54,7 +62,7 @@ class ProcessGtfsStopTimes implements ShouldQueue
 
             $toCreate[] = [
                 'agency_id' => $this->agency->id,
-                'gtfs_trip_id' => $record['trip_id'],
+                'gtfs_trip_id' => $tripId,
                 'gtfs_stop_id' => $record['stop_id'],
                 'departure' => $record['departure_time'],
                 'sequence' => (int) $record['stop_sequence'],

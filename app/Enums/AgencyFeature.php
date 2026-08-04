@@ -14,4 +14,6 @@ final class AgencyFeature extends Enum
     const PredictedBlocks = 'predictedBlocks';
 
     const UseRouteFromTrip = 'useRouteFromTrip';
+
+    const STLGTFSManipulation = 'STLGTFSManipulation';
 }

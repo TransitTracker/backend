@@ -13,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use App\Enums\AgencyFeature;
 use League\Csv\Reader;
 
 class ProcessGtfsRoutes implements ShouldQueue
@@ -30,14 +31,21 @@ class ProcessGtfsRoutes implements ShouldQueue
 
         $routesToUpdate = [];
 
+        $hasSTLGTFSManipulation = $this->agency->features?->contains(AgencyFeature::STLGTFSManipulation);
+
         foreach ($routesReader->getRecords() as $route) {
             if (! array_key_exists('route_id', $route)) {
                 continue;
             }
 
+            $routeId = $route['route_id'];
+            if ($hasSTLGTFSManipulation && strlen($routeId) > 6) {
+                $routeId = substr($routeId, 6);
+            }
+
             $routesToUpdate[] = [
                 'agency_id' => $this->agency->id,
-                'gtfs_route_id' => $route['route_id'],
+                'gtfs_route_id' => $routeId,
                 'type' => VehicleType::coerce($route['route_type'])?->value ?? 3, // Assume bus if none (required field per spec - bus most common)
                 'short_name' => $route['route_short_name'],
                 'long_name' => $route['route_long_name'],

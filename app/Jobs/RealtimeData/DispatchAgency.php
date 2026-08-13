@@ -67,6 +67,7 @@ class DispatchAgency implements ShouldQueue
 
                 if ($exception instanceof RequestException) {
                     $status = $exception->response->status();
+
                     return $status === 400 || $status >= 500;
                 }
 

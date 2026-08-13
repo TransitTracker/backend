@@ -169,7 +169,7 @@ class Agency extends Model
             ];
 
             // Forget these URL only if more than the timestamp changed
-            if (!$onlyTimestampChanges) {
+            if (! $onlyTimestampChanges) {
                 array_push($urlsToClear,
                     '/v2/agencies',
                     '/v2/landing',
@@ -179,7 +179,7 @@ class Agency extends Model
                 ResponseCache::clear(['agencies', 'regions']);
             }
 
-            foreach(['en', 'fr'] as $locale) {
+            foreach (['en', 'fr'] as $locale) {
                 ResponseCache::selectCachedItems()
                     ->usingSuffix($locale)
                     ->forUrls($urlsToClear)

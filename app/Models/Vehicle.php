@@ -22,8 +22,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
-use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Vehicle extends Model
@@ -246,7 +246,7 @@ class Vehicle extends Model
         });
 
         static::updated(function (self $vehicle) {
-            foreach(['en', 'fr'] as $locale) {
+            foreach (['en', 'fr'] as $locale) {
                 ResponseCache::selectCachedItems()
                     ->usingSuffix($locale)
                     ->forUrls("/v2/vehicles/{$vehicle->id}")

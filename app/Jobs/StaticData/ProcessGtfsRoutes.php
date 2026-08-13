@@ -2,6 +2,7 @@
 
 namespace App\Jobs\StaticData;
 
+use App\Enums\AgencyFeature;
 use App\Enums\VehicleType;
 use App\Models\Agency;
 use App\Models\Gtfs\Route;
@@ -13,7 +14,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use App\Enums\AgencyFeature;
 use League\Csv\Reader;
 
 class ProcessGtfsRoutes implements ShouldQueue

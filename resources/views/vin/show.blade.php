@@ -204,7 +204,7 @@
                 <h2 class="text-[1.375rem] leading-8">{{ __('Submit a new fleet number') }}</h2>
 
                 <div class="relative mt-8 mb-4">
-                    <input type="text" id="label" placeholder="{{ __('Fleet number') }}" name="label" required value="{{ @old('label') }}" class="w-48 h-8 px-0 py-2 mb-2 placeholder-transparent transition-colors bg-transparent border-0 border-b-2 border-black/40 dark:border-white peer focus:ring-0 dark:border-opacity-60 focus:border-primary-500 dark:focus:border-white focus:border-opacity-100 @error('label') border-red-500 border-opacity-100 @enderror" />
+                    <input type="text" id="label" placeholder="{{ __('Fleet number') }}" name="label" required value="{{ @old('label') }}" class="w-48 h-8 px-0 py-2 mb-2 placeholder-transparent transition-colors bg-transparent border-0 border-b-2 border-black/40 dark:border-white/60 peer focus:ring-0 focus:border-primary-500 dark:focus:border-white @error('label') border-red-500 @enderror" />
                     <label for="label" class="absolute left-0 transition-transform origin-top-left scale-75 -translate-y-8 top-1/2 opacity-60 peer-focus:-translate-y-8 peer-focus:scale-75 peer-focus:text-primary-500 dark:peer-focus:text-white peer-focus:opacity-100 peer-placeholder-shown:-translate-y-4 peer-placeholder-shown:scale-100 @error('label') text-red-500 opacity-100 @enderror">
                         {{ __('Fleet number') }}
                     </label>
@@ -215,7 +215,7 @@
                 </div>
 
                 <div class="relative mt-8 mb-4">
-                    <input type="text" id="note" placeholder="Extra note" name="note" class="w-full h-8 px-0 py-2 mb-2 placeholder-transparent transition-colors bg-transparent border-0 border-b-2 border-black dark:border-white peer focus:ring-0 border-opacity-40 dark:border-opacity-60 focus:border-primary-500 dark:focus:border-white focus:border-opacity-100" />
+                    <input type="text" id="note" placeholder="Extra note" name="note" class="w-full h-8 px-0 py-2 mb-2 placeholder-transparent transition-colors bg-transparent border-0 border-b-2 border-black/40 dark:border-white/60 peer focus:ring-0 focus:border-primary-500 dark:focus:border-white" />
                     <label for="note" class="absolute left-0 transition-transform origin-top-left scale-75 -translate-y-8 top-1/2 opacity-60 peer-focus:-translate-y-8 peer-focus:scale-75 peer-focus:text-primary-500 dark:peer-focus:text-white peer-focus:opacity-100 peer-placeholder-shown:-translate-y-4 peer-placeholder-shown:scale-100">
                         {{ __('Extra note') }}
                     </label>
@@ -230,7 +230,7 @@
                 @enderror
 
                 <div class="flex">
-                    <button type="submit" class="relative flex items-center h-10 px-6 text-sm font-medium transition-colors rounded-full bg-primary-40 text-white dark:bg-primary-80 dark:text-primary-20 hover:bg-opacity-85 focus:bg-opacity-75">
+                    <button type="submit" class="relative flex items-center h-10 px-6 text-sm font-medium transition-colors rounded-full bg-primary-40 text-white dark:bg-primary-80 dark:text-primary-20 hover:bg-primary-40/85 focus:bg-primary-40/75 dark:hover:bg-primary-80/85 dark:focus:bg-primary-80/75">
                         {{ __('Send') }}
                         <x-gmdi-send class="w-5 h-5 ml-2" />
                     </button>
@@ -291,7 +291,7 @@
                             <button x-on:click="showModal = true" class="relative flex items-center justify-center w-9 h-9 before:rounded-full before:absolute before:inset-0 before:bg-black before:opacity-0 hover:before:opacity-5 focus:before:opacity-5 disabled:cursor-not-allowed group">
                                 <x-gmdi-check class="w-6 h-6 text-green-700 fill-current group-disabled:text-gray-300" />
                             </button>
-                            <div class="absolute inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50" x-show="showModal">
+                            <div class="absolute inset-0 z-50 flex items-center justify-center w-full h-full bg-black/50" x-show="showModal">
                                 <div class="bg-white dark:bg-neutral-6 dark:text-neutral-90 rounded shadow-xl w-[280px]" x-on:click.away="showModal = false">
                                     <div class="flex items-center h-16 pl-6 pr-2 text-xl font-medium tracking-wide shadow">
                                         Apply new VIN to</div>
@@ -324,7 +324,7 @@
         @auth
         <div class="col-span-full flex gap-x-2">
             @foreach ($vehicles as $vehicle)
-            <a href="{{ route('filament.admin.resources.vehicles.edit', ['record' => $vehicle]) }}" class="relative flex items-center gap-2 h-10 pl-6 pr-4 text-sm font-medium transition-colors rounded-full bg-secondary-90 text-secondary-10 dark:bg-secondary-30 dark:text-secondary-90 hover:bg-opacity-80 hover:bg-opacity-85 focus:bg-opacity-75">
+            <a href="{{ route('filament.admin.resources.vehicles.edit', ['record' => $vehicle]) }}" class="relative flex items-center gap-2 h-10 pl-6 pr-4 text-sm font-medium transition-colors rounded-full bg-secondary-90 text-secondary-10 dark:bg-secondary-30 dark:text-secondary-90 hover:bg-secondary-90/85 focus:bg-secondary-90/75 dark:hover:bg-secondary-30/85 dark:focus:bg-secondary-30/75">
                 {{ $vehicle->agency->short_name }} in admin
                 <x-gmdi-open-in-new class="w-[1.125rem] h-[1.125rem]" />
             </a>

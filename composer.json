@@ -12,7 +12,7 @@
     "ext-json": "*",
     "ext-simplexml": "*",
     "ext-zip": "*",
-    "alizharb/filament-activity-log": "*",
+    "alizharb/filament-activity-log": "^1.5",
     "awobaz/compoships": "^2.2",
     "bensampo/laravel-enum": "^6.3",
     "blade-ui-kit/blade-icons": "^1.4",
@@ -27,7 +27,7 @@
     "lara-zeus/spatie-translatable": "^1.0",
     "larabug/larabug": "^3.0",
     "laravel-notification-channels/webpush": "^10.0",
-    "laravel/framework": "^13.0",
+    "laravel/framework": "^13.25",
     "laravel/horizon": "^5.29",
     "laravel/reverb": "^1.0",
     "laravel/sanctum": "^4.0",
@@ -50,12 +50,14 @@
     "whitecube/laravel-cookie-consent": "^1.0"
   },
   "require-dev": {
-    "fruitcake/laravel-debugbar": "^4.3",
     "barryvdh/laravel-ide-helper": "^3.7",
     "fakerphp/faker": "^1.13",
     "filament/upgrade": "^4.0",
+    "fruitcake/laravel-debugbar": "^4.3",
     "knuckleswtf/scribe": "^5.0",
     "larastan/larastan": "^3.0",
+    "laravel/boost": "^2.5",
+    "laravel/pail": "^1.2",
     "laravel/pint": "^1.0",
     "laravel/telescope": "^5.0",
     "laravel/tinker": "^3.0",
@@ -111,7 +113,8 @@
     ],
     "post-update-cmd": [
       "@php artisan ide-helper:generate",
-      "@php artisan ide-helper:models --nowrite"
+      "@php artisan ide-helper:models --nowrite",
+      "@php artisan boost:update --ansi"
     ],
     "app-install": [
       "@composer install",

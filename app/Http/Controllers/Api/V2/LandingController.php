@@ -35,7 +35,7 @@ class LandingController extends Controller
     public function index()
     {
         $regions = Region::query()
-            ->select(['id', 'name', 'slug', 'map_zoom', 'map_center'])
+            ->select(['id', 'name', 'slug', 'map_zoom', 'map_center', 'image'])
             ->with(['activeAgencies:id,cities'])
             ->withCount(['activeAgencies'])
             ->get();

@@ -6,6 +6,7 @@ use App;
 use BenSampo\Enum\Enum;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\DevCommands;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Whitecube\LaravelCookieConsent\Facades\Cookies;
@@ -26,11 +27,6 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading(App::environment('local'));
 
-        if ($this->app->environment('local')) {
-            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
-            $this->app->register(TelescopeServiceProvider::class);
-        }
-
         Enum::macro('asFlippedArray', function () {
             return array_flip(self::asArray());
         });
@@ -42,5 +38,17 @@ class AppServiceProvider extends ServiceProvider
         Cookies::essentials()
             ->session()
             ->csrf();
+
+
+
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+
+            DevCommands::artisan('horizon', 'horizon');
+            DevCommands::artisan('reverb:start', 'reverb');
+            DevCommands::except('queue');
+            DevCommands::stream();
+        }
     }
 }

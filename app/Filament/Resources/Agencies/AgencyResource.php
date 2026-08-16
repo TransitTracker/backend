@@ -7,6 +7,12 @@ use App\Enums\VehicleType;
 use App\Filament\Resources\Agencies\Pages\CreateAgency;
 use App\Filament\Resources\Agencies\Pages\EditAgency;
 use App\Filament\Resources\Agencies\Pages\ListAgencies;
+use App\Filament\Resources\Agencies\Pages\ManageAgencyRoutes;
+use App\Filament\Resources\Agencies\Pages\ManageAgencyServices;
+use App\Filament\Resources\Agencies\Pages\ManageAgencyShapes;
+use App\Filament\Resources\Agencies\Pages\ManageAgencyStops;
+use App\Filament\Resources\Agencies\Pages\ManageAgencyStopTimes;
+use App\Filament\Resources\Agencies\Pages\ManageAgencyTrips;
 use App\Filament\Resources\Agencies\RelationManagers\LinksRelationManager;
 use App\Filament\Resources\Agencies\RelationManagers\RegionsRelationManager;
 use App\Jobs\SyncIconToMapbox;
@@ -23,6 +29,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
@@ -194,12 +201,31 @@ class AgencyResource extends Resource
         ];
     }
 
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            EditAgency::class,
+            ManageAgencyRoutes::class,
+            ManageAgencyTrips::class,
+            ManageAgencyStops::class,
+            ManageAgencyServices::class,
+            ManageAgencyShapes::class,
+            ManageAgencyStopTimes::class,
+        ]);
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => ListAgencies::route('/'),
             'create' => CreateAgency::route('/create'),
             'edit' => EditAgency::route('/{record}/edit'),
+            'routes' => ManageAgencyRoutes::route('/{record}/routes'),
+            'trips' => ManageAgencyTrips::route('/{record}/trips'),
+            'stops' => ManageAgencyStops::route('/{record}/stops'),
+            'services' => ManageAgencyServices::route('/{record}/services'),
+            'shapes' => ManageAgencyShapes::route('/{record}/shapes'),
+            'stop-times' => ManageAgencyStopTimes::route('/{record}/stop-times'),
         ];
     }
 }

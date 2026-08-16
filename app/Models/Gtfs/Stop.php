@@ -28,6 +28,6 @@ class Stop extends Model
 
     public function stopTimes(): HasMany
     {
-        return $this->hasMany(StopTime::class, ['agency_id', 'gtfs_trip_id'], ['agency_id', 'gtfs_trip_id']);
+        return $this->hasMany(StopTime::class, ['agency_id', 'gtfs_stop_id'], ['agency_id', 'gtfs_stop_id']);
     }
 }

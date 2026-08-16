@@ -14,7 +14,11 @@ class Suggestion extends Model
 
     protected $table = 'vin_suggestions';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'vin',
+        'label',
+        'note',
+    ];
 
     protected $casts = [
         'is_rejected' => 'boolean',

@@ -79,7 +79,7 @@ class SuggestionController extends Controller
 
         $request->session()->put("vin-{$vin}", $request->input('label'));
 
-        Suggestion::create($request->except('cf-turnstile-response'));
+        Suggestion::create($request->only(['vin', 'label', 'note']));
 
         return back()->with('Thanks for your suggestion!');
     }

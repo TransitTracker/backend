@@ -37,3 +37,8 @@ yarn-error.log
 /storage/logs
 /data.ms
 run.json
+.mcp.json
+/.agents
+AGENTS.md
+boost.json
+/.gemini

@@ -56,6 +56,7 @@
     "fruitcake/laravel-debugbar": "^4.3",
     "knuckleswtf/scribe": "^5.0",
     "larastan/larastan": "^3.0",
+    "laravel/boost": "^2.5",
     "laravel/pail": "^1.2",
     "laravel/pint": "^1.0",
     "laravel/telescope": "^5.0",
@@ -112,7 +113,8 @@
     ],
     "post-update-cmd": [
       "@php artisan ide-helper:generate",
-      "@php artisan ide-helper:models --nowrite"
+      "@php artisan ide-helper:models --nowrite",
+      "@php artisan boost:update --ansi"
     ],
     "app-install": [
       "@composer install",

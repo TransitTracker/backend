@@ -248,6 +248,8 @@ namespace App\Models\Gtfs{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Agency|null $agency
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Gtfs\Trip> $trips
+ * @property-read int|null $trips_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Route newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Route newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Route query()
@@ -406,6 +408,7 @@ namespace App\Models\Gtfs{
  * @property int $sequence
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Agency|null $agency
  * @property-read \App\Models\Gtfs\Stop|null $stop
  * @property-read \App\Models\Gtfs\Trip|null $trip
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StopTime newModelQuery()
@@ -844,11 +847,27 @@ namespace App\Models\Vin{
 
 namespace App\Models\Vin{
 /**
+ * @property int $id
+ * @property string $vin
+ * @property string $label
+ * @property string|null $note
+ * @property int $upvotes
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property bool $is_rejected
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion whereIsRejected($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion whereUpvotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suggestion whereVin($value)
  */
 	class Suggestion extends \Eloquent {}
 }

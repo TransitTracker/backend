@@ -89,7 +89,7 @@ Used for some GTFS-RT feeds that do not work with the PHP implementation (so far
 
 ### Commands to run the server
 
-One process each.
+One process each. Use `php artisan dev` to run all these commands together on a local development server.
 
 1. `yarn dev`
 2. `php artisan serve`

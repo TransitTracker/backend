@@ -17,7 +17,8 @@ use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\QueryParam;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
 
-use function Illuminate\Support\{minutes, days};
+use function Illuminate\Support\days;
+use function Illuminate\Support\minutes;
 
 #[Group('Agencies')]
 class AgencyController extends Controller

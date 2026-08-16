@@ -2,6 +2,7 @@
 
 namespace App\Jobs\StaticData;
 
+use App\Enums\AgencyFeature;
 use App\Models\Agency;
 use App\Models\Gtfs\Trip;
 use Illuminate\Bus\Batchable;
@@ -11,7 +12,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use App\Enums\AgencyFeature;
 use League\Csv\Reader;
 use League\Csv\Statement;
 

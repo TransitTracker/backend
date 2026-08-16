@@ -2,6 +2,7 @@
 
 namespace App\Jobs\StaticData;
 
+use App\Enums\AgencyFeature;
 use App\Models\Agency;
 use App\Models\Gtfs\StopTime;
 use App\Models\Gtfs\Trip;
@@ -14,7 +15,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Enums\AgencyFeature;
 use League\Csv\Reader;
 use League\Csv\Statement;
 

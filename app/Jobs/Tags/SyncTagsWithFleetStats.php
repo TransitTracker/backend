@@ -12,6 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class SyncTagsWithFleetStats implements ShouldQueue
 {
@@ -56,10 +57,21 @@ class SyncTagsWithFleetStats implements ShouldQueue
     private function sync(Agency $agency, int $tagType, object $garages)
     {
         $response = Http::get("https://fleetsighter.ca/api/vehicles/{$agency->slug}");
-        //        $tags = Tag::whereType($tagType)->select(['id', 'label'])->get();
 
-        foreach ($response->json('vehicles') as $fsVehicle) {
-            $vehicle = Vehicle::select('id')->firstWhere(['agency_id' => $agency->id, 'vehicle_id' => $fsVehicle['fleet_number']]);
+        $fsVehicles = $response->json('vehicles');
+        if (empty($fsVehicles)) {
+            return;
+        }
+
+        $fleetNumbers = collect($fsVehicles)->pluck('fleet_number')->toArray();
+        $vehicles = Vehicle::select('id', 'vehicle_id')
+            ->where('agency_id', $agency->id)
+            ->whereIn('vehicle_id', $fleetNumbers)
+            ->get()
+            ->keyBy('vehicle_id');
+
+        foreach ($fsVehicles as $fsVehicle) {
+            $vehicle = $vehicles->get($fsVehicle['fleet_number']);
             if (! $vehicle) {
                 continue;
             }
@@ -67,9 +79,12 @@ class SyncTagsWithFleetStats implements ShouldQueue
             $garages->{$fsVehicle['allocated_garage']}[] = $vehicle->id;
         }
 
+        $tags = Tag::where('type', $tagType)->get();
+
         foreach ($garages as $garage => $ids) {
-            // TODO: retrieve tags only once to optimize
-            $tag = Tag::firstWhere([['label', 'LIKE', "%{$garage}%"], ['type', '=', $tagType]]);
+            $tag = $tags->first(function ($tag) use ($garage) {
+                return Str::contains($tag->getRawOriginal('label'), $garage, true);
+            });
             if (! $tag) {
                 continue;
             }

@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Vehicles;
 
-use AlizHarb\ActivityLog\RelationManagers\ActivitiesRelationManager;
 use App\Enums\TagType;
 use App\Enums\VehicleType;
 use App\Filament\Resources\Vehicles\Pages\EditVehicle;
@@ -181,7 +180,6 @@ class VehicleResource extends Resource
     {
         return [
             TagsRelationManager::class,
-            ActivitiesRelationManager::class,
         ];
     }
 

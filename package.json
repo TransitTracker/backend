@@ -24,5 +24,6 @@
     "@fontsource/figtree": "^4.5.1",
     "@fontsource/inter": "^4.5.13",
     "print-gtfs-rt-cli": "^3.0.0"
-  }
+  },
+  "packageManager": "yarn@4.18.0"
 }

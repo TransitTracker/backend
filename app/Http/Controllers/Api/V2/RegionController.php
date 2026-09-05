@@ -8,6 +8,7 @@ use App\Http\Resources\V2\RegionResource;
 use App\Models\Alert;
 use App\Models\Region;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\App;
 use Knuckles\Scribe\Attributes\Group;
 use Spatie\ResponseCache\Attributes\Cache;
@@ -36,14 +37,32 @@ class RegionController extends Controller
 
     public function index()
     {
-        $regions = Region::with(['activeAgencies', 'activeAgencies.regions:slug,name'])->get();
+        $regions = Region::query()
+            ->orderBy('order_id')
+            ->with([
+                'activeAgencies' => function (BelongsToMany $query) {
+                  $query->orderBy('order_id');
+                },
+                'activeAgencies.regions' => function (BelongsToMany $query) {
+                  $query->select(['slug', 'name'])->orderBy('order_id');
+                },
+            ])
+            ->get();
 
         return RegionResource::collection($regions);
     }
 
     public function show(Region $region)
     {
-        $region->load(['activeAgencies', 'activeAgencies.regions:slug,name']);
+        $region
+            ->load([
+                'activeAgencies' => function (BelongsToMany $query) {
+                    $query->orderBy('order_id');
+                },
+                'activeAgencies.regions' => function (BelongsToMany $query) {
+                    $query->select(['slug', 'name'])->orderBy('order_id');
+                },
+            ]);
 
         return RegionResource::make($region);
     }
@@ -63,7 +82,9 @@ class RegionController extends Controller
                     });
             })
             ->select(['id', 'title', 'subtitle', 'created_at', 'body', 'color', 'icon', 'action', 'action_parameters', 'image', 'category', 'status'])
-            ->with(['regions:id,slug'])
+            ->with(['regions' => function ($query) {
+                $query->select('slug')->orderBy('order_id');
+            }])
             ->orderBy('created_at', 'desc')
             ->get();
 

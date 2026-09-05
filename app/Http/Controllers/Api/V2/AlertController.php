@@ -34,7 +34,9 @@ class AlertController extends Controller
     {
         $alerts = Alert::visible()
             ->select(['id', 'title', 'subtitle', 'created_at', 'body', 'color', 'icon', 'action', 'action_parameters', 'image', 'category', 'status'])
-            ->with(['regions:id,slug'])
+            ->with(['regions' => function ($query) {
+                $query->select('slug')->orderBy('order_id');
+            }])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 

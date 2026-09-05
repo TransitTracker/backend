@@ -27,7 +27,7 @@ class AlertResource extends JsonResource
             'can_be_closed' => false,
             'category' => $this->category,
             'status' => $this->status,
-            'regions' => RegionSimpleResource::collection($this->whenLoaded('regions')),
+            'regions' => $this->whenLoaded('regions')->pluck('slug'),
         ];
     }
 }

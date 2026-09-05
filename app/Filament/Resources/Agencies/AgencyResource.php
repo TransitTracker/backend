@@ -22,12 +22,12 @@ use Filament\Actions\BulkAction;
 use Filament\Actions\ReplicateAction;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
@@ -82,9 +82,8 @@ class AgencyResource extends Resource
                     ])->columns(2)->collapsed(),
                     Section::make('Static data')->schema([
                         TextInput::make('static_gtfs_url')->label('Static GTFS URL'),
-                        Placeholder::make('latest_etag')
+                        TextEntry::make('latest_etag')
                             ->label('Latest ETAG')
-                            ->content(fn (Agency $record): string => $record->static_etag)
                             ->visibleOn('edit'),
                     ])->collapsed(),
                     Section::make('Realtime data')->schema([
@@ -122,18 +121,16 @@ class AgencyResource extends Resource
                             ]),
                         Section::make()
                             ->schema([
-                                Placeholder::make('id')
-                                    ->label('ID')
-                                    ->content(fn (Agency $record): ?string => $record->id),
-                                Placeholder::make('created_at')
-                                    ->label('Created')
-                                    ->content(fn (Agency $record): ?string => $record->created_at?->diffForHumans()),
-                                Placeholder::make('updated_at')
-                                    ->label('Last modified')
-                                    ->content(fn (Agency $record): ?string => $record->updated_at?->diffForHumans()),
-                                Placeholder::make('timestamp')
+                                TextEntry::make('id')
+                                    ->label('ID'),
+                                TextEntry::make('created_at')
+                                    ->dateTime(),
+                                TextEntry::make('updated_at')
+                                    ->dateTime(),
+                                TextEntry::make('timestamp')
                                     ->label('Lastest data from agency')
-                                    ->content(fn (Agency $record): ?string => Carbon::createFromTimestamp($record->timestamp ?? null)->format('j M Y H:i')),
+                                    ->dateTime(),
+                                    // ->content(fn (Agency $record): ?string => Carbon::createFromTimestamp($record->timestamp ?? null)->format('j M Y H:i')),
 
                             ])->visibleOn('edit'),
                     ])->columnSpan(['lg' => 1]),
@@ -190,7 +187,8 @@ class AgencyResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('regions')->relationship('regions', 'name'),
-            ]);
+            ])
+            ->reorderable('order_id');
     }
 
     public static function getRelations(): array

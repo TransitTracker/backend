@@ -36,7 +36,14 @@ class AgencyController extends Controller
 
     public function index()
     {
-        $agencies = Agency::active()->select(['id', 'name', 'short_name', 'slug', 'cities', 'vehicles_type', 'color', 'text_color', 'license', 'is_archived', 'features'])->with('regions:slug')->get();
+        $agencies = Agency::query()
+            ->active()
+            ->select(['id', 'name', 'short_name', 'slug', 'cities', 'vehicles_type', 'color', 'text_color', 'license', 'is_archived', 'features'])
+            ->with(['regions' => function ($query) {
+                $query->select('slug')->orderBy('order_id');
+            }])
+            ->orderBy('order_id')
+            ->get();
 
         return AgencyResource::collection($agencies);
     }

@@ -7,6 +7,7 @@ use App\Http\Resources\V2\GeoJsonLandingCollection;
 use App\Http\Resources\V2\GeoJsonLandingVehicleCollection;
 use App\Models\Region;
 use App\Models\Vehicle;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\App;
 use Knuckles\Scribe\Attributes\Group;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
@@ -38,6 +39,7 @@ class LandingController extends Controller
             ->select(['id', 'name', 'slug', 'map_zoom', 'map_center', 'image'])
             ->with(['activeAgencies:id,cities'])
             ->withCount(['activeAgencies'])
+            ->orderBy('order_id')
             ->get();
 
         $totalVehiclesRecorded = Vehicle::count();

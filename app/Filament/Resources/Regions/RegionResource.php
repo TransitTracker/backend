@@ -7,13 +7,13 @@ use App\Filament\Resources\Regions\Pages\EditRegion;
 use App\Filament\Resources\Regions\Pages\ListRegions;
 use App\Filament\Resources\Regions\RelationManagers\AgenciesRelationManager;
 use App\Models\Region;
+use BackedEnum;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Set;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Flex;
 use Filament\Schemas\Components\Section;
@@ -28,7 +28,7 @@ class RegionResource extends Resource
 
     protected static ?string $model = Region::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'gmdi-location-city-tt';
+    protected static BackedEnum|string|null $navigationIcon = 'gmdi-location-city-tt';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -55,7 +55,8 @@ class RegionResource extends Resource
             ->components([
                 Flex::make([
                     Section::make([
-                        TextInput::make('name')->columnSpan(4)
+                        TextInput::make('name')
+                            ->columnSpan(4)
                             ->required(),
                         TextInput::make('slug')
                             ->required()
@@ -112,12 +113,12 @@ class RegionResource extends Resource
                             ]),
                     ])->columns(6),
                     Section::make([
-                        Placeholder::make('id')
-                            ->content(fn (Region $record): string => $record->id),
-                        Placeholder::make('updated_at')
-                            ->content(fn (Region $record): ?string => $record->updated_at?->toDayDateTimeString()),
-                        Placeholder::make('created_at')
-                            ->content(fn (Region $record): ?string => $record->created_at?->toDayDateTimeString()),
+                        TextEntry::make('id')
+                            ->label('ID'),
+                        TextEntry::make('updated_at')
+                            ->dateTime(),
+                        TextEntry::make('created_at')
+                            ->dateTime(),
                     ])
                         ->grow(false)
                         ->visibleOn('edit'),
@@ -132,6 +133,7 @@ class RegionResource extends Resource
                 TextColumn::make('name'),
                 TextColumn::make('slug'),
             ])
+            ->reorderable('order_id')
             ->filters([
                 //
             ]);

@@ -9,6 +9,7 @@ use App\Http\Resources\V2\VehicleResource;
 use App\Http\Resources\V2\VehiclesGeoJson\VehiclesCollection;
 use App\Models\Agency;
 use App\Models\Vehicle;
+use Awobaz\Compoships\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -125,7 +126,9 @@ class AgencyController extends Controller
             ->with([
                 'trip:agency_id,gtfs_trip_id,short_name,headsign,gtfs_block_id,gtfs_service_id,gtfs_shape_id',
                 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color',
-                'carriages:agency_id,vehicle_id,carriage_id,label,occupancy_status,sequence,carriage_type_id',
+                'carriages' => function (HasMany $query) {
+                    $query->select(['agency_id', 'vehicle_id', 'carriage_id', 'label','occupancy_status','sequence','carriage_type_id'])->orderBy('sequence');
+                },
                 'activeLinks:id',
                 'tags:id',
             ])
@@ -150,7 +153,9 @@ class AgencyController extends Controller
             ->with([
                 'trip:agency_id,gtfs_trip_id,short_name,headsign,gtfs_block_id,gtfs_service_id,gtfs_shape_id',
                 'gtfsRoute:agency_id,gtfs_route_id,short_name,long_name,color,text_color',
-                'carriages:agency_id,vehicle_id,carriage_id,label,occupancy_status,sequence,carriage_type_id',
+                'carriages' => function (HasMany $query) {
+                    $query->select(['agency_id', 'vehicle_id', 'carriage_id', 'label','occupancy_status','sequence','carriage_type_id'])->orderBy('sequence');
+                },
             ]);
 
         // When downloading data, add internal title and short label to download

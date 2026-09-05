@@ -11,7 +11,6 @@ return [
      */
     'enabled' => env('RESPONSE_CACHE_ENABLED', true),
 
-
     'cache' => [
         /*
          * Here you may define the cache store that should be used

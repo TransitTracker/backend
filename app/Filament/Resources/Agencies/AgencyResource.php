@@ -130,7 +130,7 @@ class AgencyResource extends Resource
                                 TextEntry::make('timestamp')
                                     ->label('Lastest data from agency')
                                     ->dateTime(),
-                                    // ->content(fn (Agency $record): ?string => Carbon::createFromTimestamp($record->timestamp ?? null)->format('j M Y H:i')),
+                                // ->content(fn (Agency $record): ?string => Carbon::createFromTimestamp($record->timestamp ?? null)->format('j M Y H:i')),
 
                             ])->visibleOn('edit'),
                     ])->columnSpan(['lg' => 1]),

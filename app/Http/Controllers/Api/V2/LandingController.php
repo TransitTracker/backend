@@ -7,7 +7,6 @@ use App\Http\Resources\V2\GeoJsonLandingCollection;
 use App\Http\Resources\V2\GeoJsonLandingVehicleCollection;
 use App\Models\Region;
 use App\Models\Vehicle;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\App;
 use Knuckles\Scribe\Attributes\Group;
 use Spatie\ResponseCache\Middlewares\CacheResponse;

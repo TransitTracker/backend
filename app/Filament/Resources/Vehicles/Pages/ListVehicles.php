@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Vehicles\Pages;
 
 use App\Filament\Resources\Vehicles\VehicleResource;
-use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 class ListVehicles extends ListRecords

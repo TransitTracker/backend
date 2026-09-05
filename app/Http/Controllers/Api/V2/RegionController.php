@@ -41,10 +41,10 @@ class RegionController extends Controller
             ->orderBy('order_id')
             ->with([
                 'activeAgencies' => function (BelongsToMany $query) {
-                  $query->orderBy('order_id');
+                    $query->orderBy('order_id');
                 },
                 'activeAgencies.regions' => function (BelongsToMany $query) {
-                  $query->select(['slug', 'name'])->orderBy('order_id');
+                    $query->select(['slug', 'name'])->orderBy('order_id');
                 },
             ])
             ->get();

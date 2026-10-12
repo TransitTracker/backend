@@ -18,6 +18,7 @@ namespace App\Models{
  * @property string $color
  * @property string $vehicles_type
  * @property string $slug
+ * @property int|null $order_id
  * @property int|null $exo_order_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -86,6 +87,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereLicense($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereNameSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereRealtimeType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereRealtimeUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereRefreshIsActive($value)
@@ -547,6 +549,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $slug
+ * @property int|null $order_id
  * @property array<array-key, mixed>|null $info_title
  * @property array<array-key, mixed>|null $info_body
  * @property array<array-key, mixed> $map_box
@@ -590,6 +593,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Region whereMapZoom($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Region whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Region whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Region whereOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Region whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Region whereUpdatedAt($value)
  */

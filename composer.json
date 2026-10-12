@@ -12,7 +12,7 @@
     "ext-json": "*",
     "ext-simplexml": "*",
     "ext-zip": "*",
-    "alizharb/filament-activity-log": "^1.5",
+    "alizharb/filament-activity-log": "^2.0",
     "awobaz/compoships": "^2.2",
     "bensampo/laravel-enum": "^6.3",
     "blade-ui-kit/blade-icons": "^1.4",

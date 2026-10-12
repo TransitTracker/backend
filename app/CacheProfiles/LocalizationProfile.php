@@ -5,6 +5,7 @@ namespace App\CacheProfiles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Spatie\ResponseCache\CacheProfiles\CacheAllSuccessfulGetRequests;
+use Symfony\Component\HttpFoundation\Response;
 
 class LocalizationProfile extends CacheAllSuccessfulGetRequests
 {
@@ -18,5 +19,14 @@ class LocalizationProfile extends CacheAllSuccessfulGetRequests
         }
 
         return '';
+    }
+
+    /**
+     * Only cache 2xx responses. The parent also caches redirections,
+     * which includes 304 Not Modified produced by ETag handling.
+     */
+    public function shouldCacheResponse(Response $response): bool
+    {
+        return $response->isSuccessful();
     }
 }

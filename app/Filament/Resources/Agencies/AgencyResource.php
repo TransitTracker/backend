@@ -73,11 +73,15 @@ class AgencyResource extends Resource
                         ColorPicker::make('color')->required(),
                         ColorPicker::make('text_color')->required(),
                         TagsInput::make('cities')->required(),
-                        Select::make('vehicles_type')->required()->options([
-                            'bus' => 'Bus',
-                            'train' => 'Train',
-                            'tram' => 'Tram',
-                        ])->label('Default vehicle type'),
+                        Select::make('default_vehicle_type')
+                            ->required()
+                            ->options(VehicleType::asSelectArray())
+                            ->label('Default vehicle type'),
+                        Select::make('vehicle_types')
+                            ->multiple()
+                            ->options(VehicleType::asSelectArray())
+                            ->label('Possible vehicle types')
+                            ->helperText('Allowed vehicle types for this agency.'),
                         KeyValue::make('license')->columnSpan(2),
                     ])->columns(2)->collapsed(),
                     Section::make('Static data')->schema([
@@ -168,7 +172,7 @@ class AgencyResource extends Resource
                     ->requiresConfirmation()
                     ->form([
                         Select::make('vehicleType')
-                            ->options(VehicleType::asFlippedArray())
+                            ->options(VehicleType::asSelectArray())
                             ->required(),
                     ])
                     ->action(function (Collection $records, array $data) {

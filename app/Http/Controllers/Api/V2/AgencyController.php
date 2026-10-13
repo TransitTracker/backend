@@ -40,7 +40,7 @@ class AgencyController extends Controller
     {
         $agencies = Agency::query()
             ->active()
-            ->select(['id', 'name', 'short_name', 'slug', 'cities', 'vehicles_type', 'color', 'text_color', 'license', 'is_archived', 'features'])
+            ->select(['id', 'name', 'short_name', 'slug', 'cities', 'default_vehicle_type', 'vehicle_types', 'color', 'text_color', 'license', 'is_archived', 'features'])
             ->with(['regions' => function ($query) {
                 $query->select('slug')->orderBy('order_id');
             }])

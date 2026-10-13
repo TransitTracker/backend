@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -239,8 +238,8 @@ class Vehicle extends Model
     protected static function booted(): void
     {
         static::created(function (self $vehicle) {
-            $vehicle->loadMissing(['agency:id,vehicles_type', 'agency.links:id']);
-            $vehicle->vehicle_type = VehicleType::coerce(Str::ucfirst($vehicle->agency->vehicles_type));
+            $vehicle->loadMissing(['agency:id,default_vehicle_type', 'agency.links:id']);
+            $vehicle->vehicle_type = $vehicle->agency->default_vehicle_type;
             $vehicle->save();
             $vehicle->links()->attach($vehicle->agency->links->pluck('id')->all());
         });

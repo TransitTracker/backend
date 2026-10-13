@@ -6,7 +6,7 @@ This repository contains the backend services for [Transit Tracker](https://tran
 
 - [Developper home page](https://api.transittracker.ca/)
 - API : currently [V2](https://api.transittracker.ca/v2)
-- [exo VIN Project](https://api.transittracker.ca/vin): a collaborative effort to associate VIN numbers to fleet numbers. exo GTFS-RT feeds only include the Vehicule Identification Number (VIN) as a Vehicule ID.
+- [exo VIN Project](https://vin.transittracker.ca): a collaborative effort to associate VIN numbers to fleet numbers. exo GTFS-RT feeds only include the Vehicule Identification Number (VIN) as a Vehicule ID.
 - Admin panel (with [Filament](https://filamentphp.com))
 
 ## Services

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\VehicleType;
 use App\Events\VehiclesUpdated;
 use App\Models\Gtfs\Route;
 use App\Models\Gtfs\Service;
@@ -33,6 +34,8 @@ class Agency extends Model
         'is_exo_sector' => 'bool',
         'is_archived' => 'bool',
         'features' => 'collection',
+        'default_vehicle_type' => VehicleType::class,
+        'vehicle_types' => 'array',
     ];
 
     // MySQL can't have default value, this sets headers to an empty array
@@ -141,6 +144,20 @@ class Agency extends Model
         }
 
         return Arr::random($cities, 5);
+    }
+
+    /**
+     * @return array<int, VehicleType>
+     */
+    public function getVehicleTypesEnumAttribute(): array
+    {
+        $types = collect($this->vehicle_types ?? [])
+            ->filter(fn ($type) => is_numeric($type) && VehicleType::hasValue((int) $type))
+            ->map(fn ($type) => VehicleType::fromValue((int) $type))
+            ->values()
+            ->all();
+
+        return ! empty($types) ? $types : [$this->default_vehicle_type ?? VehicleType::Bus()];
     }
 
     public function signedUpdateGtfsUrl(): string

@@ -73,11 +73,17 @@ class EditAgency extends EditRecord
                     }),
                 Action::make('downloadBusIcon')->action('downloadBus')->color('gray'),
                 Action::make('syncBusIconToMapbox')
+                    ->label('Sync icons to Mapbox')
                     ->action(function () {
-                        SyncIconToMapbox::dispatch($this->record, VehicleType::Bus())->onQueue('default');
+                        SyncIconToMapbox::dispatch(collect([$this->record]))->onQueue('default');
+
+                        $vehicleTypes = collect($this->record->vehicle_types_enum)
+                            ->map(fn (VehicleType $vehicleType) => $vehicleType->description)
+                            ->implode(', ');
 
                         return Notification::make()
-                            ->title('Syncinc bus icon to Mapbox!')
+                            ->title('Syncing icons to Mapbox!')
+                            ->body("Vehicle types: {$vehicleTypes}")
                             ->success()
                             ->send();
                     }),

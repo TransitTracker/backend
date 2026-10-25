@@ -2,10 +2,13 @@
 
 namespace App\Http\Resources\V2;
 
+use App\Models\Link;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/*
- * @extends JsonResource<\App\Models\Link>
+/**
+ * @extends JsonResource<Link>
+ *
+ * @mixin Link
  */
 class LinkSimpleResource extends JsonResource
 {

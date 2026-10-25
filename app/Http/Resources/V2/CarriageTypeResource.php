@@ -2,9 +2,15 @@
 
 namespace App\Http\Resources\V2;
 
+use App\Models\CarriageType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @extends JsonResource<CarriageType>
+ *
+ * @mixin CarriageType
+ */
 class CarriageTypeResource extends JsonResource
 {
     /**

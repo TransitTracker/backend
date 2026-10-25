@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App;
+use App\Models\User;
 use BenSampo\Enum\Enum;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\DevCommands;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Whitecube\LaravelCookieConsent\Facades\Cookies;
@@ -23,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Everyone can see API docs
+        Gate::define('viewApiDocs', fn (?User $user) => true);
+
         Schema::defaultStringLength(191);
 
         Model::preventLazyLoading(App::environment('local'));

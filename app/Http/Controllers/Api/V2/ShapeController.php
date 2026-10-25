@@ -7,12 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\GeoJsonShapeResource;
 use App\Models\Agency;
 use App\Models\Gtfs\Shape;
-use Knuckles\Scribe\Attributes\Group;
-use Knuckles\Scribe\Attributes\UrlParam;
+use Dedoc\Scramble\Attributes\Group;
+use Dedoc\Scramble\Attributes\PathParameter;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
 
 use function Illuminate\Support\days;
 
+#[Group('Shapes')]
 class ShapeController extends Controller
 {
     public function __construct()
@@ -26,15 +27,17 @@ class ShapeController extends Controller
     }
 
     /**
-     * GeoJSON Shape
+     * Get trip shape as GeoJSON
+     *
+     * Retrieve the GeoJSON LineString geometry of a transit route shape, including stop coordinates along the path.
      */
-    #[Group('Trips')]
-    #[UrlParam('shapeId', '1000238')]
-    public function show(Agency $agency, string $shapeId)
+    #[PathParameter('agencySlug', description: 'The unique slug identifier of the transit agency.', type: 'string', example: 'stm')]
+    #[PathParameter('shapeId', description: 'The GTFS Shape identifier.', type: 'string', example: '1000238')]
+    public function show(Agency $agencySlug, string $shapeId)
     {
         return GeoJsonShapeResource::make(
             Shape::query()
-                ->where(['agency_id' => $agency->id, 'gtfs_shape_id' => $shapeId])
+                ->where(['agency_id' => $agencySlug->id, 'gtfs_shape_id' => $shapeId])
                 ->select(['agency_id', 'gtfs_shape_id', 'shape'])
                 ->with([
                     'firstTrip:id,trips.agency_id,gtfs_trip_id,trips.gtfs_shape_id',

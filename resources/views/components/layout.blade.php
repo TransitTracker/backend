@@ -113,7 +113,7 @@
             <small class="pl-7">{{ __('Making real time transit data accessible') }}</small>
             <ul class="flex flex-col md:flex-row gap-x-2 gap-y-4 mt-4">
                 <li class="md:after:pl-2 md:after:content-['\2022']"><a target="_blank" href="https://transittracker.ca" class="hover:underline">{{ __('Main application') }}</a></li>
-                <li class="md:after:pl-2 md:after:content-['\2022']"><a target="_blank" href="{{ route('scribe') }}" class="hover:underline">{{ __('For developers') }}</a></li>
+                <li class="md:after:pl-2 md:after:content-['\2022']"><a target="_blank" href="{{ route('scramble.docs.ui') }}" class="hover:underline">{{ __('For developers') }}</a></li>
                 <li><a target="_blank" href="https://github.com/TransitTracker" class="hover:underline">{{ __('On GitHub') }}</a></li>
                 <span class="grow"></span>
                 @cookieconsentbutton(action: 'reset', label: __('About cookies'))

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vehicle;
+use Dedoc\Scramble\Attributes\ExcludeAllRoutesFromDocs;
 use Spatie\ResponseCache\Attributes\Cache;
 
+#[ExcludeAllRoutesFromDocs]
 class NotificationsController extends Controller
 {
     #[Cache(lifetime: 60 * 60, tags: ['agencies'])]

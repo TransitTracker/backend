@@ -2,10 +2,13 @@
 
 namespace App\Http\Resources\V2;
 
+use App\Models\Tag;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/*
- * @extends JsonResource<\App\Models\Tags>
+/**
+ * @extends JsonResource<Tag>
+ *
+ * @mixin Tag
  */
 class TagResource extends JsonResource
 {

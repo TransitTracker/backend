@@ -2,12 +2,14 @@
 
 namespace App\Http\Resources\V2;
 
+use App\Models\Alert;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/*
- * @extends JsonResource<\App\Models\Alert>
+/**
+ * @extends JsonResource<Alert>
+ *
+ * @mixin Alert
  */
-
 class AlertResource extends JsonResource
 {
     public function toArray($request)

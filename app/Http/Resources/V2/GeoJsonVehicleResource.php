@@ -2,10 +2,13 @@
 
 namespace App\Http\Resources\V2;
 
+use App\Models\Vehicle;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/*
- * @extends JsonResource<\App\Models\Vehicle>
+/**
+ * @extends JsonResource<Vehicle>
+ *
+ * @mixin Vehicle
  */
 class GeoJsonVehicleResource extends JsonResource
 {

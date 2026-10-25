@@ -6,11 +6,14 @@ use App\Enums\CongestionLevel;
 use App\Enums\OccupancyStatus;
 use App\Enums\ScheduleRelationship;
 use App\Enums\VehicleStopStatus;
+use App\Models\Vehicle;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/*
- * @extends JsonResource<\App\Models\Vehicle>
+/**
+ * @extends JsonResource<Vehicle>
+ *
+ * @mixin Vehicle
  */
 class VehicleResource extends JsonResource
 {

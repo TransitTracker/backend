@@ -3,9 +3,15 @@
 namespace App\Http\Resources\V2;
 
 use App\Enums\OccupancyStatus;
+use App\Models\Carriage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @extends JsonResource<Carriage>
+ *
+ * @mixin Carriage
+ */
 class CarriageResource extends JsonResource
 {
     /**

@@ -7,18 +7,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\BlockResource;
 use App\Models\Agency;
 use App\Models\Gtfs\Trip;
+use Dedoc\Scramble\Attributes\Group;
+use Dedoc\Scramble\Attributes\PathParameter;
 use Illuminate\Support\Facades\Validator;
-use Knuckles\Scribe\Attributes\Group;
-use Knuckles\Scribe\Attributes\UrlParam;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
 
 use function Illuminate\Support\days;
 
+#[Group('Trips')]
 class BlockController extends Controller
 {
     public function __construct()
     {
-        if (! App::environment('local')) {
+        if (! App::environment('local', 'testing')) {
             $this->middleware('throttle:45,1,v2-blocks');
         }
 
@@ -27,15 +28,15 @@ class BlockController extends Controller
     }
 
     /**
-     * Related trips / Voyages liées
+     * Get related trips in block
      *
-     * Only available for some agencies. Disponible pour quelques agences seulement.
+     * Retrieve all trips operating in the same GTFS vehicle block as the specified trip. Only available for agencies providing block assignments (e.g., go).
      */
-    #[Group('Trips')]
-    #[UrlParam('tripId', example: '951057')]
-    public function show(Agency $agency, string $tripId)
+    #[PathParameter('agencySlug', description: 'The unique slug identifier of the transit agency.', type: 'string', example: 'go')]
+    #[PathParameter('tripId', description: 'The GTFS Trip identifier.', type: 'string', example: '951057')]
+    public function show(Agency $agencySlug, string $tripId)
     {
-        $trip = Trip::select(['id', 'agency_id', 'gtfs_trip_id', 'gtfs_service_id', 'gtfs_block_id'])->where(['agency_id' => $agency->id, 'gtfs_trip_id' => $tripId])->first();
+        $trip = Trip::select(['id', 'agency_id', 'gtfs_trip_id', 'gtfs_service_id', 'gtfs_block_id'])->where(['agency_id' => $agencySlug->id, 'gtfs_trip_id' => $tripId])->first();
 
         if (! $trip) {
             return response()->json(['message' => 'Trip not found.', 'errors' => (object) [
@@ -51,7 +52,7 @@ class BlockController extends Controller
         ])->validate();
 
         $trips = Trip::query()
-            ->where(['agency_id' => $agency->id, 'gtfs_block_id' => $trip->gtfs_block_id, 'gtfs_service_id' => $trip->gtfs_service_id])
+            ->where(['agency_id' => $agencySlug->id, 'gtfs_block_id' => $trip->gtfs_block_id, 'gtfs_service_id' => $trip->gtfs_service_id])
             ->select(['id', 'agency_id', 'gtfs_trip_id', 'headsign', 'short_name', 'gtfs_route_id'])
             ->with(['firstDeparture', 'route:agency_id,gtfs_route_id,short_name,color,text_color'])
             ->get()

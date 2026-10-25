@@ -8,11 +8,14 @@ use App\Enums\ScheduleRelationship;
 use App\Enums\VehicleStopStatus;
 use App\Enums\VehicleType;
 use App\Http\Resources\V2\CarriageResource;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/*
- * @extends JsonResource<\App\Models\Vehicle>
+/**
+ * @extends JsonResource<Vehicle>
+ *
+ * @mixin Vehicle
  */
 class VehicleResource extends JsonResource
 {

@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\NotificationUserResource;
 use App\Models\Agency;
 use App\Models\NotificationUser;
+use Dedoc\Scramble\Attributes\ExcludeAllRoutesFromDocs;
 use Illuminate\Http\Request;
 
+#[ExcludeAllRoutesFromDocs]
 class ProfileController extends Controller
 {
     public function store(Request $request)

@@ -10,12 +10,13 @@ use App\Http\Resources\V2\VehiclesGeoJson\VehiclesCollection;
 use App\Models\Agency;
 use App\Models\Vehicle;
 use Awobaz\Compoships\Database\Eloquent\Relations\HasMany;
+use Dedoc\Scramble\Attributes\Group;
+use Dedoc\Scramble\Attributes\PathParameter;
+use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Knuckles\Scribe\Attributes\Group;
-use Knuckles\Scribe\Attributes\QueryParam;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
 
 use function Illuminate\Support\days;
@@ -26,9 +27,8 @@ class AgencyController extends Controller
 {
     public function __construct()
     {
-        $totalAgencies = 3 * Agency::active()->count();
-
-        if (! App::environment('local')) {
+        if (! App::environment('local', 'testing')) {
+            $totalAgencies = 3 * Agency::active()->count();
             $this->middleware("throttle:{$totalAgencies},1,v2-agencies");
         }
 
@@ -36,6 +36,11 @@ class AgencyController extends Controller
         $this->middleware(CacheResponse::for(minutes(5)))->only(['vehicles', 'vehiclesGeoJson']);
     }
 
+    /**
+     * List all active agencies
+     *
+     * Retrieve a list of all active transit agencies currently supported by Transit Tracker.
+     */
     public function index()
     {
         $agencies = Agency::query()
@@ -50,6 +55,12 @@ class AgencyController extends Controller
         return AgencyResource::collection($agencies);
     }
 
+    /**
+     * Get agency details
+     *
+     * Retrieve detailed metadata and supported features for a specific transit agency by its slug.
+     */
+    #[PathParameter('agency', description: 'The unique slug identifier of the transit agency (e.g., `stm`, `exo`, `rtl`).', type: 'string', example: 'stm')]
     public function show(Agency $agency)
     {
         $agency->load('regions:slug');
@@ -62,8 +73,17 @@ class AgencyController extends Controller
         return AgencyResource::make($agency);
     }
 
+    /**
+     * Get vehicles for an agency
+     *
+     * @deprecated This route will be removed in the future. Use the GeoJSON equivalent instead.
+     *
+     * Retrieve real-time vehicle positions and operational status for an agency, with optional GeoJSON FeatureCollection metadata.
+     */
     #[Group('Vehicles')]
-    #[QueryParam('geojson', 'boolean', 'Include a GeoJSON `FeatureCollection` to the response. Defaults to true.', example: false, required: false)]
+    #[PathParameter('agency', description: 'The unique slug identifier of the transit agency.', type: 'string', example: 'stm')]
+    #[QueryParameter('geojson', description: 'Include a GeoJSON FeatureCollection in the response metadata (`additional.geojson`). Defaults to true.', type: 'bool', default: true, example: true)]
+    #[QueryParameter('include', description: 'Pass `all` to include inactive downloadable vehicles with pagination (100 per page). Defaults to only active vehicles.', type: 'string', example: 'all')]
     public function vehicles(Request $request, Agency $agency)
     {
         if (! $agency->is_active && ! Auth::check()) {
@@ -100,7 +120,15 @@ class AgencyController extends Controller
         return VehicleResource::collection($vehicles)->additional($additional)->preserveQuery();
     }
 
+    /**
+     * @deprecated This route will be removed in the future. Use the GeoJSON equivalent instead.
+     * Get single vehicle for an agency
+     *
+     * Retrieve a specific vehicle by its vehicle identifier reference or custom ID.
+     */
     #[Group('Vehicles')]
+    #[PathParameter('agency', description: 'The unique slug identifier of the transit agency.', type: 'string', example: 'stm')]
+    #[PathParameter('vehicleRef', description: 'The vehicle identifier or force vehicle ID reference.', type: 'string', example: '40-001')]
     public function vehiclesShow(Agency $agency, string $vehicleRef)
     {
         $vehicle = Vehicle::query()
@@ -115,7 +143,14 @@ class AgencyController extends Controller
         return VehicleResource::make($vehicle);
     }
 
+    /**
+     * Get single vehicle for an agency as GeoJSON
+     *
+     * Retrieve a specific vehicle formatted as an individual GeoJSON Feature.
+     */
     #[Group('Vehicles')]
+    #[PathParameter('agency', description: 'The unique slug identifier of the transit agency.', type: 'string', example: 'stm')]
+    #[PathParameter('vehicleRef', description: 'The vehicle identifier or force vehicle ID reference.', type: 'string', example: '40-001')]
     public function vehiclesGeoJsonShow(Agency $agency, string $vehicleRef)
     {
         $vehicle = Vehicle::query()
@@ -138,7 +173,15 @@ class AgencyController extends Controller
         return \App\Http\Resources\V2\VehiclesGeoJson\VehicleResource::make($vehicle);
     }
 
+    /**
+     * Get vehicles for an agency as GeoJSON
+     *
+     * Retrieve all vehicles for a transit agency formatted as a GeoJSON FeatureCollection.
+     */
     #[Group('Vehicles')]
+    #[PathParameter('agency', description: 'The unique slug identifier of the transit agency.', type: 'string', example: 'stm')]
+    #[QueryParameter('history', description: 'When true, includes historical/inactive vehicles and paginates by 500. When false, returns only active vehicles.', type: 'bool', default: false, example: false)]
+    #[QueryParameter('label', description: 'When true, includes link titles and tag short labels in vehicle properties.', type: 'bool', default: false, example: false)]
     public function vehiclesGeoJson(string $agency, Request $request)
     {
         $agency = Agency::query()

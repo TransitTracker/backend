@@ -2,8 +2,14 @@
 
 namespace App\Http\Resources\V2;
 
+use App\Models\Gtfs\Trip;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @extends JsonResource<Trip>
+ *
+ * @mixin Trip
+ */
 class BlockResource extends JsonResource
 {
     public function toArray($request)

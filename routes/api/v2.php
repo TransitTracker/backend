@@ -21,7 +21,6 @@ Route::get('agencies/{agency}/vehicles', [AgencyController::class, 'vehicles']);
 Route::get('agencies/{agency}/vehicles.geojson', [AgencyController::class, 'vehiclesGeoJson']);
 Route::get('agencies/{agency}/vehicles/{vehicle}', [AgencyController::class, 'vehiclesShow']);
 Route::get('agencies/{agency}/vehicles.geojson/{vehicle}', [AgencyController::class, 'vehiclesGeoJsonShow']);
-Route::get('agencies/{agency}/feed', [AgencyController::class, 'feed']);
 Route::get('agencies/{agencySlug}/trips/{tripId}/blocks', [BlockController::class, 'show']);
 Route::get('agencies/{agencySlug}/shapes/{shapeId}', [ShapeController::class, 'show']);
 

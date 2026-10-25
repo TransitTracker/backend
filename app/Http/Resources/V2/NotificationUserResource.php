@@ -2,10 +2,13 @@
 
 namespace App\Http\Resources\V2;
 
+use App\Models\NotificationUser;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/*
- * @extends JsonResource<\App\Models\NotificationUser>
+/**
+ * @extends JsonResource<NotificationUser>
+ *
+ * @mixin NotificationUser
  */
 class NotificationUserResource extends JsonResource
 {

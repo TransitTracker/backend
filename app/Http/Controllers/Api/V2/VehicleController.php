@@ -7,9 +7,11 @@ use App\Http\Resources\V2\VehicleResource;
 use App\Http\Resources\V2\VehiclesGeoJson\VehicleResource as GeoJsonVehicleResource;
 use App\Http\Resources\V2\VehiclesGeoJson\VehiclesCollection;
 use App\Models\Vehicle;
+use Dedoc\Scramble\Attributes\Group;
+use Dedoc\Scramble\Attributes\PathParameter;
+use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Knuckles\Scribe\Attributes\Group;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
 
 use function Illuminate\Support\minutes;
@@ -19,9 +21,8 @@ class VehicleController extends Controller
 {
     public function __construct()
     {
-        $vehiclesChunk = (Vehicle::count() / 500) + 5;
-
-        if (! App::environment('local')) {
+        if (! App::environment('local', 'testing')) {
+            $vehiclesChunk = (Vehicle::count() / 500) + 5;
             $this->middleware('throttle:30,1,v2-vehicles')->except(['index', 'indexGeoJson']);
             $this->middleware("throttle:{$vehiclesChunk},1,v2-vehicles")->only(['index', 'indexGeoJson']);
         }
@@ -29,6 +30,12 @@ class VehicleController extends Controller
         $this->middleware(CacheResponse::for(minutes(5)));
     }
 
+    /**
+     * @deprecated This route will be removed in the future. Use the GeoJSON equivalent instead.
+     * List all downloadable vehicles
+     *
+     * Retrieve a paginated list of all downloadable transit vehicles across all agencies (500 vehicles per page).
+     */
     public function index(Request $request)
     {
         $request->merge(['include' => 'all']);
@@ -42,6 +49,12 @@ class VehicleController extends Controller
         return VehicleResource::collection($vehicles);
     }
 
+    /**
+     * List all vehicles as GeoJSON
+     *
+     * Retrieve a paginated GeoJSON FeatureCollection of transit vehicles across all agencies (500 vehicles per page).
+     */
+    #[QueryParameter('history', description: 'When true, includes historical/inactive vehicles. Defaults to active only.', type: 'bool', default: false, example: false)]
     public function indexGeoJson(Request $request)
     {
         $vehicles = Vehicle::query()
@@ -64,11 +77,24 @@ class VehicleController extends Controller
         return VehiclesCollection::make($vehicles->paginate(500))->preserveQuery();
     }
 
+    /**
+     * @deprecated This route will be removed in the future. Use the GeoJSON equivalent instead.
+     * Get vehicle details by ID
+     *
+     * Retrieve complete details for a single transit vehicle by its internal database ID.
+     */
+    #[PathParameter('vehicle', description: 'Internal database ID of the vehicle.', type: 'int', example: 12345)]
     public function show(Vehicle $vehicle)
     {
         return VehicleResource::make($vehicle);
     }
 
+    /**
+     * Get vehicle as GeoJSON by ID
+     *
+     * Retrieve a single transit vehicle formatted as an individual GeoJSON Feature by its database ID.
+     */
+    #[PathParameter('vehicle', description: 'Internal database ID of the vehicle.', type: 'int', example: 12345)]
     public function showGeoJson(Vehicle $vehicle)
     {
         return GeoJsonVehicleResource::make($vehicle);

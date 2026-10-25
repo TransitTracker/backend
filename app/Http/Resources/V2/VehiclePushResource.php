@@ -2,11 +2,17 @@
 
 namespace App\Http\Resources\V2;
 
+use App\Models\Vehicle;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
+/**
+ * @extends JsonResource<Vehicle>
+ *
+ * @mixin Vehicle
+ */
 class VehiclePushResource extends JsonResource
 {
     /**

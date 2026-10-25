@@ -7,13 +7,13 @@ use App\Http\Resources\V2\GeoJsonLandingCollection;
 use App\Http\Resources\V2\GeoJsonLandingVehicleCollection;
 use App\Models\Region;
 use App\Models\Vehicle;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Support\Facades\App;
-use Knuckles\Scribe\Attributes\Group;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
 
 use function Illuminate\Support\minutes;
 
-#[Group('Landing', 'GeoJSON ressources used on the landing page')]
+#[Group('Landing')]
 class LandingController extends Controller
 {
     /**
@@ -32,6 +32,11 @@ class LandingController extends Controller
         $this->middleware(CacheResponse::for(minutes(10), tags: ['regions']));
     }
 
+    /**
+     * Get landing map regions and stats
+     *
+     * Retrieve a GeoJSON FeatureCollection of transit regions with their active agencies, map positioning, and overall vehicle statistics.
+     */
     public function index()
     {
         $regions = Region::query()
@@ -49,6 +54,11 @@ class LandingController extends Controller
             ]]);
     }
 
+    /**
+     * Get live vehicle coordinates for landing map
+     *
+     * Retrieve lightweight GeoJSON Point coordinates of all currently active transit vehicles for homepage map visualizations.
+     */
     public function vehicles()
     {
         return GeoJsonLandingVehicleCollection::make(

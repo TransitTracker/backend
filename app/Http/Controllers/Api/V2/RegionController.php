@@ -7,10 +7,11 @@ use App\Http\Resources\V2\AlertResource;
 use App\Http\Resources\V2\RegionResource;
 use App\Models\Alert;
 use App\Models\Region;
+use Dedoc\Scramble\Attributes\Group;
+use Dedoc\Scramble\Attributes\PathParameter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\App;
-use Knuckles\Scribe\Attributes\Group;
 use Spatie\ResponseCache\Attributes\Cache;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
 
@@ -26,15 +27,19 @@ class RegionController extends Controller
      */
     public function __construct()
     {
-        $totalRegions = 2 * Region::count();
-
-        if (! App::environment('local')) {
+        if (! App::environment('local', 'testing')) {
+            $totalRegions = 2 * Region::count();
             $this->middleware("throttle:{$totalRegions},1,v2-regions");
         }
 
         $this->middleware(CacheResponse::for(days(7), tags: ['regions']))->except(['alerts']);
     }
 
+    /**
+     * List all regions
+     *
+     * Retrieve all transit regions with their active transit agencies, ordered by display priority.
+     */
     public function index()
     {
         $regions = Region::query()
@@ -52,6 +57,12 @@ class RegionController extends Controller
         return RegionResource::collection($regions);
     }
 
+    /**
+     * Get region details
+     *
+     * Retrieve details and active transit agencies for a specific region by its slug or ID.
+     */
+    #[PathParameter('region', description: 'Region slug (e.g. `mtl`).', type: 'string', example: 'mtl')]
     public function show(Region $region)
     {
         $region
@@ -67,7 +78,13 @@ class RegionController extends Controller
         return RegionResource::make($region);
     }
 
+    /**
+     * List alerts for a region
+     *
+     * Retrieve active alerts applicable to a specific region.
+     */
     #[Group('Alerts')]
+    #[PathParameter('regionSlug', description: 'Region slug identifier (e.g. `mtl`).', type: 'string', example: 'mtl')]
     #[Cache(lifetime: 60 * 60 * 24 * 7, tags: ['alerts'])]
     public function alerts($regionSlug)
     {

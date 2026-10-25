@@ -2,10 +2,8 @@
 /public/hot
 /public/storage
 /storage/*.key
-/storage/app/scribe
 /vendor
 /.idea
-/.scribe
 /.zed
 /.yarn
 .env
@@ -33,7 +31,7 @@ yarn-error.log
 .phpstorm.meta.php
 .editorconfig
 /invoker
-/resources/views/scribe
+
 /storage/logs
 /data.ms
 run.json

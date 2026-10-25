@@ -2,10 +2,13 @@
 
 namespace App\Http\Resources\V2;
 
+use App\Models\Agency;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/*
- * @extends JsonResource<\App\Models\Agency>
+/**
+ * @extends JsonResource<Agency>
+ *
+ * @mixin Agency
  */
 class AgencySimpleResource extends JsonResource
 {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\CarriageTypeResource;
 use App\Models\CarriageType;
-use Knuckles\Scribe\Attributes\Group;
+use Dedoc\Scramble\Attributes\Group;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
 
 use function Illuminate\Support\days;
@@ -19,6 +19,11 @@ class CarriageTypeController extends Controller
         $this->middleware(CacheResponse::for(days(7), tags: ['carriageTypes']));
     }
 
+    /**
+     * List carriage types
+     *
+     * Retrieve all vehicle carriage categories, makes, and models used for fleet compositions.
+     */
     public function index()
     {
         $carriageTypes = CarriageType::select(['id', 'carriage_category', 'make', 'model'])->get();

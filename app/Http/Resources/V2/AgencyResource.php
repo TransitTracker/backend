@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @extends JsonResource<Agency>
+ *
+ * @mixin Agency
  */
 class AgencyResource extends JsonResource
 {

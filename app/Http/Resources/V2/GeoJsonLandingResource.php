@@ -2,10 +2,13 @@
 
 namespace App\Http\Resources\V2;
 
+use App\Models\Region;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/*
- * @extends JsonResource<\App\Models\Region>
+/**
+ * @extends JsonResource<Region>
+ *
+ * @mixin Region
  */
 class GeoJsonLandingResource extends JsonResource
 {

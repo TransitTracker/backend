@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api\V2\Push;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\VehiclePushResource;
 use App\Models\NotificationUser;
+use Dedoc\Scramble\Attributes\ExcludeAllRoutesFromDocs;
 use Illuminate\Http\Request;
 
+#[ExcludeAllRoutesFromDocs]
 class ProfileVehiclesController extends Controller
 {
     public function index(Request $request)

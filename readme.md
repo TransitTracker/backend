@@ -110,7 +110,7 @@ php artisan config:cache
 php artisan event:cache
 php artisan horizon:terminate
 php artisan log-viewer:publish
-php artisan scribe:generate --no-upgrade-check
+php artisan scramble:cache
 php artisan icons:cache
 php artisan route:cache
 php artisan view:cache

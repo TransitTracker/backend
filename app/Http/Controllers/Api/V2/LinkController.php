@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V2\LinkResource;
 use App\Models\Link;
+use Dedoc\Scramble\Attributes\Group;
+use Dedoc\Scramble\Attributes\PathParameter;
 use Illuminate\Support\Facades\App;
-use Knuckles\Scribe\Attributes\Group;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
 
 use function Illuminate\Support\days;
 
-#[Group('Link')]
+#[Group('Links')]
 class LinkController extends Controller
 {
     /**
@@ -21,15 +22,19 @@ class LinkController extends Controller
      */
     public function __construct()
     {
-        $totalLinks = ceil(1.5 * Link::count());
-
-        if (! App::environment('local')) {
+        if (! App::environment('local', 'testing')) {
+            $totalLinks = ceil(1.5 * Link::count());
             $this->middleware("throttle:{$totalLinks},1,v2-links");
         }
 
         $this->middleware(CacheResponse::for(days(7), tags: ['links']));
     }
 
+    /**
+     * List reference links
+     *
+     * Retrieve all active external reference links.
+     */
     public function index()
     {
         $links = Link::active()->get();
@@ -37,6 +42,12 @@ class LinkController extends Controller
         return LinkResource::collection($links);
     }
 
+    /**
+     * Get link details
+     *
+     * Retrieve details for a single external reference link by its ID.
+     */
+    #[PathParameter('linkId', description: 'Internal database ID of the external link.', type: 'int', example: 1)]
     public function show(int $linkId)
     {
         $link = Link::active()->findOrFail($linkId);

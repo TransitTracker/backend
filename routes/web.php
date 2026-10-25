@@ -5,5 +5,5 @@ Route::fallback(function () {
         return redirect(route('vin.index'))->with('from-api', true);
     }
 
-    return redirect()->route('scribe');
+    return redirect()->route('scramble.docs.ui');
 });

@@ -16,7 +16,6 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $color
- * @property string $vehicles_type
  * @property string $slug
  * @property int|null $order_id
  * @property int|null $exo_order_id
@@ -41,11 +40,14 @@ namespace App\Models{
  * @property string|null $area_path
  * @property bool $is_exo_sector
  * @property \Illuminate\Support\Collection<array-key, mixed>|null $features
+ * @property \BenSampo\Enum\Enum $default_vehicle_type
+ * @property array<array-key, mixed>|null $vehicle_types
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\NotificationUser> $activeNotificationUsers
  * @property-read int|null $active_notification_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $exoWithVin
  * @property-read int|null $exo_with_vin_count
  * @property-read array $random_cities
+ * @property-read array<int, VehicleType> $vehicle_types_enum
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Link> $links
  * @property-read int|null $links_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\NotificationUser> $notificationUsers
@@ -77,6 +79,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereCronSchedule($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereDefaultVehicleType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereExoOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereFeatures($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereHeaders($value)
@@ -99,7 +102,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereTextColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereTimestamp($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereVehiclesType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agency whereVehicleTypes($value)
  */
 	class Agency extends \Eloquent {}
 }

@@ -49,11 +49,12 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         }
 
         $carriagesToUpsert = [];
+        $vehicleCarriageMap = [];
         $seenVehicleIds = [];
 
         // Go through each vehicle
         // Where not null to exclude alerts and trip updates
-        $collection->whereNotNull('vehicle')->each(function ($entity) use (&$carriagesToUpsert, &$seenVehicleIds) {
+        $collection->whereNotNull('vehicle')->each(function ($entity) use (&$carriagesToUpsert, &$vehicleCarriageMap, &$seenVehicleIds) {
             /*
              * Check if entity has vehiclePosition or if is not valid
              */
@@ -85,6 +86,8 @@ class JavascriptGtfsRtHandler implements ShouldQueue
              * Update vehicles carriage
              */
             if (property_exists($vehicle, 'multi_carriage_details')) {
+                $vehicleCarriageMap[$vehicle->vehicle->id] = [];
+
                 foreach ($vehicle->multi_carriage_details as $item) {
                     $carriagesToUpsert[] = [
                         'agency_id' => $this->agency->id,
@@ -94,6 +97,8 @@ class JavascriptGtfsRtHandler implements ShouldQueue
                         'occupancy_status' => $item->occupancy_status ?? null,
                         'sequence' => $item->carriage_sequence,
                     ];
+
+                    $vehicleCarriageMap[$vehicle->vehicle->id][] = $item->id;
                 }
             }
 
@@ -120,6 +125,22 @@ class JavascriptGtfsRtHandler implements ShouldQueue
                 ['agency_id', 'carriage_id'],
                 ['label', 'occupancy_status', 'sequence', 'vehicle_id']
             );
+        }
+
+        // Disassociate carriages that are no longer attached to vehicles reporting multi_carriage_details
+        foreach ($vehicleCarriageMap as $vehicleId => $reportedCarriageIds) {
+            $query = Carriage::where('agency_id', $this->agency->id)
+                ->where('vehicle_id', $vehicleId);
+
+            if (! empty($reportedCarriageIds)) {
+                $query->whereNotIn('carriage_id', $reportedCarriageIds);
+            }
+
+            $query->update([
+                'vehicle_id' => null,
+                'sequence' => null,
+                'occupancy_status' => null,
+            ]);
         }
 
         // Mark unseen vehicles as inactive in a single query

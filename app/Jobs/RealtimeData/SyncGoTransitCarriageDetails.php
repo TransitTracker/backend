@@ -56,6 +56,8 @@ class SyncGoTransitCarriageDetails implements ShouldQueue
             return;
         }
 
+        $activeCarriageIds = $carriages->pluck('carriage_id')->unique()->all();
+
         // Chunk the upsert to prevent database query parameter limits
         $carriages->chunk(500)->each(function ($chunk) {
             Carriage::upsert(
@@ -64,6 +66,16 @@ class SyncGoTransitCarriageDetails implements ShouldQueue
                 update: ['sequence', 'vehicle_id', 'carriage_type_id'],
             );
         });
+
+        // Disassociate carriages that are no longer in any active consist
+        Carriage::where('agency_id', $go->id)
+            ->whereNotNull('vehicle_id')
+            ->whereNotIn('carriage_id', $activeCarriageIds)
+            ->update([
+                'vehicle_id' => null,
+                'sequence' => null,
+                'occupancy_status' => null,
+            ]);
     }
 
     /**

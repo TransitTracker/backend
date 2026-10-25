@@ -2,6 +2,7 @@
 
 return [
     'api_key' => env('APP_API_KEY', null),
+    'transitland_api_key' => env('TRANSITLAND_API_KEY', null),
     'admin_email' => env('MAIL_TO', ''),
     'slack_webhook_url' => env('SLACK_WEBHOOK_URL'),
     'turnstile' => [

@@ -60,7 +60,7 @@ class RemoveVehicleAssociations extends Command
             return Command::SUCCESS;
         }
 
-        if (! $this->option('force') && ! $this->confirm("Are you sure you want to remove vehicle associations for {$count} carriage(s)?", true)) {
+        if (! $this->confirm("Are you sure you want to remove vehicle associations for {$count} carriage(s)?", true)) {
             $this->warn('Operation cancelled.');
 
             return Command::SUCCESS;

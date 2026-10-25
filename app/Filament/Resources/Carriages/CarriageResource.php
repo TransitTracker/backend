@@ -10,7 +10,9 @@ use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class CarriageResource extends Resource
@@ -43,7 +45,9 @@ class CarriageResource extends Resource
                     ->label('Category'),
             ])
             ->filters([
-                //
+                Filter::make('withoutCarriageType')
+                    ->label('Without carriage type')
+                    ->query(fn (Builder $query): Builder => $query->whereNull('carriage_type_id')),
             ])
             ->recordActions([
             ])

@@ -16,6 +16,7 @@
     "awobaz/compoships": "^2.2",
     "bensampo/laravel-enum": "^6.3",
     "blade-ui-kit/blade-icons": "^1.4",
+    "calebporzio/sushi": "*",
     "codeat3/blade-google-material-design-icons": "^1.2",
     "dedoc/scramble": "^0.13.47",
     "doctrine/dbal": "^3.2",

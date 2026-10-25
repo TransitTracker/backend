@@ -58,7 +58,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             /*
              * Check if entity has vehiclePosition or if is not valid
              */
-            if (! $entity->vehicle || ! $entity->vehicle?->trip || ! $entity->vehicle?->position) {
+            if (! isset($entity->vehicle->trip, $entity->vehicle->position, $entity->vehicle->vehicle->id)) {
                 return;
             }
             $vehicle = $entity->vehicle;
@@ -70,11 +70,11 @@ class JavascriptGtfsRtHandler implements ShouldQueue
              */
             $newVehicle = [
                 'is_active' => true,
-                'gtfs_trip_id' => $this->processField($vehicle->trip?->trip_id),
-                'gtfs_route_id' => $this->processField($vehicle->trip?->route_id),
-                'start_time' => $this->processField($vehicle->trip?->start_time ?? null),
-                'schedule_relationship' => $this->processField($vehicle->trip?->schedule_relationship),
-                'position' => $this->processField(['lat' => $vehicle->position?->latitude, 'lon' => $vehicle->position?->longitude], 'position'),
+                'gtfs_trip_id' => $this->processField($vehicle->trip->trip_id ?? null),
+                'gtfs_route_id' => $this->processField($vehicle->trip->route_id ?? null),
+                'start_time' => $this->processField($vehicle->trip->start_time ?? null),
+                'schedule_relationship' => $this->processField($vehicle->trip->schedule_relationship ?? null),
+                'position' => $this->processField(['lat' => $vehicle->position->latitude ?? null, 'lon' => $vehicle->position->longitude ?? null], 'position'),
                 'current_stop_sequence' => $this->processField($vehicle->current_stop_sequence ?? null),
                 'current_status' => $this->processField($vehicle->current_status ?? null),
                 'timestamp' => $this->processField($vehicle->timestamp->low ?? $this->time),
@@ -85,20 +85,22 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             /*
              * Update vehicles carriage
              */
-            if (property_exists($vehicle, 'multi_carriage_details')) {
+            if (property_exists($vehicle, 'multi_carriage_details') && is_iterable($vehicle->multi_carriage_details)) {
                 $vehicleCarriageMap[$vehicle->vehicle->id] = [];
 
                 foreach ($vehicle->multi_carriage_details as $item) {
                     $carriagesToUpsert[] = [
                         'agency_id' => $this->agency->id,
-                        'carriage_id' => $item->id,
+                        'carriage_id' => $item->id ?? null,
                         'vehicle_id' => $vehicle->vehicle->id,
                         'label' => $item->label ?? null,
                         'occupancy_status' => $item->occupancy_status ?? null,
-                        'sequence' => $item->carriage_sequence,
+                        'sequence' => $item->carriage_sequence ?? null,
                     ];
 
-                    $vehicleCarriageMap[$vehicle->vehicle->id][] = $item->id;
+                    if (isset($item->id)) {
+                        $vehicleCarriageMap[$vehicle->vehicle->id][] = $item->id;
+                    }
                 }
             }
 

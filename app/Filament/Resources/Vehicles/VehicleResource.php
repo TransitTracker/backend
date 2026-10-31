@@ -29,6 +29,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
+use function Filament\authorize;
 
 class VehicleResource extends Resource
 {
@@ -141,7 +144,27 @@ class VehicleResource extends Resource
                 }),
             ])
             ->toolbarActions([
+                BulkAction::make('searchAndReplace')
+                    ->action(function (Collection $records, array $data): void {
+                        $search = DB::connection()->getPdo()->quote($data['search']);
+                        $replace = DB::connection()->getPdo()->quote($data['replace'] ?? '');
 
+                        Vehicle::whereKey($records->modelKeys())->update([
+                            'force_label' => DB::raw("REPLACE(vehicle_id, {$search}, {$replace})"),
+                        ]);
+                    })
+                    ->form([
+                        TextInput::make('search')
+                            ->required()
+                            ->label('Search string'),
+                        TextInput::make('replace')
+                            ->label('Replace With (can be left blank)'),
+                    ])
+                    ->icon('gmdi-find-replace')
+                    ->modalHeading('Search and Replace in Vehicle IDs')
+                    ->modalDescription('This will update the force_label field for the selected vehicles by searching and replacing text within their original vehicle_id.')
+                    ->requiresConfirmation()
+                    ->authorize(fn () => auth()->user()?->isAdmin()),
                 BulkAction::make('changeType')
                     ->action(function (Collection $records, array $data): void {
                         foreach ($records as $record) {

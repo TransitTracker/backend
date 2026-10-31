@@ -63,8 +63,6 @@ class JavascriptGtfsRtHandler implements ShouldQueue
             }
             $vehicle = $entity->vehicle;
 
-            $seenVehicleIds[] = $vehicle->vehicle->id;
-
             /*
              * Prepare a new array to update the vehicle model
              */
@@ -81,6 +79,14 @@ class JavascriptGtfsRtHandler implements ShouldQueue
                 'gtfs_stop_id' => $this->processField($vehicle->stop_id ?? null),
                 'last_seen_at' => $this->processField($vehicle->timestamp->low ?? $this->time, 'timestamp'),
             ];
+
+            // Skip if outdated
+            if ($newVehicle['last_seen_at']?->diffInMinutes() > 3) {
+                return;
+            }
+
+            // Add vehicle ID to seen vehicles after the outdated check
+            $seenVehicleIds[] = $vehicle->vehicle->id;
 
             /*
              * Update vehicles carriage

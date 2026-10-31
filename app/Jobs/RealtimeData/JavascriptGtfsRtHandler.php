@@ -86,20 +86,24 @@ class JavascriptGtfsRtHandler implements ShouldQueue
              * Update vehicles carriage
              */
             if (property_exists($vehicle, 'multi_carriage_details') && is_iterable($vehicle->multi_carriage_details)) {
-                $vehicleCarriageMap[$vehicle->vehicle->id] = [];
+                // Cast every carriage and vehicle IDs to string. Otherwise, queries will fail if one of them is passed as an integer from JSON.
+                $vehicleIdStr = (string) $vehicle->vehicle->id;
+                $vehicleCarriageMap[$vehicleIdStr] = [];
 
                 foreach ($vehicle->multi_carriage_details as $item) {
+                    $carriageIdStr = isset($item->id) ? (string) $item->id : null;
+
                     $carriagesToUpsert[] = [
                         'agency_id' => $this->agency->id,
-                        'carriage_id' => $item->id ?? null,
-                        'vehicle_id' => $vehicle->vehicle->id,
+                        'carriage_id' => $carriageIdStr,
+                        'vehicle_id' => $vehicleIdStr,
                         'label' => $item->label ?? null,
                         'occupancy_status' => $item->occupancy_status ?? null,
                         'sequence' => $item->carriage_sequence ?? null,
                     ];
 
-                    if (isset($item->id)) {
-                        $vehicleCarriageMap[$vehicle->vehicle->id][] = $item->id;
+                    if ($carriageIdStr !== null) {
+                        $vehicleCarriageMap[$vehicleIdStr][] = $carriageIdStr;
                     }
                 }
             }
@@ -132,7 +136,7 @@ class JavascriptGtfsRtHandler implements ShouldQueue
         // Disassociate carriages that are no longer attached to vehicles reporting multi_carriage_details
         foreach ($vehicleCarriageMap as $vehicleId => $reportedCarriageIds) {
             $query = Carriage::where('agency_id', $this->agency->id)
-                ->where('vehicle_id', $vehicleId);
+                ->where('vehicle_id', (string) $vehicleId);
 
             if (! empty($reportedCarriageIds)) {
                 $query->whereNotIn('carriage_id', $reportedCarriageIds);

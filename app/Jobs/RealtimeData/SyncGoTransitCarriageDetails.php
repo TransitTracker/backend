@@ -43,8 +43,8 @@ class SyncGoTransitCarriageDetails implements ShouldQueue
 
                     return [
                         'agency_id' => $go->id,
-                        'carriage_id' => $carriage['Number'],
-                        'vehicle_id' => $consist['EngineNumber'],
+                        'carriage_id' => (string) $carriage['Number'],
+                        'vehicle_id' => (string) $consist['EngineNumber'],
                         'sequence' => $carriage['Order'],
                         'carriage_type_id' => $this->resolveCarriageType($carriageTypes, $carriageNumber, $go->id),
                     ];

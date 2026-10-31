@@ -23,7 +23,7 @@ class AlertController extends Controller
     public function __construct()
     {
         if (! App::environment('local', 'testing')) {
-            $totalAlerts = (Alert::active()->count() / 10) + 3;
+            $totalAlerts = (Alert::visible()->count()) + 3;
             $this->middleware("throttle:{$totalAlerts},1,v2-alerts");
         }
 
